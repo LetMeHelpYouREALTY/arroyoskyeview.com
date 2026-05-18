@@ -50,7 +50,7 @@ export default function TermsOfUsePage() {
         ]}
       />
       <Header />
-      <main>
+      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         <section className="bg-linear-to-b from-muted/80 to-background py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 text-center">

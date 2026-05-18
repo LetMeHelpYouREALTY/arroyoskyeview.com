@@ -47,7 +47,7 @@ export default function Zip89128Page() {
       />
       <PurpleSaleBanner />
       <Header />
-      <main>
+      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         <DrJanCTABanner context="available homes" />
         <InformationalPageContent
           title="New Homes in Zip Code 89128"

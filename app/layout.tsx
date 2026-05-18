@@ -139,9 +139,7 @@ export default function RootLayout({
           disableTransitionOnChange
           storageKey="theme"
         >
-          <div id="main-content" tabIndex={-1} className="outline-none">
-            {children}
-          </div>
+          {children}
         </ThemeProvider>
         <CalendlyBadgeWidget />
       </body>

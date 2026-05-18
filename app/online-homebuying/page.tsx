@@ -68,7 +68,7 @@ export default function OnlineHomebuyingPage() {
       />
       <PurpleSaleBanner />
       <Header />
-      <main>
+      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         <DrJanCTABanner />
         <OnlineHomebuyingHero />
         <HowItWorks />

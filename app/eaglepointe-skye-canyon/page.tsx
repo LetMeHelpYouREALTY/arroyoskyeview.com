@@ -68,7 +68,7 @@ export default function EaglepointeSkyeCanyonPage() {
       />
       <PurpleSaleBanner />
       <Header />
-      <main>
+      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         <DrJanCTABanner context="available homes construction" />
         <RealScoutOfficePriceBands />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

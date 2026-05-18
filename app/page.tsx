@@ -70,7 +70,7 @@ export default function HomePage() {
       <Header />
       <TrustBadges />
       <SocialProofBanner />
-      <main>
+      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         <DrJanHero />
         <RealScoutOfficePriceBands intro="See live MLS listings below the hero to compare options quickly with Dr. Jan Duffy." />
         <ConversionFunnel />

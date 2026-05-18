@@ -45,7 +45,7 @@ export default function Under300kPage() {
       />
       <PurpleSaleBanner />
       <Header />
-      <main>
+      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         <DrJanCTABanner />
         
         <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16">
