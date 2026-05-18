@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { trackPhoneClick, trackCTAClick } from './analytics-tracker'
+import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
 
 export default function DrJanHero() {
   const handleCallClick = () => {
@@ -10,7 +10,7 @@ export default function DrJanHero() {
   }
 
   const handleTextClick = () => {
-    trackCTAClick('Text Dr. Jan', 'hero_text_cta')
+    trackSmsClick('hero_text_cta')
   }
 
   return (

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { getCTAByContext } from './cta-rotator'
-import { trackPhoneClick, trackCTAClick } from './analytics-tracker'
+import { trackPhoneClick, trackSmsClick, trackCTAClick } from './analytics-tracker'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import RealScoutOfficeWidget from './realscout-office-widget'
@@ -27,7 +27,7 @@ export default function DrJanCTABanner({ context = '' }: DrJanCTABannerProps) {
     if (currentCTA.type === 'call') {
       trackPhoneClick('702-903-4687', 'dr_jan_cta_banner')
     } else {
-      trackCTAClick(`${currentCTA.text} - Text`, 'dr_jan_cta_banner')
+      trackSmsClick('dr_jan_cta_banner')
     }
   }
 

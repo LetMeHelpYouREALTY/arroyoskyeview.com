@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { trackPhoneClick } from './analytics-tracker'
+import { SITE_CONTACT } from '@/lib/site-contact'
+import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
 import RealScoutOfficeWidget from './realscout-office-widget'
 
 type FooterProps = {
@@ -109,20 +110,42 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
                   Expert buyer representation on new construction homes in Las Vegas, Nevada. Dr. Jan Duffy represents YOU, not the builder. Construction monitoring, building standards inspection & insider knowledge of builder incentives and pricing.
                 </p>
                 <p className="text-sm text-zinc-400 leading-relaxed">
-                  <strong className="text-zinc-50">Nevada Real Estate License #S.0197614</strong>
+                  <strong className="text-zinc-50">{SITE_CONTACT.licenseDisplay}</strong>
+                </p>
+                <p className="text-sm text-zinc-400 leading-relaxed">
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(SITE_CONTACT.formattedAddress)}`}
+                    className="hover:text-primary transition-colors"
+                    rel="noopener noreferrer"
+                  >
+                    {SITE_CONTACT.formattedAddress}
+                  </a>
                 </p>
               </div>
-              <a
-                href="tel:7029034687"
-                onClick={() => trackPhoneClick('702-903-4687', 'footer_cta')}
-                className="inline-flex items-center space-x-2 bg-linear-to-r from-primary to-primary/90 text-primary-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:from-primary/90 hover:to-primary transition-all duration-200 shadow-lg hover:shadow-xl motion-safe:transform motion-safe:hover:scale-[1.02] mb-4 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900"
-                aria-label="Call Dr. Jan Duffy at 702-903-4687"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                <span>Call: (702) 903-4687</span>
-              </a>
+              <div className="flex flex-wrap gap-2 mb-4">
+                <a
+                  href={`tel:${SITE_CONTACT.phoneTel}`}
+                  onClick={() => trackPhoneClick(SITE_CONTACT.phoneAnalytics, 'footer_cta')}
+                  className="inline-flex items-center space-x-2 bg-linear-to-r from-primary to-primary/90 text-primary-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:from-primary/90 hover:to-primary transition-all duration-200 shadow-lg hover:shadow-xl motion-safe:transform motion-safe:hover:scale-[1.02] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900"
+                  aria-label={`Call Dr. Jan Duffy at ${SITE_CONTACT.phoneDisplay}`}
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span>Call: {SITE_CONTACT.phoneDisplay}</span>
+                </a>
+                <a
+                  href={`sms:${SITE_CONTACT.phoneTel}`}
+                  onClick={() => trackSmsClick('footer_cta')}
+                  className="inline-flex items-center space-x-2 border border-zinc-600 bg-zinc-800/80 text-zinc-50 px-5 py-3 rounded-lg text-sm font-semibold hover:bg-zinc-700 transition-all duration-200 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900"
+                  aria-label={`Text Dr. Jan Duffy at ${SITE_CONTACT.phoneDisplay}`}
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                  <span>Text</span>
+                </a>
+              </div>
               <div className="mt-4">
                 <Link
                   href="/work-with-dr-jan"

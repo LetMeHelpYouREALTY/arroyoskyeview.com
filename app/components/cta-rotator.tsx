@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { trackPhoneClick, trackCTAClick } from './analytics-tracker'
+import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
 import { cn } from '@/lib/utils'
 
 interface CTAOption {
@@ -101,7 +101,7 @@ export default function CTARotator({
     if (currentCTA.type === 'call') {
       trackPhoneClick('702-903-4687', 'cta_rotator')
     } else {
-      trackCTAClick(`${currentCTA.text} - Text`, 'cta_rotator')
+      trackSmsClick('cta_rotator')
     }
   }
 

@@ -1,3 +1,4 @@
+import { SITE_CONTACT } from '@/lib/site-contact'
 import GoogleMapEmbed from './google-map-embed'
 
 export default function ContactLocations() {
@@ -12,14 +13,13 @@ export default function ContactLocations() {
             <div className="mb-4">
               <GoogleMapEmbed 
                 mapUrl="https://maps.app.goo.gl/E4ySRChkkQjnYjeN7"
-                address="8912 Vanhoy Crk St, Las Vegas, NV 89166"
+                address={SITE_CONTACT.formattedAddress}
                 height="200px"
                 className="rounded-lg overflow-hidden"
               />
             </div>
             <div className="space-y-2 text-gray-700">
-              <p className="sr-only">8912 Vanhoy Crk St</p>
-              <p className="sr-only">Las Vegas, NV 89166</p>
+              <p className="font-medium text-gray-900">{SITE_CONTACT.formattedAddress}</p>
               <p className="font-semibold text-blue-600 mt-4">
                 <a href="tel:7029034687" className="hover:text-blue-700 transition-colors">
                   (702) 903-4687
