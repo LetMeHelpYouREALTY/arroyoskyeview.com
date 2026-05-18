@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import PurpleSaleBanner from '../components/purple-sale-banner'
 import Header from '../components/header'
 import Footer from '../components/footer'
@@ -98,6 +99,41 @@ export default function FAQPage() {
         </section>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <section className="mb-10 rounded-xl border border-blue-200 bg-blue-50 p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              Topic-Specific FAQs for Skye Canyon &amp; Northwest Las Vegas
+            </h2>
+            <p className="text-gray-700 mb-4">
+              Drill into localized answers on financing, inspections, and Las Vegas neighborhoods—each page uses FAQ schema for search and AI assistants.
+            </p>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              <li>
+                <Link href="/faq/financing" className="font-semibold text-blue-700 hover:text-blue-800 hover:underline">
+                  Financing FAQ →
+                </Link>
+                <span className="block text-sm text-gray-600">Loans, down payments, builder incentives (zip 89166)</span>
+              </li>
+              <li>
+                <Link href="/faq/inspections" className="font-semibold text-blue-700 hover:text-blue-800 hover:underline">
+                  Inspections FAQ →
+                </Link>
+                <span className="block text-sm text-gray-600">Construction monitoring &amp; closing inspection</span>
+              </li>
+              <li>
+                <Link href="/faq/las-vegas-hyperlocal" className="font-semibold text-blue-700 hover:text-blue-800 hover:underline">
+                  Las Vegas Hyperlocal FAQ →
+                </Link>
+                <span className="block text-sm text-gray-600">Neighborhoods, schools, commute, lifestyle</span>
+              </li>
+              <li>
+                <Link href="/buyers/closing-process-guide" className="font-semibold text-blue-700 hover:text-blue-800 hover:underline">
+                  Closing Process Guide →
+                </Link>
+                <span className="block text-sm text-gray-600">Documents, timeline, and what to expect at closing</span>
+              </li>
+            </ul>
+          </section>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <div className="space-y-6">

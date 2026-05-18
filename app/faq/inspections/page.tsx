@@ -13,6 +13,24 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/faq/inspections',
   },
+  openGraph: {
+    title: 'New Construction Home Inspections FAQ | Skye Canyon, Northwest Las Vegas',
+    description: 'Inspections FAQ for new construction in Skye Canyon (89166)—construction monitoring, building standards inspection, and warranty protection.',
+    url: 'https://www.arroyoskyeview.com/faq/inspections',
+    type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'New construction inspections FAQ' }],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 }
 
 const inspectionFAQs = [
