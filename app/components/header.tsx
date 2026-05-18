@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Logo from './logo'
-import { trackPhoneClick } from './analytics-tracker'
+import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -394,7 +394,7 @@ export default function Header() {
           </div>
 
           {/* CTA Button */}
-          <div className="hidden lg:flex lg:items-center ml-4">
+          <div className="hidden lg:flex lg:items-center lg:gap-2 ml-4">
             <a
               href="tel:7029034687"
               onClick={() => trackPhoneClick('702-903-4687', 'header_desktop')}
@@ -405,10 +405,20 @@ export default function Header() {
               </svg>
               <span>Call Dr. Jan: (702) 903-4687</span>
             </a>
+            <a
+              href="sms:7029034687"
+              onClick={() => trackSmsClick('header_desktop')}
+              className="border border-primary/30 bg-background text-foreground px-5 py-3 rounded-lg text-sm font-semibold hover:bg-accent transition-all duration-200 flex items-center space-x-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+              <span>Text</span>
+            </a>
           </div>
 
           {/* Mobile menu button */}
-          <div className="lg:hidden flex items-center space-x-3">
+          <div className="lg:hidden flex items-center space-x-2">
             <a
               href="tel:7029034687"
               onClick={() => trackPhoneClick('702-903-4687', 'header_mobile')}
@@ -418,6 +428,16 @@ export default function Header() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
               <span className="text-xs">Call</span>
+            </a>
+            <a
+              href="sms:7029034687"
+              onClick={() => trackSmsClick('header_mobile')}
+              className="border border-border bg-background text-foreground px-3 py-2 rounded-lg text-sm font-semibold hover:bg-accent transition flex items-center min-h-11 min-w-11 justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              aria-label="Text Dr. Jan at (702) 903-4687"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
             </a>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}

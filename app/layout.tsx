@@ -5,6 +5,7 @@ import { ThemeProvider } from 'next-themes'
 import StructuredData from './components/structured-data'
 import PreconnectLinks from './components/preconnect-links'
 import CalendlyBadgeWidget from './components/calendly-badge-widget'
+import SkipToMain from './components/skip-to-main'
 import './globals.css'
 
 const geistSans = Geist({
@@ -130,6 +131,7 @@ export default function RootLayout({
           src="https://assets.calendly.com/assets/external/widget.js"
           strategy="afterInteractive"
         />
+        <SkipToMain />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -137,7 +139,9 @@ export default function RootLayout({
           disableTransitionOnChange
           storageKey="theme"
         >
-          {children}
+          <div id="main-content" tabIndex={-1} className="outline-none">
+            {children}
+          </div>
         </ThemeProvider>
         <CalendlyBadgeWidget />
       </body>

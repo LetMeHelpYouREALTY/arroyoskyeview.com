@@ -35,6 +35,10 @@ export function trackPhoneClick(phoneNumber: string, location: string = '') {
   trackEvent('phone_click', 'engagement', `${phoneNumber} - ${location}`)
 }
 
+export function trackSmsClick(location: string = '') {
+  trackEvent('sms_click', 'engagement', `702-903-4687 - ${location}`)
+}
+
 export function trackCTAClick(ctaText: string, location: string = '') {
   trackEvent('cta_click', 'conversion', `${ctaText} - ${location}`)
 }
