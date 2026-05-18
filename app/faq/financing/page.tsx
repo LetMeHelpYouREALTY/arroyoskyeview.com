@@ -13,6 +13,24 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/faq/financing',
   },
+  openGraph: {
+    title: 'New Construction Home Financing FAQ | Skye Canyon, Northwest Las Vegas',
+    description: 'Financing FAQ for new construction in Skye Canyon (89166) and northwest Las Vegas—down payments, FHA/VA, builder incentives, and closing costs.',
+    url: 'https://www.arroyoskyeview.com/faq/financing',
+    type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'New construction financing FAQ' }],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 }
 
 const financingFAQs = [
