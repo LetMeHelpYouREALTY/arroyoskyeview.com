@@ -86,23 +86,23 @@ export default function CommunityListings() {
         {/* Header with controls */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
               Communities in Las Vegas Metro
             </h2>
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               {communities.length} {communities.length === 1 ? 'community' : 'communities'} found
             </p>
           </div>
           
           <div className="flex flex-wrap gap-4 mt-4 md:mt-0">
             {/* View Mode Toggle */}
-            <div className="flex border border-gray-300 rounded-md overflow-hidden">
+            <div className="flex border border-border rounded-md overflow-hidden">
               <button
                 onClick={() => setViewMode('grid')}
                 className={`px-4 py-2 ${
                   viewMode === 'grid'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                    ? 'bg-primary text-white'
+                    : 'bg-white text-muted-foreground hover:bg-muted'
                 }`}
                 aria-label="Grid view"
               >
@@ -114,8 +114,8 @@ export default function CommunityListings() {
                 onClick={() => setViewMode('list')}
                 className={`px-4 py-2 ${
                   viewMode === 'list'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                    ? 'bg-primary text-white'
+                    : 'bg-white text-muted-foreground hover:bg-muted'
                 }`}
                 aria-label="List view"
               >
@@ -129,7 +129,7 @@ export default function CommunityListings() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="border border-border rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
             >
               <option value="name">Sort by Name</option>
               <option value="price-low">Price: Low to High</option>
@@ -149,7 +149,7 @@ export default function CommunityListings() {
           {sortedCommunities.map((community) => (
             <div
               key={community.id}
-              className={`bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition ${
+              className={`bg-white border border-border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition ${
                 viewMode === 'list' ? 'flex' : ''
               }`}
             >
@@ -177,7 +177,7 @@ export default function CommunityListings() {
                   {community.features.map((feature, idx) => (
                     <span
                       key={idx}
-                      className="bg-blue-600 text-white text-xs px-2 py-1 rounded"
+                      className="bg-primary text-white text-xs px-2 py-1 rounded"
                     >
                       {feature}
                     </span>
@@ -186,28 +186,28 @@ export default function CommunityListings() {
               </div>
               
               <div className={`${viewMode === 'list' ? 'w-2/3' : 'w-full'} p-6 flex flex-col`}>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                <h3 className="text-2xl font-bold text-foreground mb-2">
                   {community.name}
                 </h3>
-                <p className="text-gray-600 mb-2">
+                <p className="text-muted-foreground mb-2">
                   {community.location}, {community.city}, NV {community.zip}
                 </p>
-                <p className="text-blue-600 font-semibold mb-2">
-                  <a href="tel:7029034687" className="hover:text-blue-700 transition-colors">
+                <p className="text-primary font-semibold mb-2">
+                  <a href="tel:7029034687" className="hover:text-primary transition-colors">
                     {community.phone}
                   </a>
                 </p>
-                <p className="text-2xl font-bold text-gray-900 mb-4">
+                <p className="text-2xl font-bold text-foreground mb-4">
                   Homes From {formatPrice(community.price)}
                 </p>
                 
                 <div className="mb-4">
-                  <p className="text-sm text-gray-600 mb-2">Home Types:</p>
+                  <p className="text-sm text-muted-foreground mb-2">Home Types:</p>
                   <div className="flex flex-wrap gap-2">
                     {community.homeTypes.map((type, idx) => (
                       <span
                         key={idx}
-                        className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded"
+                        className="bg-muted text-muted-foreground text-xs px-2 py-1 rounded"
                       >
                         {type}
                       </span>
@@ -217,7 +217,7 @@ export default function CommunityListings() {
 
                 <div className="mt-auto">
                   <Link href={community.url}>
-                    <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    <Button className="w-full bg-primary hover:bg-primary text-white">
                       View Community
                     </Button>
                   </Link>

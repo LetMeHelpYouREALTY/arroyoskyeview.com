@@ -53,12 +53,12 @@ export default function ZipCodeMap({ highlightZipCode, showAllZipCodes = true }:
   ]
 
   return (
-    <section className="py-12 bg-gray-50">
+    <section className="py-12 bg-muted">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4 text-center">
+        <h2 className="text-3xl font-bold text-foreground mb-4 text-center">
           New Construction Homes by Zip Code
         </h2>
-        <p className="text-lg text-gray-700 mb-8 text-center max-w-3xl mx-auto">
+        <p className="text-lg text-muted-foreground mb-8 text-center max-w-3xl mx-auto">
           Explore new construction homes in Las Vegas zip codes. Dr. Jan Duffy provides expert buyer representation for new construction homes throughout northwest Las Vegas, Skye Canyon, and surrounding areas.
         </p>
 
@@ -79,28 +79,28 @@ export default function ZipCodeMap({ highlightZipCode, showAllZipCodes = true }:
               href={zip.link}
               className={`bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border-2 ${
                 highlightZipCode === zip.code
-                  ? 'border-blue-600 ring-2 ring-blue-200'
-                  : 'border-gray-200 hover:border-blue-300'
+                  ? 'border-luxury-champagne ring-2 ring-blue-200'
+                  : 'border-border hover:border-blue-300'
               }`}
             >
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-1">
+                  <h3 className="text-2xl font-bold text-foreground mb-1">
                     Zip Code {zip.code}
                   </h3>
-                  <p className="text-lg font-semibold text-blue-600 mb-1">
+                  <p className="text-lg font-semibold text-primary mb-1">
                     {zip.name}
                   </p>
-                  <p className="text-sm text-gray-600">{zip.area}</p>
+                  <p className="text-sm text-muted-foreground">{zip.area}</p>
                 </div>
                 {highlightZipCode === zip.code && (
-                  <span className="bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded">
+                  <span className="bg-primary text-white text-xs font-semibold px-2 py-1 rounded">
                     Current Area
                   </span>
                 )}
               </div>
-              <p className="text-gray-700 text-sm mb-4">{zip.description}</p>
-              <div className="flex items-center text-blue-600 font-semibold text-sm">
+              <p className="text-muted-foreground text-sm mb-4">{zip.description}</p>
+              <div className="flex items-center text-primary font-semibold text-sm">
                 View Homes in {zip.code} →
               </div>
             </Link>
@@ -109,16 +109,16 @@ export default function ZipCodeMap({ highlightZipCode, showAllZipCodes = true }:
 
         {/* Call to Action */}
         <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
-          <h3 className="text-xl font-bold text-gray-900 mb-2">
+          <h3 className="text-xl font-bold text-foreground mb-2">
             Looking for New Construction Homes in a Specific Zip Code?
           </h3>
-          <p className="text-gray-700 mb-4">
+          <p className="text-muted-foreground mb-4">
             Dr. Jan Duffy has insider knowledge of new construction inventory and pricing in all Las Vegas zip codes. 
             Get expert buyer representation at no extra cost—builders pay for buyer representation.
           </p>
           <a
             href="tel:7029034687"
-            className="inline-block bg-blue-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700 transition"
+            className="inline-block bg-primary text-white px-6 py-3 rounded-md font-semibold hover:bg-primary transition"
           >
             Call Dr. Jan Duffy: (702) 903-4687
           </a>

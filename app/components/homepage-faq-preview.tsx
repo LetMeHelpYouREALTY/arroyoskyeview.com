@@ -23,13 +23,13 @@ export default function HomepageFAQPreview() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
-    <section className="bg-white py-12 border-t border-gray-200">
+    <section className="bg-white py-12 border-t border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Frequently Asked Questions About Arroyo at Skyeview Homes
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Get quick answers about buying Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada
           </p>
         </div>
@@ -38,7 +38,7 @@ export default function HomepageFAQPreview() {
           {topFAQs.map((faq, index) => (
             <div
               key={index}
-              className="bg-gray-50 border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+              className="bg-muted border border-border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
             >
               <button
                 onClick={() => {
@@ -48,14 +48,14 @@ export default function HomepageFAQPreview() {
                     trackFAQExpand(faq.question)
                   }
                 }}
-                className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-100 transition"
+                className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-muted transition"
                 aria-expanded={openIndex === index}
               >
-                <h3 className="text-lg font-semibold text-gray-900 pr-4">
+                <h3 className="text-lg font-semibold text-foreground pr-4">
                   {faq.question}
                 </h3>
                 <svg
-                  className={`w-5 h-5 text-blue-600 flex-shrink-0 transition-transform ${
+                  className={`w-5 h-5 text-primary flex-shrink-0 transition-transform ${
                     openIndex === index ? 'transform rotate-180' : ''
                   }`}
                   fill="none"
@@ -73,7 +73,7 @@ export default function HomepageFAQPreview() {
               
               {openIndex === index && (
                 <div className="px-6 pb-4">
-                  <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
+                  <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
                 </div>
               )}
             </div>
@@ -83,7 +83,7 @@ export default function HomepageFAQPreview() {
         <div className="text-center">
           <Link
             href="/faq"
-            className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold text-lg"
+            className="inline-flex items-center text-primary hover:text-primary font-semibold text-lg"
           >
             View All FAQs
             <svg className="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

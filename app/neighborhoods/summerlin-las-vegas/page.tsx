@@ -46,7 +46,7 @@ export default function SummerlinPage() {
         <DrJanCTABanner />
         
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16">
+        <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               New Construction Homes in Summerlin, Las Vegas | Buyer's Agent Representation
@@ -61,14 +61,14 @@ export default function SummerlinPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">About Summerlin, Las Vegas</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">About Summerlin, Las Vegas</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   Summerlin is one of the most prestigious master-planned communities in Las Vegas, offering residents a premium lifestyle with world-class amenities, top-rated schools, and beautiful natural surroundings.
                 </p>
-                <p className="text-lg text-gray-700 mb-4">
+                <p className="text-lg text-muted-foreground mb-4">
                   Located on the western edge of Las Vegas, Summerlin spans over 22,500 acres and features multiple villages, each with its own unique character and amenities. The community is known for its:
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-lg text-gray-700 mb-6 ml-4">
+                <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
                   <li>Championship golf courses and country clubs</li>
                   <li>Extensive trail systems and parks</li>
                   <li>Top-rated public and private schools</li>
@@ -79,39 +79,39 @@ export default function SummerlinPage() {
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">New Construction Homes in Summerlin</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">New Construction Homes in Summerlin</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   Builders offer exceptional new construction homes in the Summerlin area, Las Vegas, Nevada, designed for modern living with premium finishes and energy-efficient features.
                 </p>
-                <p className="text-lg text-gray-700 mb-4">
+                <p className="text-lg text-muted-foreground mb-4">
                   Whether you're looking for a single-family home, townhome, or luxury residence, Summerlin provides diverse housing options to suit various lifestyles and budgets.
                 </p>
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Why Choose Summerlin?</h2>
+                <h2 className="text-3xl font-bold text-foreground mb-6">Why Choose Summerlin?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Quality of Life</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Quality of Life</h3>
+                    <p className="text-muted-foreground">
                       Summerlin consistently ranks among the best places to live in Nevada, offering a perfect blend of urban convenience and natural beauty.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Investment Value</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Investment Value</h3>
+                    <p className="text-muted-foreground">
                       Properties in Summerlin have historically maintained strong values and appreciation rates, making it an excellent long-term investment.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Family-Friendly</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Family-Friendly</h3>
+                    <p className="text-muted-foreground">
                       With award-winning schools, safe neighborhoods, and abundant recreational facilities, Summerlin is ideal for families.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Location Benefits</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Location Benefits</h3>
+                    <p className="text-muted-foreground">
                       Just 20 minutes from the Las Vegas Strip and McCarran Airport, while maintaining a peaceful residential atmosphere.
                     </p>
                   </div>
@@ -119,11 +119,11 @@ export default function SummerlinPage() {
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Expert Buyer Representation</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Expert Buyer Representation</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   When buying a new construction home in Summerlin, working with Dr. Jan Duffy ensures you have expert representation throughout the process. Dr. Jan provides:
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-lg text-gray-700 mb-6 ml-4">
+                <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
                   <li>Insider knowledge of available new construction homes in Las Vegas, Nevada</li>
                   <li>Construction monitoring during your home's build</li>
                   <li>Building standards inspection at closing</li>
@@ -140,56 +140,56 @@ export default function SummerlinPage() {
             </div>
           </div>
         </div>
-        <section className="bg-gray-50 py-12 mt-12">
+        <section className="bg-muted py-12 mt-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl font-bold text-foreground mb-6">
               New Construction Homes in Las Vegas Metro
             </h2>
-            <p className="text-lg text-gray-700 mb-8">
+            <p className="text-lg text-muted-foreground mb-8">
               Explore new construction developments across Las Vegas, Nevada, including nearby areas:
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <Link
                 href="/areas/zip-89128"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   Zip Code 89128: Summerlin Area
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   Discover luxury new construction homes in zip code 89128, Summerlin area.
                 </p>
               </Link>
               <Link
                 href="/areas/zip-89166"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   Zip Code 89166: Skye Canyon
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   Discover Arroyo at Skyeview, Sierra at Skyeview, Terra at Skyeview, and Eaglepointe at Skye Canyon.
                 </p>
               </Link>
               <Link
                 href="/find-your-new-home/nevada/las-vegas-metro"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   Browse all Las Vegas Metro new construction communities
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   View all new construction homes across Las Vegas, Henderson, and surrounding areas in Nevada.
                 </p>
               </Link>
               <Link
                 href="/neighborhoods/henderson-las-vegas"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   Henderson: Family-friendly neighborhoods with excellent schools
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   Explore new construction homes in Henderson, Nevada with your buyer's agent.
                 </p>
               </Link>

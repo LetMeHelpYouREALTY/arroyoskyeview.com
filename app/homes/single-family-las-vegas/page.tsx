@@ -68,7 +68,7 @@ export default function SingleFamilyHomesPage() {
       <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         <DrJanCTABanner />
         
-        <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16">
+        <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               New Construction Single-Family Homes in Las Vegas: Skye Canyon | Buyer's Agent
@@ -83,32 +83,32 @@ export default function SingleFamilyHomesPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Why Choose a Single-Family Home?</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Why Choose a Single-Family Home?</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   Single-family homes offer the ultimate in privacy, space, and customization. New construction single-family homes in Las Vegas, Nevada are designed for modern families with features that enhance daily living.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Privacy & Space</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Privacy & Space</h3>
+                    <p className="text-muted-foreground">
                       Detached homes provide complete privacy with your own yard and no shared walls.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Customization</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Customization</h3>
+                    <p className="text-muted-foreground">
                       More flexibility to customize your home with finishes, layouts, and features that match your lifestyle.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Yard Space</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Yard Space</h3>
+                    <p className="text-muted-foreground">
                       Private yards perfect for outdoor entertaining, play areas, or gardening.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Investment Value</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Investment Value</h3>
+                    <p className="text-muted-foreground">
                       Single-family homes typically offer strong appreciation potential and resale value.
                     </p>
                   </div>
@@ -116,40 +116,40 @@ export default function SingleFamilyHomesPage() {
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">New Construction Single-Family Homes in Las Vegas, Nevada</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">New Construction Single-Family Homes in Las Vegas, Nevada</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   New construction single-family homes are available across Las Vegas, Nevada in master-planned communities with excellent amenities, schools, and location benefits.
                 </p>
-                <p className="text-lg text-gray-700 mb-4">
+                <p className="text-lg text-muted-foreground mb-4">
                   Each home is built with quality construction, modern floor plans, and energy-efficient features designed to enhance your lifestyle and reduce utility costs.
                 </p>
                 <div className="space-y-4 mt-6">
-                  <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      <Link href="/eaglepointe-skye-canyon" className="text-blue-600 hover:text-blue-700">
+                  <div className="border border-border rounded-lg p-6 hover:shadow-md transition">
+                    <h3 className="text-xl font-bold text-foreground mb-2">
+                      <Link href="/eaglepointe-skye-canyon" className="text-primary hover:text-primary">
                         Eaglepointe at Skye Canyon: Master-planned community homes
                       </Link>
                     </h3>
-                    <p className="text-gray-700 mb-2">New construction single-family homes in Skye Canyon with modern designs and premium finishes</p>
+                    <p className="text-muted-foreground mb-2">New construction single-family homes in Skye Canyon with modern designs and premium finishes</p>
                   </div>
-                  <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      <Link href="/ironwood" className="text-blue-600 hover:text-blue-700">
+                  <div className="border border-border rounded-lg p-6 hover:shadow-md transition">
+                    <h3 className="text-xl font-bold text-foreground mb-2">
+                      <Link href="/ironwood" className="text-primary hover:text-primary">
                         Ironwood: Las Vegas Metro single-family homes
                       </Link>
                     </h3>
-                    <p className="text-gray-700 mb-2">Spacious new construction homes in Las Vegas Metro with contemporary floor plans</p>
+                    <p className="text-muted-foreground mb-2">Spacious new construction homes in Las Vegas Metro with contemporary floor plans</p>
                   </div>
-                  <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      <Link href="/homestead-west" className="text-blue-600 hover:text-blue-700">
+                  <div className="border border-border rounded-lg p-6 hover:shadow-md transition">
+                    <h3 className="text-xl font-bold text-foreground mb-2">
+                      <Link href="/homestead-west" className="text-primary hover:text-primary">
                         Homestead West: New construction single-family homes
                       </Link>
                     </h3>
-                    <p className="text-gray-700 mb-2">Modern single-family homes in Las Vegas with energy-efficient features</p>
+                    <p className="text-muted-foreground mb-2">Modern single-family homes in Las Vegas with energy-efficient features</p>
                   </div>
-                  <p className="text-gray-600 mt-4">
-                    <Link href="/find-your-new-home/nevada/las-vegas-metro" className="text-blue-600 hover:text-blue-700 font-semibold">
+                  <p className="text-muted-foreground mt-4">
+                    <Link href="/find-your-new-home/nevada/las-vegas-metro" className="text-primary hover:text-primary font-semibold">
                       Browse all Las Vegas Metro new construction communities →
                     </Link>
                   </p>
@@ -157,8 +157,8 @@ export default function SingleFamilyHomesPage() {
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Single-Family Home Features</h2>
-                <ul className="list-disc list-inside space-y-2 text-lg text-gray-700 mb-6 ml-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Single-Family Home Features</h2>
+                <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
                   <li>Spacious floor plans with 3-5+ bedrooms</li>
                   <li>Multiple bathrooms and living spaces</li>
                   <li>2-3 car garages</li>

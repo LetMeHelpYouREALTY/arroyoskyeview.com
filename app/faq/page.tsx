@@ -86,7 +86,7 @@ export default function FAQPage() {
       <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         <DrJanCTABanner />
         
-        <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16">
+        <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Frequently Asked Questions: New Construction Homes in Skye Canyon, Northwest Las Vegas
@@ -102,11 +102,11 @@ export default function FAQPage() {
             <div className="lg:col-span-2">
               <div className="space-y-6">
                 {faqs.map((faq, index) => (
-                  <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-                    <h2 className="text-xl font-bold text-gray-900 mb-3">
+                  <div key={index} className="bg-white border border-border rounded-lg p-6 shadow-sm">
+                    <h2 className="text-xl font-bold text-foreground mb-3">
                       {faq.question}
                     </h2>
-                    <p className="text-gray-700 leading-relaxed">
+                    <p className="text-muted-foreground leading-relaxed">
                       {faq.answer}
                     </p>
                   </div>
@@ -114,15 +114,15 @@ export default function FAQPage() {
               </div>
 
               <div className="mt-12 bg-blue-50 p-8 rounded-lg">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-foreground mb-4">
                   Still Have Questions?
                 </h2>
-                <p className="text-lg text-gray-700 mb-6">
+                <p className="text-lg text-muted-foreground mb-6">
                   Dr. Jan Duffy is here to answer all your questions about buying a new construction home. Get expert guidance on the entire process, from financing to closing.
                 </p>
                 <a
                   href="tel:7029034687"
-                  className="inline-block bg-blue-600 text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-blue-700 transition"
+                  className="inline-block bg-primary text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-primary transition"
                 >
                   Call Dr. Jan: (702) 903-4687
                 </a>

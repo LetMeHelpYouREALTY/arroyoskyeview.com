@@ -61,7 +61,7 @@ export default function LuxuryHero() {
       {/* ── Background image layer ─────────────────────────────────────── */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/images/hero/hero-14.jpg')" }}
+        style={{ backgroundImage: "url('/images/hero/luxury-hero-skye-canyon.png')" }}
         role="img"
         aria-label="Aerial view of Arroyo at Skyeview townhomes with Red Rock Canyon in the background"
       />

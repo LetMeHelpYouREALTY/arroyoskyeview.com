@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, Playfair_Display } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import StructuredData from './components/structured-data'
 import PreconnectLinks from './components/preconnect-links'
@@ -16,6 +16,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+})
+
+const playfair = Playfair_Display({
+  variable: '--font-playfair',
+  subsets: ['latin'],
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -93,7 +99,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased`}
       >
         {/* Preconnect links for faster resource loading */}
         <PreconnectLinks />

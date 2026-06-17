@@ -14,9 +14,9 @@ export default function DrJanHero() {
   }
 
   return (
-    <section className="relative overflow-hidden bg-linear-to-br from-primary via-primary to-primary/85 py-16 text-primary-foreground md:py-20">
+    <section className="relative overflow-hidden bg-luxury-navy py-16 text-luxury-ivory md:py-20">
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(255,255,255,0.22),transparent)] opacity-40"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(197,168,128,0.15),transparent)]"
         aria-hidden
       />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -24,34 +24,34 @@ export default function DrJanHero() {
           <h2 className="text-balance text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
             Buying Arroyo at Skyeview Homes? Get Expert Buyer Representation in Skye Canyon, Northwest Las Vegas
           </h2>
-          <p className="mt-6 text-pretty text-lg text-primary-foreground/90 md:text-xl">
-            <strong className="text-primary-foreground">Dr. Jan Duffy represents HOME BUYERS</strong>
+          <p className="mt-6 text-pretty text-lg text-luxury-ivory/90 md:text-xl">
+            <strong className="text-luxury-ivory">Dr. Jan Duffy represents HOME BUYERS</strong>
             —not the builder. Expert buyer representation for Arroyo at Skyeview Homes in Skye Canyon, zip code
             89166, northwest Las Vegas, Nevada. No extra cost to you.
           </p>
 
-          <ul className="mx-auto mt-8 grid max-w-3xl gap-3 text-left text-sm text-primary-foreground/95 sm:grid-cols-1 md:text-base lg:mx-auto lg:max-w-4xl lg:grid-cols-3 lg:gap-4">
-            <li className="rounded-xl border border-primary-foreground/20 bg-primary-foreground/10 px-4 py-3 backdrop-blur-sm lg:text-center">
-              <span className="font-semibold text-primary-foreground">Builder-paid commission</span>
-              <span className="mt-1 block text-primary-foreground/85">
+          <ul className="mx-auto mt-8 grid max-w-3xl gap-3 text-left text-sm text-luxury-ivory/95 sm:grid-cols-1 md:text-base lg:mx-auto lg:max-w-4xl lg:grid-cols-3 lg:gap-4">
+            <li className="rounded-xl border border-luxury-champagne/20 bg-luxury-champagne/10 px-4 py-3 backdrop-blur-sm lg:text-center">
+              <span className="font-semibold text-luxury-ivory">Builder-paid commission</span>
+              <span className="mt-1 block text-luxury-ivory/85">
                 You are already funding an agent—choose one who works for you.
               </span>
             </li>
-            <li className="rounded-xl border border-primary-foreground/20 bg-primary-foreground/10 px-4 py-3 backdrop-blur-sm lg:text-center">
-              <span className="font-semibold text-primary-foreground">Construction monitoring</span>
-              <span className="mt-1 block text-primary-foreground/85">
+            <li className="rounded-xl border border-luxury-champagne/20 bg-luxury-champagne/10 px-4 py-3 backdrop-blur-sm lg:text-center">
+              <span className="font-semibold text-luxury-ivory">Construction monitoring</span>
+              <span className="mt-1 block text-luxury-ivory/85">
                 Real-time checks every 7–10 days through your build.
               </span>
             </li>
-            <li className="rounded-xl border border-primary-foreground/20 bg-primary-foreground/10 px-4 py-3 backdrop-blur-sm lg:text-center">
-              <span className="font-semibold text-primary-foreground">Closing protection</span>
-              <span className="mt-1 block text-primary-foreground/85">
+            <li className="rounded-xl border border-luxury-champagne/20 bg-luxury-champagne/10 px-4 py-3 backdrop-blur-sm lg:text-center">
+              <span className="font-semibold text-luxury-ivory">Closing protection</span>
+              <span className="mt-1 block text-luxury-ivory/85">
                 Building standards inspection at closing for your interests.
               </span>
             </li>
           </ul>
 
-          <p className="mx-auto mt-10 max-w-3xl text-pretty text-base text-primary-foreground/90 md:text-lg">
+          <p className="mx-auto mt-10 max-w-3xl text-pretty text-base text-luxury-ivory/90 md:text-lg">
             Builders pay for buyer representation on all new construction homes including Arroyo at Skyeview
             Homes—which means you&apos;re already funding an agent, so choose one who works exclusively for YOU, not
             the builder. <strong>Dr. Jan Duffy is a New Construction Home Expert</strong> who specializes in Arroyo at
@@ -66,7 +66,7 @@ export default function DrJanHero() {
               size="lg"
               className={cn(
                 'min-h-11 min-w-[44px] px-8 text-base shadow-lg motion-safe:transition-transform motion-safe:hover:scale-[1.02]',
-                'bg-primary-foreground text-primary hover:bg-primary-foreground/90',
+                'bg-luxury-champagne text-luxury-navy hover:bg-luxury-champagne/90',
               )}
             >
               <a href="tel:7029034687" onClick={handleCallClick}>
@@ -86,8 +86,8 @@ export default function DrJanHero() {
               size="lg"
               variant="secondary"
               className={cn(
-                'min-h-11 min-w-[44px] border border-primary-foreground/30 bg-primary-foreground/15 px-8 text-base text-primary-foreground shadow-lg backdrop-blur-sm',
-                'hover:bg-primary-foreground/25',
+                'min-h-11 min-w-[44px] border border-luxury-champagne/30 bg-luxury-champagne/15 px-8 text-base text-luxury-ivory shadow-lg backdrop-blur-sm',
+                'hover:bg-luxury-champagne/25',
               )}
             >
               <a href="sms:7029034687" onClick={handleTextClick}>
@@ -104,9 +104,9 @@ export default function DrJanHero() {
             </Button>
           </div>
 
-          <div className="mx-auto mt-10 max-w-2xl rounded-xl border border-primary-foreground/20 bg-primary-foreground/10 px-4 py-4 backdrop-blur-sm">
-            <p className="text-center text-sm text-primary-foreground/95 md:text-base">
-              <strong className="text-primary-foreground">100% Free Buyer Representation</strong> • Builders Pay
+          <div className="mx-auto mt-10 max-w-2xl rounded-xl border border-luxury-champagne/20 bg-luxury-champagne/10 px-4 py-4 backdrop-blur-sm">
+            <p className="text-center text-sm text-luxury-ivory/95 md:text-base">
+              <strong className="text-luxury-ivory">100% Free Buyer Representation</strong> • Builders Pay
               Commission • No Extra Cost to You
             </p>
           </div>

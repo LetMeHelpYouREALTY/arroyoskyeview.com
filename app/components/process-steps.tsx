@@ -68,19 +68,19 @@ export default function ProcessSteps() {
               {/* Step Number Indicator */}
               <div className="flex items-start gap-8">
                 <div className="flex-shrink-0">
-                  <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold">
+                  <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold">
                     {step.id}
                   </div>
                 </div>
                 
                 <div className="flex-1">
-                  <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                  <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
                     {step.title}
                   </h2>
-                  <h3 className="text-xl md:text-2xl text-gray-700 mb-6">
+                  <h3 className="text-xl md:text-2xl text-muted-foreground mb-6">
                     {step.subtitle}
                   </h3>
-                  <p className="text-lg text-gray-700 mb-8 max-w-4xl">
+                  <p className="text-lg text-muted-foreground mb-8 max-w-4xl">
                     {step.description}
                   </p>
 
@@ -89,7 +89,7 @@ export default function ProcessSteps() {
                     <div className="mb-8">
                       <Button
                         asChild
-                        className="bg-blue-600 hover:bg-blue-700 text-white"
+                        className="bg-primary hover:bg-primary text-white"
                       >
                         <a href={step.ctaLink}>{step.cta}</a>
                       </Button>
@@ -98,15 +98,15 @@ export default function ProcessSteps() {
 
                   {/* Myths Section */}
                   {step.myths && (
-                    <div className="bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-lg mb-8">
-                      <h4 className="text-xl font-bold text-gray-900 mb-4">
+                    <div className="bg-blue-50 border-l-4 border-luxury-champagne p-6 rounded-r-lg mb-8">
+                      <h4 className="text-xl font-bold text-foreground mb-4">
                         COMMON HOMEBUYING MYTHS
                       </h4>
                       <ul className="space-y-3">
                         {step.myths.map((myth, idx) => (
                           <li key={idx} className="flex items-start">
-                            <span className="text-blue-600 mr-2">•</span>
-                            <span className="text-gray-700">{myth}</span>
+                            <span className="text-primary mr-2">•</span>
+                            <span className="text-muted-foreground">{myth}</span>
                           </li>
                         ))}
                       </ul>
@@ -115,17 +115,17 @@ export default function ProcessSteps() {
 
                   {/* Wish List Section */}
                   {step.wishList && (
-                    <div className="bg-gray-50 border-l-4 border-gray-400 p-6 rounded-r-lg mb-8">
-                      <h4 className="text-xl font-bold text-gray-900 mb-4">
+                    <div className="bg-muted border-l-4 border-gray-400 p-6 rounded-r-lg mb-8">
+                      <h4 className="text-xl font-bold text-foreground mb-4">
                         POTENTIAL WISH-LIST ITEMS
                       </h4>
                       <ul className="space-y-2">
                         {step.wishList.map((item, idx) => (
                           <li key={idx} className="flex items-start">
-                            <svg className="w-5 h-5 text-gray-600 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-5 h-5 text-muted-foreground mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                             </svg>
-                            <span className="text-gray-700">{item}</span>
+                            <span className="text-muted-foreground">{item}</span>
                           </li>
                         ))}
                       </ul>
@@ -134,17 +134,17 @@ export default function ProcessSteps() {
 
                   {/* Considerations Section */}
                   {step.considerations && (
-                    <div className="bg-gray-50 border-l-4 border-gray-400 p-6 rounded-r-lg">
-                      <h4 className="text-xl font-bold text-gray-900 mb-4">
+                    <div className="bg-muted border-l-4 border-gray-400 p-6 rounded-r-lg">
+                      <h4 className="text-xl font-bold text-foreground mb-4">
                         {step.id === 3 ? 'CONTRACTING CONSIDERATIONS' : 'CLOSING CONSIDERATIONS'}
                       </h4>
                       <ul className="space-y-2">
                         {step.considerations.map((item, idx) => (
                           <li key={idx} className="flex items-start">
-                            <svg className="w-5 h-5 text-gray-600 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-5 h-5 text-muted-foreground mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                             </svg>
-                            <span className="text-gray-700">{item}</span>
+                            <span className="text-muted-foreground">{item}</span>
                           </li>
                         ))}
                       </ul>

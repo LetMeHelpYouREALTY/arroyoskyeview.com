@@ -48,7 +48,7 @@ export default function Under300kPage() {
       <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         <DrJanCTABanner />
         
-        <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16">
+        <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               New Construction Homes Under $300k in Las Vegas | Buyer's Agent
@@ -63,39 +63,39 @@ export default function Under300kPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Entry-Level New Construction in Las Vegas</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Entry-Level New Construction in Las Vegas</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   Finding new construction homes under $300k in Las Vegas, Nevada can be challenging, but it's not impossible. Entry-level homes, condominiums, and townhomes may be available in this price range, especially with current builder incentives including rate buy-downs and closing cost assistance.
                 </p>
-                <p className="text-lg text-gray-700 mb-4">
+                <p className="text-lg text-muted-foreground mb-4">
                   Your buyer's agent, Dr. Jan Duffy, helps you explore all options in your budget range and can identify communities that may fit your needs. With builder incentives, a home priced slightly above $300k may become affordable with rate buy-downs and closing cost assistance.
                 </p>
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Why Consider New Construction Under $300k?</h2>
+                <h2 className="text-3xl font-bold text-foreground mb-6">Why Consider New Construction Under $300k?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Energy Efficiency</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Energy Efficiency</h3>
+                    <p className="text-muted-foreground">
                       New homes feature modern energy-efficient systems that can significantly reduce your monthly utility bills compared to older homes.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Builder Warranties</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Builder Warranties</h3>
+                    <p className="text-muted-foreground">
                       Comprehensive warranties protect you from unexpected repair costs, providing peace of mind for first-time buyers.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">No Competition</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">No Competition</h3>
+                    <p className="text-muted-foreground">
                       Avoid bidding wars and cash offers common in the resale market. New construction offers more availability and less competition.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Builder Incentives</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Builder Incentives</h3>
+                    <p className="text-muted-foreground">
                       Current incentives including rate buy-downs and closing cost assistance can make new construction more affordable than expected.
                     </p>
                   </div>
@@ -103,11 +103,11 @@ export default function Under300kPage() {
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Financing Options for Homes Under $300k</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Financing Options for Homes Under $300k</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   Homes under $300k may qualify for various financing options designed to help first-time buyers:
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-lg text-gray-700 mb-6 ml-4">
+                <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
                   <li><strong>FHA Loans:</strong> 3.5% down payment required, credit scores as low as 580</li>
                   <li><strong>Conventional Loans:</strong> As little as 5% down for qualified buyers</li>
                   <li><strong>VA Loans:</strong> 0% down for veterans and active military personnel</li>
@@ -115,32 +115,32 @@ export default function Under300kPage() {
                   <li><strong>Down Payment Assistance:</strong> Nevada programs may provide grants or loans</li>
                   <li><strong>Builder Incentives:</strong> Closing cost assistance and rate buy-downs can reduce upfront costs</li>
                 </ul>
-                <p className="text-lg text-gray-700 mb-4">
+                <p className="text-lg text-muted-foreground mb-4">
                   Dr. Jan Duffy can connect you with trusted lenders who specialize in first-time buyer programs and help you understand all available financing options.
                 </p>
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">First-Time Buyer Programs</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">First-Time Buyer Programs</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   If you're a first-time homebuyer looking for homes under $300k, you may qualify for special programs:
                 </p>
                 <div className="space-y-4">
-                  <div className="border-l-4 border-blue-600 pl-4">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Nevada Housing Division Programs</h3>
-                    <p className="text-gray-700">
+                  <div className="border-l-4 border-luxury-champagne pl-4">
+                    <h3 className="text-xl font-bold text-foreground mb-2">Nevada Housing Division Programs</h3>
+                    <p className="text-muted-foreground">
                       Nevada offers down payment assistance programs for first-time buyers, including grants and low-interest loans that can help with down payment and closing costs.
                     </p>
                   </div>
-                  <div className="border-l-4 border-blue-600 pl-4">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">FHA First-Time Buyer Benefits</h3>
-                    <p className="text-gray-700">
+                  <div className="border-l-4 border-luxury-champagne pl-4">
+                    <h3 className="text-xl font-bold text-foreground mb-2">FHA First-Time Buyer Benefits</h3>
+                    <p className="text-muted-foreground">
                       FHA loans are popular with first-time buyers because they require lower down payments and accept lower credit scores than conventional loans.
                     </p>
                   </div>
-                  <div className="border-l-4 border-blue-600 pl-4">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Builder First-Time Buyer Incentives</h3>
-                    <p className="text-gray-700">
+                  <div className="border-l-4 border-luxury-champagne pl-4">
+                    <h3 className="text-xl font-bold text-foreground mb-2">Builder First-Time Buyer Incentives</h3>
+                    <p className="text-muted-foreground">
                       Some builders offer special incentives for first-time buyers, including additional closing cost assistance or design center credits.
                     </p>
                   </div>
@@ -148,18 +148,18 @@ export default function Under300kPage() {
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Working with Dr. Jan Duffy for Entry-Level Homes</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Working with Dr. Jan Duffy for Entry-Level Homes</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   When searching for homes under $300k, working with Dr. Jan Duffy ensures you have expert buyer representation at no extra cost to you. She helps you:
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-lg text-gray-700 mb-6 ml-4">
+                <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
                   <li>Identify all available options in your budget range</li>
                   <li>Understand builder incentives that can make homes more affordable</li>
                   <li>Navigate first-time buyer programs and financing options</li>
                   <li>Get construction monitoring and building standards inspection included</li>
                   <li>Access insider knowledge of current inventory and pricing</li>
                 </ul>
-                <p className="text-lg text-gray-700 mb-4">
+                <p className="text-lg text-muted-foreground mb-4">
                   Builders pay for buyer representation, so there's no extra cost to you. Call Dr. Jan Duffy at (702) 903-4687 to explore your options.
                 </p>
               </section>
@@ -173,40 +173,40 @@ export default function Under300kPage() {
           </div>
         </div>
 
-        <section className="bg-gray-50 py-12">
+        <section className="bg-muted py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Explore Other Price Ranges</h2>
+            <h2 className="text-3xl font-bold text-foreground mb-6">Explore Other Price Ranges</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <Link
                 href="/homes/under-400k"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   Homes Under $400k
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   Discover affordable new construction homes under $400k including Arroyo at Skyeview.
                 </p>
               </Link>
               <Link
                 href="/homes/400k-500k"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   Homes $400K-$500K
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   Explore mid-range new construction homes perfect for families.
                 </p>
               </Link>
               <Link
                 href="/homes/500k-plus"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   Luxury Homes $500K+
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   Discover luxury new construction homes with premium features.
                 </p>
               </Link>
