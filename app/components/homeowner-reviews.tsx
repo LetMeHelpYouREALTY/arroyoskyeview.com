@@ -2,23 +2,23 @@ export default function HomeownerReviews() {
   return (
     <section className="bg-white py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Homeowner reviews</h2>
-        <p className="text-center text-gray-600 mb-8">
+        <h2 className="text-3xl font-bold text-foreground mb-8 text-center">Homeowner reviews</h2>
+        <p className="text-center text-muted-foreground mb-8">
           See for yourself what homeowners are saying about Arroyo at Skyeview Homes!
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Eliant Reviews */}
-          <div className="bg-gray-50 rounded-lg p-6">
+          <div className="bg-muted rounded-lg p-6">
             <div className="flex items-center mb-4">
               <div className="flex-shrink-0">
-                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-xl">E</span>
                 </div>
               </div>
               <div className="ml-4">
-                <h3 className="font-semibold text-gray-900">Eliant Experience Management</h3>
-                <p className="text-sm text-gray-600">100% verified homeowners since 1984</p>
+                <h3 className="font-semibold text-foreground">Eliant Experience Management</h3>
+                <p className="text-sm text-muted-foreground">100% verified homeowners since 1984</p>
               </div>
             </div>
             <div className="flex items-center mb-4">
@@ -29,29 +29,29 @@ export default function HomeownerReviews() {
                   </svg>
                 ))}
               </div>
-              <span className="ml-2 text-lg font-semibold text-gray-900">4.5</span>
-              <span className="ml-1 text-gray-600">out of 5 stars</span>
+              <span className="ml-2 text-lg font-semibold text-foreground">4.5</span>
+              <span className="ml-1 text-muted-foreground">out of 5 stars</span>
             </div>
-            <p className="text-gray-700 mb-4">
+            <p className="text-muted-foreground mb-4">
               <strong>8,866</strong> homebuyer reviews
             </p>
-            <button className="text-blue-600 hover:text-blue-700 font-medium text-sm">
+            <button className="text-primary hover:text-primary font-medium text-sm">
               See reviews →
             </button>
           </div>
 
           {/* NewHomeSource Reviews */}
-          <div className="bg-gray-50 rounded-lg p-6">
+          <div className="bg-muted rounded-lg p-6">
             <div className="flex items-center mb-4">
               <div className="flex-shrink-0">
-                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-xl">N</span>
                 </div>
               </div>
               <div className="ml-4">
-                <h3 className="font-semibold text-gray-900">Trust Builder</h3>
-                <p className="text-sm text-gray-600">Real Homeowners, Honest Reviews</p>
-                <p className="text-xs text-gray-500 mt-1">Powered by NewHomeSource</p>
+                <h3 className="font-semibold text-foreground">Trust Builder</h3>
+                <p className="text-sm text-muted-foreground">Real Homeowners, Honest Reviews</p>
+                <p className="text-xs text-muted-foreground mt-1">Powered by NewHomeSource</p>
               </div>
             </div>
             <div className="flex items-center mb-4">
@@ -63,10 +63,10 @@ export default function HomeownerReviews() {
                 ))}
               </div>
             </div>
-            <p className="text-gray-700 mb-4">
+            <p className="text-muted-foreground mb-4">
               Trusted reviews from verified homeowners who have purchased and moved into their new Arroyo at Skyeview Homes.
             </p>
-            <button className="text-blue-600 hover:text-blue-700 font-medium text-sm">
+            <button className="text-primary hover:text-primary font-medium text-sm">
               View All Reviews →
             </button>
           </div>

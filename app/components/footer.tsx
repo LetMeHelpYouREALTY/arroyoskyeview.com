@@ -90,7 +90,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
     <>
       {showFooterRealScout && <RealScoutOfficeWidget className="py-10" />}
       <footer
-        className="border-t border-zinc-800 bg-linear-to-b from-zinc-950 via-zinc-900 to-zinc-950 text-zinc-100"
+        className="border-t border-luxury-champagne/20 bg-linear-to-b from-zinc-950 via-zinc-900 to-zinc-950 text-zinc-100"
         role="contentinfo"
       >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -99,23 +99,23 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
           {/* Work with Dr. Jan - Enhanced SEO Section */}
           <div className="col-span-1 md:col-span-2 lg:col-span-2">
             <section aria-labelledby="dr-jan-heading">
-              <h2 id="dr-jan-heading" className="text-xl font-bold mb-4 text-zinc-50">
+              <h2 id="dr-jan-heading" className="text-xl font-bold mb-4 text-luxury-ivory">
                 Work with Dr. Jan Duffy
               </h2>
               <div className="mb-6 space-y-3">
-                <p className="text-sm text-zinc-400 leading-relaxed">
-                  <strong className="text-zinc-50">New Construction Home Expert</strong> serving Las Vegas, Nevada & Skye Canyon
+                <p className="text-sm text-luxury-sand leading-relaxed">
+                  <strong className="text-luxury-ivory">New Construction Home Expert</strong> serving Las Vegas, Nevada & Skye Canyon
                 </p>
-                <p className="text-sm text-zinc-400 leading-relaxed">
+                <p className="text-sm text-luxury-sand leading-relaxed">
                   Expert buyer representation on new construction homes in Las Vegas, Nevada. Dr. Jan Duffy represents YOU, not the builder. Construction monitoring, building standards inspection & insider knowledge of builder incentives and pricing.
                 </p>
-                <p className="text-sm text-zinc-400 leading-relaxed">
-                  <strong className="text-zinc-50">{SITE_CONTACT.licenseDisplay}</strong>
+                <p className="text-sm text-luxury-sand leading-relaxed">
+                  <strong className="text-luxury-ivory">{SITE_CONTACT.licenseDisplay}</strong>
                 </p>
-                <p className="text-sm text-zinc-400 leading-relaxed">
+                <p className="text-sm text-luxury-sand leading-relaxed">
                   <a
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(SITE_CONTACT.formattedAddress)}`}
-                    className="hover:text-primary transition-colors"
+                    className="hover:text-luxury-champagne transition-colors"
                     rel="noopener noreferrer"
                   >
                     {SITE_CONTACT.formattedAddress}
@@ -137,7 +137,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
                 <a
                   href={`sms:${SITE_CONTACT.phoneTel}`}
                   onClick={() => trackSmsClick('footer_cta')}
-                  className="inline-flex items-center space-x-2 border border-zinc-600 bg-zinc-800/80 text-zinc-50 px-5 py-3 rounded-lg text-sm font-semibold hover:bg-zinc-700 transition-all duration-200 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900"
+                  className="inline-flex items-center space-x-2 border border-zinc-600 bg-zinc-800/80 text-luxury-ivory px-5 py-3 rounded-lg text-sm font-semibold hover:bg-zinc-700 transition-all duration-200 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900"
                   aria-label={`Text Dr. Jan Duffy at ${SITE_CONTACT.phoneDisplay}`}
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
@@ -149,7 +149,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
               <div className="mt-4">
                 <Link
                   href="/work-with-dr-jan"
-                  className="inline-flex items-center text-sm text-primary hover:text-primary/80 transition-colors duration-200 font-medium group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 rounded-sm"
+                  className="inline-flex items-center text-sm text-primary hover:text-luxury-champagne/80 transition-colors duration-200 font-medium group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 rounded-sm"
                   title="Learn more about Dr. Jan Duffy new construction buyer representation in Las Vegas, Nevada"
                 >
                   <span>Learn More About Dr. Jan</span>
@@ -161,7 +161,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
               <div className="flex space-x-4 mt-6">
                 <a 
                   href="https://www.linkedin.com/in/dr-jan-duffy" 
-                  className="text-zinc-500 hover:text-primary transition-colors duration-200 hover:scale-110 transform" 
+                  className="text-luxury-ivory0 hover:text-luxury-champagne transition-colors duration-200 hover:scale-110 transform" 
                   aria-label="Visit Dr. Jan Duffy on LinkedIn"
                   title="Dr. Jan Duffy LinkedIn"
                   rel="noopener noreferrer"
@@ -172,7 +172,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
                 </a>
                 <a 
                   href="https://www.facebook.com/dr-jan-duffy" 
-                  className="text-zinc-500 hover:text-primary transition-colors duration-200 hover:scale-110 transform" 
+                  className="text-luxury-ivory0 hover:text-luxury-champagne transition-colors duration-200 hover:scale-110 transform" 
                   aria-label="Visit Dr. Jan Duffy on Facebook"
                   title="Dr. Jan Duffy Facebook"
                   rel="noopener noreferrer"
@@ -183,7 +183,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
                 </a>
                 <a 
                   href="https://www.instagram.com/dr-jan-duffy" 
-                  className="text-zinc-500 hover:text-primary transition-colors duration-200 hover:scale-110 transform" 
+                  className="text-luxury-ivory0 hover:text-luxury-champagne transition-colors duration-200 hover:scale-110 transform" 
                   aria-label="Visit Dr. Jan Duffy on Instagram"
                   title="Dr. Jan Duffy Instagram"
                   rel="noopener noreferrer"
@@ -198,7 +198,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
 
           {/* Communities - SEO Enhanced */}
           <nav className="col-span-1" aria-labelledby="communities-heading">
-            <h3 id="communities-heading" className="text-lg font-bold mb-4 text-zinc-50 border-b border-zinc-800 pb-2">
+            <h3 id="communities-heading" className="text-lg font-bold mb-4 text-luxury-ivory border-b border-luxury-champagne/20 pb-2">
               Arroyo at Skyeview Homes | Las Vegas, Nevada
             </h3>
             <ul className="space-y-3 text-sm">
@@ -206,11 +206,11 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
                 <li key={community.href}>
                   <Link 
                     href={community.href} 
-                    className="text-zinc-400 hover:text-primary transition-colors duration-200 block py-1.5 hover:translate-x-1 transform group"
+                    className="text-luxury-sand hover:text-luxury-champagne transition-colors duration-200 block py-1.5 hover:translate-x-1 transform group"
                     title={community.title}
                   >
                     <span className="flex items-center">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 mr-2 transition-opacity duration-200"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-luxury-champagne opacity-0 group-hover:opacity-100 mr-2 transition-opacity duration-200"></span>
                       {community.name}
                     </span>
                   </Link>
@@ -221,7 +221,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
 
           {/* Neighborhoods & Property Types - SEO Enhanced */}
           <nav className="col-span-1" aria-labelledby="locations-heading">
-            <h3 id="locations-heading" className="text-lg font-bold mb-4 text-zinc-50 border-b border-zinc-800 pb-2">
+            <h3 id="locations-heading" className="text-lg font-bold mb-4 text-luxury-ivory border-b border-luxury-champagne/20 pb-2">
               Las Vegas Neighborhoods
             </h3>
             <ul className="space-y-3 text-sm mb-6">
@@ -229,18 +229,18 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
                 <li key={neighborhood.href}>
                   <Link 
                     href={neighborhood.href} 
-                    className="text-zinc-400 hover:text-primary transition-colors duration-200 block py-1.5 hover:translate-x-1 transform group"
+                    className="text-luxury-sand hover:text-luxury-champagne transition-colors duration-200 block py-1.5 hover:translate-x-1 transform group"
                     title={neighborhood.title}
                   >
                     <span className="flex items-center">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 mr-2 transition-opacity duration-200"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-luxury-champagne opacity-0 group-hover:opacity-100 mr-2 transition-opacity duration-200"></span>
                       {neighborhood.name}
                     </span>
                   </Link>
                 </li>
               ))}
             </ul>
-            <h3 className="text-lg font-bold mb-4 text-zinc-50 border-b border-zinc-800 pb-2">
+            <h3 className="text-lg font-bold mb-4 text-luxury-ivory border-b border-luxury-champagne/20 pb-2">
               Property Types
             </h3>
             <ul className="space-y-3 text-sm">
@@ -248,11 +248,11 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
                 <li key={type.href}>
                   <Link 
                     href={type.href} 
-                    className="text-zinc-400 hover:text-primary transition-colors duration-200 block py-1.5 hover:translate-x-1 transform group"
+                    className="text-luxury-sand hover:text-luxury-champagne transition-colors duration-200 block py-1.5 hover:translate-x-1 transform group"
                     title={type.title}
                   >
                     <span className="flex items-center">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 mr-2 transition-opacity duration-200"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-luxury-champagne opacity-0 group-hover:opacity-100 mr-2 transition-opacity duration-200"></span>
                       {type.name}
                     </span>
                   </Link>
@@ -263,7 +263,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
 
           {/* Buyers - SEO Enhanced */}
           <nav className="col-span-1" aria-labelledby="buyers-heading">
-            <h3 id="buyers-heading" className="text-lg font-bold mb-4 text-zinc-50 border-b border-zinc-800 pb-2">
+            <h3 id="buyers-heading" className="text-lg font-bold mb-4 text-luxury-ivory border-b border-luxury-champagne/20 pb-2">
               Homebuyer Resources
             </h3>
             <ul className="space-y-3 text-sm">
@@ -271,11 +271,11 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
                 <li key={resource.href}>
                   <Link 
                     href={resource.href} 
-                    className="text-zinc-400 hover:text-primary transition-colors duration-200 block py-1.5 hover:translate-x-1 transform group"
+                    className="text-luxury-sand hover:text-luxury-champagne transition-colors duration-200 block py-1.5 hover:translate-x-1 transform group"
                     title={resource.title}
                   >
                     <span className="flex items-center">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 mr-2 transition-opacity duration-200"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-luxury-champagne opacity-0 group-hover:opacity-100 mr-2 transition-opacity duration-200"></span>
                       {resource.name}
                     </span>
                   </Link>
@@ -286,7 +286,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
 
           {/* Resources & Blog - SEO Enhanced */}
           <nav className="col-span-1" aria-labelledby="resources-heading">
-            <h3 id="resources-heading" className="text-lg font-bold mb-4 text-zinc-50 border-b border-zinc-800 pb-2">
+            <h3 id="resources-heading" className="text-lg font-bold mb-4 text-luxury-ivory border-b border-luxury-champagne/20 pb-2">
               Resources
             </h3>
             <ul className="space-y-3 text-sm mb-6">
@@ -294,18 +294,18 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
                 <li key={resource.href}>
                   <Link 
                     href={resource.href} 
-                    className="text-zinc-400 hover:text-primary transition-colors duration-200 block py-1.5 hover:translate-x-1 transform group"
+                    className="text-luxury-sand hover:text-luxury-champagne transition-colors duration-200 block py-1.5 hover:translate-x-1 transform group"
                     title={resource.title}
                   >
                     <span className="flex items-center">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 mr-2 transition-opacity duration-200"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-luxury-champagne opacity-0 group-hover:opacity-100 mr-2 transition-opacity duration-200"></span>
                       {resource.name}
                     </span>
                   </Link>
                 </li>
               ))}
             </ul>
-            <h3 className="text-lg font-bold mb-4 text-zinc-50 border-b border-zinc-800 pb-2">
+            <h3 className="text-lg font-bold mb-4 text-luxury-ivory border-b border-luxury-champagne/20 pb-2">
               Real Estate Blog
             </h3>
             <ul className="space-y-3 text-sm">
@@ -313,11 +313,11 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
                 <li key={post.href}>
                   <Link 
                     href={post.href} 
-                    className="text-zinc-400 hover:text-primary transition-colors duration-200 block py-1.5 hover:translate-x-1 transform group"
+                    className="text-luxury-sand hover:text-luxury-champagne transition-colors duration-200 block py-1.5 hover:translate-x-1 transform group"
                     title={post.title}
                   >
                     <span className="flex items-center">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 mr-2 transition-opacity duration-200"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-luxury-champagne opacity-0 group-hover:opacity-100 mr-2 transition-opacity duration-200"></span>
                       {post.name}
                     </span>
                   </Link>
@@ -328,52 +328,52 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
         </div>
 
         {/* Bottom Footer - Enhanced SEO */}
-        <div className="border-t border-zinc-800 pt-8">
+        <div className="border-t border-luxury-champagne/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="text-sm text-zinc-400 space-y-2">
-              <p className="font-semibold text-zinc-50">
+            <div className="text-sm text-luxury-sand space-y-2">
+              <p className="font-semibold text-luxury-ivory">
                 © 2025 Arroyo at Skyeview | Homes by Dr. Jan Duffy
               </p>
-              <p className="text-xs text-zinc-500">
+              <p className="text-xs text-luxury-ivory0">
                 Dr. Jan Duffy, Nevada Real Estate License #S.0197614
               </p>
-              <p className="text-xs text-zinc-500">
+              <p className="text-xs text-luxury-ivory0">
                 All Rights Reserved. Equal Housing Opportunity Provider.
               </p>
             </div>
             <nav className="flex flex-wrap gap-6 text-sm" aria-label="Footer legal links">
               <Link 
                 href="/legal" 
-                className="text-zinc-500 hover:text-primary transition-colors duration-200"
+                className="text-luxury-ivory0 hover:text-luxury-champagne transition-colors duration-200"
                 title="Legal Information"
               >
                 Legal
               </Link>
               <Link 
                 href="/privacy-policy" 
-                className="text-zinc-500 hover:text-primary transition-colors duration-200"
+                className="text-luxury-ivory0 hover:text-luxury-champagne transition-colors duration-200"
                 title="Privacy Policy"
               >
                 Privacy Policy
               </Link>
               <Link 
                 href="/terms-of-use" 
-                className="text-zinc-500 hover:text-primary transition-colors duration-200"
+                className="text-luxury-ivory0 hover:text-luxury-champagne transition-colors duration-200"
                 title="Terms of Use"
               >
                 Terms Of Use
               </Link>
               <Link 
                 href="/accessibility" 
-                className="text-zinc-500 hover:text-primary transition-colors duration-200"
+                className="text-luxury-ivory0 hover:text-luxury-champagne transition-colors duration-200"
                 title="Accessibility Statement"
               >
                 Accessibility Statement
               </Link>
             </nav>
           </div>
-          <div className="mt-6 pt-6 border-t border-zinc-800">
-            <p className="text-xs text-zinc-500 text-center leading-relaxed">
+          <div className="mt-6 pt-6 border-t border-luxury-champagne/20">
+            <p className="text-xs text-luxury-ivory0 text-center leading-relaxed">
               Equal Housing Opportunity | Arroyo at Skyview | Homes by Dr. Duffy. Licensed agent (License #S.0197614.LLC), Berkshire Hathaway HomeServices Nevada. Subject to change. (702) 903-4687
             </p>
           </div>

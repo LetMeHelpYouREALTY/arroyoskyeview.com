@@ -36,12 +36,12 @@ export default function Logo() {
 
       {/* Phone Number Display */}
       <div className="flex flex-col leading-none">
-        <span className="text-sm md:text-base font-extrabold text-gray-900 leading-tight tracking-tight group-hover:text-blue-600 transition-colors">
+        <span className="text-sm md:text-base font-extrabold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors">
           (702) 903-4687
         </span>
         <div className="mt-0.5 flex items-center gap-1.5">
           <div className="h-px w-4 bg-blue-300"></div>
-          <span className="text-[9px] md:text-[10px] font-semibold text-gray-600 tracking-wide">
+          <span className="text-[9px] md:text-[10px] font-semibold text-muted-foreground tracking-wide">
             Call or Text
           </span>
         </div>

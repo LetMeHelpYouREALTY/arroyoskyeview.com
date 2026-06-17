@@ -75,45 +75,45 @@ export default function WorkWithDrJanPage() {
         <DrJanTestimonials />
         <BestOpportunities />
         <DrJanFAQ />
-        <section className="bg-gray-50 py-16">
+        <section className="bg-muted py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+            <h2 className="text-3xl font-bold text-foreground mb-6 text-center">
               New Construction Homes in Las Vegas, Nevada with Dr. Jan's Buyer Representation
             </h2>
-            <p className="text-center text-gray-700 mb-8 max-w-3xl mx-auto">
+            <p className="text-center text-muted-foreground mb-8 max-w-3xl mx-auto">
               Explore these featured new construction communities in Las Vegas, Nevada where Dr. Jan Duffy provides expert buyer representation. She represents YOU, not the builder—at no extra cost to you.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               <Link
                 href="/"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   See available homes at Arroyo at Skyeview
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   Townhomes starting at $392,640 in Skye Canyon with construction monitoring and expert representation.
                 </p>
               </Link>
               <Link
                 href="/sierra-at-skyeview"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   Explore Sierra at Skyeview new construction
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   New construction townhomes in Skye Canyon with Dr. Jan's insider knowledge and monitoring.
                 </p>
               </Link>
               <Link
                 href="/areas/zip-89166"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   Browse all Skye Canyon communities
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   Discover all new construction homes in Skye Canyon, Las Vegas, Nevada with expert buyer representation included.
                 </p>
               </Link>

@@ -115,7 +115,7 @@ export default function FinancingFAQPage() {
       <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         <DrJanCTABanner />
         
-        <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16">
+        <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               New Construction Home Financing FAQ: Skye Canyon, Northwest Las Vegas
@@ -130,8 +130,8 @@ export default function FinancingFAQPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Financing New Construction Homes in Skye Canyon & Northwest Las Vegas</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Financing New Construction Homes in Skye Canyon & Northwest Las Vegas</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   Financing a new construction home in Skye Canyon (zip code 89166) or northwest Las Vegas, Nevada involves understanding loan types, down payment requirements, builder incentives, and financing options. This FAQ addresses common financing questions for new construction homes.
                 </p>
               </section>
@@ -139,42 +139,42 @@ export default function FinancingFAQPage() {
               <section className="mb-12">
                 <div className="space-y-6">
                   {financingFAQs.map((faq, index) => (
-                    <div key={index} className="bg-gray-50 p-6 rounded-lg">
-                      <h3 className="text-xl font-bold text-gray-900 mb-3">{faq.question}</h3>
-                      <p className="text-gray-700">{faq.answer}</p>
+                    <div key={index} className="bg-muted p-6 rounded-lg">
+                      <h3 className="text-xl font-bold text-foreground mb-3">{faq.question}</h3>
+                      <p className="text-muted-foreground">{faq.answer}</p>
                     </div>
                   ))}
                 </div>
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Get Expert Financing Guidance</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Get Expert Financing Guidance</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   Dr. Jan Duffy, your buyer's agent for new construction homes in Skye Canyon (zip code 89166) and northwest Las Vegas, Nevada, can help you understand financing options and connect you with trusted lenders. She helps you navigate builder incentives, down payment assistance programs, and financing requirements.
                 </p>
-                <p className="text-lg text-gray-700 mb-4">
+                <p className="text-lg text-muted-foreground mb-4">
                   Call Dr. Jan Duffy at <strong>(702) 903-4687</strong> to get started with financing your new construction home in Skye Canyon or northwest Las Vegas.
                 </p>
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Related Resources</h2>
+                <h2 className="text-3xl font-bold text-foreground mb-6">Related Resources</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Link
                     href="/buyers/financing-new-construction"
-                    className="bg-white border-2 border-gray-200 rounded-lg p-6 hover:border-blue-600 hover:shadow-lg transition"
+                    className="bg-white border-2 border-border rounded-lg p-6 hover:border-luxury-champagne hover:shadow-lg transition"
                   >
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Complete Financing Guide</h3>
-                    <p className="text-gray-700">
+                    <h3 className="text-xl font-bold text-foreground mb-2">Complete Financing Guide</h3>
+                    <p className="text-muted-foreground">
                       Comprehensive guide to financing new construction homes in Las Vegas.
                     </p>
                   </Link>
                   <Link
                     href="/buyers/first-time-homebuyer"
-                    className="bg-white border-2 border-gray-200 rounded-lg p-6 hover:border-blue-600 hover:shadow-lg transition"
+                    className="bg-white border-2 border-border rounded-lg p-6 hover:border-luxury-champagne hover:shadow-lg transition"
                   >
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">First-Time Buyer Guide</h3>
-                    <p className="text-gray-700">
+                    <h3 className="text-xl font-bold text-foreground mb-2">First-Time Buyer Guide</h3>
+                    <p className="text-muted-foreground">
                       Learn about programs and options for first-time homebuyers.
                     </p>
                   </Link>

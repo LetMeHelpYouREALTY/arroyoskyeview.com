@@ -71,30 +71,30 @@ export default function BuyingHomeWithStudentLoansPage() {
         <DrJanCTABanner />
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <header className="mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               You Can Buy a Home When You Have Student Loans
             </h1>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-muted-foreground">
               Published: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
             </p>
           </header>
 
           <div className="prose prose-lg max-w-none">
-            <p className="text-xl text-gray-700 mb-8">
+            <p className="text-xl text-muted-foreground mb-8">
               If you're worried that your student loans will prevent you from buying a home, you're not alone. Many potential homebuyers feel the same way. But here's the good news: <strong>having student loans doesn't mean you can't buy a home.</strong>
             </p>
 
-            <div className="bg-blue-50 border-l-4 border-blue-600 p-6 mb-8 rounded-r-lg">
-              <p className="text-lg font-semibold text-gray-900 mb-2">
+            <div className="bg-blue-50 border-l-4 border-luxury-champagne p-6 mb-8 rounded-r-lg">
+              <p className="text-lg font-semibold text-foreground mb-2">
                 The key is understanding how lenders evaluate your financial situation and what steps you can take to improve your chances of approval.
               </p>
             </div>
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6">
+            <h2 className="text-3xl font-bold text-foreground mt-12 mb-6">
               Watch: Expert Advice on Buying a Home with Student Loans
             </h2>
 
-            <div className="bg-gray-50 rounded-lg p-4 md:p-8 mb-8">
+            <div className="bg-muted rounded-lg p-4 md:p-8 mb-8">
               <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-lg">
                 <iframe
                   src="https://www.simplifyingthemarket.com/en/videos/embed/956758-ef2edda2f940e018328655620ea05f18/you-can-buy-a-home-when-you-have-student-loans"
@@ -107,81 +107,81 @@ export default function BuyingHomeWithStudentLoansPage() {
               </div>
             </div>
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6">
+            <h2 className="text-3xl font-bold text-foreground mt-12 mb-6">
               Understanding Debt-to-Income Ratio
             </h2>
 
-            <p className="text-lg text-gray-700 mb-6">
+            <p className="text-lg text-muted-foreground mb-6">
               When lenders evaluate your mortgage application, they look at your <strong>debt-to-income (DTI) ratio</strong>. This is the percentage of your monthly income that goes toward paying debts, including student loans.
             </p>
 
-            <div className="bg-gray-50 rounded-lg p-6 mb-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">How DTI Works:</h3>
-              <ul className="space-y-3 text-gray-700">
+            <div className="bg-muted rounded-lg p-6 mb-8">
+              <h3 className="text-xl font-bold text-foreground mb-4">How DTI Works:</h3>
+              <ul className="space-y-3 text-muted-foreground">
                 <li className="flex items-start">
-                  <span className="text-blue-600 mr-2 font-bold">•</span>
+                  <span className="text-primary mr-2 font-bold">•</span>
                   <span>Most lenders prefer a DTI ratio of <strong>43% or lower</strong></span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-blue-600 mr-2 font-bold">•</span>
+                  <span className="text-primary mr-2 font-bold">•</span>
                   <span>This includes all monthly debts: student loans, credit cards, car payments, and the proposed mortgage payment</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-blue-600 mr-2 font-bold">•</span>
+                  <span className="text-primary mr-2 font-bold">•</span>
                   <span>Student loans are just one factor in this calculation</span>
                 </li>
               </ul>
             </div>
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6">
+            <h2 className="text-3xl font-bold text-foreground mt-12 mb-6">
               Strategies for Homebuyers with Student Loans
             </h2>
 
             <div className="space-y-6 mb-8">
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-3">1. Explore Income-Driven Repayment Plans</h3>
-                <p className="text-gray-700">
+              <div className="bg-white border border-border rounded-lg p-6">
+                <h3 className="text-xl font-bold text-foreground mb-3">1. Explore Income-Driven Repayment Plans</h3>
+                <p className="text-muted-foreground">
                   If you're on an income-driven repayment plan, your monthly student loan payment may be lower than the standard payment. Lenders typically use the actual payment amount shown on your statement, not the total loan balance.
                 </p>
               </div>
 
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-3">2. Consider Refinancing</h3>
-                <p className="text-gray-700">
+              <div className="bg-white border border-border rounded-lg p-6">
+                <h3 className="text-xl font-bold text-foreground mb-3">2. Consider Refinancing</h3>
+                <p className="text-muted-foreground">
                   Refinancing your student loans could lower your monthly payment, which improves your DTI ratio. However, be aware that this may affect your eligibility for federal loan benefits like forgiveness programs.
                 </p>
               </div>
 
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-3">3. Save for a Larger Down Payment</h3>
-                <p className="text-gray-700">
+              <div className="bg-white border border-border rounded-lg p-6">
+                <h3 className="text-xl font-bold text-foreground mb-3">3. Save for a Larger Down Payment</h3>
+                <p className="text-muted-foreground">
                   A larger down payment reduces your monthly mortgage payment, which can help balance out your student loan payments in your DTI calculation.
                 </p>
               </div>
 
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-3">4. Work with a Knowledgeable Lender</h3>
-                <p className="text-gray-700">
+              <div className="bg-white border border-border rounded-lg p-6">
+                <h3 className="text-xl font-bold text-foreground mb-3">4. Work with a Knowledgeable Lender</h3>
+                <p className="text-muted-foreground">
                   Not all lenders treat student loans the same way. Some lenders have programs specifically designed for borrowers with student debt. Work with a lender who understands your situation and can guide you through the process.
                 </p>
               </div>
             </div>
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6">
+            <h2 className="text-3xl font-bold text-foreground mt-12 mb-6">
               The Bottom Line
             </h2>
 
-            <p className="text-lg text-gray-700 mb-6">
+            <p className="text-lg text-muted-foreground mb-6">
               Student loans don't have to be a barrier to homeownership. With proper planning, understanding of your financial situation, and the right lender, you can still achieve your dream of owning a home.
             </p>
 
             <div className="bg-green-50 border-l-4 border-green-600 p-6 mb-8 rounded-r-lg">
-              <p className="text-lg font-semibold text-gray-900">
+              <p className="text-lg font-semibold text-foreground">
                 Remember: Many successful homebuyers have student loans. The key is to work with experienced professionals who can help you navigate the process and find the best path forward for your unique situation.
               </p>
             </div>
 
-            <div className="bg-blue-600 text-white rounded-lg p-8 mt-12 mb-8">
+            <div className="bg-primary text-white rounded-lg p-8 mt-12 mb-8">
               <h2 className="text-2xl font-bold mb-4">Ready to Start Your Homebuying Journey?</h2>
               <p className="text-lg mb-6">
                 Our team of experts can help you understand your options and find the right financing solution for your situation.
@@ -189,7 +189,7 @@ export default function BuyingHomeWithStudentLoansPage() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
                   href="/contact-us"
-                  className="bg-white text-blue-600 px-8 py-3 rounded-md font-semibold hover:bg-gray-100 transition text-center"
+                  className="bg-white text-primary px-8 py-3 rounded-md font-semibold hover:bg-muted transition text-center"
                 >
                   Contact Us
                 </a>

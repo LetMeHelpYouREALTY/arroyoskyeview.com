@@ -38,17 +38,17 @@ export default function AvailableHomesOnline() {
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-center">
           Available Homes for Online Purchase
         </h2>
-        <p className="text-lg text-gray-600 mb-12 text-center max-w-3xl mx-auto">
+        <p className="text-lg text-muted-foreground mb-12 text-center max-w-3xl mx-auto">
           Browse new construction homes at Arroyo at Skyeview Homes and other Skye Canyon communities available for purchase online. Click "Buy Now" to start your 
           online homebuying journey with expert buyer representation from Dr. Jan Duffy.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {homes.map((home) => (
-            <div key={home.id} className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
+            <div key={home.id} className="bg-white border border-border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
               <div className="h-64 bg-gray-200 relative overflow-hidden">
                 {home.image ? (
                   <Image
@@ -79,18 +79,18 @@ export default function AvailableHomesOnline() {
               </div>
               
               <div className="p-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                <h3 className="text-2xl font-bold text-foreground mb-2">
                   {home.name}
                 </h3>
-                <p className="text-gray-600 mb-4">
+                <p className="text-muted-foreground mb-4">
                   {home.location}
                 </p>
-                <p className="text-2xl font-bold text-gray-900 mb-6">
+                <p className="text-2xl font-bold text-foreground mb-6">
                   From {formatPrice(home.price)}
                 </p>
                 
                 <Link href={home.url}>
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white mb-2">
+                  <Button className="w-full bg-primary hover:bg-primary text-white mb-2">
                     View Details
                   </Button>
                 </Link>
@@ -106,11 +106,11 @@ export default function AvailableHomesOnline() {
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-gray-600 mb-4">
+          <p className="text-muted-foreground mb-4">
             Looking for more options? Browse all available communities.
           </p>
           <Link href="/find-your-new-home/nevada/las-vegas-metro">
-            <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50">
+            <Button variant="outline" className="border-luxury-champagne text-primary hover:bg-blue-50">
               Browse All Communities
             </Button>
           </Link>

@@ -48,7 +48,7 @@ export default function Homes400k500kPage() {
       <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         <DrJanCTABanner />
         
-        <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16">
+        <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               New Construction Homes $400K-$500K in Las Vegas | Buyer's Agent
@@ -63,39 +63,39 @@ export default function Homes400k500kPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Mid-Range New Construction in Las Vegas</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Mid-Range New Construction in Las Vegas</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   The $400K-$500K price range offers excellent value for new construction homes in Las Vegas, Nevada. This range typically includes single-family homes, larger townhomes, and move-up buyer communities with premium features, more square footage, and desirable locations in master-planned communities.
                 </p>
-                <p className="text-lg text-gray-700 mb-4">
+                <p className="text-lg text-muted-foreground mb-4">
                   With current builder incentives including rate buy-downs and closing cost assistance, you may find that homes in this range offer exceptional value. Your buyer's agent, Dr. Jan Duffy, helps you find the best options and maximize your value.
                 </p>
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">What to Expect in Homes $400K-$500K</h2>
+                <h2 className="text-3xl font-bold text-foreground mb-6">What to Expect in Homes $400K-$500K</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">More Square Footage</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">More Square Footage</h3>
+                    <p className="text-muted-foreground">
                       Homes in this range typically offer 1,800-3,000+ square feet, providing ample space for families and entertaining.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Premium Finishes</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Premium Finishes</h3>
+                    <p className="text-muted-foreground">
                       Expect upgraded flooring, countertops, cabinetry, and fixtures that enhance your home's value and appeal.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Energy Efficiency</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Energy Efficiency</h3>
+                    <p className="text-muted-foreground">
                       Modern energy-efficient systems, windows, and appliances help reduce utility costs while protecting the environment.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Desirable Locations</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Desirable Locations</h3>
+                    <p className="text-muted-foreground">
                       Homes in this range are often located in premier master-planned communities with excellent schools and amenities.
                     </p>
                   </div>
@@ -103,28 +103,28 @@ export default function Homes400k500kPage() {
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Financing Options for Homes $400K-$500K</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Financing Options for Homes $400K-$500K</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   Homes in the $400K-$500K range typically qualify for various financing options:
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-lg text-gray-700 mb-6 ml-4">
+                <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
                   <li><strong>Conventional Loans:</strong> Competitive rates with 5-20% down payment</li>
                   <li><strong>FHA Loans:</strong> Up to FHA loan limits with 3.5% down</li>
                   <li><strong>VA Loans:</strong> 0% down for veterans and active military</li>
                   <li><strong>Jumbo Loans:</strong> For amounts above conventional loan limits</li>
                   <li><strong>Builder Incentives:</strong> Rate buy-downs and closing cost assistance</li>
                 </ul>
-                <p className="text-lg text-gray-700 mb-4">
+                <p className="text-lg text-muted-foreground mb-4">
                   Dr. Jan Duffy can connect you with trusted lenders who specialize in mid-range home financing and help you understand all available options.
                 </p>
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Perfect for Move-Up Buyers</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Perfect for Move-Up Buyers</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   The $400K-$500K range is ideal for move-up buyers who are ready to upgrade from their first home. Benefits include:
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-lg text-gray-700 mb-6 ml-4">
+                <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
                   <li>More space for growing families</li>
                   <li>Premium features and finishes</li>
                   <li>Better locations in master-planned communities</li>
@@ -134,18 +134,18 @@ export default function Homes400k500kPage() {
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Working with Dr. Jan Duffy for Mid-Range Homes</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Working with Dr. Jan Duffy for Mid-Range Homes</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   When purchasing a home in the $400K-$500K range, working with Dr. Jan Duffy ensures you have expert buyer representation at no extra cost to you. She helps you:
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-lg text-gray-700 mb-6 ml-4">
+                <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
                   <li>Identify the best communities and floor plans in your price range</li>
                   <li>Understand builder incentives that can maximize your value</li>
                   <li>Navigate financing options for mid-range homes</li>
                   <li>Get construction monitoring and building standards inspection included</li>
                   <li>Access insider knowledge of current inventory and pricing</li>
                 </ul>
-                <p className="text-lg text-gray-700 mb-4">
+                <p className="text-lg text-muted-foreground mb-4">
                   Builders pay for buyer representation, so there's no extra cost. Call Dr. Jan Duffy at (702) 903-4687 to explore your options.
                 </p>
               </section>
@@ -159,40 +159,40 @@ export default function Homes400k500kPage() {
           </div>
         </div>
 
-        <section className="bg-gray-50 py-12">
+        <section className="bg-muted py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Explore Other Price Ranges</h2>
+            <h2 className="text-3xl font-bold text-foreground mb-6">Explore Other Price Ranges</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <Link
                 href="/homes/under-300k"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   Homes Under $300k
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   Discover entry-level new construction homes perfect for first-time buyers.
                 </p>
               </Link>
               <Link
                 href="/homes/under-400k"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   Homes Under $400k
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   Explore affordable new construction homes including Arroyo at Skyeview.
                 </p>
               </Link>
               <Link
                 href="/homes/500k-plus"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   Luxury Homes $500K+
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   Discover luxury new construction homes with premium features.
                 </p>
               </Link>

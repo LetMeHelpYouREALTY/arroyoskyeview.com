@@ -39,9 +39,9 @@ const steps = [
 
 export default function BuyerJourney() {
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-muted">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
           New Construction Home Buyer Journey | Las Vegas, Nevada
         </h2>
         
@@ -50,20 +50,20 @@ export default function BuyerJourney() {
             <div key={step.id} className="relative">
               <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition h-full">
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xl mr-4">
+                  <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl mr-4">
                     {step.id}
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900">
+                  <h3 className="text-xl font-bold text-foreground">
                     {step.title}
                   </h3>
                 </div>
-                <p className="text-gray-700 mb-4 font-semibold">
+                <p className="text-muted-foreground mb-4 font-semibold">
                   {step.description}
                 </p>
                 <ul className="space-y-2">
                   {step.details.map((detail, idx) => (
-                    <li key={idx} className="flex items-start text-sm text-gray-600">
-                      <span className="text-blue-600 mr-2 mt-1">•</span>
+                    <li key={idx} className="flex items-start text-sm text-muted-foreground">
+                      <span className="text-primary mr-2 mt-1">•</span>
                       <span>{detail}</span>
                     </li>
                   ))}
@@ -85,12 +85,12 @@ export default function BuyerJourney() {
         </div>
 
         <div className="text-center mt-12">
-          <p className="text-xl font-semibold text-gray-900 mb-4">
+          <p className="text-xl font-semibold text-foreground mb-4">
             Ready to buy smart?
           </p>
           <a
             href="tel:7029034687"
-            className="inline-block bg-blue-600 text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-blue-700 transition shadow-lg"
+            className="inline-block bg-primary text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-primary transition shadow-lg"
           >
             Call/Text (702) 903-4687
           </a>

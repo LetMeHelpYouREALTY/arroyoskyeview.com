@@ -6,7 +6,12 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-luxury-navy: var(--luxury-navy);
+  --color-luxury-champagne: var(--luxury-champagne);
+  --color-luxury-ivory: var(--luxury-ivory);
+  --color-luxury-sand: var(--luxury-sand);
   --font-sans: var(--font-geist-sans);
+  --font-serif: var(--font-playfair);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -103,30 +108,33 @@
 }
 
 /*
-  Brand accent aligns with MLS/RealScout divider (#0e64c8) — use bg-primary, text-primary, ring-ring.
-  Prefer semantic tokens in components instead of raw blue-* / gray-* utilities.
+  Desert Luxe: navy anchor, champagne gold accents, warm ivory/sand neutrals.
+  Prefer semantic tokens (bg-primary, text-foreground) over raw utility colors.
 */
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.995 0.002 264);
-  --foreground: oklch(0.18 0.02 264);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.02 264);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.02 264);
-  /* Brand blue ~ #0e64c8 */
-  --primary: oklch(0.48 0.19 262);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.96 0.02 262);
-  --secondary-foreground: oklch(0.25 0.05 262);
-  --muted: oklch(0.965 0.01 264);
-  --muted-foreground: oklch(0.45 0.03 264);
-  --accent: oklch(0.94 0.04 262);
-  --accent-foreground: oklch(0.25 0.08 262);
+  --luxury-navy: #1b2838;
+  --luxury-champagne: #c5a880;
+  --luxury-ivory: #f7f3ed;
+  --luxury-sand: #d8c3a5;
+  --background: #f7f3ed;
+  --foreground: #1b2838;
+  --card: #ffffff;
+  --card-foreground: #1b2838;
+  --popover: #ffffff;
+  --popover-foreground: #1b2838;
+  --primary: #1b2838;
+  --primary-foreground: #f7f3ed;
+  --secondary: #ede6db;
+  --secondary-foreground: #1b2838;
+  --muted: #f0ebe3;
+  --muted-foreground: #5c5348;
+  --accent: #ede6db;
+  --accent-foreground: #1b2838;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.91 0.02 264);
-  --input: oklch(0.91 0.02 264);
-  --ring: oklch(0.52 0.17 262);
+  --border: #e0d6c8;
+  --input: #e0d6c8;
+  --ring: #c5a880;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -213,6 +221,18 @@
   .surface-elevated {
     @apply rounded-xl border border-border/80 bg-card text-card-foreground shadow-sm;
   }
+  .surface-luxury {
+    @apply rounded-xl border border-luxury-champagne/25 bg-card text-card-foreground shadow-sm;
+  }
+  .luxury-page-hero {
+    @apply relative overflow-hidden bg-luxury-navy py-16 text-luxury-ivory md:py-20;
+  }
+  .luxury-gold-divider {
+    @apply h-px w-16 bg-luxury-champagne;
+  }
+  .text-luxury-accent {
+    @apply text-luxury-champagne;
+  }
   .focus-ring {
     @apply outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
@@ -227,7 +247,7 @@
 
 /* RealScout office listings web component (realscout-web-components.umd.js) */
 realscout-office-listings {
-  --rs-listing-divider-color: #0e64c8;
+  --rs-listing-divider-color: #c5a880;
   width: 100%;
   display: block;
 }
