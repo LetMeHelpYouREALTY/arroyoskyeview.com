@@ -16,7 +16,7 @@ export function NewProjectButton() {
   return (
     <Link
       href="/projects/new"
-      className="bg-white hover:bg-gray-50 text-gray-900 border border-gray-300 px-4 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-2"
+      className="bg-white hover:bg-muted text-foreground border border-border px-4 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-2"
     >
       <svg
         className="w-4 h-4"
@@ -52,10 +52,10 @@ export default function ProjectsList({ projects }: ProjectsListProps) {
     return (
       <div className="text-center py-12">
         <div className="text-6xl mb-6">✨</div>
-        <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+        <h2 className="text-2xl font-semibold text-foreground mb-2">
           No projects yet
         </h2>
-        <p className="text-gray-600 mb-6">Create your first AI-generated app</p>
+        <p className="text-muted-foreground mb-6">Create your first AI-generated app</p>
         <button
           onClick={handleNewChat}
           className="bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-lg transition-colors duration-200 flex items-center space-x-2 mx-auto"
@@ -85,11 +85,11 @@ export default function ProjectsList({ projects }: ProjectsListProps) {
         <Link
           key={project.id}
           href={`/projects/${project.id}`}
-          className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200 cursor-pointer group block"
+          className="bg-white rounded-lg border border-border p-6 hover:shadow-md transition-shadow duration-200 cursor-pointer group block"
         >
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1">
-              <h3 className="text-lg font-medium text-gray-900 group-hover:text-black transition-colors">
+              <h3 className="text-lg font-medium text-foreground group-hover:text-black transition-colors">
                 {getProjectTitle(project)}
               </h3>
             </div>

@@ -79,7 +79,7 @@ export default function ContactUsPage() {
         <ContactForm />
         <ContactLocations />
         <ContactMethods />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-muted">
           <div className="max-w-2xl mx-auto">
             <DrJanContactCard />
           </div>

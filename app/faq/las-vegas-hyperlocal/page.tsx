@@ -191,7 +191,7 @@ export default function LasVegasHyperlocalFAQPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
         
-        <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16">
+        <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Las Vegas New Homes FAQ: Skye Canyon, Northwest Las Vegas | Buyer's Agent
@@ -206,17 +206,17 @@ export default function LasVegasHyperlocalFAQPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <div className="prose prose-lg max-w-none">
-                <p className="text-lg text-gray-700 mb-8">
+                <p className="text-lg text-muted-foreground mb-8">
                   Find answers to the most common questions about buying new construction homes in Las Vegas, Nevada, especially Arroyo at Skyeview in Skye Canyon, zip code 89166, northwest Las Vegas. These questions and answers cover neighborhoods, schools, lifestyle, pricing, and everything you need to know about new construction homes in the Las Vegas area, with a focus on northwest Las Vegas communities.
                 </p>
                 
                 <div className="space-y-6">
                   {neighborhoodQuestions.map((faq, index) => (
-                    <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition">
-                      <h2 className="text-xl font-bold text-gray-900 mb-3">
+                    <div key={index} className="bg-white border border-border rounded-lg p-6 shadow-sm hover:shadow-md transition">
+                      <h2 className="text-xl font-bold text-foreground mb-3">
                         {faq.question}
                       </h2>
-                      <p className="text-gray-700 leading-relaxed">
+                      <p className="text-muted-foreground leading-relaxed">
                         {faq.answer}
                       </p>
                     </div>
@@ -224,15 +224,15 @@ export default function LasVegasHyperlocalFAQPage() {
                 </div>
 
                 <div className="mt-12 bg-blue-50 p-8 rounded-lg">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-2xl font-bold text-foreground mb-4">
                     Have More Questions About Las Vegas New Homes?
                   </h2>
-                  <p className="text-lg text-gray-700 mb-6">
+                  <p className="text-lg text-muted-foreground mb-6">
                     Dr. Jan Duffy is a New Construction Home Expert and buyer's agent with extensive local knowledge of northwest Las Vegas, Nevada neighborhoods including Skye Canyon (zip code 89166), schools, lifestyle, and new construction homes. She specializes in Arroyo at Skyeview and surrounding northwest Las Vegas communities. Get personalized answers to all your questions about buying in this area.
                   </p>
                   <a
                     href="tel:7029034687"
-                    className="inline-block bg-blue-600 text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-blue-700 transition"
+                    className="inline-block bg-primary text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-primary transition"
                   >
                     Call Dr. Jan: (702) 903-4687
                   </a>

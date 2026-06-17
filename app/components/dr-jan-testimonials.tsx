@@ -37,7 +37,7 @@ export default function DrJanTestimonials() {
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-center">
           Home Buyers Trust Dr. Jan Duffy
         </h2>
         
@@ -50,18 +50,18 @@ export default function DrJanTestimonials() {
         <div className="relative max-w-4xl mx-auto">
           <div className="bg-blue-50 rounded-lg p-8 md:p-12">
             <div className="text-center mb-6">
-              <svg className="w-12 h-12 text-blue-600 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-12 h-12 text-primary mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
               </svg>
             </div>
-            <blockquote className="text-xl md:text-2xl text-gray-800 italic mb-6 text-center">
+            <blockquote className="text-xl md:text-2xl text-foreground italic mb-6 text-center">
               "{testimonials[currentIndex].quote}"
             </blockquote>
             <div className="text-center">
-              <p className="font-semibold text-gray-900">
+              <p className="font-semibold text-foreground">
                 — {testimonials[currentIndex].author}
               </p>
-              <p className="text-gray-600 text-sm">
+              <p className="text-muted-foreground text-sm">
                 {testimonials[currentIndex].community}
               </p>
             </div>
@@ -72,7 +72,7 @@ export default function DrJanTestimonials() {
             <>
               <button
                 onClick={goToPrevious}
-                className="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-lg p-2 rounded-full hover:bg-gray-100 z-10"
+                className="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-lg p-2 rounded-full hover:bg-muted z-10"
                 aria-label="Previous testimonial"
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -81,7 +81,7 @@ export default function DrJanTestimonials() {
               </button>
               <button
                 onClick={goToNext}
-                className="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-lg p-2 rounded-full hover:bg-gray-100 z-10"
+                className="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-lg p-2 rounded-full hover:bg-muted z-10"
                 aria-label="Next testimonial"
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -96,7 +96,7 @@ export default function DrJanTestimonials() {
                     key={index}
                     onClick={() => setCurrentIndex(index)}
                     className={`w-11 h-11 rounded-full transition flex items-center justify-center ${
-                      index === currentIndex ? 'bg-blue-600' : 'bg-gray-300'
+                      index === currentIndex ? 'bg-primary' : 'bg-gray-300'
                     }`}
                     aria-label={`Go to testimonial ${index + 1}`}
                   >

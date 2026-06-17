@@ -93,42 +93,42 @@ export default function Zip89144Page() {
             },
           ]}
         />
-        <section className="bg-gray-50 py-12 mt-12">
+        <section className="bg-muted py-12 mt-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl font-bold text-foreground mb-6">
               Explore More Las Vegas Areas
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <Link
                 href="/neighborhoods/southwest-las-vegas"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   Southwest Las Vegas Neighborhood
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   Discover new construction homes in southwest Las Vegas.
                 </p>
               </Link>
               <Link
                 href="/areas/zip-89166"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   Zip Code 89166: Skye Canyon
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   Explore new construction townhomes in Skye Canyon.
                 </p>
               </Link>
               <Link
                 href="/find-your-new-home/nevada/las-vegas-metro"
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 hover:border-blue-300 group"
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                   All Las Vegas Metro Areas
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-muted-foreground text-sm">
                   View all new construction homes across Las Vegas Metro.
                 </p>
               </Link>

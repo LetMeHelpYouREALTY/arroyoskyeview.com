@@ -123,7 +123,7 @@ export default function ResourcesPage() {
       />
       <Header />
       <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <section className="bg-gradient-to-b from-blue-600 to-blue-800 text-white py-16">
+        <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Free Resources for New Construction Homebuyers: Skye Canyon, Northwest Las Vegas
@@ -136,7 +136,7 @@ export default function ResourcesPage() {
 
         <section className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
               Buyer's Guides
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
@@ -144,20 +144,20 @@ export default function ResourcesPage() {
                 <Link
                   key={index}
                   href={resource.href}
-                  className="bg-white border-2 border-gray-200 rounded-lg p-8 hover:border-blue-600 hover:shadow-lg transition group"
+                  className="bg-white border-2 border-border rounded-lg p-8 hover:border-luxury-champagne hover:shadow-lg transition group"
                 >
                   <div className="flex items-start">
-                    <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mr-6 flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition">
+                    <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center text-primary mr-6 flex-shrink-0 group-hover:bg-primary group-hover:text-white transition">
                       {resource.icon}
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition">
+                      <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition">
                         {resource.title}
                       </h3>
-                      <p className="text-gray-700 mb-4">
+                      <p className="text-muted-foreground mb-4">
                         {resource.description}
                       </p>
-                      <span className="text-blue-600 font-semibold group-hover:underline">
+                      <span className="text-primary font-semibold group-hover:underline">
                         Read Guide →
                       </span>
                     </div>
@@ -168,20 +168,20 @@ export default function ResourcesPage() {
           </div>
         </section>
 
-        <section className="py-16 bg-gray-50">
+        <section className="py-16 bg-muted">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
               Checklists & Downloads
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
               {checklists.map((checklist, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-lg p-6 shadow-sm border border-gray-200"
+                  className="bg-white rounded-lg p-6 shadow-sm border border-border"
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <svg className="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
+                      <svg className="w-6 h-6 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
@@ -191,19 +191,19 @@ export default function ResourcesPage() {
                       </span>
                     )}
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">
+                  <h3 className="text-lg font-bold text-foreground mb-2">
                     {checklist.title}
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-muted-foreground text-sm">
                     {checklist.description}
                   </p>
                 </div>
               ))}
             </div>
-            <div className="bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-lg">
-              <p className="text-gray-700">
+            <div className="bg-blue-50 border-l-4 border-luxury-champagne p-6 rounded-r-lg">
+              <p className="text-muted-foreground">
                 <strong>Want these checklists delivered to your inbox?</strong> Contact Dr. Jan Duffy at (702) 903-4687 or{' '}
-                <Link href="/contact-us" className="text-blue-600 hover:text-blue-700 underline font-semibold">
+                <Link href="/contact-us" className="text-primary hover:text-primary underline font-semibold">
                   request them here
                 </Link>
                 . She'll send you these helpful resources plus insider tips for buying new construction homes in Las Vegas, Nevada.
@@ -224,7 +224,7 @@ export default function ResourcesPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
                   href="tel:7029034687"
-                  className="bg-white text-blue-600 px-8 py-3 rounded-md text-lg font-semibold hover:bg-gray-100 transition"
+                  className="bg-white text-primary px-8 py-3 rounded-md text-lg font-semibold hover:bg-muted transition"
                 >
                   Call Dr. Jan: (702) 903-4687
                 </a>

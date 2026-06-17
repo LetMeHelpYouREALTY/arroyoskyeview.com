@@ -47,7 +47,7 @@ export default function MovingToLasVegasPage() {
       <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         <DrJanCTABanner />
         
-        <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16">
+        <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Moving to Las Vegas: Skye Canyon, Northwest Las Vegas | Buyer's Agent Guide 2025
@@ -62,32 +62,32 @@ export default function MovingToLasVegasPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Why Move to Las Vegas, Nevada?</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Why Move to Las Vegas, Nevada?</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   Las Vegas offers an exceptional quality of life with no state income tax, affordable housing, year-round sunshine, and a growing economy. Whether you're relocating for work, retirement, or a lifestyle change, Las Vegas provides opportunities for everyone.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">No State Income Tax</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">No State Income Tax</h3>
+                    <p className="text-muted-foreground">
                       Nevada has no state income tax, meaning you keep more of your earnings compared to many other states.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Affordable Housing</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Affordable Housing</h3>
+                    <p className="text-muted-foreground">
                       New construction homes in Las Vegas offer excellent value, especially in communities like Skye Canyon (zip code 89166).
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Year-Round Sunshine</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Year-Round Sunshine</h3>
+                    <p className="text-muted-foreground">
                       Enjoy over 300 days of sunshine per year, perfect for outdoor activities and an active lifestyle.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Growing Economy</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Growing Economy</h3>
+                    <p className="text-muted-foreground">
                       Las Vegas has a diverse economy with opportunities in technology, healthcare, hospitality, and more.
                     </p>
                   </div>
@@ -95,35 +95,35 @@ export default function MovingToLasVegasPage() {
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Best Neighborhoods for New Construction: Skye Canyon & Northwest Las Vegas</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Best Neighborhoods for New Construction: Skye Canyon & Northwest Las Vegas</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   When moving to Las Vegas, consider these premier neighborhoods for new construction homes:
                 </p>
                 <div className="space-y-4">
-                  <div className="border-l-4 border-blue-600 pl-4">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Skye Canyon (Zip Code 89166) - Northwest Las Vegas</h3>
-                    <p className="text-gray-700 mb-2">
+                  <div className="border-l-4 border-luxury-champagne pl-4">
+                    <h3 className="text-xl font-bold text-foreground mb-2">Skye Canyon (Zip Code 89166) - Northwest Las Vegas</h3>
+                    <p className="text-muted-foreground mb-2">
                       Skye Canyon is a premier 1,700-acre master-planned community in northwest Las Vegas offering new construction homes, top-rated schools including Roger Bryan Elementary (9/10 rating), extensive amenities, and a family-friendly atmosphere. The community features Arroyo at Skyeview, Sierra at Skyeview, Terra at Skyeview, and Eaglepointe at Skye Canyon.
                     </p>
-                    <Link href="/areas/zip-89166" className="text-blue-600 hover:text-blue-700 font-semibold">
+                    <Link href="/areas/zip-89166" className="text-primary hover:text-primary font-semibold">
                       Learn more about Skye Canyon →
                     </Link>
                   </div>
-                  <div className="border-l-4 border-blue-600 pl-4">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Summerlin Area - West Las Vegas</h3>
-                    <p className="text-gray-700 mb-2">
+                  <div className="border-l-4 border-luxury-champagne pl-4">
+                    <h3 className="text-xl font-bold text-foreground mb-2">Summerlin Area - West Las Vegas</h3>
+                    <p className="text-muted-foreground mb-2">
                       Summerlin is one of Las Vegas's most prestigious master-planned communities, offering luxury living, golf courses, excellent schools, and world-class amenities. The area features multiple new construction developments.
                     </p>
-                    <Link href="/neighborhoods/summerlin-las-vegas" className="text-blue-600 hover:text-blue-700 font-semibold">
+                    <Link href="/neighborhoods/summerlin-las-vegas" className="text-primary hover:text-primary font-semibold">
                       Learn more about Summerlin →
                     </Link>
                   </div>
-                  <div className="border-l-4 border-blue-600 pl-4">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Northwest Las Vegas</h3>
-                    <p className="text-gray-700 mb-2">
+                  <div className="border-l-4 border-luxury-champagne pl-4">
+                    <h3 className="text-xl font-bold text-foreground mb-2">Northwest Las Vegas</h3>
+                    <p className="text-muted-foreground mb-2">
                       Northwest Las Vegas offers convenient access to Red Rock Canyon, Mount Charleston, and major employment centers. The area features new construction communities with modern homes and excellent value.
                     </p>
-                    <Link href="/neighborhoods/north-las-vegas" className="text-blue-600 hover:text-blue-700 font-semibold">
+                    <Link href="/neighborhoods/north-las-vegas" className="text-primary hover:text-primary font-semibold">
                       Learn more about North Las Vegas →
                     </Link>
                   </div>
@@ -131,11 +131,11 @@ export default function MovingToLasVegasPage() {
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Cost of Living in Las Vegas</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Cost of Living in Las Vegas</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   Las Vegas offers a relatively affordable cost of living compared to many major cities:
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-lg text-gray-700 mb-6 ml-4">
+                <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
                   <li><strong>No State Income Tax:</strong> Nevada has no state income tax, saving you money on every paycheck</li>
                   <li><strong>Property Taxes:</strong> Relatively low at approximately 0.60-0.70% of assessed value in Clark County</li>
                   <li><strong>Housing Costs:</strong> Competitive pricing for new construction homes, especially in Skye Canyon (zip code 89166)</li>
@@ -145,26 +145,26 @@ export default function MovingToLasVegasPage() {
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Schools in Las Vegas: Skye Canyon & Northwest Las Vegas</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Schools in Las Vegas: Skye Canyon & Northwest Las Vegas</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   Las Vegas is served by the Clark County School District, one of the largest school districts in the nation. Skye Canyon (zip code 89166) in northwest Las Vegas features top-rated schools:
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-lg text-gray-700 mb-6 ml-4">
+                <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
                   <li><strong>Roger Bryan Elementary School:</strong> Rated 9/10, located in Skye Canyon</li>
                   <li><strong>Sig Rogich Middle School:</strong> Serves Skye Canyon area</li>
                   <li><strong>Shadow Ridge High School:</strong> Serves Skye Canyon area</li>
                 </ul>
-                <p className="text-lg text-gray-700 mb-4">
+                <p className="text-lg text-muted-foreground mb-4">
                   Many families specifically choose Skye Canyon (zip code 89166) for the exceptional school quality. Summerlin also offers excellent schools throughout the area.
                 </p>
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Job Market & Employment in Las Vegas</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Job Market & Employment in Las Vegas</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   Las Vegas has a diverse and growing economy with opportunities in:
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-lg text-gray-700 mb-6 ml-4">
+                <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
                   <li>Hospitality and tourism</li>
                   <li>Technology and innovation</li>
                   <li>Healthcare and medical services</li>
@@ -172,17 +172,17 @@ export default function MovingToLasVegasPage() {
                   <li>Finance and professional services</li>
                   <li>Education</li>
                 </ul>
-                <p className="text-lg text-gray-700 mb-4">
+                <p className="text-lg text-muted-foreground mb-4">
                   Northwest Las Vegas, including Skye Canyon (zip code 89166), offers convenient access to major employment centers throughout the Las Vegas Metro area.
                 </p>
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Climate & Lifestyle in Las Vegas</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Climate & Lifestyle in Las Vegas</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   Las Vegas offers an exceptional climate and lifestyle:
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-lg text-gray-700 mb-6 ml-4">
+                <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
                   <li><strong>Year-Round Sunshine:</strong> Over 300 days of sunshine per year</li>
                   <li><strong>Outdoor Recreation:</strong> Red Rock Canyon (15 minutes from Skye Canyon), Mount Charleston (30 minutes), Lake Mead (45 minutes)</li>
                   <li><strong>Entertainment:</strong> World-class dining, shows, and entertainment on the Las Vegas Strip</li>
@@ -192,38 +192,38 @@ export default function MovingToLasVegasPage() {
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">New Construction Communities: Skye Canyon & Northwest Las Vegas</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">New Construction Communities: Skye Canyon & Northwest Las Vegas</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   When moving to Las Vegas, consider these new construction communities:
                 </p>
                 <div className="space-y-4">
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      <Link href="/" className="text-blue-600 hover:text-blue-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-2">
+                      <Link href="/" className="text-primary hover:text-primary">
                         Arroyo at Skyeview
                       </Link>
                     </h3>
-                    <p className="text-gray-700 mb-2">
+                    <p className="text-muted-foreground mb-2">
                       Townhomes in Skye Canyon (zip code 89166), northwest Las Vegas, starting from $392,640. Modern 2-story townhomes with 2-4 bedrooms in a premier master-planned community.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      <Link href="/sierra-at-skyeview" className="text-blue-600 hover:text-blue-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-2">
+                      <Link href="/sierra-at-skyeview" className="text-primary hover:text-primary">
                         Sierra at Skyeview
                       </Link>
                     </h3>
-                    <p className="text-gray-700 mb-2">
+                    <p className="text-muted-foreground mb-2">
                       New construction townhomes in Skye Canyon, northwest Las Vegas, with contemporary designs and premium finishes.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      <Link href="/terra-at-skyeview" className="text-blue-600 hover:text-blue-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-2">
+                      <Link href="/terra-at-skyeview" className="text-primary hover:text-primary">
                         Terra at Skyeview
                       </Link>
                     </h3>
-                    <p className="text-gray-700 mb-2">
+                    <p className="text-muted-foreground mb-2">
                       Energy-efficient townhomes in Skye Canyon, northwest Las Vegas, with modern floor plans.
                     </p>
                   </div>
@@ -231,18 +231,18 @@ export default function MovingToLasVegasPage() {
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Working with Dr. Jan Duffy When Moving to Las Vegas</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Working with Dr. Jan Duffy When Moving to Las Vegas</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   When relocating to Las Vegas, working with Dr. Jan Duffy ensures you have expert buyer representation for new construction homes in Skye Canyon (zip code 89166) and northwest Las Vegas. She helps you:
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-lg text-gray-700 mb-6 ml-4">
+                <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
                   <li>Understand neighborhoods and communities in northwest Las Vegas</li>
                   <li>Find the best new construction homes in your budget</li>
                   <li>Navigate the homebuying process as a relocating buyer</li>
                   <li>Get construction monitoring and building standards inspection included</li>
                   <li>Access insider knowledge of Skye Canyon and northwest Las Vegas communities</li>
                 </ul>
-                <p className="text-lg text-gray-700 mb-4">
+                <p className="text-lg text-muted-foreground mb-4">
                   Builders pay for buyer representation, so there's no extra cost. Call Dr. Jan Duffy at (702) 903-4687 to get started.
                 </p>
               </section>

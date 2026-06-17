@@ -21,18 +21,18 @@ export default function RealScoutOfficePriceBands({
 
   return (
     <section
-      className={`bg-gray-50 py-10 sm:py-14 ${className}`.trim()}
+      className={`bg-muted py-10 sm:py-14 ${className}`.trim()}
       aria-labelledby={sectionHeadingId}
       data-realscout-office-price-bands
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2
           id={sectionHeadingId}
-          className="mb-2 text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+          className="mb-2 text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
         >
           Browse Las Vegas MLS listings by price range
         </h2>
-        <p className="mx-auto mb-10 max-w-3xl text-center text-sm text-gray-600 sm:text-base">
+        <p className="mx-auto mb-10 max-w-3xl text-center text-sm text-muted-foreground sm:text-base">
           {intro}
         </p>
 
@@ -46,15 +46,15 @@ export default function RealScoutOfficePriceBands({
             return (
               <div
                 key={band.id}
-                className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6"
+                className="rounded-xl border border-border bg-white p-4 shadow-sm sm:p-6"
               >
                 <h3
                   id={bandHeadingId}
-                  className="mb-1 text-xl font-semibold text-gray-900 sm:text-2xl"
+                  className="mb-1 text-xl font-semibold text-foreground sm:text-2xl"
                 >
                   {band.title}
                 </h3>
-                <p className="mb-6 text-sm text-gray-600 sm:text-base">{band.description}</p>
+                <p className="mb-6 text-sm text-muted-foreground sm:text-base">{band.description}</p>
                 <div
                   className="realscout-office-widget min-h-[260px] w-full [&_realscout-office-listings]:min-h-[220px]"
                   dangerouslySetInnerHTML={{ __html: markup }}

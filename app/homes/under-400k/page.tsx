@@ -44,7 +44,7 @@ export default function Under400kPage() {
       <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         <DrJanCTABanner />
         
-        <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16">
+        <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               New Construction Homes Under $400k in Las Vegas | Buyer's Agent
@@ -59,57 +59,57 @@ export default function Under400kPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Affordable New Construction in Las Vegas</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Affordable New Construction in Las Vegas</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   Finding quality new construction homes under $400k in Las Vegas, Nevada is possible. These homes offer modern features, energy efficiency, and builder warranties at an affordable price point. Your buyer's agent, Dr. Jan Duffy, helps you find the best options.
                 </p>
-                <p className="text-lg text-gray-700 mb-4">
+                <p className="text-lg text-muted-foreground mb-4">
                   With current builder incentives including rate buy-downs and closing cost assistance, you may find that a new construction home fits your budget better than expected.
                 </p>
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Available Communities Under $400k</h2>
+                <h2 className="text-3xl font-bold text-foreground mb-6">Available Communities Under $400k</h2>
                 <div className="space-y-4">
-                  <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      <Link href="/" className="text-blue-600 hover:text-blue-700">
+                  <div className="border border-border rounded-lg p-6 hover:shadow-md transition">
+                    <h3 className="text-xl font-bold text-foreground mb-2">
+                      <Link href="/" className="text-primary hover:text-primary">
                         Arroyo at Skyeview
                       </Link>
                     </h3>
-                    <p className="text-gray-700 mb-2">Townhomes in Skye Canyon starting from $392,640</p>
-                    <p className="text-blue-600 font-semibold">2-4 bedrooms, 2.5 baths, 2-car garages</p>
+                    <p className="text-muted-foreground mb-2">Townhomes in Skye Canyon starting from $392,640</p>
+                    <p className="text-primary font-semibold">2-4 bedrooms, 2.5 baths, 2-car garages</p>
                   </div>
                 </div>
-                <p className="text-lg text-gray-700 mt-6">
+                <p className="text-lg text-muted-foreground mt-6">
                   Inventory and pricing change frequently. Contact Dr. Jan Duffy for current availability and pricing in your budget range.
                 </p>
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Why Buy New Construction Under $400k?</h2>
+                <h2 className="text-3xl font-bold text-foreground mb-6">Why Buy New Construction Under $400k?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Modern Features</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Modern Features</h3>
+                    <p className="text-muted-foreground">
                       New homes include energy-efficient systems, modern appliances, and contemporary designs that can save you money on utilities.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Builder Warranties</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Builder Warranties</h3>
+                    <p className="text-muted-foreground">
                       Comprehensive warranties protect you from unexpected repair costs, providing peace of mind.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Builder Incentives</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">Builder Incentives</h3>
+                    <p className="text-muted-foreground">
                       Current incentives can reduce your monthly payment and closing costs, making new construction more affordable.
                     </p>
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">No Competition</h3>
-                    <p className="text-gray-700">
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-3">No Competition</h3>
+                    <p className="text-muted-foreground">
                       Avoid bidding wars and cash offers common in the resale market. New construction offers more availability.
                     </p>
                   </div>
@@ -117,11 +117,11 @@ export default function Under400kPage() {
               </section>
 
               <section className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Financing Options for Homes Under $400k</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-bold text-foreground mb-6">Financing Options for Homes Under $400k</h2>
+                <p className="text-lg text-muted-foreground mb-4">
                   With homes under $400k, you may qualify for various financing options:
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-lg text-gray-700 mb-6 ml-4">
+                <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
                   <li><strong>FHA Loans:</strong> 3.5% down payment required</li>
                   <li><strong>Conventional Loans:</strong> As little as 5% down for qualified buyers</li>
                   <li><strong>VA Loans:</strong> 0% down for veterans and active military</li>

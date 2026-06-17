@@ -32,23 +32,23 @@ export default function DrJanFAQ() {
   return (
     <section className="py-16 bg-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-center">
           Frequently Asked Questions About Buyer Representation
         </h2>
-        <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
           Get answers about working with Dr. Jan Duffy, your buyer's agent for Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada
         </p>
         
         <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
+            <div key={index} className="border border-border rounded-lg overflow-hidden">
               <button
                 onClick={() => toggleFAQ(index)}
-                className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition"
+                className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-muted transition"
               >
-                <span className="font-semibold text-gray-900 pr-4">{faq.question}</span>
+                <span className="font-semibold text-foreground pr-4">{faq.question}</span>
                 <svg
-                  className={`w-5 h-5 text-gray-500 flex-shrink-0 transition-transform ${
+                  className={`w-5 h-5 text-muted-foreground flex-shrink-0 transition-transform ${
                     openIndex === index ? 'transform rotate-180' : ''
                   }`}
                   fill="none"
@@ -59,8 +59,8 @@ export default function DrJanFAQ() {
                 </svg>
               </button>
               {openIndex === index && (
-                <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-                  <p className="text-gray-700">{faq.answer}</p>
+                <div className="px-6 py-4 bg-muted border-t border-border">
+                  <p className="text-muted-foreground">{faq.answer}</p>
                 </div>
               )}
             </div>

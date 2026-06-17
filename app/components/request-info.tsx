@@ -6,15 +6,15 @@ import CalendlyLinkWidget from './calendly-link-widget'
 
 export default function RequestInfo() {
   return (
-    <section className="bg-gray-50 py-16">
+    <section className="bg-muted py-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Request Information</h2>
+        <h2 className="text-3xl font-bold text-foreground mb-8 text-center">Request Information</h2>
         <div className="bg-white rounded-lg shadow-md p-8">
           <CalendlyInlineWidget className="mb-6" />
           <div className="text-center space-y-4">
             <CalendlyLinkWidget
               text="Open scheduling popup"
-              className="text-blue-600 hover:text-blue-700 font-semibold underline underline-offset-4"
+              className="text-primary hover:text-primary font-semibold underline underline-offset-4"
             />
             <div>
               <Button

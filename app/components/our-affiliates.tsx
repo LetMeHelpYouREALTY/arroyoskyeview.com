@@ -23,12 +23,12 @@ const affiliates = [
 
 export default function OurAffiliates() {
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-muted">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-center">
           Trusted Partners for New Construction Homebuying
         </h2>
-        <p className="text-xl text-gray-600 mb-12 text-center italic">
+        <p className="text-xl text-muted-foreground mb-12 text-center italic">
           Expert services for your Arroyo at Skyeview Homes purchase
         </p>
         
@@ -36,19 +36,19 @@ export default function OurAffiliates() {
           {affiliates.map((affiliate, index) => (
             <div key={index} className="bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition">
               <div className="h-24 bg-gray-200 rounded-lg mb-6 flex items-center justify-center">
-                <div className="text-gray-600 font-semibold text-lg">
+                <div className="text-muted-foreground font-semibold text-lg">
                   {affiliate.name}
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">
+              <h3 className="text-xl font-bold text-foreground mb-4">
                 {affiliate.name}
               </h3>
-              <p className="text-gray-700 mb-6">
+              <p className="text-muted-foreground mb-6">
                 {affiliate.description}
               </p>
               <Link 
                 href="/contact-us" 
-                className="inline-block text-blue-600 hover:text-blue-700 font-semibold"
+                className="inline-block text-primary hover:text-primary font-semibold"
               >
                 Explore →
               </Link>

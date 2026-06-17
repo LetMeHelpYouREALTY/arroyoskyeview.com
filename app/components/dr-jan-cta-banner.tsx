@@ -37,15 +37,17 @@ export default function DrJanCTABanner({ context = '' }: DrJanCTABannerProps) {
 
   return (
     <>
-      <section className="bg-linear-to-r from-primary to-primary/88 text-primary-foreground py-8 md:py-10">
+      <section className="bg-luxury-navy py-8 text-luxury-ivory md:py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between gap-6 md:flex-row md:gap-4">
             <div className="text-center md:text-left">
-              <h3 className="mb-2 text-balance text-xl font-bold tracking-tight md:text-2xl">
-                Work with Dr. Jan Duffy - Buyer's Agent for Arroyo at Skyeview Homes
+              <h3 className="mb-2 font-serif text-balance text-xl font-light tracking-tight md:text-2xl">
+                Work with Dr. Jan Duffy — Your Skye Canyon Buyer&apos;s Agent
               </h3>
-              <p className="text-sm text-primary-foreground/90 md:text-base">
-                <strong>Dr. Jan Duffy represents HOME BUYERS, not the builder.</strong> Expert buyer representation for Arroyo at Skyeview Homes in Skye Canyon, zip code 89166—at no extra cost to you. Construction monitoring, building standards inspection & insider knowledge.
+              <p className="text-sm text-luxury-sand md:text-base">
+                <strong className="text-luxury-champagne">Dr. Jan Duffy represents HOME BUYERS, not the builder.</strong>{' '}
+                Expert representation for Arroyo at Skyeview in zip 89166—construction monitoring, building standards
+                inspection, and insider builder knowledge at no extra cost.
               </p>
             </div>
             <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:justify-end">
@@ -53,8 +55,8 @@ export default function DrJanCTABanner({ context = '' }: DrJanCTABannerProps) {
                 asChild
                 size="lg"
                 className={cn(
-                  'min-h-11 w-full font-semibold shadow-sm sm:w-auto',
-                  'bg-background text-primary hover:bg-background/90',
+                  'min-h-11 w-full rounded-full bg-luxury-champagne font-semibold text-luxury-navy shadow-sm sm:w-auto',
+                  'hover:bg-luxury-champagne/90',
                 )}
               >
                 <a
@@ -69,7 +71,8 @@ export default function DrJanCTABanner({ context = '' }: DrJanCTABannerProps) {
                 variant="outline"
                 size="lg"
                 className={cn(
-                  'min-h-11 w-full border-primary-foreground/45 bg-transparent font-semibold text-primary-foreground hover:bg-primary-foreground/12 hover:text-primary-foreground sm:w-auto',
+                  'min-h-11 w-full rounded-full border-luxury-champagne/50 bg-transparent font-semibold text-luxury-champagne sm:w-auto',
+                  'hover:bg-luxury-champagne/10 hover:text-luxury-ivory',
                 )}
               >
                 <Link href="/work-with-dr-jan" onClick={handleLearnMoreClick}>

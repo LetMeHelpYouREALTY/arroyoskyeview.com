@@ -145,7 +145,7 @@ export default function FloorPlans() {
                 </div>
               )}
               <div className="absolute top-2 right-2 z-10">
-                <span className="bg-blue-600 text-white text-xs px-2 py-1 rounded">{plan.status}</span>
+                <span className="bg-primary text-white text-xs px-2 py-1 rounded">{plan.status}</span>
               </div>
             </div>
             <div className="p-6">

@@ -4,6 +4,8 @@ import { useState } from 'react'
 import PurpleSaleBanner from './components/purple-sale-banner'
 import Header from './components/header'
 import DrJanHero from './components/dr-jan-hero'
+import LuxuryHero from './components/luxury-hero'
+import HyperlocalHighlights from './components/hyperlocal-highlights'
 import WhyChooseDrJan from './components/why-choose-dr-jan'
 import BuyerJourney from './components/buyer-journey'
 import DrJanTestimonials from './components/dr-jan-testimonials'
@@ -71,6 +73,8 @@ export default function HomePage() {
       <TrustBadges />
       <SocialProofBanner />
       <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+        <LuxuryHero />
+        <HyperlocalHighlights />
         <DrJanHero />
         <RealScoutOfficePriceBands intro="See live MLS listings below the hero to compare options quickly with Dr. Jan Duffy." />
         <ConversionFunnel />
@@ -86,14 +90,14 @@ export default function HomePage() {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Navigation Tabs */}
-          <div className="border-b border-gray-200 mb-8">
+          <div className="border-b border-border mb-8">
             <nav className="-mb-px flex flex-wrap space-x-8" aria-label="Tabs">
               <button
                 onClick={() => setActiveTab('homes')}
                 className={`${
                   activeTab === 'homes'
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-luxury-champagne text-primary'
+                    : 'border-transparent text-muted-foreground hover:text-muted-foreground hover:border-border'
                 } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
               >
                 Available Homes
@@ -102,8 +106,8 @@ export default function HomePage() {
                 onClick={() => setActiveTab('plans')}
                 className={`${
                   activeTab === 'plans'
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-luxury-champagne text-primary'
+                    : 'border-transparent text-muted-foreground hover:text-muted-foreground hover:border-border'
                 } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
               >
                 Floor Plans
@@ -112,8 +116,8 @@ export default function HomePage() {
                 onClick={() => setActiveTab('map')}
                 className={`${
                   activeTab === 'map'
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-luxury-champagne text-primary'
+                    : 'border-transparent text-muted-foreground hover:text-muted-foreground hover:border-border'
                 } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
               >
                 Homesite Map
@@ -122,8 +126,8 @@ export default function HomePage() {
                 onClick={() => setActiveTab('overview')}
                 className={`${
                   activeTab === 'overview'
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-luxury-champagne text-primary'
+                    : 'border-transparent text-muted-foreground hover:text-muted-foreground hover:border-border'
                 } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
               >
                 Overview
@@ -132,8 +136,8 @@ export default function HomePage() {
                 onClick={() => setActiveTab('area')}
                 className={`${
                   activeTab === 'area'
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-luxury-champagne text-primary'
+                    : 'border-transparent text-muted-foreground hover:text-muted-foreground hover:border-border'
                 } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
               >
                 Area Information
@@ -142,8 +146,8 @@ export default function HomePage() {
                 onClick={() => setActiveTab('resources')}
                 className={`${
                   activeTab === 'resources'
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-luxury-champagne text-primary'
+                    : 'border-transparent text-muted-foreground hover:text-muted-foreground hover:border-border'
                 } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
               >
                 Homebuyer Resources

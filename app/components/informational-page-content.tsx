@@ -1,5 +1,5 @@
+import type { ReactNode } from 'react'
 import PageQASection from './page-qa-section'
-import Link from 'next/link'
 
 interface InformationalPageContentProps {
   title: string
@@ -19,18 +19,19 @@ export default function InformationalPageContent({
   questions,
 }: InformationalPageContentProps) {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8">{h1}</h1>
+    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <h1 className="font-serif text-4xl font-light tracking-tight text-foreground md:text-5xl">{h1}</h1>
+      <div className="luxury-gold-divider mt-6 mb-10" aria-hidden />
 
       {sections.map((section, index) => (
         <section key={index} className="mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">{section.h2}</h2>
-          <p className="text-lg text-gray-700 mb-4">{section.content}</p>
+          <h2 className="font-serif text-3xl font-light text-foreground">{section.h2}</h2>
+          <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{section.content}</p>
 
           {section.h3s?.map((h3Item, h3Index) => (
-            <div key={h3Index} className="mt-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">{h3Item.h3}</h3>
-              <p className="text-lg text-gray-700 mb-4">{h3Item.content}</p>
+            <div key={h3Index} className="mt-8 border-l-2 border-luxury-champagne/40 pl-6">
+              <h3 className="font-serif text-2xl text-foreground">{h3Item.h3}</h3>
+              <p className="mt-3 text-lg leading-relaxed text-muted-foreground">{h3Item.content}</p>
             </div>
           ))}
         </section>
@@ -40,4 +41,5 @@ export default function InformationalPageContent({
     </div>
   )
 }
+
 
