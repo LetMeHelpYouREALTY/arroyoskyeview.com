@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { getCTAByContext } from './cta-rotator'
 import { trackPhoneClick, trackSmsClick, trackCTAClick } from './analytics-tracker'
 import { Button } from '@/components/ui/button'
+import CalendlyScheduleButton from './calendly-schedule-button'
 import { cn } from '@/lib/utils'
 import RealScoutOfficeWidget from './realscout-office-widget'
 import { REALSCOUT_PRICE_BANDS_ROUTE_PATHS } from '@/lib/realscout-config'
@@ -50,7 +51,12 @@ export default function DrJanCTABanner({ context = '' }: DrJanCTABannerProps) {
                 inspection, and insider builder knowledge at no extra cost.
               </p>
             </div>
-            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:justify-end">
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:justify-end">
+              <CalendlyScheduleButton
+                text="Schedule time with me"
+                variant="champagne"
+                className="w-full sm:w-auto"
+              />
               <Button
                 asChild
                 size="lg"
@@ -76,7 +82,7 @@ export default function DrJanCTABanner({ context = '' }: DrJanCTABannerProps) {
                 )}
               >
                 <Link href="/work-with-dr-jan" onClick={handleLearnMoreClick}>
-                  Learn More About Dr. Jan's Buyer Representation
+                  Learn More About Dr. Jan&apos;s Buyer Representation
                 </Link>
               </Button>
             </div>
@@ -94,4 +100,3 @@ export default function DrJanCTABanner({ context = '' }: DrJanCTABannerProps) {
     </>
   )
 }
-

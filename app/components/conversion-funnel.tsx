@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import CalendlyScheduleButton from './calendly-schedule-button'
 import { trackCTAClick } from './analytics-tracker'
 
 interface Step {
@@ -10,8 +11,8 @@ interface Step {
   icon: React.ReactNode
   cta?: {
     text: string
-    href: string
-    type: 'link' | 'phone'
+    href?: string
+    type: 'link' | 'phone' | 'calendly'
   }
 }
 
@@ -35,16 +36,15 @@ export default function ConversionFunnel() {
     {
       id: 2,
       title: 'Free Consultation',
-      description: 'Get expert guidance on Arroyo at Skyeview Homes, floor plans, pricing, and buyer representation',
+      description: 'Book a 30-minute buyer consultation on Arroyo at Skyeview Homes, floor plans, pricing, and representation',
       icon: (
         <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
       ),
       cta: {
-        text: 'Learn More About Working with Dr. Jan Duffy',
-        href: '/work-with-dr-jan',
-        type: 'link',
+        text: 'Schedule time with me',
+        type: 'calendly',
       },
     },
     {
@@ -106,7 +106,7 @@ export default function ConversionFunnel() {
                   <p className="mb-4 text-sm text-muted-foreground">{step.description}</p>
                   {step.cta && (
                     <>
-                      {step.cta.type === 'phone' ? (
+                      {step.cta.type === 'phone' && step.cta.href ? (
                         <a
                           href={step.cta.href}
                           onClick={() => trackCTAClick(step.cta!.text, `funnel_step_${step.id}`)}
@@ -114,7 +114,8 @@ export default function ConversionFunnel() {
                         >
                           {step.cta.text}
                         </a>
-                      ) : (
+                      ) : null}
+                      {step.cta.type === 'link' && step.cta.href ? (
                         <Link
                           href={step.cta.href}
                           onClick={() => trackCTAClick(step.cta!.text, `funnel_step_${step.id}`)}
@@ -122,7 +123,14 @@ export default function ConversionFunnel() {
                         >
                           {step.cta.text}
                         </Link>
-                      )}
+                      ) : null}
+                      {step.cta.type === 'calendly' ? (
+                        <CalendlyScheduleButton
+                          text={step.cta.text}
+                          className="min-h-10 px-4 py-2 text-sm"
+                          variant="primary"
+                        />
+                      ) : null}
                     </>
                   )}
                 </div>
@@ -136,16 +144,18 @@ export default function ConversionFunnel() {
             <strong className="text-foreground">Remember:</strong> Dr. Jan Duffy represents HOME BUYERS, not the builder.
             Builders pay for buyer representation, so there&apos;s no extra cost to you.
           </p>
-          <a
-            href="tel:7029034687"
-            onClick={() => trackCTAClick('Call Now - Funnel', 'funnel_bottom')}
-            className="inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-8 py-3 text-lg font-semibold text-primary-foreground shadow-lg transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          >
-            Start Your Journey: Call (702) 903-4687
-          </a>
+          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <CalendlyScheduleButton text="Schedule time with me" variant="primary" />
+            <a
+              href="tel:7029034687"
+              onClick={() => trackCTAClick('Call Now - Funnel', 'funnel_bottom')}
+              className="inline-flex min-h-11 items-center justify-center rounded-lg border-2 border-primary bg-background px-8 py-3 text-lg font-semibold text-primary transition hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              Call (702) 903-4687
+            </a>
+          </div>
         </div>
       </div>
     </section>
   )
 }
-

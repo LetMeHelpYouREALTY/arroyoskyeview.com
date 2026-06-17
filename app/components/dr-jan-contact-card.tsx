@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import CalendlyScheduleButton from './calendly-schedule-button'
 import { cn } from '@/lib/utils'
 
 export default function DrJanContactCard() {
@@ -21,7 +22,12 @@ export default function DrJanContactCard() {
       </div>
 
       <div className="space-y-3">
-        <Button asChild className="min-h-11 w-full font-semibold">
+        <CalendlyScheduleButton
+          text="Schedule time with me"
+          className="w-full"
+          variant="primary"
+        />
+        <Button asChild className="min-h-11 w-full font-semibold" variant="outline">
           <a href="tel:7029034687">Call/Text: (702) 903-4687</a>
         </Button>
         <Button

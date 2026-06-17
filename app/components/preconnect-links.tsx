@@ -30,6 +30,16 @@ export default function PreconnectLinks() {
           rsApi.href = 'https://www.realscout.com';
           rsApi.crossOrigin = 'anonymous';
           document.head.appendChild(rsApi);
+
+          const calendlyAssets = document.createElement('link');
+          calendlyAssets.rel = 'preconnect';
+          calendlyAssets.href = 'https://assets.calendly.com';
+          document.head.appendChild(calendlyAssets);
+
+          const calendlyApp = document.createElement('link');
+          calendlyApp.rel = 'preconnect';
+          calendlyApp.href = 'https://calendly.com';
+          document.head.appendChild(calendlyApp);
         `,
       }}
     />

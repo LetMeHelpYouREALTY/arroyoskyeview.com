@@ -32,6 +32,9 @@ jobs:
       - name: Validate sitemap route registry
         run: npm run validate:sitemap
 
+      - name: Audit marketing pages for HTML forms
+        run: npm run audit:forms
+
       - name: Build
         run: npm run build
 

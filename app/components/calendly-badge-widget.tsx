@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { CALENDLY_URL } from '@/lib/calendly'
+import { CALENDLY_BADGE, CALENDLY_URL } from '@/lib/calendly'
 
 export default function CalendlyBadgeWidget() {
   useEffect(() => {
@@ -11,10 +11,7 @@ export default function CalendlyBadgeWidget() {
     if (!existingBadge) {
       window.Calendly.initBadgeWidget({
         url: CALENDLY_URL,
-        text: 'Schedule time with me',
-        color: '#0069ff',
-        textColor: '#ffffff',
-        branding: false,
+        ...CALENDLY_BADGE,
       })
     }
   }, [])
