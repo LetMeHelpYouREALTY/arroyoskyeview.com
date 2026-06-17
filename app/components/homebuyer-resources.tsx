@@ -126,7 +126,23 @@ export default function HomebuyerResources() {
             </p>
           </li>
           <li>
-            <Link href="/homebuying-process" className={linkClass}>
+            <Link href="/faq/financing" className={linkClass}>
+              New Construction Financing FAQ
+            </Link>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Down payments, FHA/VA loans, builder rate buy-downs, and closing costs for Skye Canyon (89166) and northwest Las Vegas
+            </p>
+          </li>
+          <li>
+            <Link href="/faq/inspections" className={linkClass}>
+              Inspections &amp; Construction Monitoring FAQ
+            </Link>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Building standards inspection, 7–10 day construction monitoring, and protecting your warranty on new builds
+            </p>
+          </li>
+          <li>
+            <Link href="/online-homebuying" className={linkClass}>
               Online Homebuying
             </Link>
             <p className="mt-1 text-sm text-muted-foreground">

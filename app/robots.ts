@@ -1,4 +1,7 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next'
+import { SITE_URL } from '@/lib/site-url'
+
+const DISALLOW = ['/api/', '/admin/', '/projects/']
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -6,20 +9,20 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/admin/'],
+        disallow: DISALLOW,
       },
       {
         userAgent: 'Googlebot',
         allow: '/',
-        disallow: ['/api/', '/admin/'],
+        disallow: DISALLOW,
       },
       {
         userAgent: 'Googlebot-Image',
         allow: '/',
-        disallow: ['/api/', '/admin/'],
+        disallow: DISALLOW,
       },
     ],
-    sitemap: 'https://www.arroyoskyeview.com/sitemap.xml',
+    sitemap: `${SITE_URL}/sitemap.xml`,
   }
 }
 

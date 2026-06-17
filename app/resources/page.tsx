@@ -79,6 +79,36 @@ const resources = [
       </svg>
     ),
   },
+  {
+    title: 'Closing Process Guide',
+    description: 'Step-by-step closing guide for new construction in Las Vegas—documents, walkthrough, and how Dr. Jan\'s building standards inspection protects you before keys.',
+    href: '/buyers/closing-process-guide',
+    icon: (
+      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Financing FAQ (Skye Canyon / 89166)',
+    description: 'Answer-first FAQ on down payments, FHA/VA, builder rate buy-downs, and closing costs for northwest Las Vegas new construction.',
+    href: '/faq/financing',
+    icon: (
+      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Inspections & Monitoring FAQ',
+    description: 'FAQ on construction monitoring every 7–10 days and complimentary building standards inspection at closing.',
+    href: '/faq/inspections',
+    icon: (
+      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+      </svg>
+    ),
+  },
 ]
 
 const checklists = [
