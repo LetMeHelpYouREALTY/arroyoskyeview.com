@@ -85,7 +85,7 @@ export default function WorkWithDrJanPage() {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               <Link
-                href="/"
+                href="/arroyo-at-skyeview/available-homes"
                 className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
                 <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">

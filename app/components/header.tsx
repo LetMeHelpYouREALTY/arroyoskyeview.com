@@ -11,6 +11,9 @@ export default function Header() {
 
   const communities = [
     { name: 'Arroyo at Skyeview', href: '/' },
+    { name: 'Available Homes', href: '/arroyo-at-skyeview/available-homes' },
+    { name: 'Floor Plans', href: '/arroyo-at-skyeview/floor-plans' },
+    { name: 'Community Overview', href: '/arroyo-at-skyeview/overview' },
     { name: 'Sierra at Skyeview', href: '/sierra-at-skyeview' },
     { name: 'Terra at Skyeview', href: '/terra-at-skyeview' },
     { name: 'Ironwood', href: '/ironwood' },
