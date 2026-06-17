@@ -1,13 +1,11 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../../components/purple-sale-banner'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import Link from 'next/link'
 import PageSchemas from '../../components/page-schemas'
 import DrJanContactCard from '../../components/dr-jan-contact-card'
 import CrossCommunityLinks from '../../components/cross-community-links'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'New Construction Homes in Centennial Hills, Las Vegas | Buyer\'s Agent',
   description: 'Discover new construction homes in Centennial Hills, Las Vegas, Nevada. Expert buyer\'s agent representation with Dr. Jan Duffy for new construction homes. Construction monitoring and building standards inspection included. Call (702) 903-4687.',
@@ -43,8 +41,9 @@ export const metadata: Metadata = {
 
 export default function CentennialHillsPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="neighborhood"
         url="/neighborhoods/centennial-hills"
         title="New Construction Homes in Centennial Hills, Las Vegas | Buyer's Agent"
@@ -70,10 +69,10 @@ export default function CentennialHillsPage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={false}
+    >
+      <DrJanCTABanner />
         
         {/* Hero Section */}
         <section className="luxury-page-hero">
@@ -190,9 +189,6 @@ export default function CentennialHillsPage() {
         <CrossCommunityLinks currentCommunity="Centennial Hills" location="Centennial Hills" />
         
         <DrJanCTABanner context="centennial-hills" />
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

@@ -1,10 +1,8 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../../components/purple-sale-banner'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import PageSchemas from '../../components/page-schemas'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'How To Make Sure Your Sale Crosses Finish Line',
   description: 'Learn how pre-listing inspections can help prevent buyers from backing out. Get expert advice on avoiding common deal breakers and ensuring a smooth home sale.',
@@ -40,8 +38,9 @@ export const metadata: Metadata = {
 
 export default function SaleCrossesFinishLinePage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="blog"
         url="/blog/sale-crosses-finish-line"
         title="How To Make Sure Your Sale Crosses the Finish Line | Arroyo at Skyeview Homes"
@@ -64,10 +63,10 @@ export default function SaleCrossesFinishLinePage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={true}
+    >
+      <DrJanCTABanner />
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <header className="mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
@@ -294,9 +293,6 @@ export default function SaleCrossesFinishLinePage() {
             </div>
           </div>
         </article>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

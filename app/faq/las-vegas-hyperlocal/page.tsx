@@ -1,12 +1,10 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../../components/purple-sale-banner'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import DrJanContactCard from '../../components/dr-jan-contact-card'
 import Script from 'next/script'
 import PageSchemas from '../../components/page-schemas'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Las Vegas Neighborhood Q&A | Arroyo at Skyeview & Northwest Las Vegas FAQ',
   description: 'Comprehensive questions and answers about buying new construction homes in Las Vegas, Nevada, especially Arroyo at Skyeview in Skye Canyon, zip code 89166, northwest Las Vegas. Expert answers about neighborhoods, schools, and new construction homes.',
@@ -165,8 +163,9 @@ export default function LasVegasHyperlocalFAQPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="faq"
         url="/faq/las-vegas-hyperlocal"
         title="Las Vegas New Homes Questions & Answers | Neighborhood FAQ | Arroyo at Skyeview & Northwest Las Vegas"
@@ -180,10 +179,10 @@ export default function LasVegasHyperlocalFAQPage() {
           answer: q.answer.substring(0, 200) + (q.answer.length > 200 ? '...' : ''),
         }))}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={false}
+    >
+      <DrJanCTABanner />
         
         <Script
           id="faq-schema"
@@ -247,9 +246,6 @@ export default function LasVegasHyperlocalFAQPage() {
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

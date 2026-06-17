@@ -1,12 +1,10 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../../components/purple-sale-banner'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import PageQASection from '../../components/page-qa-section'
 import PageSchemas from '../../components/page-schemas'
 import Image from 'next/image'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'New Home Inventory 2x Normal | Why Buy Now',
   description: 'With 2x the normal new home inventory, builders are buying down mortgage rates and offering incentives. Expert guidance from Dr. Jan Duffy. Call (702) 903-4687.',
@@ -32,8 +30,9 @@ export default function NewHomeInventoryPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="blog"
         url="/blog/new-home-inventory-2x"
         title="New Home Inventory is 2x the Normal | Why It's Time to Buy New | Arroyo at Skyeview Homes"
@@ -47,10 +46,10 @@ export default function NewHomeInventoryPage() {
         dateModified={new Date().toISOString().split('T')[0]}
         questions={questions}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner context="inventory incentives builder" />
+      }
+      showContactCta={true}
+    >
+      <DrJanCTABanner context="inventory incentives builder" />
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <header className="mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
@@ -351,9 +350,6 @@ export default function NewHomeInventoryPage() {
             />
           </div>
         </article>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

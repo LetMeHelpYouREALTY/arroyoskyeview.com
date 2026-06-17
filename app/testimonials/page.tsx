@@ -1,12 +1,11 @@
 import type { Metadata } from 'next'
-import Header from '../components/header'
-import Footer from '../components/footer'
 import DrJanTestimonials from '../components/dr-jan-testimonials'
 import HomeownerReviews from '../components/homeowner-reviews'
 import PageSchemas from '../components/page-schemas'
 import DrJanCTABanner from '../components/dr-jan-cta-banner'
 import ReviewSchema from '../components/review-schema'
 
+import MarketingPageShell from '../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Client Testimonials & Reviews | Dr. Jan Duffy - Buyer\'s Agent for Arroyo at Skyeview Homes',
   description: 'Read real testimonials from homebuyers who worked with Dr. Jan Duffy for new construction homes in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). See why buyers trust Dr. Jan Duffy for expert buyer representation, construction monitoring, and building standards inspection.',
@@ -42,8 +41,10 @@ export const metadata: Metadata = {
 
 export default function TestimonialsPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <>
+          <PageSchemas
         pageType="about"
         url="/testimonials"
         title="Client Testimonials & Reviews | Dr. Jan Duffy - Buyer's Agent for Arroyo at Skyeview Homes"
@@ -66,9 +67,12 @@ export default function TestimonialsPage() {
           },
         ]}
       />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
+          <ReviewSchema />
+        </>
+      }
+      showContactCta={true}
+    >
+      <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Client Testimonials & Reviews: Skye Canyon, Northwest Las Vegas | Buyer's Agent
@@ -154,10 +158,6 @@ export default function TestimonialsPage() {
         </section>
 
         <DrJanCTABanner context="testimonials" />
-      </main>
-      <Footer />
-      <ReviewSchema />
-    </div>
+    </MarketingPageShell>
   )
 }
-

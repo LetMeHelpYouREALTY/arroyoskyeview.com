@@ -1,12 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import PurpleSaleBanner from '../../components/purple-sale-banner'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import PageSchemas from '../../components/page-schemas'
 import DrJanContactCard from '../../components/dr-jan-contact-card'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'First-Time Homebuyer Guide Las Vegas | Arroyo at Skyeview Homes',
   description: 'Complete guide for first-time homebuyers in Las Vegas. Learn about down payment assistance, financing, and the homebuying process. Expert guidance from Dr. Jan Duffy.',
@@ -17,8 +15,9 @@ export const metadata: Metadata = {
 
 export default function FirstTimeHomebuyerPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="buyer-guide"
         url="/buyers/first-time-homebuyer"
         title="First-Time Homebuyer Guide Las Vegas | Arroyo at Skyeview Homes | Dr. Jan Duffy"
@@ -38,10 +37,10 @@ export default function FirstTimeHomebuyerPage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={false}
+    >
+      <DrJanCTABanner />
         
         {/* Hero Section */}
         <section className="luxury-page-hero">
@@ -237,9 +236,6 @@ export default function FirstTimeHomebuyerPage() {
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

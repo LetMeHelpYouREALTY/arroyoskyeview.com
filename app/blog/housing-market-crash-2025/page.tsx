@@ -1,11 +1,9 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../../components/purple-sale-banner'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import Image from 'next/image'
 import PageSchemas from '../../components/page-schemas'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Housing Market Crash 2025? Expert Forecasts',
   description: 'Expert forecasts show home prices expected to rise nationally, not fall, over the next 5 years. Learn what the data says about the housing market outlook.',
@@ -41,8 +39,9 @@ export const metadata: Metadata = {
 
 export default function HousingMarketCrashPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="blog"
         url="/blog/housing-market-crash-2025"
         title="Is the Housing Market Going To Crash? Here's What Experts Say | Arroyo at Skyeview Homes"
@@ -65,10 +64,10 @@ export default function HousingMarketCrashPage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={true}
+    >
+      <DrJanCTABanner />
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <header className="mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
@@ -255,9 +254,6 @@ export default function HousingMarketCrashPage() {
             </div>
           </div>
         </article>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

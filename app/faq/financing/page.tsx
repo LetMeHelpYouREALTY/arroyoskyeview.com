@@ -1,12 +1,10 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../../components/purple-sale-banner'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import DrJanContactCard from '../../components/dr-jan-contact-card'
 import PageSchemas from '../../components/page-schemas'
 import Link from 'next/link'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'New Construction Home Financing FAQ | Skye Canyon, Northwest Las Vegas',
   description: 'Get answers to financing questions for new construction homes in Skye Canyon (zip code 89166) and northwest Las Vegas, Nevada. Learn about loan types, down payments, builder incentives, and financing options. Expert guidance from Dr. Jan Duffy.',
@@ -98,8 +96,9 @@ const financingFAQs = [
 
 export default function FinancingFAQPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="faq"
         url="/faq/financing"
         title="New Construction Home Financing FAQ | Skye Canyon, Northwest Las Vegas"
@@ -110,10 +109,10 @@ export default function FinancingFAQPage() {
         ]}
         questions={financingFAQs.slice(0, 3)}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={false}
+    >
+      <DrJanCTABanner />
         
         <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -189,9 +188,6 @@ export default function FinancingFAQPage() {
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

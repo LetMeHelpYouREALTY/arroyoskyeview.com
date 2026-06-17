@@ -1,7 +1,4 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../components/purple-sale-banner'
-import Header from '../components/header'
-import Footer from '../components/footer'
 import DrJanCTABanner from '../components/dr-jan-cta-banner'
 import DrJanContactCard from '../components/dr-jan-contact-card'
 import AboutUsHero from '../components/about-us-hero'
@@ -16,6 +13,7 @@ import BuildCareer from '../components/build-career'
 import InformationalPageContent from '../components/informational-page-content'
 import PageSchemas from '../components/page-schemas'
 
+import MarketingPageShell from '../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'About Arroyo at Skyeview | Las Vegas New Construction Homes',
   description: 'Learn about Arroyo at Skyeview Homes - new construction townhomes in Skye Canyon, northwest Las Vegas, Nevada. Expert buyer representation with Dr. Jan Duffy.',
@@ -51,8 +49,9 @@ export const metadata: Metadata = {
 
 export default function AboutUsPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="about"
         url="/about-us"
         title="About Arroyo at Skyeview | Las Vegas New Construction Homes"
@@ -71,10 +70,10 @@ export default function AboutUsPage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner context="pricing incentives" />
+      }
+      showContactCta={false}
+    >
+      <DrJanCTABanner context="pricing incentives" />
         <AboutUsHero />
         <OurBrands />
         <OurStory />
@@ -195,9 +194,6 @@ export default function AboutUsPage() {
             <DrJanContactCard />
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

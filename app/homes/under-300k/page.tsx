@@ -1,12 +1,10 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../../components/purple-sale-banner'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import DrJanContactCard from '../../components/dr-jan-contact-card'
 import Link from 'next/link'
 import PageSchemas from '../../components/page-schemas'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Homes Under $300k Las Vegas | Entry-Level New Construction',
   description: 'Find new construction homes under $300k in Las Vegas, Nevada. Entry-level new construction homes perfect for first-time buyers. Expert buyer\'s agent guidance. Call (702) 903-4687.',
@@ -17,8 +15,9 @@ export const metadata: Metadata = {
 
 export default function Under300kPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="property-type"
         url="/homes/under-300k"
         title="Homes Under $300k Las Vegas | Entry-Level New Construction | Buyer's Agent"
@@ -43,10 +42,10 @@ export default function Under300kPage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={false}
+    >
+      <DrJanCTABanner />
         
         <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -213,9 +212,6 @@ export default function Under300kPage() {
             </div>
           </div>
         </section>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

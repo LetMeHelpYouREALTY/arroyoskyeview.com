@@ -1,12 +1,10 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../../components/purple-sale-banner'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import DrJanContactCard from '../../components/dr-jan-contact-card'
 import Link from 'next/link'
 import PageSchemas from '../../components/page-schemas'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Townhomes for Sale Las Vegas | New Construction Townhomes',
   description: 'Find new construction townhomes in Las Vegas, Nevada. Modern townhomes with 2-4 bedrooms, premium finishes. Expert buyer\'s agent representation with Dr. Jan Duffy. Call (702) 903-4687.',
@@ -17,8 +15,9 @@ export const metadata: Metadata = {
 
 export default function TownhomesPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="property-type"
         url="/homes/townhomes-las-vegas"
         title="Townhomes for Sale Las Vegas | New Construction Townhomes | Buyer's Agent"
@@ -38,10 +37,10 @@ export default function TownhomesPage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={false}
+    >
+      <DrJanCTABanner />
         
         {/* Hero Section */}
         <section className="luxury-page-hero">
@@ -158,9 +157,6 @@ export default function TownhomesPage() {
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

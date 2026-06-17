@@ -1,7 +1,4 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../components/purple-sale-banner'
-import Header from '../components/header'
-import Footer from '../components/footer'
 import DrJanCTABanner from '../components/dr-jan-cta-banner'
 import DrJanContactCard from '../components/dr-jan-contact-card'
 import WhyWorkWithDrJan from '../components/why-work-with-dr-jan'
@@ -11,6 +8,7 @@ import ContactLocations from '../components/contact-locations'
 import ContactMethods from '../components/contact-methods'
 import PageSchemas from '../components/page-schemas'
 
+import MarketingPageShell from '../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Contact Dr. Jan Duffy | Buyer\'s Agent for Arroyo at Skyeview Homes | Skye Canyon, Northwest Las Vegas',
   description: 'Contact Dr. Jan Duffy, your buyer\'s agent for Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada. She represents HOME BUYERS, not the builder. Call (702) 903-4687 or email info@arroyoskyeview.com. Located at 8912 Vanhoy Crk St, Las Vegas, NV 89166.',
@@ -46,8 +44,9 @@ export const metadata: Metadata = {
 
 export default function ContactUsPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="contact"
         url="/contact-us"
         title="Contact Dr. Jan Duffy | Buyer's Agent for Arroyo at Skyeview Homes"
@@ -66,10 +65,10 @@ export default function ContactUsPage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <ContactHero />
+      }
+      showContactCta={false}
+    >
+      <ContactHero />
         <div className="bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <DrJanCTABanner context="contact page" />
@@ -84,9 +83,6 @@ export default function ContactUsPage() {
             <DrJanContactCard />
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

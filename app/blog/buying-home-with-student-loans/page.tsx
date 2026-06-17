@@ -1,11 +1,9 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../../components/purple-sale-banner'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import Script from 'next/script'
 import PageSchemas from '../../components/page-schemas'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Buying Home with Student Loans | Expert Guide',
   description: 'Learn how student loans don\'t have to prevent you from buying your dream home. Get expert advice on managing student debt while purchasing a home.',
@@ -41,8 +39,9 @@ export const metadata: Metadata = {
 
 export default function BuyingHomeWithStudentLoansPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="blog"
         url="/blog/buying-home-with-student-loans"
         title="You Can Buy a Home When You Have Student Loans | Arroyo at Skyeview Homes"
@@ -65,10 +64,10 @@ export default function BuyingHomeWithStudentLoansPage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={true}
+    >
+      <DrJanCTABanner />
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <header className="mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
@@ -203,9 +202,6 @@ export default function BuyingHomeWithStudentLoansPage() {
             </div>
           </div>
         </article>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

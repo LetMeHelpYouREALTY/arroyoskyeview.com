@@ -1,12 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import PurpleSaleBanner from '../components/purple-sale-banner'
-import Header from '../components/header'
-import Footer from '../components/footer'
 import DrJanCTABanner from '../components/dr-jan-cta-banner'
 import DrJanContactCard from '../components/dr-jan-contact-card'
 import PageSchemas from '../components/page-schemas'
 
+import MarketingPageShell from '../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'FAQ | New Construction Homes Las Vegas | Buyer\'s Agent FAQ',
   description: 'Get answers to common questions about buying new construction homes in Las Vegas, Nevada. Learn about the homebuying process, builder incentives, and warranties from your buyer\'s agent.',
@@ -71,8 +69,9 @@ export default function FAQPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="faq"
         url="/faq"
         title="Frequently Asked Questions About New Construction Homes | Las Vegas Buyer's Agent FAQ"
@@ -82,10 +81,10 @@ export default function FAQPage() {
         ]}
         questions={faqQuestions}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={false}
+    >
+      <DrJanCTABanner />
         
         <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -172,9 +171,6 @@ export default function FAQPage() {
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

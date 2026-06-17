@@ -1,7 +1,4 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../components/purple-sale-banner'
-import Header from '../components/header'
-import Footer from '../components/footer'
 import DrJanCTABanner from '../components/dr-jan-cta-banner'
 import DrJanContactCard from '../components/dr-jan-contact-card'
 import OnlineHomebuyingHero from '../components/online-homebuying-hero'
@@ -10,6 +7,7 @@ import Benefits from '../components/online-benefits'
 import AvailableHomesOnline from '../components/available-homes-online'
 import PageSchemas from '../components/page-schemas'
 
+import MarketingPageShell from '../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Online Homebuying | Buy New Home Online Las Vegas',
   description: 'Buy your new construction home completely online in Las Vegas, Nevada. Industry-first Buy Now option. Expert guidance from your buyer\'s agent, Dr. Jan Duffy. Call (702) 903-4687.',
@@ -45,8 +43,9 @@ export const metadata: Metadata = {
 
 export default function OnlineHomebuyingPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="process"
         url="/online-homebuying"
         title="Online Homebuying | New Construction Homes Las Vegas, Nevada"
@@ -66,10 +65,10 @@ export default function OnlineHomebuyingPage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={false}
+    >
+      <DrJanCTABanner />
         <OnlineHomebuyingHero />
         <HowItWorks />
         <Benefits />
@@ -79,9 +78,6 @@ export default function OnlineHomebuyingPage() {
             <DrJanContactCard />
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

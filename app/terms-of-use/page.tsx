@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
-import Header from '../components/header'
-import Footer from '../components/footer'
 import PageSchemas from '../components/page-schemas'
 
+import MarketingPageShell from '../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Terms of Use | Arroyo at Skyeview | Homes by Dr. Jan Duffy',
   description: 'Terms of Use for Arroyo at Skyeview | Homes by Dr. Jan Duffy website. Understand the terms and conditions for using our real estate services and website.',
@@ -38,8 +37,9 @@ export const metadata: Metadata = {
 
 export default function TermsOfUsePage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="about"
         url="/terms-of-use"
         title="Terms of Use | Arroyo at Skyeview | Homes by Dr. Jan Duffy"
@@ -49,9 +49,11 @@ export default function TermsOfUsePage() {
           { name: 'Terms of Use', url: '/terms-of-use' },
         ]}
       />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <section className="bg-linear-to-b from-muted/80 to-background py-16">
+      }
+      showContactCta={true}
+      showBanner={false}
+    >
+      <section className="bg-linear-to-b from-muted/80 to-background py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 text-center">
               Terms of Use
@@ -272,9 +274,6 @@ export default function TermsOfUsePage() {
             </section>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

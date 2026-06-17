@@ -1,12 +1,10 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../../components/purple-sale-banner'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import DrJanContactCard from '../../components/dr-jan-contact-card'
 import Link from 'next/link'
 import PageSchemas from '../../components/page-schemas'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Moving to Las Vegas: Complete Guide for New Homebuyers 2025 | Skye Canyon',
   description: 'Complete guide for moving to Las Vegas, Nevada. Learn about cost of living, neighborhoods, schools, job market, and new construction communities in Skye Canyon and northwest Las Vegas. Expert guidance from Dr. Jan Duffy.',
@@ -17,8 +15,9 @@ export const metadata: Metadata = {
 
 export default function MovingToLasVegasPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="buyer-guide"
         url="/buyers/moving-to-las-vegas"
         title="Moving to Las Vegas: Complete Guide for New Homebuyers 2025 | Skye Canyon, Northwest Las Vegas"
@@ -42,10 +41,10 @@ export default function MovingToLasVegasPage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={false}
+    >
+      <DrJanCTABanner />
         
         <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -255,9 +254,6 @@ export default function MovingToLasVegasPage() {
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

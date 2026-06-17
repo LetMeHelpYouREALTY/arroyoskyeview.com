@@ -1,10 +1,8 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../../components/purple-sale-banner'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import PageSchemas from '../../components/page-schemas'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Market Passed You By? Think Again | 2025 Update',
   description: 'With more homes to choose from, prices leveling off, and mortgage rates easing, today\'s market is offering something you haven\'t had in a while: options.',
@@ -15,8 +13,9 @@ export const metadata: Metadata = {
 
 export default function MarketPassedYouByPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="blog"
         url="/blog/market-passed-you-by"
         title="Thought the Market Passed You By? Think Again. | Arroyo at Skyeview Homes"
@@ -39,10 +38,10 @@ export default function MarketPassedYouByPage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={true}
+    >
+      <DrJanCTABanner />
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <header className="mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
@@ -208,9 +207,6 @@ export default function MarketPassedYouByPage() {
             </div>
           </div>
         </article>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

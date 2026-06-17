@@ -1,13 +1,11 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../../components/purple-sale-banner'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import InformationalPageContent from '../../components/informational-page-content'
 import PeopleAlsoSearch from '../../components/people-also-search'
 import Link from 'next/link'
 import PageSchemas from '../../components/page-schemas'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'New Homes in Zip Code 89128 | Summerlin Area Las Vegas',
   description: 'Discover new construction homes in zip code 89128, Summerlin area, Las Vegas, Nevada. Expert buyer\'s agent representation with Dr. Jan Duffy. Construction monitoring and building standards inspection included. Call (702) 903-4687.',
@@ -18,8 +16,9 @@ export const metadata: Metadata = {
 
 export default function Zip89128Page() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="zip"
         url="/areas/zip-89128"
         title="New Homes in Zip Code 89128 | Summerlin Area, Las Vegas, Nevada | Buyer's Agent"
@@ -45,10 +44,10 @@ export default function Zip89128Page() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner context="available homes" />
+      }
+      showContactCta={true}
+    >
+      <DrJanCTABanner context="available homes" />
         <InformationalPageContent
           title="New Homes in Zip Code 89128"
           h1="New Construction Homes in Zip Code 89128: Summerlin Area, Las Vegas | Buyer's Agent"
@@ -184,9 +183,6 @@ export default function Zip89128Page() {
           </div>
         </section>
         <PeopleAlsoSearch />
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

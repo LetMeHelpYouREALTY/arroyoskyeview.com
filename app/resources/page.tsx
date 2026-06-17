@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Header from '../components/header'
-import Footer from '../components/footer'
 import PageSchemas from '../components/page-schemas'
 import DrJanCTABanner from '../components/dr-jan-cta-banner'
 
+import MarketingPageShell from '../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Free Resources for New Construction Homebuyers | Dr. Jan Duffy',
   description: 'Free resources and guides for new construction homebuyers in Las Vegas, Nevada. Download buyer\'s guides, checklists, and expert tips from Dr. Jan Duffy, your buyer\'s agent for Arroyo at Skyeview Homes and Skye Canyon communities.',
@@ -131,8 +130,9 @@ const checklists = [
 
 export default function ResourcesPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="buyer-guide"
         url="/resources"
         title="Free Resources for New Construction Homebuyers | Dr. Jan Duffy"
@@ -151,9 +151,10 @@ export default function ResourcesPage() {
           },
         ]}
       />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
+      }
+      showContactCta={true}
+    >
+      <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Free Resources for New Construction Homebuyers: Skye Canyon, Northwest Las Vegas
@@ -270,9 +271,6 @@ export default function ResourcesPage() {
         </section>
 
         <DrJanCTABanner context="resources" />
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

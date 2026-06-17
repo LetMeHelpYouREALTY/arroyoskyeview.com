@@ -1,12 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import PurpleSaleBanner from '../../components/purple-sale-banner'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import PageSchemas from '../../components/page-schemas'
 import DrJanContactCard from '../../components/dr-jan-contact-card'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Builder Incentives Guide | Arroyo at Skyeview Homes Las Vegas',
   description: 'Learn about current builder incentives for Arroyo at Skyeview Homes in Las Vegas. Rate buy-downs, closing cost assistance, and promotions. Expert guidance from Dr. Jan Duffy.',
@@ -17,8 +15,9 @@ export const metadata: Metadata = {
 
 export default function BuilderIncentivesGuidePage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="buyer-guide"
         url="/buyers/builder-incentives-guide"
         title="Builder Incentives Guide | Arroyo at Skyeview Homes Las Vegas"
@@ -38,10 +37,10 @@ export default function BuilderIncentivesGuidePage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={false}
+    >
+      <DrJanCTABanner />
         
         <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -212,9 +211,6 @@ export default function BuilderIncentivesGuidePage() {
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

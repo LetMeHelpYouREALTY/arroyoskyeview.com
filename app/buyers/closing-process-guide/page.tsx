@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import PageSchemas from '../../components/page-schemas'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import Link from 'next/link'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Closing Process Guide for New Construction Homes | Las Vegas Buyer\'s Guide',
   description: 'Complete guide to closing on your new construction home in Las Vegas, Nevada. Learn about the closing process, what to expect, documents needed, and how Dr. Jan Duffy\'s building standards inspection protects you. Call (702) 903-4687.',
@@ -40,8 +39,9 @@ export const metadata: Metadata = {
 
 export default function ClosingProcessGuidePage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="buyer-guide"
         url="/buyers/closing-process-guide"
         title="Closing Process Guide for New Construction Homes | Las Vegas Buyer's Guide"
@@ -65,9 +65,10 @@ export default function ClosingProcessGuidePage() {
           },
         ]}
       />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
+      }
+      showContactCta={true}
+    >
+      <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Closing Process Guide: New Construction Homes in Skye Canyon, Northwest Las Vegas
@@ -297,9 +298,6 @@ export default function ClosingProcessGuidePage() {
         </section>
 
         <DrJanCTABanner context="closing" />
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

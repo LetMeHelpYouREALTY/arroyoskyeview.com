@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
-import Header from '../components/header'
-import Footer from '../components/footer'
 import PageSchemas from '../components/page-schemas'
 
+import MarketingPageShell from '../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Privacy Policy | Arroyo at Skyeview | Homes by Dr. Jan Duffy',
   description: 'Privacy Policy for Arroyo at Skyeview | Homes by Dr. Jan Duffy. Learn how we collect, use, and protect your personal information in compliance with CCPA and GDPR.',
@@ -13,8 +12,9 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="about"
         url="/privacy-policy"
         title="Privacy Policy | Arroyo at Skyeview | Homes by Dr. Jan Duffy"
@@ -24,9 +24,11 @@ export default function PrivacyPolicyPage() {
           { name: 'Privacy Policy', url: '/privacy-policy' },
         ]}
       />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <section className="bg-linear-to-b from-muted/80 to-background py-16">
+      }
+      showContactCta={true}
+      showBanner={false}
+    >
+      <section className="bg-linear-to-b from-muted/80 to-background py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 text-center">
               Privacy Policy
@@ -239,9 +241,6 @@ export default function PrivacyPolicyPage() {
             </section>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

@@ -1,7 +1,4 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../components/purple-sale-banner'
-import Header from '../components/header'
-import Footer from '../components/footer'
 import DrJanCTABanner from '../components/dr-jan-cta-banner'
 import DrJanContactCard from '../components/dr-jan-contact-card'
 import RealScoutOfficePriceBands from '../components/realscout-office-price-bands'
@@ -16,6 +13,7 @@ import NeighborhoodLinksSection from '../components/neighborhood-links-section'
 import PeopleAlsoSearch from '../components/people-also-search'
 import PageSchemas from '../components/page-schemas'
 
+import MarketingPageShell from '../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Sierra at Skyeview | New Homes in Skye Canyon Las Vegas',
   description: 'Sierra at Skyeview offers new construction townhomes in Skye Canyon, Las Vegas. Expert buyer representation with Dr. Jan Duffy. Call (702) 903-4687.',
@@ -51,8 +49,9 @@ export const metadata: Metadata = {
 
 export default function SierraAtSkyeviewPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="community"
         url="/sierra-at-skyeview"
         title="Sierra at Skyeview | New Construction Homes in Skye Canyon, Las Vegas, NV"
@@ -76,10 +75,10 @@ export default function SierraAtSkyeviewPage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner context="available homes floor plans" />
+      }
+      showContactCta={false}
+    >
+      <DrJanCTABanner context="available homes floor plans" />
         <RealScoutOfficePriceBands />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <AvailableHomes />
@@ -148,9 +147,6 @@ export default function SierraAtSkyeviewPage() {
         <CrossCommunityLinks currentCommunity="Sierra at Skyeview" location="Skye Canyon" />
         <PeopleAlsoSearch />
         <SimilarCommunities />
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

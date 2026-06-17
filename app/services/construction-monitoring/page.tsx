@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import PageSchemas from '../../components/page-schemas'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import Link from 'next/link'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Construction Monitoring Service | Protect Your New Construction Home Investment',
   description: 'Construction monitoring service for new construction homes in Las Vegas, Nevada. Dr. Jan Duffy monitors your home\'s construction every 7-10 days, catching issues before they become costly problems. Expert buyer representation included. Call (702) 903-4687.',
@@ -40,8 +39,9 @@ export const metadata: Metadata = {
 
 export default function ConstructionMonitoringPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="buyer-guide"
         url="/services/construction-monitoring"
         title="Construction Monitoring Service | Protect Your New Construction Home Investment"
@@ -65,9 +65,10 @@ export default function ConstructionMonitoringPage() {
           },
         ]}
       />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
+      }
+      showContactCta={true}
+    >
+      <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Construction Monitoring Service: Skye Canyon, Northwest Las Vegas
@@ -250,9 +251,6 @@ export default function ConstructionMonitoringPage() {
         </section>
 
         <DrJanCTABanner context="construction-monitoring" />
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

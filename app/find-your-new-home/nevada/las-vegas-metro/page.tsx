@@ -1,7 +1,4 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../../../components/purple-sale-banner'
-import Header from '../../../components/header'
-import Footer from '../../../components/footer'
 import DrJanCTABanner from '../../../components/dr-jan-cta-banner'
 import DrJanContactCard from '../../../components/dr-jan-contact-card'
 import LasVegasMetroHero from '../../../components/las-vegas-metro-hero'
@@ -10,6 +7,7 @@ import MapView from '../../../components/map-view'
 import ZipCodeMap from '../../../components/zipcode-map'
 import PageSchemas from '../../../components/page-schemas'
 
+import MarketingPageShell from '../../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Find Your New Home in Las Vegas Metro, Nevada | New Construction Homes',
   description: 'Discover new construction homes and communities throughout Las Vegas Metro, Nevada. Browse available homes, floor plans, and communities in Las Vegas, Henderson, Summerlin, Skye Canyon, and surrounding areas with expert buyer\'s agent representation.',
@@ -45,8 +43,9 @@ export const metadata: Metadata = {
 
 export default function LasVegasMetroPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="neighborhood"
         url="/find-your-new-home/nevada/las-vegas-metro"
         title="Find Your New Home in Las Vegas Metro, Nevada | New Construction Homes"
@@ -66,10 +65,10 @@ export default function LasVegasMetroPage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={false}
+    >
+      <DrJanCTABanner />
         <LasVegasMetroHero />
         <CommunityListings />
         <MapView />
@@ -79,9 +78,6 @@ export default function LasVegasMetroPage() {
             <DrJanContactCard />
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

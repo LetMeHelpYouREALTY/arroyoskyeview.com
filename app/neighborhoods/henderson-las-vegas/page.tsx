@@ -1,12 +1,10 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../../components/purple-sale-banner'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import Link from 'next/link'
 import PageSchemas from '../../components/page-schemas'
 import DrJanContactCard from '../../components/dr-jan-contact-card'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'New Homes in Henderson Las Vegas | New Construction Homes',
   description: 'Discover new construction homes in Henderson, Nevada. Expert buyer\'s agent representation with Dr. Jan Duffy. Construction monitoring included. Call (702) 903-4687.',
@@ -17,8 +15,9 @@ export const metadata: Metadata = {
 
 export default function HendersonPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="neighborhood"
         url="/neighborhoods/henderson-las-vegas"
         title="New Homes in Henderson Las Vegas | New Construction Homes | Buyer's Agent"
@@ -40,10 +39,10 @@ export default function HendersonPage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanCTABanner />
+      }
+      showContactCta={false}
+    >
+      <DrJanCTABanner />
         
         {/* Hero Section */}
         <section className="luxury-page-hero">
@@ -178,9 +177,6 @@ export default function HendersonPage() {
             </div>
           </div>
         </section>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

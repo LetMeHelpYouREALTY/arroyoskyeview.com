@@ -1,7 +1,4 @@
 import type { Metadata } from 'next'
-import PurpleSaleBanner from '../components/purple-sale-banner'
-import Header from '../components/header'
-import Footer from '../components/footer'
 import DrJanHero from '../components/dr-jan-hero'
 import WhyChooseDrJan from '../components/why-choose-dr-jan'
 import BuyerJourney from '../components/buyer-journey'
@@ -11,6 +8,7 @@ import DrJanFAQ from '../components/dr-jan-faq'
 import Link from 'next/link'
 import PageSchemas from '../components/page-schemas'
 
+import MarketingPageShell from '../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Work with Dr. Jan Duffy | New Construction Home Expert | Las Vegas, Nevada',
   description: 'Expert buyer representation for new construction homes in Las Vegas, Nevada. Dr. Jan Duffy represents YOU, not the builder. Construction monitoring, building standards inspection, insider knowledge. No extra cost. Call (702) 903-4687.',
@@ -46,8 +44,9 @@ export const metadata: Metadata = {
 
 export default function WorkWithDrJanPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="about"
         url="/work-with-dr-jan"
         title="Work with Dr. Jan Duffy | New Construction Home Expert | Las Vegas, Nevada"
@@ -66,10 +65,10 @@ export default function WorkWithDrJanPage() {
           },
         ]}
       />
-      <PurpleSaleBanner />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <DrJanHero />
+      }
+      showContactCta={true}
+    >
+      <DrJanHero />
         <WhyChooseDrJan />
         <BuyerJourney />
         <DrJanTestimonials />
@@ -120,9 +119,6 @@ export default function WorkWithDrJanPage() {
             </div>
           </div>
         </section>
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-

@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
 import PageSchemas from '../../components/page-schemas'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import Link from 'next/link'
 
+import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Financing New Construction Homes in Las Vegas | Buyer\'s Guide',
   description: 'Complete guide to financing new construction homes in Las Vegas, Nevada. Learn about loan types, down payment assistance, builder incentives, and financing options. Expert guidance from Dr. Jan Duffy, your buyer\'s agent.',
@@ -40,8 +39,9 @@ export const metadata: Metadata = {
 
 export default function FinancingNewConstructionPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <PageSchemas
+    <MarketingPageShell
+      schema={
+        <PageSchemas
         pageType="buyer-guide"
         url="/buyers/financing-new-construction"
         title="Financing New Construction Homes in Las Vegas | Buyer's Guide"
@@ -65,9 +65,10 @@ export default function FinancingNewConstructionPage() {
           },
         ]}
       />
-      <Header />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-        <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
+      }
+      showContactCta={true}
+    >
+      <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Financing New Construction Homes: Skye Canyon, Northwest Las Vegas | Buyer's Agent
@@ -272,9 +273,6 @@ export default function FinancingNewConstructionPage() {
         </section>
 
         <DrJanCTABanner context="financing" />
-      </main>
-      <Footer />
-    </div>
+    </MarketingPageShell>
   )
 }
-
