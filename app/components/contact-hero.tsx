@@ -2,6 +2,7 @@
 
 import { SITE_CONTACT } from '@/lib/site-contact'
 import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
+import CalendlyScheduleButton from './calendly-schedule-button'
 
 export default function ContactHero() {
   return (
@@ -22,7 +23,15 @@ export default function ContactHero() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div className="flex flex-col items-center justify-center rounded-xl border border-white/20 bg-white/10 p-6 backdrop-blur-md">
+            <CalendlyScheduleButton
+              text="Schedule time with me"
+              variant="champagne"
+              className="w-full text-center"
+            />
+          </div>
+
           <a
             href={`tel:${SITE_CONTACT.phoneTel}`}
             onClick={() => trackPhoneClick(SITE_CONTACT.phoneAnalytics, 'contact_hero_call')}

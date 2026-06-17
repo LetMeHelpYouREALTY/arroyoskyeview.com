@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import CalendlyLinkWidget from './calendly-link-widget'
 
 export default function ContactMethods() {
   return (
@@ -8,7 +9,29 @@ export default function ContactMethods() {
           Get in Touch
         </h2>
 
-        <div className="mx-auto grid max-w-3xl grid-cols-1 gap-8 md:grid-cols-2">
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-3">
+          <div className="text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/15">
+              <svg className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+            </div>
+            <h3 className="mb-2 text-xl font-bold text-foreground">Schedule Online</h3>
+            <p className="mb-4 text-muted-foreground">Book a 30-minute buyer consultation</p>
+            <CalendlyLinkWidget
+              text="Schedule time with me"
+              className={cn(
+                'font-semibold text-primary underline-offset-2 transition-colors hover:text-primary/90',
+                'focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+              )}
+            />
+          </div>
+
           <div className="text-center">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/15">
               <svg className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>

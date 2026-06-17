@@ -50,6 +50,11 @@ const PUBLIC_ROUTES: SitemapRouteDef[] = [
   { path: '/testimonials', tier: 'conversion' },
 
   // Geo — communities & Skye Canyon inventory
+  { path: '/arroyo-at-skyeview/available-homes', tier: 'geo-community', priority: 0.95 },
+  { path: '/arroyo-at-skyeview/floor-plans', tier: 'geo-community', priority: 0.94 },
+  { path: '/arroyo-at-skyeview/overview', tier: 'geo-community', priority: 0.93 },
+  { path: '/arroyo-at-skyeview/area', tier: 'geo-community', priority: 0.92 },
+  { path: '/arroyo-at-skyeview/homesite-map', tier: 'geo-community', priority: 0.9 },
   { path: '/sierra-at-skyeview', tier: 'geo-community' },
   { path: '/terra-at-skyeview', tier: 'geo-community' },
   { path: '/ironwood', tier: 'geo-community' },

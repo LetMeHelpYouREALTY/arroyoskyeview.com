@@ -11,6 +11,7 @@
     "start": "next start",
     "lint": "next lint",
     "validate:sitemap": "node scripts/validate-sitemap-routes.mjs",
+    "audit:forms": "node scripts/audit-no-forms.mjs",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx}\""
   },

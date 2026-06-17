@@ -6,57 +6,56 @@ import CalendlyLinkWidget from './calendly-link-widget'
 
 export default function ContactForm() {
   return (
-    <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-              Get Started with Your Home Search
+    <section className="bg-gradient-to-b from-gray-50 to-white py-16">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div className="rounded-2xl bg-white p-8 shadow-xl md:p-12">
+          <div className="mb-8 text-center">
+            <h2 className="mb-3 text-3xl font-bold text-foreground md:text-4xl">
+              Schedule Your Buyer Consultation
             </h2>
-            <p className="text-lg text-muted-foreground mb-4">
-              Tell Dr. Jan Duffy about your new construction home search at Arroyo at Skyeview Homes or other Skye Canyon communities, and she'll get back to you within 24 hours
+            <p className="mb-4 text-lg text-muted-foreground">
+              Book a 30-minute session with Dr. Jan Duffy to discuss Arroyo at Skyeview Homes and other Skye Canyon communities.
             </p>
-            {/* Trust Signals */}
             <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center">
-                <svg className="w-4 h-4 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="mr-2 h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 20 20" aria-hidden>
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 <span>100% Free Buyer Representation</span>
               </div>
               <div className="flex items-center">
-                <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="mr-2 h-4 w-4 text-primary" fill="currentColor" viewBox="0 0 20 20" aria-hidden>
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 <span>Represents HOME BUYERS Only</span>
               </div>
               <div className="flex items-center">
-                <svg className="w-4 h-4 text-purple-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="mr-2 h-4 w-4 text-purple-600" fill="currentColor" viewBox="0 0 20 20" aria-hidden>
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                <span>Response within 24 hours</span>
+                <span>30-minute buyer consultation</span>
               </div>
             </div>
           </div>
 
-          <CalendlyInlineWidget className="mb-6 h-[720px]" />
+          <CalendlyInlineWidget className="mb-6 h-[700px]" />
           <div className="text-center">
             <CalendlyLinkWidget
-              className="text-primary hover:text-primary font-semibold underline underline-offset-4"
-              text="Prefer popup booking? Schedule time with Dr. Jan"
+              className="font-semibold text-primary underline underline-offset-4 hover:text-primary"
+              text="Schedule time with me"
             />
             <div className="mt-4">
               <Button
                 type="button"
                 variant="outline"
                 asChild
-                className="px-8 py-3 text-lg font-semibold rounded-lg border-2 border-luxury-champagne text-primary hover:bg-blue-50 transition-all min-w-[200px]"
+                className="min-w-[200px] rounded-lg border-2 border-luxury-champagne px-8 py-3 text-lg font-semibold text-primary transition-all hover:bg-blue-50"
               >
                 <a href="tel:7029034687" className="flex items-center justify-center">
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
-                  Call Now
+                  Call (702) 903-4687
                 </a>
               </Button>
             </div>

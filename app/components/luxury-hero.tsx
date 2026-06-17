@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react'
 import { Phone, MessageSquare, MapPin, Dumbbell, Mountain, Map } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import CalendlyScheduleButton from './calendly-schedule-button'
 import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
@@ -136,7 +137,12 @@ export default function LuxuryHero() {
           </div>
 
           {/* CTA buttons */}
-          <div className="flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
+          <div className="flex w-full flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4">
+            <CalendlyScheduleButton
+              text="Schedule time with me"
+              variant="champagne"
+              className="w-full px-8 py-6 text-sm uppercase tracking-[0.14em] sm:w-auto"
+            />
             <Button
               asChild
               size="lg"

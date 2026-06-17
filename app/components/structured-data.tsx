@@ -163,7 +163,7 @@ export default function StructuredData() {
         '@type': 'ListItem',
         position: 2,
         name: 'Find Your Home',
-        item: 'https://www.arroyoskyeview.com/#homes',
+        item: 'https://www.arroyoskyeview.com/arroyo-at-skyeview/available-homes',
       },
       {
         '@type': 'ListItem',

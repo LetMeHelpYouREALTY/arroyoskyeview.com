@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import CalendlyScheduleButton from './calendly-schedule-button'
 import { cn } from '@/lib/utils'
 import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
 
@@ -60,7 +61,12 @@ export default function DrJanHero() {
             closing—protecting YOUR interests as a home buyer every step of the way.
           </p>
 
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-5">
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap sm:gap-5">
+            <CalendlyScheduleButton
+              text="Schedule time with me"
+              variant="champagne"
+              className="min-h-11 px-8 text-base shadow-lg"
+            />
             <Button
               asChild
               size="lg"
