@@ -2,6 +2,13 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname
+
+  // Workflow SDK internal routes must not be intercepted
+  if (pathname.startsWith('/.well-known/workflow/')) {
+    return NextResponse.next()
+  }
+
   const url = request.nextUrl.clone()
   const hostname = request.headers.get('host') || ''
   
@@ -61,7 +68,7 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public files (images, etc.)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|\\.well-known/workflow/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)).*)',
   ],
 }
 

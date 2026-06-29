@@ -1,6 +1,14 @@
+import { withWorkflow } from 'workflow/next'
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: [
+    'workflow',
+    '@workflow/core',
+    '@workflow/world',
+    '@workflow/world-local',
+    '@workflow/world-vercel',
+  ],
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -79,4 +87,4 @@ const nextConfig: NextConfig = {
   // Note: Redirects (HTTP→HTTPS, non-www→www) are handled by middleware.ts
 }
 
-export default nextConfig
+export default withWorkflow(nextConfig)

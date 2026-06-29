@@ -11,11 +11,13 @@
     "start": "next start",
     "lint": "next lint",
     "validate:sitemap": "node scripts/validate-sitemap-routes.mjs",
+    "workflow:web": "workflow web",
     "audit:forms": "node scripts/audit-no-forms.mjs",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx}\""
   },
   "dependencies": {
+    "@opentelemetry/api": "^1.9.1",
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-dropdown-menu": "^2.1.15",
@@ -29,12 +31,12 @@
     "cmdk": "^1.1.1",
     "lucide-react": "^0.525.0",
     "next": "15.5.18",
-    "next-themes": "^0.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "tailwind-merge": "^3.3.1",
     "v0-sdk": "^0.15.0",
-    "vaul": "^1.1.2"
+    "vaul": "^1.1.2",
+    "workflow": "^4.5.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

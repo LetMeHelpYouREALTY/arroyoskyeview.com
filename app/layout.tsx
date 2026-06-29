@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import { Geist, Geist_Mono, Playfair_Display } from 'next/font/google'
 import { SITE_URL } from '@/lib/site-url'
-import { ThemeProvider } from 'next-themes'
 import StructuredData from './components/structured-data'
 import PreconnectLinks from './components/preconnect-links'
 import CalendlyBadgeWidget from './components/calendly-badge-widget'
@@ -92,7 +91,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
         <link
           href="https://assets.calendly.com/assets/external/widget.css"
@@ -139,15 +138,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
         <SkipToMain />
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-          storageKey="theme"
-        >
-          {children}
-        </ThemeProvider>
+        {children}
         <CalendlyBadgeWidget />
       </body>
     </html>
