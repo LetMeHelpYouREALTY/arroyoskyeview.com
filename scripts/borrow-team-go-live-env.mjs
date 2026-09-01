@@ -251,12 +251,19 @@ async function decryptNamed(projectId, names) {
   return ''
 }
 
-async function probeImages(headers) {
+async function probeImages(headers, accountId = IMAGES_ACCOUNT_ID) {
   const res = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${IMAGES_ACCOUNT_ID}/images/v1?per_page=1`,
+    `https://api.cloudflare.com/client/v4/accounts/${accountId}/images/v1?per_page=1`,
     { headers },
   )
   return { ok: res.ok, status: res.status }
+}
+
+async function listCloudflareAccounts(headers) {
+  const res = await fetch('https://api.cloudflare.com/client/v4/accounts?per_page=50', { headers })
+  const json = await res.json().catch(() => null)
+  const accounts = Array.isArray(json?.result) ? json.result : []
+  return { ok: res.ok, status: res.status, accounts }
 }
 
 async function cloudflareImagesCredentialWorks(token, emails) {
@@ -267,19 +274,50 @@ async function cloudflareImagesCredentialWorks(token, emails) {
   const uniqueEmails = [...new Set((Array.isArray(emails) ? emails : [emails]).filter(Boolean))]
   let lastStatus = bearer.status
   for (const email of uniqueEmails) {
-    const globalAuth = await probeImages({
-      'X-Auth-Email': email,
-      'X-Auth-Key': token,
-    })
-    lastStatus = globalAuth.status
-    if (globalAuth.ok) {
-      return { ok: true, mode: 'global', status: globalAuth.status, email }
+    const headers = { 'X-Auth-Email': email, 'X-Auth-Key': token }
+    const onDefault = await probeImages(headers)
+    lastStatus = onDefault.status
+    if (onDefault.ok) {
+      return {
+        ok: true,
+        mode: 'global',
+        status: onDefault.status,
+        email,
+        accountId: IMAGES_ACCOUNT_ID,
+      }
+    }
+    if (onDefault.status !== 403) {
+      continue
+    }
+    const listed = await listCloudflareAccounts(headers)
+    console.log(
+      `Cloudflare Global key authenticated (Images 403 on default account). Accounts: HTTP ${listed.status}, ${listed.accounts.length}`,
+    )
+    for (const account of listed.accounts.slice(0, 20)) {
+      const id = account?.id
+      if (!id) {
+        continue
+      }
+      const probed = await probeImages(headers, id)
+      console.log(`Images on account ${id.slice(0, 8)}…: HTTP ${probed.status}`)
+      if (probed.ok) {
+        return { ok: true, mode: 'global', status: probed.status, email, accountId: id }
+      }
     }
   }
   if (uniqueEmails.length > 0) {
     return { ok: false, mode: 'global', status: lastStatus }
   }
   return { ok: false, mode: 'bearer', status: bearer.status }
+}
+
+function rememberCloudflareAccount(found, probe) {
+  if (probe?.accountId && !found.CLOUDFLARE_ACCOUNT_ID && !alreadyHave('CLOUDFLARE_ACCOUNT_ID')) {
+    found.CLOUDFLARE_ACCOUNT_ID = {
+      value: probe.accountId,
+      source: 'Cloudflare account with Images access',
+    }
+  }
 }
 
 function interestingKeyNames(names) {
@@ -684,6 +722,7 @@ for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_GLOBAL_API_TOKEN']) {
     delete found[key]
   } else {
     console.log(`Cloudflare Images ${key} from harvest accepted via ${probe.mode}`)
+    rememberCloudflareAccount(found, probe)
     if (probe.mode === 'global' && probe.email && !found.CLOUDFLARE_EMAIL && !alreadyHave('CLOUDFLARE_EMAIL')) {
       found.CLOUDFLARE_EMAIL = {
         value: probe.email,
@@ -723,6 +762,7 @@ for (const [canonical, bucket] of Object.entries(candidates)) {
       }
       console.log(`Cloudflare Images ${canonical} accepted via ${probe.mode}`)
       accepted = candidate
+      rememberCloudflareAccount(found, probe)
       if (
         probe.mode === 'global' &&
         probe.email &&
