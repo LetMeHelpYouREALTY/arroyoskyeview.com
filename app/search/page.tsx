@@ -5,6 +5,7 @@ import PageSchemas from '../components/page-schemas'
 import { PageContent } from '../components/page-section'
 import RealScoutOfficeWidget from '../components/realscout-office-widget'
 import DrJanCTABanner from '../components/dr-jan-cta-banner'
+import SiteSearchBox from '../components/site-search-box'
 import { SITE_CONTACT } from '@/lib/site-contact'
 import { SITE_URL } from '@/lib/site-url'
 import { siteSearchQuery } from '@/lib/site-search'
@@ -96,25 +97,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           .
         </p>
 
-        <form action="/search" method="get" className="mt-8 flex max-w-xl gap-2" role="search">
-          <label htmlFor="site-search-q" className="sr-only">
-            Search homes
-          </label>
-          <input
-            id="site-search-q"
-            name="q"
-            type="search"
-            defaultValue={query}
-            placeholder="City, ZIP, or neighborhood"
-            className="min-w-0 flex-1 rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground"
-          />
-          <button
-            type="submit"
-            className="rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white hover:opacity-90"
-          >
-            Search
-          </button>
-        </form>
+        <SiteSearchBox initialQuery={query} />
 
         <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-sm">
           {GUIDE_LINKS.map((link) => (

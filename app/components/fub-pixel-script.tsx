@@ -11,7 +11,7 @@ type FubPixelScriptProps = {
 
 /** Official FUB Widget Tracker (widgetbe.com). One pixel per team account. */
 export default function FubPixelScript({
-  strategy = 'afterInteractive',
+  strategy = 'lazyOnload',
 }: FubPixelScriptProps) {
   if (!isFubPixelEnabled()) {
     return null

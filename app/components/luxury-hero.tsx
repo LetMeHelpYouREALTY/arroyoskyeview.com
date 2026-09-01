@@ -69,6 +69,8 @@ export default function LuxuryHero({ imageSrc = LUXURY_HERO_IMAGE }: LuxuryHeroP
           alt="Aerial view of Arroyo at Skyeview townhomes with Red Rock Canyon in the background, Skye Canyon Las Vegas 89166"
           fill
           priority
+          fetchPriority="high"
+          quality={70}
           sizes="100vw"
           className="object-cover object-center"
         />
@@ -91,7 +93,7 @@ export default function LuxuryHero({ imageSrc = LUXURY_HERO_IMAGE }: LuxuryHeroP
         <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-6 px-5 text-center sm:gap-8 sm:px-8 lg:px-12">
 
           {/* Agent portrait */}
-          <DrJanPortrait size="xl" priority />
+          <DrJanPortrait size="xl" />
 
           {/* Location pill */}
           <div

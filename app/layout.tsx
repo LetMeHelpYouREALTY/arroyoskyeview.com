@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
-import { Geist, Geist_Mono, Playfair_Display } from 'next/font/google'
+import { Geist, Playfair_Display } from 'next/font/google'
 import { SITE_URL } from '@/lib/site-url'
 import StructuredData from './components/structured-data'
 import PreconnectLinks from './components/preconnect-links'
@@ -13,11 +13,7 @@ import './globals.css'
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+  display: 'swap',
 })
 
 const playfair = Playfair_Display({
@@ -103,21 +99,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link
-          href="https://assets.calendly.com/assets/external/widget.css"
-          rel="stylesheet"
-        />
+        <PreconnectLinks />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased`}
+        className={`${geistSans.variable} ${playfair.variable} antialiased`}
       >
-        {/* Preconnect links for faster resource loading */}
-        <PreconnectLinks />
-        
-        {/* Structured Data for SEO */}
         <StructuredData />
-        
-        {/* Google tag (gtag.js) - Deferred to improve initial page load */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-6HBW87EGMR"
           strategy="lazyOnload"
@@ -135,19 +122,18 @@ export default function RootLayout({
             });
           `}
         </Script>
-        {/* RealScout web components — one script for all widgets (office listings, etc.) */}
         <Script
           id="realscout-web-components"
           src="https://em.realscout.com/widgets/realscout-web-components.umd.js"
           type="module"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
         <Script
           id="calendly-widget-js"
           src="https://assets.calendly.com/assets/external/widget.js"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <FubPixelScript />
+        <FubPixelScript strategy="lazyOnload" />
         <CalendlyFubBridge />
         <SkipToMain />
         {children}
