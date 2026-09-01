@@ -61,6 +61,8 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           FOLLOW_UP_BOSS_API_KEY: ${{ secrets.FOLLOW_UP_BOSS_API_KEY }}
+          FUB_API_KEY: ${{ secrets.FUB_API_KEY }}
+          CALENDLY_API_TOKEN: ${{ secrets.CALENDLY_API_TOKEN }}
           CALENDLY_WEBHOOK_SIGNING_KEY: ${{ secrets.CALENDLY_WEBHOOK_SIGNING_KEY }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

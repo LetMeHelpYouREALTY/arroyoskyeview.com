@@ -21,6 +21,11 @@ const VARS = [
     comment: 'FUB Events API for Calendly bookings',
   },
   {
+    key: 'CALENDLY_API_TOKEN',
+    type: 'encrypted',
+    comment: 'Calendly PAT for invitee URI lookup and webhook register',
+  },
+  {
     key: 'CALENDLY_WEBHOOK_SIGNING_KEY',
     type: 'encrypted',
     comment: 'Calendly webhook HMAC signing key',
@@ -59,8 +64,22 @@ if (!TOKEN) {
   process.exit(1)
 }
 
+function envValue(key) {
+  if (key === 'FOLLOW_UP_BOSS_API_KEY') {
+    return process.env.FOLLOW_UP_BOSS_API_KEY?.trim() || process.env.FUB_API_KEY?.trim()
+  }
+  if (key === 'CALENDLY_API_TOKEN') {
+    return (
+      process.env.CALENDLY_API_TOKEN?.trim() ||
+      process.env.CALENDLY_PERSONAL_ACCESS_TOKEN?.trim() ||
+      process.env.CALENDLY_PAT?.trim()
+    )
+  }
+  return process.env[key]?.trim()
+}
+
 const payload = VARS.flatMap((item) => {
-  const value = process.env[item.key]?.trim()
+  const value = envValue(item.key)
   if (!value) {
     return []
   }

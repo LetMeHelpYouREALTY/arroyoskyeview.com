@@ -8,8 +8,23 @@ export type FollowUpBossSyncResult =
   | { ok: true }
   | { ok: false; reason: 'not-configured' | 'upstream'; status?: number }
 
+function firstEnv(...names: string[]): string | undefined {
+  for (const name of names) {
+    const value = process.env[name]?.trim()
+    if (value) {
+      return value
+    }
+  }
+  return undefined
+}
+
+/** FOLLOW_UP_BOSS_API_KEY, or FUB_API_KEY (sister-site / Vercel alias). */
+export function followUpBossApiKey(): string | undefined {
+  return firstEnv('FOLLOW_UP_BOSS_API_KEY', 'FUB_API_KEY')
+}
+
 export function isFollowUpBossConfigured(): boolean {
-  return Boolean(process.env.FOLLOW_UP_BOSS_API_KEY?.trim())
+  return Boolean(followUpBossApiKey())
 }
 
 function fubAuthHeader(apiKey: string): string {
@@ -23,7 +38,7 @@ function fubHeaders(apiKey: string): Record<string, string> {
     Accept: 'application/json',
     'X-System': 'arroyoskyeview.com',
   }
-  const systemKey = process.env.FUB_X_SYSTEM_KEY?.trim()
+  const systemKey = firstEnv('FUB_X_SYSTEM_KEY', 'FUB_SYSTEM_KEY')
   if (systemKey) {
     headers['X-System-Key'] = systemKey
   }
@@ -66,7 +81,7 @@ async function applyBuyerRegistrationPlan(
 export async function sendCalendlyLeadToFollowUpBoss(
   input: CalendlyLeadInput,
 ): Promise<FollowUpBossSyncResult> {
-  const apiKey = process.env.FOLLOW_UP_BOSS_API_KEY?.trim()
+  const apiKey = followUpBossApiKey()
   if (!apiKey) {
     return { ok: false, reason: 'not-configured' }
   }

@@ -1,8 +1,13 @@
 import type { CalendlyLeadInput } from '@/lib/fub-events'
 
 function calendlyApiToken(): string | undefined {
-  const value = process.env.CALENDLY_API_TOKEN
-  return typeof value === 'string' && value.trim() ? value.trim() : undefined
+  for (const name of ['CALENDLY_API_TOKEN', 'CALENDLY_PERSONAL_ACCESS_TOKEN', 'CALENDLY_PAT']) {
+    const value = process.env[name]
+    if (typeof value === 'string' && value.trim()) {
+      return value.trim()
+    }
+  }
+  return undefined
 }
 
 export function isCalendlyApiConfigured(): boolean {
