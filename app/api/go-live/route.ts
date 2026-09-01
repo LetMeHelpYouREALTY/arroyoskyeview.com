@@ -90,7 +90,7 @@ export async function GET() {
   const nextHumanActions: string[] = []
   if (!deliveryHash) {
     nextHumanActions.push(
-      'On a machine already logged into Wrangler for account 2cc579c1ec9e426ed585e933ebf4753b run `npx wrangler deploy --config workers/hosted-images/wrangler.jsonc` then `npm run images:ingest-remote` (branch cursor/go-live-stack-f7eb). The Worker uploads via the Images binding; GitHub/Vercel REST still 9109 on the IP-allowlisted token. After custom IDs return 200, the next production build inlines imagedelivery.net. Alternatively mint Account.Cloudflare Images.Edit with no IP allowlist as CLOUDFLARE_API_TOKEN. Do not default the Siena hash until Arroyo IDs return 200.',
+      'On a machine already logged into Wrangler for account 2cc579c1ec9e426ed585e933ebf4753b: checkout cursor/go-live-stack-f7eb and run `npx wrangler deploy --config workers/hosted-images/wrangler.jsonc`. The Worker cron ingest runs every 5 minutes via the Images binding (no IP-allowlisted REST token). `npm run images:ingest-remote` is optional and faster. After custom IDs return 200, the next production build inlines imagedelivery.net. Alternatively mint Account.Cloudflare Images.Edit with no IP allowlist as CLOUDFLARE_API_TOKEN. Do not default the Siena hash until Arroyo IDs return 200.',
     )
   }
   if (!calendlyConfigured) {
