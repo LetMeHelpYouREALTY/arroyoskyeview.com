@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Playfair_Display } from 'next/font/google'
 import { SITE_URL } from '@/lib/site-url'
-import { getCachedArroyoHostedImagesHash } from '@/lib/cloudflare-images-ready'
+import { getCachedArroyoHostedImages } from '@/lib/cloudflare-images-ready'
 import StructuredData from './components/structured-data'
 import PreconnectLinks from './components/preconnect-links'
 import CalendlyFubBridge from './components/calendly-fub-bridge'
@@ -96,7 +96,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const hostedImagesHash = await getCachedArroyoHostedImagesHash()
+  const hostedImages = await getCachedArroyoHostedImages()
   return (
     <html lang="en">
       <head>
@@ -105,7 +105,10 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${playfair.variable} antialiased`}
       >
-        <CloudflareImagesProvider hash={hostedImagesHash}>
+        <CloudflareImagesProvider
+          hash={hostedImages.hash}
+          readyIds={hostedImages.readyIds}
+        >
           <StructuredData />
           <DeferredThirdParties />
           <CalendlyFubBridge />

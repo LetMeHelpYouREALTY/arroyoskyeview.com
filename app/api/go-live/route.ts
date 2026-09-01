@@ -109,7 +109,8 @@ export async function GET() {
   const nativeFromThisSite = Boolean(fubCalendlySource?.fromThisSite)
   const calendlyConfigured =
     embedOrWebhookReady || hostedRedirectReady || nativeFromThisSite
-  const imagesHtmlReady = deliveryHash || manifestIds.ok
+  const imagesHtmlReady =
+    deliveryHash || customIds.hero === 200 || manifestIds.heroReady
   const blockers: string[] = []
   if (!imagesHtmlReady) {
     blockers.push('cloudflare-images-hash')
@@ -127,7 +128,7 @@ export async function GET() {
   const nextHumanActions: string[] = []
   if (!imagesHtmlReady) {
     nextHumanActions.push(
-      'Laptop is the reliable path: `npx wrangler deploy --config workers/hosted-images/wrangler.jsonc` from cursor/go-live-stack-f7eb while logged in as Duffy (keeps the Images binding). One-click https://deploy.workers.cloudflare.com/?url=https://github.com/LetMeHelpYouREALTY/arroyoskyeview.com/tree/cursor/go-live-stack-f7eb/workers/hosted-images does not auto-provision hosted Images. Keep Worker name arroyoskyeview-hosted-images. Cron ingest every 5 minutes; when all 35 custom IDs return HTTP 200, homepage <img src> flips to imagedelivery.net within ~60s. Token alternative: mint Account permissions Cloudflare Images:Edit + Workers Scripts:Edit with Client IP Filtering empty (not the geneboyle allowlist; sister Zone.Read tokens on summerlinwest/pewtervalley cannot upload or deploy). Do not default the Siena hash or copy Siena UUIDs.',
+      'Laptop is the reliable path: `npx wrangler deploy --config workers/hosted-images/wrangler.jsonc` from cursor/go-live-stack-f7eb while logged in as Duffy (keeps the Images binding). Dashboard Import a repository can use repo root (wrangler.jsonc at /) or subdirectory workers/hosted-images. One-click https://deploy.workers.cloudflare.com/?url=https://github.com/LetMeHelpYouREALTY/arroyoskyeview.com/tree/cursor/go-live-stack-f7eb/workers/hosted-images does not auto-provision hosted Images. Keep Worker name arroyoskyeview-hosted-images. Cron ingest every 5 minutes; homepage hero <img src> flips to imagedelivery.net within ~60s once images/hero/luxury-hero-skye-canyon returns HTTP 200 (other IDs stay on /_next/image until they exist). Token alternative: mint Account permissions Cloudflare Images:Edit + Workers Scripts:Edit with Client IP Filtering empty (not the geneboyle allowlist; sister Zone.Read tokens on summerlinwest/pewtervalley cannot upload or deploy). Do not default the Siena hash or copy Siena UUIDs.',
     )
   }
   if (!calendlyConfigured) {
@@ -161,7 +162,7 @@ export async function GET() {
       api: imagesApi,
       teamCustomIds: customIds,
       manifestCustomIds: manifestIds,
-      runtimeSrcReady: manifestIds.ok,
+      runtimeSrcReady: customIds.hero === 200 || manifestIds.heroReady,
       hostedWorker,
       edgeProbeUrl: `${SITE_URL}/api/go-live/images-edge`,
       sfoProbeUrl: `${SITE_URL}/api/go-live/images-sfo`,

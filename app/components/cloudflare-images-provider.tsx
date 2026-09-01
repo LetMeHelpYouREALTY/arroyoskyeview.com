@@ -2,24 +2,37 @@
 
 import { createContext, useContext, type ReactNode } from 'react'
 
-const CloudflareImagesHashContext = createContext<string | undefined>(undefined)
+export type CloudflareImagesRuntime = {
+  hash?: string
+  readyIds: readonly string[]
+}
+
+const CloudflareImagesRuntimeContext = createContext<CloudflareImagesRuntime>({
+  readyIds: [],
+})
 
 type CloudflareImagesProviderProps = {
   hash?: string
+  readyIds?: readonly string[]
   children: ReactNode
 }
 
 export function CloudflareImagesProvider({
   hash,
+  readyIds = [],
   children,
 }: CloudflareImagesProviderProps) {
   return (
-    <CloudflareImagesHashContext.Provider value={hash}>
+    <CloudflareImagesRuntimeContext.Provider value={{ hash, readyIds }}>
       {children}
-    </CloudflareImagesHashContext.Provider>
+    </CloudflareImagesRuntimeContext.Provider>
   )
 }
 
 export function useCloudflareImagesHash(): string | undefined {
-  return useContext(CloudflareImagesHashContext)
+  return useContext(CloudflareImagesRuntimeContext).hash
+}
+
+export function useCloudflareImagesRuntime(): CloudflareImagesRuntime {
+  return useContext(CloudflareImagesRuntimeContext)
 }

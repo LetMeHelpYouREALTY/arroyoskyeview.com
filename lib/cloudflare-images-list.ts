@@ -304,44 +304,59 @@ export async function probeArroyoCustomIds(
   hash: string = TEAM_CLOUDFLARE_IMAGES_HASH,
 ): Promise<CloudflareCustomIdProbe> {
   const [hero, brand] = await Promise.all([
-    deliveryStatus(hash, 'images/hero/luxury-hero-skye-canyon'),
+    deliveryStatus(hash, HERO_CUSTOM_ID),
     deliveryStatus(hash, 'images/brand/dr-jan-duffy'),
   ])
   return { hash, hero, brand }
 }
+
+export const HERO_CUSTOM_ID = 'images/hero/luxury-hero-skye-canyon'
 
 export type CloudflareManifestIdProbe = {
   hash: string
   ready: number
   total: number
   ok: boolean
+  readyIds: string[]
+  heroReady: boolean
 }
 
 const MANIFEST_PROBE_CONCURRENCY = 8
 
 /**
- * Probe every raster custom ID. Use this before inlining imagedelivery.net
- * src attributes so floor-plan and home photos do not 404 while ingest runs.
+ * Probe every raster custom ID. SiteImage uses imagedelivery.net only for
+ * IDs that already return 200, so the homepage hero can flip before floor
+ * plans finish ingesting. Do not emit CF src for 404 IDs.
  */
 export async function probeManifestCustomIds(
   hash: string = TEAM_CLOUDFLARE_IMAGES_HASH,
 ): Promise<CloudflareManifestIdProbe> {
-  const statuses: number[] = []
+  const readyIds: string[] = []
   for (let i = 0; i < CLOUDFLARE_IMAGE_PUBLIC_PATHS.length; i += MANIFEST_PROBE_CONCURRENCY) {
     const batch = CLOUDFLARE_IMAGE_PUBLIC_PATHS.slice(
       i,
       i + MANIFEST_PROBE_CONCURRENCY,
     )
-    const batchStatuses = await Promise.all(
-      batch.map((localPath) => deliveryStatus(hash, customIdFromPath(localPath))),
+    const batchResults = await Promise.all(
+      batch.map(async (localPath) => {
+        const id = customIdFromPath(localPath)
+        const status = await deliveryStatus(hash, id)
+        return { id, status }
+      }),
     )
-    statuses.push(...batchStatuses)
+    for (const result of batchResults) {
+      if (result.status === 200) {
+        readyIds.push(result.id)
+      }
+    }
   }
-  const ready = statuses.filter((status) => status === 200).length
+  const ready = readyIds.length
   return {
     hash,
     ready,
     total: CLOUDFLARE_IMAGE_PUBLIC_PATHS.length,
     ok: ready === CLOUDFLARE_IMAGE_PUBLIC_PATHS.length,
+    readyIds,
+    heroReady: readyIds.includes(HERO_CUSTOM_ID),
   }
 }

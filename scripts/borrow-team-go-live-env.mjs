@@ -114,6 +114,10 @@ const PRIORITY_PROJECTS = [
   // unrestricted Images token is not skipped after a 9109 IP-allowlisted one.
   { id: 'prj_vrMcC3LsxgF3yf51M06TdeYUI24j', name: 'sienalasvegas.com' },
   { id: 'prj_SZWSyg5C0N9pEzeLoHQNtSYo4U0L', name: 'mesaskyeview-com' },
+  { id: 'prj_1oa9Zoow76266yZcUC5Z4LWyITfk', name: 'lasvegasfamilyhomes-com' },
+  { id: 'prj_adBpYedAsrNmRAe7mZQhPrhOQUOx', name: 'ironmountainranchlasvegas-com' },
+  { id: 'prj_ywWvx5BgFs8fabs1ovPepf3LwJRW', name: 'zoomintohomes-com' },
+  { id: 'prj_f00T6IobVyA0nhUmwIWTwKJbEnFq', name: 'californiaforeverrealty-com' },
   { id: 'prj_xZmrAjHZjKncFudRykf1hDaLVvtB', name: 'drjanduffy.com' },
   { id: 'prj_wLlJUFtUXEWI5lWpGaGAHlrfEMBg', name: 'assumablehomefinder.com' },
   { id: 'prj_yE6ZxHq8bfWfLrop5IaYncTHZmyB', name: 'justcallgene.com' },

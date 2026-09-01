@@ -1,8 +1,10 @@
 {
-  // Keep in sync with the repo-root wrangler.jsonc (dashboard import
-  // at `.`). This file is the one-click / Workers Builds subdirectory root.
+  // Repo-root pointer so Cloudflare “Import a repository” with default
+  // root `.` deploys the hosted-images Worker instead of failing to find
+  // wrangler config. One-click still uses workers/hosted-images/. Keep
+  // this file in sync with workers/hosted-images/wrangler.jsonc.
   "name": "arroyoskyeview-hosted-images",
-  "main": "src/index.ts",
+  "main": "workers/hosted-images/src/index.ts",
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat"],
   "account_id": "2cc579c1ec9e426ed585e933ebf4753b",
@@ -19,9 +21,6 @@
     "CREATOR": "arroyoskyeview.com"
   },
   "triggers": {
-    // Every 5 minutes so a laptop or Workers Builds deploy ingests without
-    // waiting for the next hour or a /sync secret. After IDs exist,
-    // ingestOne is a details() no-op.
     "crons": ["*/5 * * * *"]
   }
 }
