@@ -24,6 +24,11 @@ export const FUB_WEBSITE_EVENT_TYPES = [
 
 export type FubWebsiteEventType = (typeof FUB_WEBSITE_EVENT_TYPES)[number]
 
+export const FUB_ASSIGNED_AGENT_NAME = 'Dr Jan Duffy'
+export const FUB_ASSIGNED_USER_ID = 1
+/** Buyer New Lead Website Registration — verified Active 2026-09-01. */
+export const FUB_BUYER_WEBSITE_REGISTRATION_PLAN_ID = 4
+
 export type FubPersonEmail = { value: string }
 export type FubPersonPhone = { value: string }
 
@@ -38,6 +43,8 @@ export type FubCalendlyEventPayload = {
     emails: FubPersonEmail[]
     phones?: FubPersonPhone[]
     tags: string[]
+    assignedTo: string
+    assignedUserId: number
   }
   occurred?: string
   campaign: {
@@ -94,6 +101,8 @@ export function buildCalendlyFubEvent(input: CalendlyLeadInput): FubCalendlyEven
         ? { phones: [{ value: input.inviteePhone }] }
         : {}),
       tags: ['Arroyo at Skyeview', 'Calendly', 'Website'],
+      assignedTo: FUB_ASSIGNED_AGENT_NAME,
+      assignedUserId: FUB_ASSIGNED_USER_ID,
     },
     occurred: input.scheduledAt,
     campaign: {
