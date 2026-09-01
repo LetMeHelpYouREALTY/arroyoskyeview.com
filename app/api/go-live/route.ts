@@ -43,6 +43,37 @@ function hasEnv(
   return typeof value === 'string' && value.trim().length > 0
 }
 
+const HOSTED_IMAGES_WORKER_URL =
+  'https://arroyoskyeview-hosted-images.drduffy.workers.dev/'
+
+async function probeHostedImagesWorker(): Promise<{
+  url: string
+  status: number
+  ok: boolean
+}> {
+  try {
+    const res = await fetch(HOSTED_IMAGES_WORKER_URL, {
+      signal: AbortSignal.timeout(4000),
+      cache: 'no-store',
+    })
+    const body: unknown = await res.json().catch(() => null)
+    const service =
+      body &&
+      typeof body === 'object' &&
+      'service' in body &&
+      typeof body.service === 'string'
+        ? body.service
+        : null
+    return {
+      url: HOSTED_IMAGES_WORKER_URL,
+      status: res.status,
+      ok: res.ok && service === 'arroyoskyeview-hosted-images',
+    }
+  } catch {
+    return { url: HOSTED_IMAGES_WORKER_URL, status: 0, ok: false }
+  }
+}
+
 /**
  * Public go-live flags only — never include secret values.
  * Embed/webhook Calendly → FUB needs FUB plus a signing key or PAT.
@@ -57,7 +88,7 @@ export async function GET() {
   const cronSecret = hasEnv('CRON_SECRET')
   const deliveryHash = isCloudflareImagesHashConfigured()
   const imagesToken = process.env.CLOUDFLARE_API_TOKEN?.trim()
-  const [hostedConfirmation, imagesApi, customIds, fubCalendlySource] =
+  const [hostedConfirmation, imagesApi, customIds, fubCalendlySource, hostedWorker] =
     await Promise.all([
       fetchCalendlyHostedConfirmation(),
       imagesToken
@@ -65,6 +96,7 @@ export async function GET() {
         : Promise.resolve(null),
       probeArroyoCustomIds(),
       probeFollowUpBossCalendlySource(),
+      probeHostedImagesWorker(),
     ])
   const hostedRedirectReady =
     followUpBoss &&
@@ -90,7 +122,7 @@ export async function GET() {
   const nextHumanActions: string[] = []
   if (!deliveryHash) {
     nextHumanActions.push(
-      'On a machine already logged into Wrangler for account 2cc579c1ec9e426ed585e933ebf4753b: checkout cursor/go-live-stack-f7eb and run `npx wrangler deploy --config workers/hosted-images/wrangler.jsonc`. The Worker cron ingest runs every 5 minutes via the Images binding (no IP-allowlisted REST token). `npm run images:ingest-remote` is optional and faster. After custom IDs return 200, the next production build inlines imagedelivery.net. Alternatively mint Account.Cloudflare Images.Edit with no IP allowlist as CLOUDFLARE_API_TOKEN. Do not default the Siena hash until Arroyo IDs return 200.',
+      'Deploy workers/hosted-images on Cloudflare account 2cc579c1ec9e426ed585e933ebf4753b. Laptop: checkout this branch and run `npx wrangler deploy --config workers/hosted-images/wrangler.jsonc`. Dashboard: Workers & Pages → Create → Import LetMeHelpYouREALTY/arroyoskyeview.com → root directory workers/hosted-images → deploy. Cron ingest runs every 5 minutes via the Images binding (no IP-allowlisted REST token). After every custom ID returns 200 on imagedelivery.net, the next production build inlines homepage <img src>. Alternatively mint Account.Cloudflare Images.Edit with no IP allowlist as CLOUDFLARE_API_TOKEN. Do not default the Siena hash until Arroyo IDs return 200.',
     )
   }
   if (!calendlyConfigured) {
@@ -122,7 +154,7 @@ export async function GET() {
       deliveryHash,
       api: imagesApi,
       teamCustomIds: customIds,
-      hostedWorker: 'npm run images:go-live',
+      hostedWorker,
       edgeProbeUrl: `${SITE_URL}/api/go-live/images-edge`,
       sfoProbeUrl: `${SITE_URL}/api/go-live/images-sfo`,
     },

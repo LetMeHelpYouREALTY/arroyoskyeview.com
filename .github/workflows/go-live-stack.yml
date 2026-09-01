@@ -56,6 +56,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_IMAGES_HASH: ${{ secrets.CLOUDFLARE_IMAGES_HASH }}
           NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH: ${{ secrets.NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH }}
+          CLOUDFLARE_WORKERS_SCRIPTS_EDIT: ${{ secrets.CLOUDFLARE_WORKERS_SCRIPTS_EDIT }}
           FOLLOW_UP_BOSS_API_KEY: ${{ secrets.FOLLOW_UP_BOSS_API_KEY }}
           FUB_API_KEY: ${{ secrets.FUB_API_KEY }}
           CALENDLY_API_TOKEN: ${{ secrets.CALENDLY_API_TOKEN }}
@@ -85,6 +86,7 @@ jobs:
           seed CLOUDFLARE_ACCOUNT_ID
           seed CLOUDFLARE_IMAGES_HASH
           seed NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH
+          seed CLOUDFLARE_WORKERS_SCRIPTS_EDIT
           seed FOLLOW_UP_BOSS_API_KEY
           seed FUB_API_KEY
           seed CALENDLY_API_TOKEN
@@ -125,6 +127,34 @@ jobs:
             echo "NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH=$HASH" >> "$GITHUB_ENV"
             echo "CLOUDFLARE_IMAGES_HASH=$HASH" >> "$GITHUB_ENV"
           fi
+
+      # Wrangler uses the same token as REST; skip when GitHub 9109 unless a
+      # dedicated Workers Edit token is seeded. When an unrestricted token
+      # lands, this deploys hosted-images so cron ingest keeps custom IDs
+      # fresh without another REST pass. Do not re-bind CLOUDFLARE_API_TOKEN
+      # from secrets here — empty GitHub secrets overwrite GITHUB_ENV.
+      - name: Deploy hosted-images Worker
+        if: matrix.environment == 'Production'
+        continue-on-error: true
+        run: |
+          if [ -n "$CLOUDFLARE_WORKERS_SCRIPTS_EDIT" ]; then
+            export CLOUDFLARE_API_TOKEN="$CLOUDFLARE_WORKERS_SCRIPTS_EDIT"
+          elif [ "$CLOUDFLARE_IMAGES_AUTH_OK" != "1" ]; then
+            echo "Skip wrangler deploy: CLOUDFLARE_IMAGES_AUTH_OK=${CLOUDFLARE_IMAGES_AUTH_OK:-unset}"
+            exit 0
+          fi
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "Skip wrangler deploy: no Cloudflare token"
+            exit 0
+          fi
+          npx wrangler deploy --config workers/hosted-images/wrangler.jsonc
+
+      # Public imagedelivery.net probe — no token. After a laptop/dashboard
+      # Worker deploy, cron ingest makes custom IDs 200; this writes the hash
+      # into GITHUB_ENV so the production-deploy step below can ship it.
+      - name: Probe hosted Images IDs and write hash
+        if: matrix.environment == 'Production'
+        run: node scripts/ensure-cloudflare-images.mjs
 
       - name: Probe Calendly confirmation redirect (public, no PAT)
         run: node scripts/probe-calendly-confirmation.mjs

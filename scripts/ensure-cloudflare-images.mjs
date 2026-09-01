@@ -48,6 +48,19 @@ async function deliveryStatus(hash, imageId) {
   }
 }
 
+async function writeGithubEnv(hash) {
+  const githubEnv = process.env.GITHUB_ENV
+  if (!githubEnv) {
+    return
+  }
+  await writeFile(
+    githubEnv,
+    `CLOUDFLARE_IMAGES_HASH=${hash}\nNEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH=${hash}\n`,
+    { flag: 'a' },
+  )
+  console.log('Exported Cloudflare Images hash to GITHUB_ENV for production deploy')
+}
+
 async function writeGeneratedHash(hash) {
   await writeFile(
     HASH_FILE,
@@ -59,6 +72,7 @@ export const GENERATED_CLOUDFLARE_IMAGES_HASH: string | undefined = ${JSON.strin
 `,
   )
   console.log(`Wrote Cloudflare Images hash ${hash} to lib/cloudflare-images-hash.generated.ts`)
+  await writeGithubEnv(hash)
 }
 
 async function probeAndWriteHash() {
@@ -85,6 +99,11 @@ function tryRestUpload() {
   const token = process.env.CLOUDFLARE_API_TOKEN?.trim()
   if (!token) {
     console.log('Skipping Cloudflare Images REST upload (CLOUDFLARE_API_TOKEN unset)')
+    return
+  }
+  const authOk = process.env.CLOUDFLARE_IMAGES_AUTH_OK?.trim()
+  if (authOk === 'location-restricted' || authOk === '0' || authOk === 'rate-limited') {
+    console.log(`Skipping Cloudflare Images REST upload (CLOUDFLARE_IMAGES_AUTH_OK=${authOk})`)
     return
   }
   const script = path.join(ROOT, 'upload-cloudflare-images.mjs')

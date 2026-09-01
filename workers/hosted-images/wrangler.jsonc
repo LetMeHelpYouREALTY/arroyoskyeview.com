@@ -17,9 +17,9 @@
     "CREATOR": "arroyoskyeview.com"
   },
   "triggers": {
-    // Every 5 minutes so a laptop `wrangler deploy` ingests without waiting
-    // for the next hour or a /sync secret. After IDs exist, ingestOne is a
-    // details() no-op.
+    // Every 5 minutes so a laptop or Workers Builds deploy ingests without
+    // waiting for the next hour or a /sync secret. After IDs exist,
+    // ingestOne is a details() no-op.
     "crons": ["*/5 * * * *"]
   }
 }

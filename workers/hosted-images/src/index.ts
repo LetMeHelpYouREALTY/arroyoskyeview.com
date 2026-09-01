@@ -5,6 +5,11 @@
  * allowlists on CLOUDFLARE_API_TOKEN do not apply). Deploy with:
  *   npm run images:go-live
  *
+ * Cloudflare dashboard import (no laptop Wrangler): Workers & Pages →
+ * Create → Import LetMeHelpYouREALTY/arroyoskyeview.com → root directory
+ * `workers/hosted-images` → deploy. Worker name must stay
+ * `arroyoskyeview-hosted-images`.
+ *
  * Keep IMAGE_PATHS in sync with lib/cloudflare-image-manifest.ts.
  */
 
