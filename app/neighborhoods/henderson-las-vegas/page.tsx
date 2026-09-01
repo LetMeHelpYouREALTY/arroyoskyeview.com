@@ -35,7 +35,7 @@ export default function HendersonPage() {
           },
           {
             question: 'What are the benefits of living in Henderson?',
-            answer: 'Henderson offers family-friendly neighborhoods, excellent schools, lower crime rates, and proximity to Lake Las Vegas and outdoor recreation. It\'s one of Nevada\'s safest cities.',
+            answer: 'Henderson offers residential neighborhoods with parks and trails, Clark County School District campuses, parks and trails, and proximity to Lake Las Vegas and outdoor recreation. It is about 15-25 minutes from Downtown Las Vegas and close to Lake Las Vegas.',
           },
         ]}
       />
@@ -62,7 +62,7 @@ export default function HendersonPage() {
               <section className="mb-12">
                 <h2 className="text-3xl font-bold text-foreground mb-6">About Henderson, Nevada</h2>
                 <p className="text-lg text-muted-foreground mb-4">
-                  Henderson is Nevada's second-largest city and consistently ranked as one of the safest cities in America. Located just southeast of Las Vegas, Henderson offers a family-friendly atmosphere with excellent schools, beautiful parks, and a strong sense of community.
+                  Henderson is Nevada's second-largest city and known for parks, trails, and Lake Las Vegas recreation. Located just southeast of Las Vegas, Henderson offers parks, trails, Clark County School District campuses, and Lake Las Vegas recreation.
                 </p>
                 <p className="text-lg text-muted-foreground mb-4">
                   Henderson features several master-planned communities and offers residents:
@@ -73,7 +73,7 @@ export default function HendersonPage() {
                   <li>Premium shopping and dining options</li>
                   <li>Proximity to Lake Las Vegas and Lake Mead</li>
                   <li>Lower property taxes than many areas</li>
-                  <li>Safe neighborhoods with active community involvement</li>
+                  <li>Parks, trails, and community events</li>
                 </ul>
               </section>
 
@@ -91,9 +91,9 @@ export default function HendersonPage() {
                 <h2 className="text-3xl font-bold text-foreground mb-6">Why Choose Henderson?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="bg-muted p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-foreground mb-3">Safety & Security</h3>
+                    <h3 className="text-xl font-bold text-foreground mb-3">Parks and Lake Las Vegas</h3>
                     <p className="text-muted-foreground">
-                      Henderson consistently ranks among the safest cities in America, providing peace of mind for families.
+                      Henderson has an extensive park system and sits close to Lake Las Vegas and Lake Mead recreation.
                     </p>
                   </div>
                   <div className="bg-muted p-6 rounded-lg">
@@ -103,9 +103,9 @@ export default function HendersonPage() {
                     </p>
                   </div>
                   <div className="bg-muted p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-foreground mb-3">Excellent Schools</h3>
+                    <h3 className="text-xl font-bold text-foreground mb-3">Clark County School District campuses</h3>
                     <p className="text-muted-foreground">
-                      Henderson is home to some of the highest-rated schools in Nevada, making it ideal for families with children.
+                      Contact Dr. Jan Duffy for the Clark County School District campuses that serve a specific Henderson address.
                     </p>
                   </div>
                   <div className="bg-muted p-6 rounded-lg">

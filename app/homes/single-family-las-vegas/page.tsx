@@ -58,7 +58,7 @@ export default function SingleFamilyHomesPage() {
           },
           {
             question: 'What are the benefits of buying a single-family home?',
-            answer: 'Single-family homes offer more privacy, space, and the ability to customize your property. They\'re ideal for families and those who want their own yard and no shared walls.',
+            answer: 'Single-family homes typically include a private yard, no shared walls, and more interior square footage than attached product.',
           },
         ]}
       />
@@ -73,7 +73,7 @@ export default function SingleFamilyHomesPage() {
               New Construction Single-Family Homes in Las Vegas: Skye Canyon | Buyer's Agent
             </h1>
             <p className="text-xl text-blue-100 max-w-3xl">
-              Discover spacious new construction single-family homes in Las Vegas, Nevada. Perfect for growing families seeking privacy, space, and modern living with expert buyer's agent representation.
+              Discover new construction single-family homes in Las Vegas, Nevada. Private yards, no shared walls, and modern floor plans with expert buyer's agent representation.
             </p>
           </div>
         </section>
@@ -84,7 +84,7 @@ export default function SingleFamilyHomesPage() {
               <section className="mb-12">
                 <h2 className="text-3xl font-bold text-foreground mb-6">Why Choose a Single-Family Home?</h2>
                 <p className="text-lg text-muted-foreground mb-4">
-                  Single-family homes offer the ultimate in privacy, space, and customization. New construction single-family homes in Las Vegas, Nevada are designed for modern families with features that enhance daily living.
+                  New construction single-family homes in Las Vegas, Nevada include private yards, no shared walls, and contemporary floor plans.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                   <div className="bg-muted p-6 rounded-lg">

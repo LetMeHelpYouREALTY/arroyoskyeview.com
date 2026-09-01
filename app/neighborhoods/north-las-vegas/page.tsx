@@ -65,7 +65,7 @@ export default function NorthLasVegasPage() {
           },
           {
             question: 'What are the benefits of living in North Las Vegas?',
-            answer: 'North Las Vegas offers affordable housing, convenient access to major employment centers, good schools, and proximity to Nellis Air Force Base. The area is growing rapidly with new construction developments and amenities.',
+            answer: 'North Las Vegas offers affordable housing, convenient access to major employment centers, Clark County School District campuses, and proximity to Nellis Air Force Base. The area is growing rapidly with new construction developments and amenities.',
           },
         ]}
       />
@@ -92,15 +92,15 @@ export default function NorthLasVegasPage() {
               <section className="mb-12">
                 <h2 className="text-3xl font-bold text-foreground mb-6">About North Las Vegas, Nevada</h2>
                 <p className="text-lg text-muted-foreground mb-4">
-                  North Las Vegas is one of the fastest-growing cities in Nevada, offering affordable new construction homes, convenient access to major employment centers, and a family-friendly atmosphere. Located just north of Las Vegas, North Las Vegas provides residents with:
+                  North Las Vegas is one of the fastest-growing cities in Nevada, offering affordable new construction homes, convenient access to major employment centers, and parks, trails, and recreation amenities. Located just north of Las Vegas, North Las Vegas provides residents with:
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
                   <li>Affordable housing options with new construction developments</li>
                   <li>Proximity to Nellis Air Force Base and major employers</li>
-                  <li>Good schools in the Clark County School District</li>
+                  <li>Clark County School District campuses</li>
                   <li>Convenient access to the Las Vegas Strip (15-20 minutes)</li>
                   <li>Growing retail and dining options</li>
-                  <li>Family-friendly neighborhoods and parks</li>
+                  <li>Neighborhoods with parks and trails</li>
                 </ul>
                 <p className="text-lg text-muted-foreground mb-4">
                   North Las Vegas is experiencing rapid growth with new construction communities offering modern homes at competitive prices. When buying new construction in North Las Vegas, work with Dr. Jan Duffy—your buyer's agent who represents HOME BUYERS, not the builder.

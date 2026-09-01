@@ -95,7 +95,7 @@ export default function Homes500kPlusPage() {
                   <div className="bg-muted p-6 rounded-lg">
                     <h3 className="text-xl font-bold text-foreground mb-3">Desirable Locations</h3>
                     <p className="text-muted-foreground">
-                      Premium lots in premier master-planned communities with excellent schools and amenities.
+                      Premium lots in premier master-planned communities with Clark County School District campuses and amenities.
                     </p>
                   </div>
                   <div className="bg-muted p-6 rounded-lg">
@@ -136,9 +136,9 @@ export default function Homes500kPlusPage() {
                   Luxury new construction homes $500K+ are typically located in premier master-planned communities:
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
-                  <li><strong>Summerlin:</strong> Premier master-planned community with luxury amenities and top-rated schools</li>
+                  <li><strong>Summerlin:</strong> Premier master-planned community with luxury amenities and neighborhood schools including Roger Bryan Elementary</li>
                   <li><strong>Skye Canyon:</strong> Northwest Las Vegas community with modern homes and extensive amenities</li>
-                  <li><strong>Henderson:</strong> Family-friendly area with excellent schools and lower crime rates</li>
+                  <li><strong>Henderson:</strong> Parks, trails, Lake Las Vegas recreation, and Clark County School District campuses</li>
                   <li><strong>Other Premier Communities:</strong> Various luxury communities throughout Las Vegas Metro</li>
                 </ul>
               </section>
@@ -204,7 +204,7 @@ export default function Homes500kPlusPage() {
                   Homes $400K-$500K
                 </h3>
                 <p className="text-muted-foreground text-sm">
-                  Discover mid-range new construction homes perfect for families.
+                  Discover mid-range new construction homes from $400,000 to $500,000.
                 </p>
               </Link>
             </div>

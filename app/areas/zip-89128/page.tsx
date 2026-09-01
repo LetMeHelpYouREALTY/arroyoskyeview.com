@@ -32,7 +32,7 @@ export default function Zip89128Page() {
         questions={[
           {
             question: 'What is zip code 89128 and where is it located in Las Vegas?',
-            answer: 'Zip code 89128 is located in the Summerlin area of Las Vegas, Nevada, one of the city\'s most prestigious master-planned communities. The area offers luxury living, excellent schools, and world-class amenities.',
+            answer: 'Zip code 89128 is located in the Summerlin area of Las Vegas, Nevada, one of the city\'s most prestigious master-planned communities. The area offers luxury living, Clark County School District campuses, and world-class amenities.',
           },
           {
             question: 'What new construction developments are in zip code 89128, Summerlin area?',
@@ -40,7 +40,7 @@ export default function Zip89128Page() {
           },
           {
             question: 'What are the benefits of living in zip code 89128?',
-            answer: 'Zip code 89128 in the Summerlin area offers luxury living, top-rated schools, golf courses, shopping at Downtown Summerlin, excellent dining options, and proximity to Red Rock Canyon. It\'s one of Las Vegas\'s most desirable areas for new construction homes.',
+            answer: 'Zip code 89128 in the Summerlin area offers luxury living, neighborhood schools including Roger Bryan Elementary, golf courses, shopping at Downtown Summerlin, excellent dining options, and proximity to Red Rock Canyon. It\'s one of Las Vegas\'s most desirable areas for new construction homes.',
           },
         ]}
       />
@@ -54,11 +54,11 @@ export default function Zip89128Page() {
           sections={[
             {
               h2: 'Welcome to Zip Code 89128: Summerlin Area, Las Vegas',
-              content: 'Zip code 89128 encompasses part of the prestigious Summerlin master-planned community in Las Vegas, Nevada. This area is known for luxury living, world-class amenities, top-rated schools, and beautiful natural surroundings. Summerlin is one of Las Vegas\'s most desirable areas for new construction homes, offering residents a premium lifestyle with excellent quality of life.',
+              content: 'Zip code 89128 encompasses part of the prestigious Summerlin master-planned community in Las Vegas, Nevada. This area is known for luxury living, world-class amenities, neighborhood schools including Roger Bryan Elementary, and beautiful natural surroundings. Summerlin is one of Las Vegas\'s most desirable areas for new construction homes, offering residents a premium lifestyle with excellent quality of life.',
               h3s: [
                 {
                   h3: 'Summerlin: A Premier Master-Planned Community',
-                  content: 'Summerlin is one of the most prestigious master-planned communities in Las Vegas, spanning over 22,500 acres on the western edge of the city. Zip code 89128 is part of this premier community, offering residents luxury living, award-winning schools, golf courses, shopping at Downtown Summerlin, and proximity to Red Rock Canyon National Conservation Area.',
+                  content: 'Summerlin is one of the most prestigious master-planned communities in Las Vegas, spanning over 22,500 acres on the western edge of the city. Zip code 89128 is part of this premier community, offering residents luxury living, Clark County School District campuses, golf courses, shopping at Downtown Summerlin, and proximity to Red Rock Canyon National Conservation Area.',
                 },
                 {
                   h3: 'New Construction Homes in Zip Code 89128, Summerlin Area',
@@ -72,11 +72,11 @@ export default function Zip89128Page() {
             },
             {
               h2: 'Schools in Zip Code 89128',
-              content: 'Zip code 89128 is served by excellent schools in the Clark County School District, making it ideal for families prioritizing education. The area features highly rated elementary, middle, and high schools with strong academic programs.',
+              content: 'Zip code 89128 is served by Clark County School District campuses. Contact Dr. Jan Duffy for the campuses assigned to a specific address.',
               h3s: [
                 {
-                  h3: 'Top-Rated Schools in Zip Code 89128',
-                  content: 'Zip code 89128 in the Summerlin area is served by some of the highest-rated schools in Nevada, including top-performing elementary, middle, and high schools. The area\'s commitment to education makes it attractive for families with school-age children. Contact Dr. Jan Duffy for specific school information for zip code 89128.',
+                  h3: 'Clark County School District campuses in Zip Code 89128',
+                  content: 'Zip code 89128 in the Summerlin area is served by Clark County School District campuses. Contact Dr. Jan Duffy for the campuses assigned to a specific address in zip code 89128.',
                 },
               ],
             },
@@ -120,7 +120,7 @@ export default function Zip89128Page() {
           questions={[
             {
               question: 'What is zip code 89128 and where exactly is it located in Las Vegas, Nevada?',
-              answer: 'Zip code 89128 is located in the Summerlin area of Las Vegas, Nevada, one of the city\'s most prestigious master-planned communities. The area is on the western edge of Las Vegas, spanning over 22,500 acres, and offers luxury living, top-rated schools, golf courses, and world-class amenities.',
+              answer: 'Zip code 89128 is located in the Summerlin area of Las Vegas, Nevada, one of the city\'s most prestigious master-planned communities. The area is on the western edge of Las Vegas, spanning over 22,500 acres, and offers luxury living, neighborhood schools including Roger Bryan Elementary, golf courses, and world-class amenities.',
             },
             {
               question: 'What new construction developments are in zip code 89128, Summerlin area?',
@@ -128,7 +128,7 @@ export default function Zip89128Page() {
             },
             {
               question: 'What schools serve zip code 89128?',
-              answer: 'Zip code 89128 is served by some of the highest-rated schools in Nevada, including top-performing elementary, middle, and high schools in the Clark County School District. The area\'s commitment to education makes it attractive for families.',
+              answer: 'Zip code 89128 is served by Clark County School District campuses. Contact Dr. Jan Duffy for the campuses assigned to a specific address.',
             },
             {
               question: 'What are property taxes like in zip code 89128?',

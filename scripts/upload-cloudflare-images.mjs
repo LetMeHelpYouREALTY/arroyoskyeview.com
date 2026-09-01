@@ -1,0 +1,127 @@
+/**
+ * Upload public/images assets to Cloudflare Images using custom IDs that
+ * match lib/cloudflare-images.ts (e.g. images/hero/hero-5).
+ *
+ * Based on Cloudflare Images API (docs updated 2026-04-21):
+ * POST https://api.cloudflare.com/client/v4/accounts/{account_id}/images/v1
+ * https://developers.cloudflare.com/images/storage/upload-images/methods/
+ * Custom IDs: https://developers.cloudflare.com/images/storage/upload-images/upload-custom-path/
+ *
+ * Requires CLOUDFLARE_API_TOKEN (Account · Cloudflare Images · Edit)
+ * and CLOUDFLARE_ACCOUNT_ID. After a successful run, set
+ * NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH on Vercel to the printed hash.
+ *
+ * Do not orange-cloud the Vercel apex. Images belong on imagedelivery.net
+ * (or a gray-cloud images.arroyoskyeview.com custom host).
+ */
+import { readdir, readFile } from 'node:fs/promises'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID
+const TOKEN = process.env.CLOUDFLARE_API_TOKEN
+const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'public', 'images')
+const ALLOWED = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif'])
+
+if (!ACCOUNT_ID || !TOKEN) {
+  console.error(
+    'Set CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN, then rerun:\n  npm run images:upload',
+  )
+  process.exit(1)
+}
+
+async function walk(dir) {
+  const entries = await readdir(dir, { withFileTypes: true })
+  const files = []
+  for (const entry of entries) {
+    const full = path.join(dir, entry.name)
+    if (entry.isDirectory()) {
+      files.push(...(await walk(full)))
+      continue
+    }
+    if (ALLOWED.has(path.extname(entry.name).toLowerCase())) {
+      files.push(full)
+    }
+  }
+  return files
+}
+
+function customId(fullPath) {
+  const relative = path.relative(path.join(ROOT, '..'), fullPath).replaceAll('\\', '/')
+  return relative.replace(/\.[^.]+$/, '')
+}
+
+function mimeType(filePath) {
+  const ext = path.extname(filePath).toLowerCase()
+  if (ext === '.jpg' || ext === '.jpeg') return 'image/jpeg'
+  if (ext === '.png') return 'image/png'
+  if (ext === '.webp') return 'image/webp'
+  if (ext === '.gif') return 'image/gif'
+  return 'application/octet-stream'
+}
+
+async function upload(filePath) {
+  const id = customId(filePath)
+  const bytes = await readFile(filePath)
+  const form = new FormData()
+  form.append('file', new Blob([bytes], { type: mimeType(filePath) }), path.basename(filePath))
+  form.append('id', id)
+  form.append('requireSignedURLs', 'false')
+
+  const res = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/v1`,
+    {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${TOKEN}` },
+      body: form,
+    },
+  )
+  const json = await res.json()
+  return { id, status: res.status, json }
+}
+
+async function main() {
+  const files = await walk(ROOT)
+  if (files.length === 0) {
+    console.error(`No images found under ${ROOT}`)
+    process.exit(1)
+  }
+
+  let hash
+  let failed = 0
+  for (const file of files) {
+    const result = await upload(file)
+    const ok = result.json?.success === true
+    if (!ok) {
+      failed += 1
+      console.error(
+        `FAIL ${result.id}: ${result.status}`,
+        JSON.stringify(result.json?.errors || result.json),
+      )
+      continue
+    }
+    const variant = result.json.result?.variants?.[0]
+    if (!hash && typeof variant === 'string') {
+      const match = variant.match(/imagedelivery\.net\/([^/]+)\//)
+      hash = match?.[1]
+    }
+    console.log(`OK ${result.id}`)
+  }
+
+  if (hash) {
+    console.log(`\nNEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH=${hash}`)
+  } else {
+    console.log(
+      '\nCould not parse account hash from variants. Copy it from Cloudflare → Images → Developer Resources.',
+    )
+  }
+
+  if (failed > 0) {
+    process.exit(1)
+  }
+}
+
+main().catch((error) => {
+  console.error(error)
+  process.exit(1)
+})

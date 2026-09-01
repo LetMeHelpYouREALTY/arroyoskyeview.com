@@ -6,7 +6,7 @@ import CalendlyLinkWidget from './calendly-link-widget'
 
 export default function RequestInfo() {
   return (
-    <section className="bg-muted py-16">
+    <section id="request-info" className="scroll-mt-28 bg-muted py-16">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <h2 className="mb-8 text-center font-serif text-3xl font-light tracking-tight text-foreground md:text-4xl">
           Schedule an appointment

@@ -51,11 +51,11 @@ export default function Zip89166Page() {
           sections={[
             {
               h2: 'Welcome to Zip Code 89166: Skye Canyon, Las Vegas',
-              content: 'Zip code 89166 encompasses Skye Canyon, a premier master-planned community in northwest Las Vegas, Nevada. This area is home to multiple new construction developments including Arroyo at Skyeview, Sierra at Skyeview, and Terra at Skyeview. Skye Canyon offers exceptional new construction homes, top-rated schools, extensive amenities, and a family-friendly atmosphere. Your buyer\'s agent, Dr. Jan Duffy, specializes in this northwest Las Vegas area.',
+              content: 'Zip code 89166 encompasses Skye Canyon, a premier master-planned community in northwest Las Vegas, Nevada. This area is home to multiple new construction developments including Arroyo at Skyeview, Sierra at Skyeview, and Terra at Skyeview. Skye Canyon offers exceptional new construction homes, neighborhood schools including Roger Bryan Elementary, extensive amenities, and parks, trails, and recreation amenities. Your buyer\'s agent, Dr. Jan Duffy, specializes in this northwest Las Vegas area.',
               h3s: [
                 {
                   h3: 'Skye Canyon: A Premier Master-Planned Community',
-                  content: 'Skye Canyon is a 1,700-acre master-planned community in northwest Las Vegas (zip code 89166) that represents one of the city\'s most thoughtfully designed residential developments. The community features extensive parks, trails, recreation centers, top-rated schools, and family-friendly amenities. Skye Canyon combines natural desert beauty with modern community planning.',
+                  content: 'Skye Canyon is a 1,700-acre master-planned community in northwest Las Vegas (zip code 89166) that represents one of the city\'s most thoughtfully designed residential developments. The community features extensive parks, trails, recreation centers, neighborhood schools including Roger Bryan Elementary, and parks, splash pads, sports courts, and recreation amenities. Skye Canyon combines natural desert beauty with modern community planning.',
                 },
                 {
                   h3: 'New Construction Developments in Zip Code 89166, Skye Canyon, Las Vegas, Nevada',
@@ -69,15 +69,15 @@ export default function Zip89166Page() {
             },
             {
               h2: 'Schools in Zip Code 89166',
-              content: 'Zip code 89166 is served by excellent schools in the Clark County School District, making it ideal for families prioritizing education. The area features highly rated elementary, middle, and high schools with strong academic programs.',
+              content: 'Zip code 89166 is served by Clark County School District campuses including Roger Bryan Elementary, Sig Rogich Middle School, and Shadow Ridge High School.',
               h3s: [
                 {
                   h3: 'Roger Bryan Elementary School - Skye Canyon, Zip Code 89166',
-                  content: 'Roger Bryan Elementary School serves zip code 89166, Skye Canyon, northwest Las Vegas, Nevada and is highly rated (9/10). The school offers strong academic programs and is conveniently located within Skye Canyon itself, making it easily accessible for families living in Arroyo at Skyeview and other new construction developments in this northwest Las Vegas area. Many families specifically choose Skye Canyon and zip code 89166 for the exceptional school quality.',
+                  content: 'Roger Bryan Elementary School (GreatSchools 9/10) serves zip code 89166 and is located within Skye Canyon, northwest Las Vegas.',
                 },
                 {
                   h3: 'Sig Rogich Middle School and Shadow Ridge High School',
-                  content: 'Sig Rogich Middle School and Shadow Ridge High School serve older students in zip code 89166. These schools provide quality education and are conveniently located for families in Skye Canyon. The area\'s commitment to education makes it attractive for families with school-age children.',
+                  content: 'Sig Rogich Middle School and Shadow Ridge High School serve older students in zip code 89166. Both campuses are in northwest Las Vegas near Skye Canyon.',
                 },
               ],
             },
@@ -105,7 +105,7 @@ export default function Zip89166Page() {
               h3s: [
                 {
                   h3: 'Skye Canyon Recreation Facilities',
-                  content: 'Skye Canyon features a recreation center, fitness facilities, multiple parks, extensive trail systems, splash pads, sports courts and fields, and neighborhood schools. The master-planned community is designed for active lifestyles with family-friendly amenities.',
+                  content: 'Skye Canyon features a recreation center, fitness facilities, multiple parks, extensive trail systems, splash pads, sports courts and fields, and neighborhood schools. The master-planned community is designed for active lifestyles with parks, splash pads, sports courts, and recreation amenities.',
                 },
                 {
                   h3: 'Shopping and Dining in Zip Code 89166, Skye Canyon, Northwest Las Vegas',
@@ -113,7 +113,7 @@ export default function Zip89166Page() {
                 },
                 {
                   h3: 'Outdoor Recreation Near Zip Code 89166, Skye Canyon, Northwest Las Vegas, Nevada',
-                  content: 'Zip code 89166, Skye Canyon, northwest Las Vegas, Nevada is perfectly positioned for outdoor enthusiasts. Red Rock Canyon National Conservation Area is just 15 minutes west via US-95, offering world-class hiking, rock climbing, and scenic drives. Mount Charleston (for skiing in winter and hiking year-round) is 30 minutes northwest, reaching elevations over 11,000 feet. Lake Mead National Recreation Area is 45 minutes southeast. Within Skye Canyon itself, residents enjoy extensive trail systems connecting throughout the 1,700-acre community, multiple parks including Skye Canyon Park, and outdoor activities perfect for active families. The northwest Las Vegas location means you\'re closer to the mountains and desert recreation than most Las Vegas areas.',
+                  content: 'Zip code 89166, Skye Canyon, northwest Las Vegas, Nevada is perfectly positioned for outdoor enthusiasts. Red Rock Canyon National Conservation Area is just 15 minutes west via US-95, offering world-class hiking, rock climbing, and scenic drives. Mount Charleston (for skiing in winter and hiking year-round) is 30 minutes northwest, reaching elevations over 11,000 feet. Lake Mead National Recreation Area is 45 minutes southeast. Within Skye Canyon itself, residents enjoy extensive trail systems connecting throughout the 1,700-acre community, multiple parks including Skye Canyon Park, and outdoor activities on community trails and parks. The northwest Las Vegas location means you\'re closer to the mountains and desert recreation than most Las Vegas areas.',
                 },
               ],
             },
@@ -121,7 +121,7 @@ export default function Zip89166Page() {
           questions={[
             {
               question: 'What is zip code 89166 and where exactly is it located in Las Vegas, Nevada?',
-              answer: 'Zip code 89166 encompasses Skye Canyon, a premier 1,700-acre master-planned community in northwest Las Vegas, Nevada. The area is located near the intersection of US-95 and the 215 Beltway, approximately 20-25 minutes northwest of the Las Vegas Strip, 15 minutes west of Red Rock Canyon National Conservation Area, and 30 minutes northwest of Mount Charleston. The area is home to multiple new construction developments including Arroyo at Skyeview, Sierra at Skyeview, and Terra at Skyeview, and offers exceptional new construction homes, top-rated schools including Roger Bryan Elementary (9/10 rating), and extensive amenities.',
+              answer: 'Zip code 89166 encompasses Skye Canyon, a premier 1,700-acre master-planned community in northwest Las Vegas, Nevada. The area is located near the intersection of US-95 and the 215 Beltway, approximately 20-25 minutes northwest of the Las Vegas Strip, 15 minutes west of Red Rock Canyon National Conservation Area, and 30 minutes northwest of Mount Charleston. The area is home to multiple new construction developments including Arroyo at Skyeview, Sierra at Skyeview, and Terra at Skyeview, and offers exceptional new construction homes, Roger Bryan Elementary (GreatSchools 9/10), and extensive amenities.',
             },
             {
               question: 'What new construction developments are in zip code 89166, Skye Canyon, northwest Las Vegas?',
@@ -129,7 +129,7 @@ export default function Zip89166Page() {
             },
             {
               question: 'What schools serve zip code 89166?',
-              answer: 'Zip code 89166 is served by excellent schools including Roger Bryan Elementary School (rated 9/10), Sig Rogich Middle School, and Shadow Ridge High School. The area is known for quality education, making it ideal for families.',
+              answer: 'Zip code 89166 is served by Clark County School District campuses including Roger Bryan Elementary School (rated 9/10), Sig Rogich Middle School, and Shadow Ridge High School. The area is known for quality education, with Roger Bryan Elementary, Sig Rogich Middle School, and Shadow Ridge High School nearby.',
             },
             {
               question: 'What are property taxes like in zip code 89166?',

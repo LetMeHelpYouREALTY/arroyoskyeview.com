@@ -50,7 +50,7 @@ export default function Zip89144Page() {
           sections={[
             {
               h2: 'Welcome to Zip Code 89144: Southwest Las Vegas',
-              content: 'Zip code 89144 is located in southwest Las Vegas, Nevada, offering residents convenient access to the Las Vegas Strip, major employment centers, shopping, and dining. This growing area features new construction developments with modern homes, good schools, and competitive pricing.',
+              content: 'Zip code 89144 is located in southwest Las Vegas, Nevada, offering residents convenient access to the Las Vegas Strip, major employment centers, shopping, and dining. This growing area features new construction developments with modern homes, Clark County School District campuses, and competitive pricing.',
               h3s: [
                 {
                   h3: 'Southwest Las Vegas: Convenient Location',

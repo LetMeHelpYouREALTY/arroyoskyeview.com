@@ -2,9 +2,10 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 import { siteImage } from '@/lib/cloudflare-images'
+import CalendlyScheduleButton from './calendly-schedule-button'
 
 interface Home {
   id: string
@@ -234,9 +235,14 @@ export default function AvailableHomes() {
               )}
 
               <div className="flex gap-2">
-                <Button className={cn('min-h-10 flex-1 font-semibold')}>Buy Now</Button>
-                <Button variant="outline" className="min-h-10 flex-1">
-                  View Details
+                <CalendlyScheduleButton
+                  text="Buy Now"
+                  className="min-h-10 flex-1 rounded-md px-4 py-2 text-sm"
+                />
+                <Button asChild variant="outline" className="min-h-10 flex-1">
+                  <Link href={`/arroyo-at-skyeview/floor-plans#${home.floorPlan.toLowerCase()}`}>
+                    View Details
+                  </Link>
                 </Button>
               </div>
             </div>

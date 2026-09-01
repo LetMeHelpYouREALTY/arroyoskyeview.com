@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { siteImage } from '@/lib/cloudflare-images'
+import CalendlyScheduleButton from './calendly-schedule-button'
 
 const homes = [
   {
@@ -12,7 +13,7 @@ const homes = [
     location: 'Las Vegas, NV',
     price: 392640,
     image: siteImage('/images/hero/hero-5.jpg'),
-    url: '/',
+    url: '/arroyo-at-skyeview/available-homes',
     available: true,
   },
   {
@@ -21,7 +22,7 @@ const homes = [
     location: 'Henderson, NV',
     price: 366990,
     image: siteImage('/images/hero/hero-7.jpg'),
-    url: '/',
+    url: '/find-your-new-home/nevada/las-vegas-metro',
     available: true,
   },
 ]
@@ -90,17 +91,13 @@ export default function AvailableHomesOnline() {
                   From {formatPrice(home.price)}
                 </p>
                 
-                <Link href={home.url}>
-                  <Button className="w-full bg-primary hover:bg-primary text-white mb-2">
-                    View Details
-                  </Button>
-                </Link>
-                <Button 
-                  className="w-full bg-green-600 hover:bg-green-700 text-white"
-                  variant="default"
-                >
-                  Buy Now
+                <Button asChild className="mb-2 w-full bg-primary text-white hover:bg-primary">
+                  <Link href={home.url}>View Details</Link>
                 </Button>
+                <CalendlyScheduleButton
+                  text="Buy Now"
+                  className="w-full min-h-10 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
+                />
               </div>
             </div>
           ))}

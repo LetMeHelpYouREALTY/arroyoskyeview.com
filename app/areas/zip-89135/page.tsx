@@ -50,7 +50,7 @@ export default function Zip89135Page() {
           sections={[
             {
               h2: 'Welcome to Zip Code 89135: West Las Vegas',
-              content: 'Zip code 89135 is located in west Las Vegas, Nevada, offering residents convenient access to Summerlin, Red Rock Canyon, and major employment centers. This growing area features new construction developments with modern homes, excellent schools, and good value for homebuyers.',
+              content: 'Zip code 89135 is located in west Las Vegas, Nevada, offering residents convenient access to Summerlin, Red Rock Canyon, and major employment centers. This growing area features new construction developments with modern homes, Clark County School District campuses, and good value for homebuyers.',
               h3s: [
                 {
                   h3: 'West Las Vegas: Growing Residential Area',

@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 
 interface TakenHome {
   id: string
@@ -54,8 +54,10 @@ export default function AlreadyTaken() {
           return b.sqft - a.sqft
         case 'completion':
           return a.completion.localeCompare(b.completion)
-        default:
-          return 0
+        default: {
+          const _exhaustive: never = option
+          return _exhaustive
+        }
       }
     })
     setSortedHomes(sorted)
@@ -153,11 +155,13 @@ export default function AlreadyTaken() {
                 </div>
               )}
 
-              <Button variant="outline" className={cn('min-h-10 w-full')}>
-                Call for Available Homes
+              <Button asChild variant="outline" className="min-h-10 w-full">
+                <a href="tel:+17029034687">Call for Available Homes</a>
               </Button>
-              <Button variant="ghost" className="mt-2 min-h-10 w-full">
-                View Details
+              <Button asChild variant="ghost" className="mt-2 min-h-10 w-full">
+                <Link href={`/arroyo-at-skyeview/floor-plans#${home.floorPlan.toLowerCase()}`}>
+                  View floor plan
+                </Link>
               </Button>
             </div>
           </div>

@@ -7,7 +7,7 @@ import PageSchemas from '../../components/page-schemas'
 import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Homes $400K-$500K Las Vegas | Mid-Range New Construction',
-  description: 'Find new construction homes $400K-$500K in Las Vegas, Nevada. Mid-range new construction homes perfect for families and move-up buyers. Expert buyer\'s agent guidance. Call (702) 903-4687.',
+  description: 'Find new construction homes $400K-$500K in Las Vegas, Nevada. Mid-range new construction for move-up buyers. Expert buyer\'s agent guidance. Call (702) 903-4687.',
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/homes/400k-500k',
   },
@@ -21,7 +21,7 @@ export default function Homes400k500kPage() {
         pageType="property-type"
         url="/homes/400k-500k"
         title="Homes $400K-$500K Las Vegas | Mid-Range New Construction | Buyer's Agent"
-        description="Find new construction homes $400K-$500K in Las Vegas, Nevada. Discover mid-range new construction homes perfect for families and move-up buyers with expert buyer's agent representation."
+        description="Find new construction homes $400K-$500K in Las Vegas, Nevada. Discover mid-range new construction for move-up buyers with expert buyer's agent representation."
         breadcrumbs={[
           { name: 'Homes', url: '/homes/400k-500k' },
           { name: 'Homes $400K-$500K', url: '/homes/400k-500k' },
@@ -53,7 +53,7 @@ export default function Homes400k500kPage() {
               New Construction Homes $400K-$500K in Las Vegas | Buyer's Agent
             </h1>
             <p className="text-xl text-blue-100 max-w-3xl">
-              Discover mid-range new construction homes $400,000-$500,000 in Las Vegas, Nevada. Perfect for families and move-up buyers seeking quality, space, and modern features with expert buyer's agent representation.
+              Discover mid-range new construction homes $400,000-$500,000 in Las Vegas, Nevada. Move-up buyers get 1,800-3,000+ square feet, modern finishes, and expert buyer's agent representation.
             </p>
           </div>
         </section>
@@ -77,7 +77,7 @@ export default function Homes400k500kPage() {
                   <div className="bg-muted p-6 rounded-lg">
                     <h3 className="text-xl font-bold text-foreground mb-3">More Square Footage</h3>
                     <p className="text-muted-foreground">
-                      Homes in this range typically offer 1,800-3,000+ square feet, providing ample space for families and entertaining.
+                      Homes in this range typically offer 1,800-3,000+ square feet, with extra rooms for office, guest, or flex use.
                     </p>
                   </div>
                   <div className="bg-muted p-6 rounded-lg">
@@ -95,7 +95,7 @@ export default function Homes400k500kPage() {
                   <div className="bg-muted p-6 rounded-lg">
                     <h3 className="text-xl font-bold text-foreground mb-3">Desirable Locations</h3>
                     <p className="text-muted-foreground">
-                      Homes in this range are often located in premier master-planned communities with excellent schools and amenities.
+                      Homes in this range are often located in premier master-planned communities with Clark County School District campuses and amenities.
                     </p>
                   </div>
                 </div>
@@ -124,7 +124,7 @@ export default function Homes400k500kPage() {
                   The $400K-$500K range is ideal for move-up buyers who are ready to upgrade from their first home. Benefits include:
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
-                  <li>More space for growing families</li>
+                  <li>More interior square footage and extra rooms for office or guest use</li>
                   <li>Premium features and finishes</li>
                   <li>Better locations in master-planned communities</li>
                   <li>Modern energy-efficient systems</li>

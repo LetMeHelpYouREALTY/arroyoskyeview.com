@@ -195,7 +195,7 @@ export default function Under300kPage() {
                   Homes $400K-$500K
                 </h3>
                 <p className="text-muted-foreground text-sm">
-                  Explore mid-range new construction homes perfect for families.
+                  Explore mid-range new construction homes from $400,000 to $500,000.
                 </p>
               </Link>
               <Link
