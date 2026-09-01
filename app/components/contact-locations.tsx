@@ -1,4 +1,4 @@
-import { SITE_CONTACT } from '@/lib/site-contact'
+import { OFFICE_HOURS_DISPLAY, SITE_CONTACT } from '@/lib/site-contact'
 import GoogleMapEmbed from './google-map-embed'
 
 export default function ContactLocations() {
@@ -26,7 +26,7 @@ export default function ContactLocations() {
                 </a>
               </p>
               <p className="text-sm text-muted-foreground mt-2">
-                Mon-Sun: 10:00 AM - 5:00 PM
+                {OFFICE_HOURS_DISPLAY}
               </p>
             </div>
           </div>

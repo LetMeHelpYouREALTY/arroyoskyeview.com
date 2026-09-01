@@ -3,9 +3,11 @@
  *
  * Requires VERCEL_TOKEN. Optional: VERCEL_ORG_ID, VERCEL_PROJECT_ID.
  *
- * Based on Vercel REST API:
+ * Based on Vercel REST API (https://vercel.com/docs/rest-api/reference/endpoints/projects/add-a-domain-to-a-project):
  * POST /v10/projects/{id}/domains
+ * POST /v9/projects/{id}/domains/{domain}/verify
  * DELETE /v6/domains/{domain}  (orphan cleanup after a deleted project)
+ * CLI equivalent: vercel domains add www.arroyoskyeview.com --force
  */
 const TEAM_ID = process.env.VERCEL_ORG_ID || 'team_EIbjFXaDDtGMTweb5Hvo3CG3'
 const PROJECT_ID = process.env.VERCEL_PROJECT_ID || 'prj_4cKj3PWQYacJOBsrmSeWfkONU6Wm'
@@ -43,11 +45,28 @@ async function vercel(path, { method = 'GET', body } = {}) {
   return { ok: res.ok, status: res.status, json }
 }
 
+function alreadyOnProject(result) {
+  const message = String(result.json?.error?.message || result.json?.message || '')
+  return (
+    result.status === 400 &&
+    /already exists|already assigned to this project/i.test(message)
+  )
+}
+
 async function removeOrphan(domain) {
   const result = await vercel(`/v6/domains/${encodeURIComponent(domain)}`, {
     method: 'DELETE',
   })
   console.log(`DELETE ${domain}: ${result.status}`, result.json?.error || result.json || '')
+  return result
+}
+
+async function verifyDomain(name) {
+  const result = await vercel(
+    `/v9/projects/${PROJECT_ID}/domains/${encodeURIComponent(name)}/verify`,
+    { method: 'POST' },
+  )
+  console.log(`VERIFY ${name}: ${result.status}`, JSON.stringify(result.json, null, 2))
   return result
 }
 
@@ -57,11 +76,17 @@ async function addDomain(name, extra = {}) {
     body: { name, ...extra },
   })
 
+  if (alreadyOnProject(result)) {
+    console.log(`${name} is already on this project`)
+    result = { ...result, ok: true }
+  }
+
   const code = result.json?.error?.code || result.json?.code
   if (
-    result.status === 409 ||
-    code === 'domain_already_in_use' ||
-    code === 'domain_taken'
+    !result.ok &&
+    (result.status === 409 ||
+      code === 'domain_already_in_use' ||
+      code === 'domain_taken')
   ) {
     console.log(`${name} is claimed elsewhere; removing orphan then retrying`)
     await removeOrphan(name)
@@ -72,6 +97,9 @@ async function addDomain(name, extra = {}) {
   }
 
   console.log(`POST ${name}: ${result.status}`, JSON.stringify(result.json, null, 2))
+  if (result.ok) {
+    await verifyDomain(name)
+  }
   return result
 }
 
@@ -81,6 +109,9 @@ async function main() {
     redirect: WWW,
     redirectStatusCode: 301,
   })
+
+  const listed = await vercel(`/v9/projects/${PROJECT_ID}/domains`)
+  console.log(`LIST domains: ${listed.status}`, JSON.stringify(listed.json, null, 2))
 
   const failed = [www, apex].filter((r) => !r.ok)
   if (failed.length > 0) {

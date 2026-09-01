@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import PageSchemas from '../components/page-schemas'
+import NapContactCard from '../components/nap-contact-card'
 
 import MarketingPageShell from '../components/marketing-page-shell'
 export const metadata: Metadata = {
@@ -222,22 +223,7 @@ export default function PrivacyPolicyPage() {
                 If you have questions about this Privacy Policy or wish to exercise your privacy rights, 
                 please contact us:
               </p>
-              <div className="rounded-lg border border-border bg-muted/40 border-l-4 border-l-primary p-6">
-                <p className="text-lg text-foreground font-semibold mb-2">Dr. Jan Duffy</p>
-                <p className="text-lg text-muted-foreground mb-2">Nevada Real Estate License #S.0197614</p>
-                <p className="text-lg text-muted-foreground mb-2">
-                  8912 Vanhoy Crk St<br />
-                  Las Vegas, NV 89166
-                </p>
-                <p className="text-lg text-muted-foreground mb-2">
-                  <a href="tel:7029034687" className="font-semibold text-primary hover:text-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
-                    Phone: (702) 903-4687
-                  </a>
-                </p>
-                <p className="text-lg text-muted-foreground">
-                  Email: <a href="mailto:info@arroyoskyeview.com" className="text-primary hover:text-primary/90 underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">info@arroyoskyeview.com</a>
-                </p>
-              </div>
+              <NapContactCard />
             </section>
           </div>
         </div>
