@@ -5,6 +5,10 @@
  * GET /v10/projects/{id}/env?decrypt=true&source=vercel-cli:env:pull
  * GET /v3/env/pull/{id}/production (same path `vercel env pull` uses)
  * https://vercel.com/docs/rest-api/reference/endpoints/projects/retrieve-the-environment-variables-of-a-project-by-id-or-name
+ *
+ * Cloudflare Images: Bearer tokens on clones are expired (401). Global API
+ * keys return 400 as Bearer — they need X-Auth-Email + X-Auth-Key. Notion is
+ * scanned when a sister decrypts NOTION_TOKEN (never copied to Arroyo).
  */
 import { appendFile } from 'node:fs/promises'
 
@@ -13,6 +17,8 @@ const TOKEN = process.env.VERCEL_TOKEN?.trim()
 
 const KEYS = [
   'CLOUDFLARE_API_TOKEN',
+  'CLOUDFLARE_GLOBAL_API_TOKEN',
+  'CLOUDFLARE_EMAIL',
   'CLOUDFLARE_ACCOUNT_ID',
   'CLOUDFLARE_IMAGES_HASH',
   'NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH',
@@ -34,6 +40,13 @@ const ALIASES = {
     'CLOUDFLARE_IMAGES_TOKEN',
     'CLOUDFLARE_IMAGES_API_TOKEN',
   ],
+  CLOUDFLARE_GLOBAL_API_TOKEN: [
+    'CLOUDFLARE_GLOBAL_API_TOKEN',
+    'CLOUDFLARE_API_KEY',
+    'CF_GLOBAL_API_KEY',
+    'CF_API_KEY',
+  ],
+  CLOUDFLARE_EMAIL: ['CLOUDFLARE_EMAIL', 'CF_EMAIL', 'CLOUDFLARE_ACCOUNT_EMAIL'],
   CLOUDFLARE_ACCOUNT_ID: ['CLOUDFLARE_ACCOUNT_ID', 'CF_ACCOUNT_ID'],
   FOLLOW_UP_BOSS_API_KEY: [
     'FOLLOW_UP_BOSS_API_KEY',
@@ -47,52 +60,39 @@ const ALIASES = {
     'CALENDLY_PAT',
     'CALENDLY_ACCESS_TOKEN',
     'CALENDLY_TOKEN',
+    'CALENDLY_API_KEY',
   ],
   CALENDLY_WEBHOOK_SIGNING_KEY: [
     'CALENDLY_WEBHOOK_SIGNING_KEY',
     'CALENDLY_SIGNING_KEY',
+    'CALENDLY_WEBHOOK_SECRET',
   ],
-  CLOUDFLARE_GLOBAL_API_TOKEN: ['CLOUDFLARE_GLOBAL_API_TOKEN'],
-  CLOUDFLARE_EMAIL: ['CLOUDFLARE_EMAIL', 'CF_EMAIL'],
+  CRON_SECRET: ['CRON_SECRET'],
+  CLOUDFLARE_IMAGES_HASH: [
+    'CLOUDFLARE_IMAGES_HASH',
+    'NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH',
+    'NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH',
+  ],
 }
 
-/** Sister projects most likely to already have Images / FUB / Calendly keys. */
-const PROJECTS = [
+/** Scan first — these are most likely to hold Images / FUB / Calendly keys. */
+const PRIORITY_PROJECTS = [
   { id: 'prj_4cKj3PWQYacJOBsrmSeWfkONU6Wm', name: 'arroyoskyeview.com' },
   { id: 'prj_xZmrAjHZjKncFudRykf1hDaLVvtB', name: 'drjanduffy.com' },
+  { id: 'prj_wLlJUFtUXEWI5lWpGaGAHlrfEMBg', name: 'assumablehomefinder.com' },
+  { id: 'prj_yE6ZxHq8bfWfLrop5IaYncTHZmyB', name: 'justcallgene.com' },
+  { id: 'prj_vLtsyX02wy389Ne9Nfl5eyJRf9iB', name: 'geneboyle-com' },
+  { id: 'prj_kuK326EHPAUh4Turfh2TD8wHlvKT', name: 'taxresidencyadvisors.com' },
+  { id: 'prj_OtKFgqeAGlI5hRSpiQiqdFm0XGnD', name: 'californiaforeverbroker.com' },
+  { id: 'prj_OPeHlqAs7VKjCibR3xLONmQm2LbW', name: 'opportunityzonespecialist-com' },
+  { id: 'prj_KDNbpc1vi3aOYg0lDisXWpp3hldj', name: 'video-creator' },
+  { id: 'prj_riGA7w4NNpdcJikGwUo84ePXdk48', name: 'next-js-parallel-starter' },
   { id: 'prj_vrMcC3LsxgF3yf51M06TdeYUI24j', name: 'sienalasvegas.com' },
   { id: 'prj_Egvst53Qns0tSJ0K5cqfbicv2MIj', name: 'hertagestonebridge.com' },
   { id: 'prj_4h22EmvSku2lGaqMJICZ4F4dWMci', name: 'villagestulesprings.com' },
-  { id: 'prj_SZWSyg5C0N9pEzeLoHQNtSYo4U0L', name: 'mesaskyeview-com' },
-  { id: 'prj_yqEdVMMf80FUnFC8sdo3YZyT1fAB', name: 'providencelasvegas.com' },
-  { id: 'prj_adBpYedAsrNmRAe7mZQhPrhOQUOx', name: 'ironmountainranchlasvegas-com' },
-  { id: 'prj_XSQcFHSlv16uyGR0vQxAokNky9Em', name: 'townesunionvillage.com' },
-  { id: 'prj_zPQHYgfe5kwPxzxGAF3Hy5Wt9QiL', name: 'anthemhenderson-com' },
-  { id: 'prj_1stBQmZJKMVcoH85G3bggNCVFr0t', name: 'summerlinwesthomes-com' },
-  { id: 'prj_ssXC2GDDK31BEgguytzs7H4dQepP', name: 'vegas55plushomes.com' },
-  { id: 'prj_0RZw34lbC34PRwztLG5bqduiRxwY', name: 'aliantehomesforsale.com' },
-  { id: 'prj_uzgEko8BNfpKr4HP4pktBSBd3XMx', name: 'lone-mountain-homes-cydw' },
-  { id: 'prj_nfZl8JIWImhfJjjnwfS0wVQ56LJl', name: 'lonemountainvistas.com' },
-  { id: 'prj_YCuKEqNcUDlG6BdaesCckgyzMnU4', name: 'delwebbnorthranchhomes.com' },
-  { id: 'prj_ywWvx5BgFs8fabs1ovPepf3LwJRW', name: 'zoomintohomes-com' },
-  { id: 'prj_JLGCPPn46Oc7XqNNxl2cTShiczXg', name: 'letmehelpyourealtor-com' },
-  { id: 'prj_OKsb5CSYTYncUOJecJz8craMKgUU', name: 'inspiradahomes.com' },
-  { id: 'prj_kTz2rCHAVLMutQA6DDGv7nskA39Q', name: 'suncitysummerlinhomesforsale-com' },
-  { id: 'prj_V5549R7k5GyeTVngaNVzDEr8UqAL', name: 'trilogysunstonehomes' },
-  { id: 'prj_PcVsODtPjvyUQCg4hStpyILEbYFh', name: 'sandstonetulessprings' },
-  { id: 'prj_UPf2vK6xEdnz02NkWKgvaZcqnZrX', name: 'rhodesranchlasvegas.com' },
-  { id: 'prj_cgzb65mf2GDFh37vU9hPWQ2TGJ6m', name: 'midtownvegascondos-com' },
-  { id: 'prj_cAI32rOSAZCdPeMMOdoLnlsd378x', name: 'madeiracanyonhomes-com' },
-  { id: 'prj_TLj1w6420Kpz0J6jm1zWFnIdCYd1', name: 'elkhorn-springs-las-vegas' },
-  { id: 'prj_f00T6IobVyA0nhUmwIWTwKJbEnFq', name: 'californiaforeverrealty-com' },
-  { id: 'prj_1oa9Zoow76266yZcUC5Z4LWyITfk', name: 'lasvegasfamilyhomes-com' },
-  { id: 'prj_2f9IWa9d0yhPmnDmvpBei0PQ2sNS', name: 'grandparkvillagehomes-com' },
-  { id: 'prj_GrBoYN6AKCR5KYCMqIvM4Jg1zQHf', name: 'arieshenderson.com' },
-  { id: 'prj_2kChhUalaDgjNusFzNRg955DaRMO', name: 'macdonaldhighlandshomes.com' },
-  { id: 'prj_pUOjYbbN2KGic5l1kGKUx78sXG62', name: 'reverencesummerlinhomes' },
-  { id: 'prj_ra6l2Wk7J5q10hO1AQdIMlwAXsRw', name: 'sunstonewoodsidehomes.com' },
-  { id: 'prj_Di671TiJBWZ5k2bN6OKUeyohj8vc', name: 'mesquiteestates.com' },
 ]
+
+const IMAGES_ACCOUNT_ID = '2cc579c1ec9e426ed585e933ebf4753b'
 
 function alreadyHave(key) {
   const value = process.env[key]
@@ -116,16 +116,6 @@ function entryValue(entry) {
 
 function prefersProduction(entry) {
   return Array.isArray(entry?.target) && entry.target.includes('production')
-}
-
-const IMAGES_ACCOUNT_ID = '2cc579c1ec9e426ed585e933ebf4753b'
-
-async function cloudflareImagesTokenWorks(token) {
-  const res = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${IMAGES_ACCOUNT_ID}/images/v1?per_page=1`,
-    { headers: { Authorization: `Bearer ${token}` } },
-  )
-  return { ok: res.ok, status: res.status }
 }
 
 async function vercelGet(path) {
@@ -192,10 +182,34 @@ async function listEnvs(projectId) {
   return best
 }
 
-function pickByNames(envs, names) {
-  const matches = envs.filter(
-    (entry) => names.includes(entry?.key) && entryValue(entry),
+async function listTeamProjects() {
+  const byId = new Map(PRIORITY_PROJECTS.map((project) => [project.id, project]))
+  let until
+  for (let page = 0; page < 8; page += 1) {
+    const path = until
+      ? `/v9/projects?limit=100&until=${encodeURIComponent(until)}`
+      : '/v9/projects?limit=100'
+    const result = await vercelGet(path)
+    const batch = Array.isArray(result.json?.projects) ? result.json.projects : []
+    for (const project of batch) {
+      if (project?.id && !byId.has(project.id)) {
+        byId.set(project.id, { id: project.id, name: project.name || project.id })
+      }
+    }
+    const next = result.json?.pagination?.next
+    if (!next || batch.length === 0) {
+      break
+    }
+    until = String(next)
+  }
+  const rest = [...byId.values()].filter(
+    (project) => !PRIORITY_PROJECTS.some((seed) => seed.id === project.id),
   )
+  return [...PRIORITY_PROJECTS.filter((project) => byId.has(project.id)), ...rest]
+}
+
+function pickByNames(envs, names) {
+  const matches = envs.filter((entry) => names.includes(entry?.key) && entryValue(entry))
   if (matches.length === 0) {
     return undefined
   }
@@ -210,6 +224,173 @@ async function decryptEnv(projectId, envId) {
   return entryValue(result.json)
 }
 
+async function probeImages(headers) {
+  const res = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${IMAGES_ACCOUNT_ID}/images/v1?per_page=1`,
+    { headers },
+  )
+  return { ok: res.ok, status: res.status }
+}
+
+async function cloudflareImagesCredentialWorks(token, email) {
+  const bearer = await probeImages({ Authorization: `Bearer ${token}` })
+  if (bearer.ok) {
+    return { ok: true, mode: 'bearer', status: bearer.status }
+  }
+  if (email) {
+    const globalAuth = await probeImages({
+      'X-Auth-Email': email,
+      'X-Auth-Key': token,
+    })
+    if (globalAuth.ok) {
+      return { ok: true, mode: 'global', status: globalAuth.status }
+    }
+    return { ok: false, mode: 'global', status: globalAuth.status }
+  }
+  return { ok: false, mode: 'bearer', status: bearer.status }
+}
+
+function interestingKeyNames(names) {
+  return names.filter((name) =>
+    /cloudflare|calendly|wrangler|cf_|notion|images_hash|images_token/i.test(name),
+  )
+}
+
+const NOTION_LABEL =
+  /(?:CLOUDFLARE_API_TOKEN|CLOUDFLARE_GLOBAL_API_TOKEN|CLOUDFLARE_API_KEY|CLOUDFLARE_EMAIL|CF_EMAIL|CALENDLY_API_TOKEN|CALENDLY_PERSONAL_ACCESS_TOKEN|CALENDLY_PAT|CALENDLY_WEBHOOK_SIGNING_KEY|CALENDLY_SIGNING_KEY)\s*[:=]\s*(\S+)/gi
+
+function notionPlainText(block) {
+  const rich =
+    block?.code?.rich_text ||
+    block?.paragraph?.rich_text ||
+    block?.bulleted_list_item?.rich_text ||
+    block?.numbered_list_item?.rich_text ||
+    block?.to_do?.rich_text ||
+    block?.quote?.rich_text ||
+    []
+  return rich
+    .map((item) => item?.plain_text || '')
+    .join('')
+    .trim()
+}
+
+async function notionSearch(token, query) {
+  const res = await fetch('https://api.notion.com/v1/search', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Notion-Version': '2022-06-28',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ query, page_size: 8 }),
+  })
+  const json = await res.json().catch(() => null)
+  return { ok: res.ok, status: res.status, json }
+}
+
+async function notionBlocks(token, pageId) {
+  const texts = []
+  let cursor
+  for (let page = 0; page < 5; page += 1) {
+    const url = new URL(`https://api.notion.com/v1/blocks/${pageId}/children`)
+    url.searchParams.set('page_size', '100')
+    if (cursor) {
+      url.searchParams.set('start_cursor', cursor)
+    }
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Notion-Version': '2022-06-28',
+      },
+    })
+    const json = await res.json().catch(() => null)
+    if (!res.ok) {
+      break
+    }
+    for (const block of json?.results || []) {
+      const text = notionPlainText(block)
+      if (text) {
+        texts.push(text)
+      }
+    }
+    if (!json?.has_more || !json?.next_cursor) {
+      break
+    }
+    cursor = json.next_cursor
+  }
+  return texts
+}
+
+function harvestLabeledSecrets(texts, found) {
+  let harvested = 0
+  for (const text of texts) {
+    NOTION_LABEL.lastIndex = 0
+    let match = NOTION_LABEL.exec(text)
+    while (match) {
+      const label = match[0].split(/[:=]/)[0].trim()
+      const value = match[1]?.replace(/^['"]|['"]$/g, '').trim()
+      const canonical =
+        label === 'CF_EMAIL'
+          ? 'CLOUDFLARE_EMAIL'
+          : label === 'CLOUDFLARE_API_KEY'
+            ? 'CLOUDFLARE_GLOBAL_API_TOKEN'
+            : label === 'CALENDLY_PERSONAL_ACCESS_TOKEN' || label === 'CALENDLY_PAT'
+              ? 'CALENDLY_API_TOKEN'
+              : label === 'CALENDLY_SIGNING_KEY'
+                ? 'CALENDLY_WEBHOOK_SIGNING_KEY'
+                : label
+      if (value && !alreadyHave(canonical) && !found[canonical]) {
+        found[canonical] = { value, source: 'Notion labeled secret' }
+        harvested += 1
+      }
+      match = NOTION_LABEL.exec(text)
+    }
+  }
+  return harvested
+}
+
+async function harvestFromNotion(token, found) {
+  const queries = [
+    'CLOUDFLARE_API_TOKEN',
+    'CALENDLY_API_TOKEN',
+    'Calendly personal access token',
+    'Cloudflare Images token',
+    'go-live secrets',
+    'Vercel env',
+  ]
+  let pagesScanned = 0
+  const seen = new Set()
+  for (const query of queries) {
+    const result = await notionSearch(token, query)
+    if (!result.ok) {
+      console.log(`Notion search "${query}": HTTP ${result.status}`)
+      if (result.status === 401 || result.status === 403) {
+        return
+      }
+      continue
+    }
+    const results = Array.isArray(result.json?.results) ? result.json.results : []
+    console.log(`Notion search "${query}": ${results.length} page(s)`)
+    for (const page of results) {
+      const id = page?.id
+      if (!id || seen.has(id)) {
+        continue
+      }
+      seen.add(id)
+      pagesScanned += 1
+      const title =
+        page?.properties?.title?.title?.[0]?.plain_text ||
+        page?.properties?.Name?.title?.[0]?.plain_text ||
+        page?.object ||
+        id
+      console.log(`Notion page: ${title}`)
+      const texts = await notionBlocks(token, id)
+      harvestLabeledSecrets(texts, found)
+    }
+  }
+  console.log(`Notion harvested ${pagesScanned} unique page(s)`)
+}
+
 if (!TOKEN) {
   console.log('VERCEL_TOKEN unset; skip borrowing env from sister projects.')
   process.exit(0)
@@ -222,15 +403,16 @@ if (needed.length === 0) {
   process.exit(0)
 }
 
+const projects = await listTeamProjects()
+console.log(`Scanning ${projects.length} Vercel project(s) on the team.`)
+
 const found = {}
+const candidates = {}
 let decryptDenied = 0
 let readableProjects = 0
+let notionToken = process.env.NOTION_TOKEN?.trim() || ''
 
-for (const project of PROJECTS) {
-  const remaining = Object.keys(ALIASES).filter((key) => !alreadyHave(key) && !found[key])
-  if (remaining.length === 0) {
-    break
-  }
+for (const project of projects) {
   const result = await listEnvs(project.id)
   if (!result.ok) {
     if (result.status === 403 || result.status === 401) {
@@ -245,10 +427,29 @@ for (const project of PROJECTS) {
   console.log(
     `Keys on ${project.name}: ${names.join(', ') || '(none)'} (values: ${withValues.length})`,
   )
-  const calendlyKeys = names.filter((name) => /calendly/i.test(name))
-  if (calendlyKeys.length > 0) {
-    console.log(`Calendly-related keys on ${project.name}: ${calendlyKeys.join(', ')}`)
+  const interesting = interestingKeyNames(names)
+  if (interesting.length > 0) {
+    console.log(`Interesting keys on ${project.name}: ${interesting.join(', ')}`)
   }
+
+  if (!notionToken) {
+    const notionEntry = pickByNames(result.envs, ['NOTION_TOKEN', 'NOTION_API_KEY', 'NOTION_SECRET'])
+    let value = notionEntry ? entryValue(notionEntry) : ''
+    if (!value) {
+      const listed = result.envs.filter((item) =>
+        ['NOTION_TOKEN', 'NOTION_API_KEY', 'NOTION_SECRET'].includes(item?.key),
+      )
+      const candidate = listed.find(prefersProduction) || listed[0]
+      if (candidate?.id) {
+        value = await decryptEnv(project.id, candidate.id)
+      }
+    }
+    if (value) {
+      notionToken = value
+      console.log(`Found NOTION_TOKEN on ${project.name} (not copied to Arroyo).`)
+    }
+  }
+
   for (const [canonical, namesForKey] of Object.entries(ALIASES)) {
     if (alreadyHave(canonical) || found[canonical]) {
       continue
@@ -268,19 +469,90 @@ for (const project of PROJECTS) {
     if (!value) {
       continue
     }
-    if (canonical === 'CLOUDFLARE_API_TOKEN' || canonical === 'CLOUDFLARE_GLOBAL_API_TOKEN') {
-      const probe = await cloudflareImagesTokenWorks(value)
+    const source = `${project.name} (${entry?.key || namesForKey[0]})`
+    const bucket = candidates[canonical] || []
+    if (!bucket.some((item) => item.value === value)) {
+      bucket.push({ value, source })
+      candidates[canonical] = bucket
+    }
+  }
+}
+
+if (notionToken) {
+  await harvestFromNotion(notionToken, found)
+}
+
+for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_GLOBAL_API_TOKEN']) {
+  const harvested = found[key]
+  if (!harvested) {
+    continue
+  }
+  const notionEmail = found.CLOUDFLARE_EMAIL?.value || ''
+  const probe = await cloudflareImagesCredentialWorks(harvested.value, notionEmail)
+  if (!probe.ok) {
+    console.log(`Skip ${key} from Notion: Images HTTP ${probe.status} (${probe.mode})`)
+    delete found[key]
+  } else {
+    console.log(`Cloudflare Images ${key} from Notion accepted via ${probe.mode}`)
+  }
+}
+
+const email = alreadyHave('CLOUDFLARE_EMAIL')
+  ? process.env.CLOUDFLARE_EMAIL.trim()
+  : found.CLOUDFLARE_EMAIL?.value || candidates.CLOUDFLARE_EMAIL?.[0]?.value || ''
+
+for (const [canonical, bucket] of Object.entries(candidates)) {
+  if (alreadyHave(canonical) || found[canonical]) {
+    continue
+  }
+  if (canonical === 'CLOUDFLARE_API_TOKEN' || canonical === 'CLOUDFLARE_GLOBAL_API_TOKEN') {
+    let accepted
+    for (const candidate of bucket) {
+      const probe = await cloudflareImagesCredentialWorks(candidate.value, email)
       if (!probe.ok) {
         console.log(
-          `Skip ${canonical} from ${project.name}: Images HTTP ${probe.status}`,
+          `Skip ${canonical} from ${candidate.source}: Images HTTP ${probe.status} (${probe.mode})`,
         )
         continue
       }
+      console.log(`Cloudflare Images ${canonical} accepted via ${probe.mode}`)
+      accepted = candidate
+      if (
+        probe.mode === 'global' &&
+        email &&
+        !found.CLOUDFLARE_EMAIL &&
+        !alreadyHave('CLOUDFLARE_EMAIL')
+      ) {
+        const emailSource = candidates.CLOUDFLARE_EMAIL?.[0]?.source || 'paired with Global API Key'
+        found.CLOUDFLARE_EMAIL = { value: email, source: emailSource }
+      }
+      break
     }
-    found[canonical] = {
-      value,
-      source: `${project.name} (${entry?.key || namesForKey[0]})`,
+    if (accepted) {
+      found[canonical] = accepted
     }
+    continue
+  }
+  if (canonical === 'CLOUDFLARE_IMAGES_HASH') {
+    if (!found.CLOUDFLARE_API_TOKEN && !found.CLOUDFLARE_GLOBAL_API_TOKEN) {
+      console.log(
+        `Skip CLOUDFLARE_IMAGES_HASH from ${bucket[0].source}: no working Images credential`,
+      )
+      continue
+    }
+  }
+  found[canonical] = bucket[0]
+}
+
+if (
+  email &&
+  !found.CLOUDFLARE_EMAIL &&
+  !alreadyHave('CLOUDFLARE_EMAIL') &&
+  found.CLOUDFLARE_GLOBAL_API_TOKEN
+) {
+  found.CLOUDFLARE_EMAIL = {
+    value: email,
+    source: candidates.CLOUDFLARE_EMAIL?.[0]?.source || 'paired with Global API Key',
   }
 }
 
