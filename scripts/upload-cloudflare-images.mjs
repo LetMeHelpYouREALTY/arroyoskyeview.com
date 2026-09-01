@@ -64,11 +64,22 @@ function mimeType(filePath) {
   return 'application/octet-stream'
 }
 
+const FROM_ORIGIN = process.argv.includes('--from-origin')
+const ORIGIN = (process.env.CLOUDFLARE_IMAGES_ORIGIN || 'https://www.arroyoskyeview.com').replace(
+  /\/$/,
+  '',
+)
+
 async function upload(filePath) {
   const id = customId(filePath)
-  const bytes = await readFile(filePath)
   const form = new FormData()
-  form.append('file', new Blob([bytes], { type: mimeType(filePath) }), path.basename(filePath))
+  if (FROM_ORIGIN) {
+    const relative = path.relative(path.join(ROOT, '..'), filePath).replaceAll('\\', '/')
+    form.append('url', `${ORIGIN}/${relative}`)
+  } else {
+    const bytes = await readFile(filePath)
+    form.append('file', new Blob([bytes], { type: mimeType(filePath) }), path.basename(filePath))
+  }
   form.append('id', id)
   form.append('requireSignedURLs', 'false')
 

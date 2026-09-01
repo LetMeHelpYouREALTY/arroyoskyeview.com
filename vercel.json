@@ -7,5 +7,11 @@
   "git": {
     "deploymentEnabled": true
   },
-  "alias": ["www.arroyoskyeview.com", "arroyoskyeview.com"]
+  "alias": ["www.arroyoskyeview.com", "arroyoskyeview.com"],
+  "crons": [
+    {
+      "path": "/api/cron/cloudflare-images",
+      "schedule": "15 14 * * *"
+    }
+  ]
 }
