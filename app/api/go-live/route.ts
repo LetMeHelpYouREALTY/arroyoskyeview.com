@@ -7,8 +7,14 @@ import {
 import { isCalendlyApiConfigured } from '@/lib/calendly-invitee'
 import { isCloudflareImagesHashConfigured } from '@/lib/cloudflare-images'
 import { CLOUDFLARE_IMAGES_ACCOUNT_ID } from '@/lib/cloudflare-images-upload'
-import { probeCloudflareImagesToken } from '@/lib/cloudflare-images-list'
-import { isFollowUpBossConfigured } from '@/lib/fub-client'
+import {
+  probeArroyoCustomIds,
+  probeCloudflareImagesToken,
+} from '@/lib/cloudflare-images-list'
+import {
+  isFollowUpBossConfigured,
+  probeFollowUpBossCalendlySource,
+} from '@/lib/fub-client'
 import { getFubPixelId } from '@/lib/fub-pixel-config'
 import { SITE_URL } from '@/lib/site-url'
 
@@ -50,11 +56,16 @@ export async function GET() {
   const cloudflareToken = hasEnv('CLOUDFLARE_API_TOKEN')
   const cronSecret = hasEnv('CRON_SECRET')
   const deliveryHash = isCloudflareImagesHashConfigured()
-  const hostedConfirmation = await fetchCalendlyHostedConfirmation()
   const imagesToken = process.env.CLOUDFLARE_API_TOKEN?.trim()
-  const imagesApi = imagesToken
-    ? await probeCloudflareImagesToken(imagesToken, CLOUDFLARE_IMAGES_ACCOUNT_ID)
-    : null
+  const [hostedConfirmation, imagesApi, customIds, fubCalendlySource] =
+    await Promise.all([
+      fetchCalendlyHostedConfirmation(),
+      imagesToken
+        ? probeCloudflareImagesToken(imagesToken, CLOUDFLARE_IMAGES_ACCOUNT_ID)
+        : Promise.resolve(null),
+      probeArroyoCustomIds(),
+      probeFollowUpBossCalendlySource(),
+    ])
   const hostedRedirectReady =
     followUpBoss &&
     hostedConfirmation?.pointsAtSite === true &&
@@ -74,6 +85,18 @@ export async function GET() {
   }
   if (!calendlyConfigured) {
     blockers.push('calendly-pat-or-signing-key')
+  }
+
+  const nextHumanActions: string[] = []
+  if (!deliveryHash) {
+    nextHumanActions.push(
+      'Mint a Cloudflare Account API token with Account.Cloudflare Images.Edit and no IP allowlist on account 2cc579c1ec9e426ed585e933ebf4753b. Set it as CLOUDFLARE_API_TOKEN on Vercel project prj_4cKj3PWQYacJOBsrmSeWfkONU6Wm. The geneboyle token is 9109 on GitHub and 401/10000 on Vercel iad1 (list and POST /images/v1). Do not default the Siena hash until Arroyo custom IDs return 200.',
+    )
+  }
+  if (!calendlyConfigured) {
+    nextHumanActions.push(
+      'In Calendly, open Buyer Consultation 30 min → Confirmation page → Redirect to https://www.arroyoskyeview.com/schedule-confirmed and enable Pass event details. Or add CALENDLY_API_TOKEN or CALENDLY_WEBHOOK_SIGNING_KEY on the Vercel project. Follow Up Boss action plan 4 (Buyer New Lead Website Registration) is already Active.',
+    )
   }
 
   return NextResponse.json({
@@ -98,10 +121,13 @@ export async function GET() {
       cronSecret,
       deliveryHash,
       api: imagesApi,
+      teamCustomIds: customIds,
     },
     fubPixel: {
       enabled: Boolean(getFubPixelId()),
     },
+    fubNativeCalendly: fubCalendlySource,
     blockers,
+    nextHumanActions,
   })
 }

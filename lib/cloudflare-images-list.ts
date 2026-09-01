@@ -8,6 +8,9 @@
 
 export const CLOUDFLARE_IMAGES_CREATOR = 'arroyoskyeview.com'
 
+/** Public hash on sienalasvegas.com. Probe-only until Arroyo custom IDs return 200. */
+export const TEAM_CLOUDFLARE_IMAGES_HASH = 'byE6BTe9lNqo21V57n4aPQ'
+
 const LIST_PER_PAGE_MIN = 10
 const LIST_PER_PAGE_MAX = 10000
 const LIST_PER_PAGE_V2 = 1000
@@ -197,6 +200,48 @@ export type CloudflareImagesTokenProbe = {
   hash?: string
   imageCount: number
   locationRestricted: boolean
+  userStatus?: number
+  userCode?: number
+}
+
+/**
+ * Cloudflare 9109 is the honest IP-allowlist error. Vercel build/serverless
+ * egress often gets 401/10000 (Images) or 401/1000 (token verify) instead.
+ * 0bfbff2 production: list and POST /images/v1 both 401/10000 from iad1.
+ */
+export function isCloudflareImagesLocationRestricted(probe: {
+  status?: number
+  code?: number
+  message?: string
+}): boolean {
+  const message = typeof probe.message === 'string' ? probe.message : ''
+  if (probe.code === 9109 || /from location/i.test(message)) {
+    return true
+  }
+  if (probe.status === 401 && (probe.code === 10000 || probe.code === 1000)) {
+    return true
+  }
+  return false
+}
+
+async function probeCloudflareUser(token: string): Promise<{
+  status: number
+  code?: number
+  message?: string
+}> {
+  const res = await fetch('https://api.cloudflare.com/client/v4/user', {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  const json = (await res.json().catch(() => null)) as {
+    errors?: Array<{ code?: number; message?: string }>
+  } | null
+  const error = json?.errors?.[0]
+  return {
+    status: res.status,
+    code: error?.code,
+    message:
+      typeof error?.message === 'string' ? error.message.slice(0, 120) : '',
+  }
 }
 
 /** One Images list call from the current runtime IP (Vercel serverless vs build). */
@@ -207,7 +252,10 @@ export async function probeCloudflareImagesToken(
   const listed = await listCloudflareImages(token, accountId, {
     perPage: LIST_PER_PAGE_MIN,
   })
-  const message = listed.message || ''
+  const user = listed.ok
+    ? undefined
+    : await probeCloudflareUser(token)
+  const message = listed.message || user?.message || ''
   return {
     ok: listed.ok,
     status: listed.status,
@@ -217,6 +265,41 @@ export async function probeCloudflareImagesToken(
     hash: listed.hash,
     imageCount: listed.images.length,
     locationRestricted:
-      listed.code === 9109 || /from location/i.test(message),
+      isCloudflareImagesLocationRestricted(listed) ||
+      (user ? isCloudflareImagesLocationRestricted(user) : false),
+    userStatus: user?.status,
+    userCode: user?.code,
   }
+}
+
+export type CloudflareCustomIdProbe = {
+  hash: string
+  hero: number
+  brand: number
+}
+
+async function deliveryStatus(hash: string, imageId: string): Promise<number> {
+  const url = `https://imagedelivery.net/${hash}/${imageId}/public`
+  try {
+    const res = await fetch(url, {
+      method: 'GET',
+      redirect: 'manual',
+      signal: AbortSignal.timeout(8000),
+      headers: { Range: 'bytes=0-0' },
+    })
+    return res.status
+  } catch {
+    return 0
+  }
+}
+
+/** Public imagedelivery.net check — no API token. Do not default this hash on 404. */
+export async function probeArroyoCustomIds(
+  hash: string = TEAM_CLOUDFLARE_IMAGES_HASH,
+): Promise<CloudflareCustomIdProbe> {
+  const [hero, brand] = await Promise.all([
+    deliveryStatus(hash, 'images/hero/luxury-hero-skye-canyon'),
+    deliveryStatus(hash, 'images/brand/dr-jan-duffy'),
+  ])
+  return { hash, hero, brand }
 }

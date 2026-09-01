@@ -1,9 +1,10 @@
 /**
  * Production-deploy this SHA on the Arroyo Vercel project after go-live
- * secrets actually land (Images hash, Images token, and/or Calendly PAT).
- * An Images token alone is enough: `npm run build` runs
- * ensure-cloudflare-images.mjs on Vercel (needed when GitHub runners are
- * IP-blocked with Cloudflare 9109).
+ * secrets actually land (Images hash and/or Calendly PAT).
+ *
+ * An Images token that is IP-allowlisted is not enough: GitHub is 9109 and
+ * Vercel iad1 POST /images/v1 is 401/10000 (0bfbff2). Skip extra production
+ * deploys for that token — GitHub's Vercel integration still deploys the SHA.
  *
  * Vercel Git is still linked to DrJanDuffy/arroyoskyeview.com, so GitHub
  * Vercel Deploy is main-only. Zapier create-deployment worked with
@@ -45,11 +46,22 @@ async function main() {
   }
 
   const landed = hasGoLivePayload()
-  if (!landed.imagesHash && !landed.imagesToken && !landed.calendly) {
-    console.log(
-      'Skip production deploy: no CLOUDFLARE_IMAGES_HASH, CLOUDFLARE_API_TOKEN, or CALENDLY_API_TOKEN.',
-    )
-    return
+  const authOk = process.env.CLOUDFLARE_IMAGES_AUTH_OK?.trim()
+  const tokenBlockedHere =
+    authOk === 'location-restricted' || authOk === '0' || authOk === 'rate-limited'
+  if (!landed.imagesHash && !landed.calendly) {
+    if (!landed.imagesToken) {
+      console.log(
+        'Skip production deploy: no CLOUDFLARE_IMAGES_HASH, CLOUDFLARE_API_TOKEN, or CALENDLY_API_TOKEN.',
+      )
+      return
+    }
+    if (tokenBlockedHere) {
+      console.log(
+        `Skip production deploy: Images token is ${authOk} (GitHub 9109 / Vercel POST 401). Mint an unrestricted Images:Edit token or add a Calendly PAT; GitHub Vercel integration still deploys this SHA.`,
+      )
+      return
+    }
   }
 
   if (!REF || !SHA || SHA.length < 40) {

@@ -127,3 +127,45 @@ export async function sendCalendlyLeadToFollowUpBoss(
 
   return { ok: true }
 }
+
+export type FollowUpBossCalendlySourceProbe = {
+  ok: boolean
+  latestCreated: string | null
+}
+
+/**
+ * Public go-live evidence only — created timestamp, never names or emails.
+ * Native FUB↔Calendly can create people even when this site has no PAT.
+ */
+export async function probeFollowUpBossCalendlySource(): Promise<FollowUpBossCalendlySourceProbe | null> {
+  const apiKey = followUpBossApiKey()
+  if (!apiKey) {
+    return null
+  }
+
+  try {
+    const url = new URL('https://api.followupboss.com/v1/people')
+    url.searchParams.set('limit', '1')
+    url.searchParams.set('sort', '-created')
+    url.searchParams.set('source', 'Calendly')
+    const response = await fetch(url, {
+      headers: fubHeaders(apiKey),
+      signal: AbortSignal.timeout(8000),
+    })
+    if (!response.ok) {
+      return { ok: false, latestCreated: null }
+    }
+    const body: unknown = await response.json().catch(() => null)
+    const people =
+      body && typeof body === 'object' && Array.isArray((body as { people?: unknown }).people)
+        ? (body as { people: Array<{ created?: unknown }> }).people
+        : []
+    const created = people[0]?.created
+    return {
+      ok: true,
+      latestCreated: typeof created === 'string' ? created : null,
+    }
+  } catch {
+    return { ok: false, latestCreated: null }
+  }
+}

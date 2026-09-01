@@ -12,7 +12,8 @@
  *
  * Team Images account (public): 2cc579c1ec9e426ed585e933ebf4753b
  * Team hash on sienalasvegas.com: byE6BTe9lNqo21V57n4aPQ
- * Do not default that hash here until custom IDs are uploaded — they 404.
+ * Do not default that hash here until custom IDs are uploaded — they 404
+ * (probed from production 2026-09-01).
  *
  * next/image: pass site paths to SiteImage (app/components/site-image.tsx).
  * Do not set a global images.loaderFile — RealScout listing photos must keep

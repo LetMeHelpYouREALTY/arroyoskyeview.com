@@ -257,13 +257,21 @@ function success({ mode, status, headers, email, accountId, token, minted = fals
   return { ok: true, mode, status, headers, email, accountId, token, minted }
 }
 
-/** 9109 "Cannot use the access token from location" — token may work on Vercel build IPs. */
+/**
+ * 9109 "Cannot use the access token from location".
+ * Vercel iad1 (0bfbff2) returned 401/10000 on list and POST /images/v1 instead.
+ * Treat those as the same IP allowlist — do not keep production-deploying
+ * solely to retry this token.
+ */
 export function isTokenBlockedByCallerIp(probe) {
-  if (!probe || probe.code !== 9109) {
+  if (!probe) {
     return false
   }
   const message = typeof probe.message === 'string' ? probe.message : ''
-  return /from location/i.test(message)
+  if (probe.code === 9109 || /from location/i.test(message)) {
+    return true
+  }
+  return probe.status === 401 && (probe.code === 10000 || probe.code === 1000)
 }
 
 async function tryMintedImagesToken(headers, email, accountId = IMAGES_ACCOUNT_ID, owner = 'user') {
