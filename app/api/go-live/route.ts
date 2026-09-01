@@ -36,8 +36,9 @@ function hasEnv(
 
 /**
  * Public go-live flags only — never include secret values.
- * Calendly → FUB is ready when FUB is set and either the webhook signing key
- * or a Calendly PAT (invitee URI lookup) is set.
+ * Embed/webhook Calendly → FUB needs FUB plus a signing key or PAT.
+ * Hosted Calendly + dashboard “Pass event details” only needs FUB
+ * (confirmationPathReady) — that dashboard switch is not readable here.
  */
 export async function GET() {
   const calendlySigningKey = hasEnv('CALENDLY_WEBHOOK_SIGNING_KEY')
@@ -46,15 +47,27 @@ export async function GET() {
   const cloudflareToken = hasEnv('CLOUDFLARE_API_TOKEN')
   const cronSecret = hasEnv('CRON_SECRET')
   const deliveryHash = isCloudflareImagesHashConfigured()
+  const embedOrWebhookReady = followUpBoss && (calendlySigningKey || calendlyApiToken)
+  const blockers: string[] = []
+  if (!deliveryHash) {
+    blockers.push('cloudflare-images-hash')
+  }
+  if (!cloudflareToken) {
+    blockers.push('cloudflare-images-token')
+  }
+  if (!embedOrWebhookReady) {
+    blockers.push('calendly-pat-or-signing-key')
+  }
 
   return NextResponse.json({
     ok: true,
     domain: SITE_URL,
     calendlyToFub: {
-      configured: followUpBoss && (calendlySigningKey || calendlyApiToken),
+      configured: embedOrWebhookReady,
       calendlySigningKey,
       followUpBoss,
       calendlyApiToken,
+      confirmationPathReady: followUpBoss,
       webhookUrl: `${SITE_URL}/api/calendly/webhook`,
       scheduledUrl: `${SITE_URL}/api/calendly/scheduled`,
       confirmationUrl: CALENDLY_CONFIRMATION_URL,
@@ -69,5 +82,6 @@ export async function GET() {
     fubPixel: {
       enabled: Boolean(getFubPixelId()),
     },
+    blockers,
   })
 }

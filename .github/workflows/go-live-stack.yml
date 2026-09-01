@@ -159,6 +159,13 @@ jobs:
           fi
           echo "skip=false" >> "$GITHUB_OUTPUT"
 
+      - name: List Arroyo Vercel go-live env names
+        if: matrix.environment == 'Production' && steps.vercel.outputs.skip != 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        run: node scripts/list-arroyo-vercel-env-names.mjs
+
       - name: Upsert Vercel env
         if: steps.vercel.outputs.skip != 'true'
         env:
