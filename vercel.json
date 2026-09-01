@@ -6,5 +6,6 @@
   "framework": "nextjs",
   "git": {
     "deploymentEnabled": true
-  }
+  },
+  "alias": ["www.arroyoskyeview.com", "arroyoskyeview.com"]
 }
