@@ -266,7 +266,7 @@ const worker = {
           {
             ok: false,
             error: 'unauthorized',
-            hint: 'Set wrangler secret UPLOAD_SECRET, or rely on the hourly cron trigger.',
+            hint: 'Set wrangler secret UPLOAD_SECRET, or rely on the every-5-minute cron trigger.',
           },
           401,
         )
