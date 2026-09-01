@@ -150,6 +150,7 @@ async function main() {
 
   if (hash) {
     console.log(`\nNEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH=${hash}`)
+    console.log(`CLOUDFLARE_IMAGES_HASH=${hash}`)
   } else {
     console.log(
       '\nCould not parse account hash from variants. Copy it from Cloudflare → Images → Developer Resources.',

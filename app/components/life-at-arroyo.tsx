@@ -1,25 +1,24 @@
 import Image from 'next/image'
 import { siteImage } from '@/lib/cloudflare-images'
 
-const SCENES = [
-  {
-    src: siteImage('/images/hero/hero-14.jpg'),
-    alt: 'Arroyo at Skyeview townhomes in Skye Canyon, northwest Las Vegas ZIP 89166',
-    caption: 'Two-story townhomes in Skye Canyon',
-  },
-  {
-    src: siteImage('/images/hero/hero-10.jpg'),
-    alt: 'Skye Canyon master-planned community amenities near Arroyo at Skyeview',
-    caption: 'Skye Canyon amenities and trails',
-  },
-  {
-    src: siteImage('/images/homes/homes-1.jpg'),
-    alt: 'Move-in ready townhome inventory at Arroyo at Skyeview on Grabill Spruce Street',
-    caption: 'Move-in ready homes on Grabill Spruce St',
-  },
-] as const
-
 export default function LifeAtArroyo() {
+  const scenes = [
+    {
+      src: siteImage('/images/hero/hero-14.jpg'),
+      alt: 'Arroyo at Skyeview townhomes in Skye Canyon, northwest Las Vegas ZIP 89166',
+      caption: 'Two-story townhomes in Skye Canyon',
+    },
+    {
+      src: siteImage('/images/hero/hero-10.jpg'),
+      alt: 'Skye Canyon master-planned community amenities near Arroyo at Skyeview',
+      caption: 'Skye Canyon amenities and trails',
+    },
+    {
+      src: siteImage('/images/homes/homes-1.jpg'),
+      alt: 'Move-in ready townhome inventory at Arroyo at Skyeview on Grabill Spruce Street',
+      caption: 'Move-in ready homes on Grabill Spruce St',
+    },
+  ] as const
   return (
     <section className="bg-muted/30 py-16 md:py-20" aria-labelledby="life-heading">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -39,7 +38,7 @@ export default function LifeAtArroyo() {
           </p>
         </div>
         <ul className="mt-12 grid gap-6 sm:grid-cols-3">
-          {SCENES.map((scene) => (
+          {scenes.map((scene) => (
             <li key={scene.caption} className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
               <div className="relative aspect-[4/3]">
                 <Image

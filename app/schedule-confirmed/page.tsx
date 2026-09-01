@@ -1,11 +1,17 @@
 import type { Metadata } from 'next'
+import { after } from 'next/server'
 import { redirect } from 'next/navigation'
 import { SITE_CONTACT } from '@/lib/site-contact'
-import { CALENDLY_CONFIRMATION_URL } from '@/lib/calendly'
+import {
+  CALENDLY_CONFIRMATION_URL,
+  calendlyLeadFromConfirmationParams,
+} from '@/lib/calendly'
+import { sendCalendlyLeadToFollowUpBoss } from '@/lib/fub-client'
 import NapContactCard from '../components/nap-contact-card'
 import PageSchemas from '../components/page-schemas'
 import MarketingPageShell from '../components/marketing-page-shell'
 import { PageContent } from '../components/page-section'
+import FubPixelIdentify from '../components/fub-pixel-identify'
 
 export const metadata: Metadata = {
   title: 'Tour booked | Arroyo at Skyeview | Dr. Jan Duffy',
@@ -36,9 +42,25 @@ export default async function ScheduleConfirmedPage({
   const params = await searchParams
   const inviteeEmail = firstQueryValue(params.invitee_email)?.trim()
   const email = firstQueryValue(params.email)?.trim()
+  const pixelEmail = inviteeEmail || email
 
   if (inviteeEmail && inviteeEmail !== email) {
-    redirect(`/schedule-confirmed?email=${encodeURIComponent(inviteeEmail)}`)
+    const next = new URLSearchParams()
+    for (const [key, value] of Object.entries(params)) {
+      const resolved = firstQueryValue(value)
+      if (resolved) {
+        next.set(key, resolved)
+      }
+    }
+    next.set('email', inviteeEmail)
+    redirect(`/schedule-confirmed?${next.toString()}`)
+  }
+
+  const lead = calendlyLeadFromConfirmationParams(params)
+  if (lead) {
+    after(() => {
+      void sendCalendlyLeadToFollowUpBoss(lead)
+    })
   }
 
   return (
@@ -61,6 +83,7 @@ export default async function ScheduleConfirmedPage({
       }
       footerSuppressRealScout
     >
+      <FubPixelIdentify email={pixelEmail} />
       <PageContent className="max-w-3xl">
         <h1 className="font-serif text-3xl font-light tracking-tight text-foreground md:text-4xl">
           You are on the calendar

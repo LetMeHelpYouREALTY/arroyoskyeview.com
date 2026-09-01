@@ -1,9 +1,10 @@
-type CalendlyLeadInput = {
+export type CalendlyLeadInput = {
   event: string
   inviteeEmail: string
   inviteeName: string
   scheduledAt?: string
   eventType?: string
+  inviteePhone?: string
   questionsAndAnswers?: Array<{ question: string; answer: string }>
 }
 
@@ -24,6 +25,7 @@ export const FUB_WEBSITE_EVENT_TYPES = [
 export type FubWebsiteEventType = (typeof FUB_WEBSITE_EVENT_TYPES)[number]
 
 export type FubPersonEmail = { value: string }
+export type FubPersonPhone = { value: string }
 
 export type FubCalendlyEventPayload = {
   source: 'arroyoskyeview.com'
@@ -34,6 +36,7 @@ export type FubCalendlyEventPayload = {
     firstName: string
     lastName?: string
     emails: FubPersonEmail[]
+    phones?: FubPersonPhone[]
     tags: string[]
   }
   occurred?: string
@@ -87,6 +90,9 @@ export function buildCalendlyFubEvent(input: CalendlyLeadInput): FubCalendlyEven
       firstName,
       lastName,
       emails: [{ value: input.inviteeEmail }],
+      ...(input.inviteePhone
+        ? { phones: [{ value: input.inviteePhone }] }
+        : {}),
       tags: ['Arroyo at Skyeview', 'Calendly', 'Website'],
     },
     occurred: input.scheduledAt,

@@ -1,4 +1,5 @@
 import { SITE_URL } from '@/lib/site-url'
+import type { CalendlyLeadInput } from '@/lib/fub-events'
 
 const DEFAULT_CALENDLY_URL =
   'https://calendly.com/drjanduffy/buyer-consultation-30-min'
@@ -26,4 +27,44 @@ export const CALENDLY_BADGE = {
   textColor: '#ffffff',
   branding: false,
 } as const
+
+function firstQueryValue(value: string | string[] | undefined): string | undefined {
+  if (Array.isArray(value)) {
+    return value[0]
+  }
+  return value
+}
+
+/**
+ * Calendly “Pass event details to the redirect URL” query params.
+ * Requires email + start time so a bare ?email= cannot create FUB contacts.
+ */
+export function calendlyLeadFromConfirmationParams(
+  params: Record<string, string | string[] | undefined>,
+): CalendlyLeadInput | null {
+  const inviteeEmail = firstQueryValue(params.invitee_email)?.trim()
+  const email = firstQueryValue(params.email)?.trim()
+  const resolvedEmail = inviteeEmail || email
+  const scheduledAt = firstQueryValue(params.event_start_time)?.trim()
+  if (!resolvedEmail || !scheduledAt) {
+    return null
+  }
+
+  const fullName = firstQueryValue(params.invitee_full_name)?.trim()
+  const firstName = firstQueryValue(params.invitee_first_name)?.trim()
+  const lastName = firstQueryValue(params.invitee_last_name)?.trim()
+  const inviteeName =
+    fullName || [firstName, lastName].filter(Boolean).join(' ') || resolvedEmail
+  const eventType = firstQueryValue(params.event_type_name)?.trim()
+  const inviteePhone = firstQueryValue(params.text_reminder_number)?.trim()
+
+  return {
+    event: 'invitee.created',
+    inviteeEmail: resolvedEmail,
+    inviteeName,
+    scheduledAt,
+    eventType,
+    inviteePhone,
+  }
+}
 

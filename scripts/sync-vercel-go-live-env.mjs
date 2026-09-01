@@ -30,6 +30,26 @@ const VARS = [
     type: 'plain',
     comment: 'Public Cloudflare Images account hash',
   },
+  {
+    key: 'CLOUDFLARE_IMAGES_HASH',
+    type: 'plain',
+    comment: 'Server Cloudflare Images account hash (runtime)',
+  },
+  {
+    key: 'CLOUDFLARE_API_TOKEN',
+    type: 'encrypted',
+    comment: 'Cloudflare Images:Edit for origin upload cron',
+  },
+  {
+    key: 'CLOUDFLARE_ACCOUNT_ID',
+    type: 'plain',
+    comment: 'Cloudflare account id for Images uploads',
+  },
+  {
+    key: 'CRON_SECRET',
+    type: 'encrypted',
+    comment: 'Bearer token for /api/cron/cloudflare-images',
+  },
 ]
 
 if (!TOKEN) {

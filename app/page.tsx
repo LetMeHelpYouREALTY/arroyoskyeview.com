@@ -16,6 +16,7 @@ import Footer from './components/footer'
 import AnalyticsTracker from './components/analytics-tracker'
 import ReviewSchema from './components/review-schema'
 import { ARROYO_PRICE_RANGE } from '@/lib/arroyo-inventory'
+import { LUXURY_HERO_IMAGE } from '@/lib/luxury-theme'
 
 export default function HomePage() {
   return (
@@ -54,7 +55,7 @@ export default function HomePage() {
         tabIndex={-1}
         className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
       >
-        <LuxuryHero />
+        <LuxuryHero imageSrc={LUXURY_HERO_IMAGE} />
         <RealScoutOfficePriceBands intro="Live MLS listings for Skye Canyon and northwest Las Vegas—compare options with Dr. Jan Duffy." />
         <CommunityAtAGlance />
         <LifeAtArroyo />

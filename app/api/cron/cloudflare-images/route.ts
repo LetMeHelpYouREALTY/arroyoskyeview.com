@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { isCloudflareImagesHashConfigured } from '@/lib/cloudflare-images'
 import { CLOUDFLARE_IMAGE_PUBLIC_PATHS } from '@/lib/cloudflare-image-manifest'
 import {
   CLOUDFLARE_IMAGES_ACCOUNT_ID,
@@ -11,21 +12,39 @@ export const maxDuration = 60
 
 const CONCURRENCY = 4
 
-async function authorize(request: Request): Promise<NextResponse | null> {
-  const cronSecret = process.env.CRON_SECRET?.trim()
-  const token = process.env.CLOUDFLARE_API_TOKEN?.trim()
-  if (!cronSecret || !token) {
-    return NextResponse.json({ error: 'Not configured' }, { status: 503 })
+function cloudflareToken(): string | undefined {
+  return process.env.CLOUDFLARE_API_TOKEN?.trim() || undefined
+}
+
+function cronSecret(): string | undefined {
+  return process.env.CRON_SECRET?.trim() || undefined
+}
+
+function publicStatus() {
+  const token = Boolean(cloudflareToken())
+  const secret = Boolean(cronSecret())
+  return {
+    ok: true as const,
+    configured: token && secret,
+    cloudflareToken: token,
+    cronSecret: secret,
+    deliveryHash: isCloudflareImagesHashConfigured(),
   }
+}
+
+function isAuthorized(request: Request): boolean {
+  const secret = cronSecret()
   const auth = request.headers.get('authorization')
-  if (auth !== `Bearer ${cronSecret}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (secret) {
+    return auth === `Bearer ${secret}`
   }
-  return null
+  // Vercel Cron sends this header. Allow it only when CRON_SECRET is unset
+  // so Images:Edit token alone can complete the first upload.
+  return request.headers.get('x-vercel-cron') === '1'
 }
 
 async function syncImages() {
-  const token = process.env.CLOUDFLARE_API_TOKEN?.trim()
+  const token = cloudflareToken()
   if (!token) {
     return { uploaded: 0, exists: 0, failed: CLOUDFLARE_IMAGE_PUBLIC_PATHS.length }
   }
@@ -67,13 +86,13 @@ async function syncImages() {
 }
 
 export async function GET(request: Request) {
-  const denied = await authorize(request)
-  if (denied) {
-    return denied
+  if (!cloudflareToken() || !isAuthorized(request)) {
+    return NextResponse.json(publicStatus())
   }
+
   const summary = await syncImages()
   const status = summary.failed > 0 ? 500 : 200
-  return NextResponse.json(summary, { status })
+  return NextResponse.json({ ...publicStatus(), ...summary }, { status })
 }
 
 export async function POST(request: Request) {

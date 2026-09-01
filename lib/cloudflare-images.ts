@@ -5,9 +5,9 @@
  * Image binaries belong on Cloudflare Images (imagedelivery.net) or a
  * custom Images host — never orange-cloud the Vercel apex.
  *
- * Set NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH to the account hash from
- * Cloudflare → Images → Developer Resources. Optional custom host:
- * NEXT_PUBLIC_CLOUDFLARE_IMAGES_HOST (no trailing slash).
+ * Set CLOUDFLARE_IMAGES_HASH (server) or NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH
+ * to the account hash from Cloudflare → Images → Developer Resources.
+ * Optional custom host: NEXT_PUBLIC_CLOUDFLARE_IMAGES_HOST (no trailing slash).
  *
  * Team Images account (public): 2cc579c1ec9e426ed585e933ebf4753b
  * Team hash on sienalasvegas.com: byE6BTe9lNqo21V57n4aPQ
@@ -25,9 +25,17 @@ function imagesHost(): string {
   return DEFAULT_HOST
 }
 
+export function isCloudflareImagesHashConfigured(): boolean {
+  return Boolean(accountHash())
+}
+
 function accountHash(): string | undefined {
-  const hash = process.env.NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH?.trim()
-  return hash || undefined
+  const runtimeHash = process.env.CLOUDFLARE_IMAGES_HASH?.trim()
+  if (runtimeHash) {
+    return runtimeHash
+  }
+  const publicHash = process.env.NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH?.trim()
+  return publicHash || undefined
 }
 
 /** Custom ID derived from a local public path, e.g. images/hero/hero-5 */

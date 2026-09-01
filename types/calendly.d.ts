@@ -12,5 +12,6 @@ declare global {
         branding: boolean
       }) => void
     }
+    widgetTracker?: (...args: unknown[]) => void
   }
 }

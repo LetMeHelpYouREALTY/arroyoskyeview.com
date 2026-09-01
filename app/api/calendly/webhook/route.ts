@@ -1,14 +1,21 @@
 import { start } from 'workflow/api'
 import { NextResponse } from 'next/server'
 import { parseCalendlyLeadInput, verifyCalendlyWebhookSignature } from '@/lib/calendly-webhook'
+import { isFollowUpBossConfigured } from '@/lib/fub-client'
 import { processCalendlyLead } from '@/workflows/calendly-lead'
 
+function calendlySigningKeyConfigured(): boolean {
+  return Boolean(process.env.CALENDLY_WEBHOOK_SIGNING_KEY?.trim())
+}
+
 export async function GET() {
-  const signingKey = Boolean(process.env.CALENDLY_WEBHOOK_SIGNING_KEY?.trim())
-  const fubKey = Boolean(process.env.FOLLOW_UP_BOSS_API_KEY?.trim())
+  const signingKey = calendlySigningKeyConfigured()
+  const fubKey = isFollowUpBossConfigured()
   return NextResponse.json({
     ok: true,
     configured: signingKey && fubKey,
+    calendlySigningKey: signingKey,
+    followUpBoss: fubKey,
   })
 }
 

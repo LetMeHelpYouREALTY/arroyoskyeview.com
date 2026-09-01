@@ -43,7 +43,11 @@ function GoldDivider() {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export default function LuxuryHero() {
+type LuxuryHeroProps = {
+  imageSrc?: string
+}
+
+export default function LuxuryHero({ imageSrc = LUXURY_HERO_IMAGE }: LuxuryHeroProps) {
   const phoneNumber = 'tel:+17029034687'
   const displayPhone = '(702) 903-4687'
 
@@ -59,7 +63,7 @@ export default function LuxuryHero() {
       {/* ── Background image layer ─────────────────────────────────────── */}
       <div className="absolute inset-0">
         <Image
-          src={LUXURY_HERO_IMAGE}
+          src={imageSrc}
           alt="Aerial view of Arroyo at Skyeview townhomes with Red Rock Canyon in the background, Skye Canyon Las Vegas 89166"
           fill
           priority
