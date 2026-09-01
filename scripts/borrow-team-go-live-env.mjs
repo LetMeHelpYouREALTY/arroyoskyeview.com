@@ -7,12 +7,17 @@
  * https://vercel.com/docs/rest-api/reference/endpoints/projects/retrieve-the-environment-variables-of-a-project-by-id-or-name
  *
  * Cloudflare Images: Bearer tokens on clones are expired (401). Global API
- * keys return 400 as Bearer — they need X-Auth-Email + X-Auth-Key. Notion is
- * scanned when a sister decrypts NOTION_TOKEN (never copied to Arroyo).
- * Cloudflare invoice To: header (verified 2026-09-01) is the Global API Key
- * email probe. Do not upsert the Global key onto Arroyo Vercel.
+ * keys return 400 as Bearer — they need X-Auth-Email + X-Auth-Key. Try
+ * DrDuffy@bhhsnv.com first (Open Brain 2026-07-03 Super Admin), then other
+ * casings. Notion is scanned when a sister decrypts NOTION_TOKEN (never
+ * copied to Arroyo). Do not upsert the Global key onto Arroyo Vercel.
  */
 import { appendFile } from 'node:fs/promises'
+import {
+  cloudflareImagesCredentialWorks,
+  probeSummary,
+  uniqueAuthEmails,
+} from './cloudflare-images-auth.mjs'
 
 const TEAM_ID = process.env.VERCEL_ORG_ID?.trim() || 'team_EIbjFXaDDtGMTweb5Hvo3CG3'
 const TOKEN = process.env.VERCEL_TOKEN?.trim()
@@ -101,9 +106,7 @@ const PRIORITY_PROJECTS = [
   { id: 'prj_4h22EmvSku2lGaqMJICZ4F4dWMci', name: 'villagestulesprings.com' },
 ]
 
-const IMAGES_ACCOUNT_ID = '2cc579c1ec9e426ed585e933ebf4753b'
-/** Cloudflare invoice recipient. Used only to probe sister Global API Keys. */
-const FALLBACK_CLOUDFLARE_EMAIL = 'drduffy@bhhsnv.com'
+/** Extra emails (sister env / Linear) are merged with scripts/cloudflare-images-auth.mjs. */
 
 function alreadyHave(key) {
   const value = process.env[key]
@@ -251,84 +254,38 @@ async function decryptNamed(projectId, names) {
   return ''
 }
 
-async function probeImages(headers, accountId = IMAGES_ACCOUNT_ID) {
-  const res = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${accountId}/images/v1?per_page=1`,
-    { headers },
-  )
-  const json = await res.json().catch(() => null)
-  const error = json?.errors?.[0]
-  return {
-    ok: res.ok,
-    status: res.status,
-    code: error?.code,
-    message: typeof error?.message === 'string' ? error.message.slice(0, 120) : '',
-  }
-}
-
-function probeSummary(probe) {
-  const detail = [probe.code && `code ${probe.code}`, probe.message].filter(Boolean).join(' ')
-  return detail ? `${probe.status} ${detail}`.trim() : String(probe.status)
-}
-
-async function listCloudflareAccounts(headers) {
-  const res = await fetch('https://api.cloudflare.com/client/v4/accounts?per_page=50', { headers })
-  const json = await res.json().catch(() => null)
-  const accounts = Array.isArray(json?.result) ? json.result : []
-  const error = json?.errors?.[0]
-  return {
-    ok: res.ok,
-    status: res.status,
-    accounts,
-    code: error?.code,
-    message: typeof error?.message === 'string' ? error.message.slice(0, 120) : '',
-  }
-}
-
-async function cloudflareImagesCredentialWorks(token, emails) {
-  const bearer = await probeImages({ Authorization: `Bearer ${token}` })
-  if (bearer.ok) {
-    return { ok: true, mode: 'bearer', status: bearer.status }
-  }
-  const uniqueEmails = [...new Set((Array.isArray(emails) ? emails : [emails]).filter(Boolean))]
-  let lastProbe = bearer
-  for (const email of uniqueEmails) {
-    const headers = { 'X-Auth-Email': email, 'X-Auth-Key': token }
-    const onDefault = await probeImages(headers)
-    lastProbe = onDefault
-    if (onDefault.ok) {
-      return {
-        ok: true,
-        mode: 'global',
-        status: onDefault.status,
-        email,
-        accountId: IMAGES_ACCOUNT_ID,
+function acceptCloudflareProbe(canonical, candidate, probe, found) {
+  if (probe.minted && probe.token) {
+    found.CLOUDFLARE_API_TOKEN = {
+      value: probe.token,
+      source: `${candidate.source} minted Images:Edit token`,
+    }
+    rememberCloudflareAccount(found, probe)
+    if (probe.email && !found.CLOUDFLARE_EMAIL && !alreadyHave('CLOUDFLARE_EMAIL')) {
+      found.CLOUDFLARE_EMAIL = {
+        value: probe.email,
+        source: 'Cloudflare /user email for Global API Key',
       }
     }
-    if (onDefault.status !== 403) {
-      continue
-    }
-    const listed = await listCloudflareAccounts(headers)
-    console.log(
-      `Cloudflare Images HTTP ${probeSummary(onDefault)} on default account. Accounts: HTTP ${probeSummary(listed)}, ${listed.accounts.length}`,
-    )
-    for (const account of listed.accounts.slice(0, 20)) {
-      const id = account?.id
-      if (!id) {
-        continue
-      }
-      const probed = await probeImages(headers, id)
-      lastProbe = probed
-      console.log(`Images on account ${id.slice(0, 8)}…: HTTP ${probeSummary(probed)}`)
-      if (probed.ok) {
-        return { ok: true, mode: 'global', status: probed.status, email, accountId: id }
-      }
+    return 'CLOUDFLARE_API_TOKEN'
+  }
+  // Never copy a Global API Key onto CLOUDFLARE_API_TOKEN — sync would
+  // upsert it to Arroyo Vercel. Keep it in GITHUB_ENV as GLOBAL for upload.
+  const key = probe.mode === 'global' ? 'CLOUDFLARE_GLOBAL_API_TOKEN' : canonical
+  found[key] = candidate
+  rememberCloudflareAccount(found, probe)
+  if (
+    probe.mode === 'global' &&
+    probe.email &&
+    !found.CLOUDFLARE_EMAIL &&
+    !alreadyHave('CLOUDFLARE_EMAIL')
+  ) {
+    found.CLOUDFLARE_EMAIL = {
+      value: probe.email,
+      source: 'Cloudflare /user email for Global API Key',
     }
   }
-  if (uniqueEmails.length > 0) {
-    return { ok: false, mode: 'global', status: lastProbe.status, code: lastProbe.code, message: lastProbe.message }
-  }
-  return { ok: false, mode: 'bearer', status: bearer.status, code: bearer.code, message: bearer.message }
+  return key
 }
 
 function rememberCloudflareAccount(found, probe) {
@@ -718,8 +675,8 @@ async function harvestFromLinear(token, found) {
       viewer.json?.data?.viewer?.organization?.urlKey ||
       viewer.json?.data?.viewer?.organization?.name ||
       '?'
-    console.log(`Linear viewer: ${name} @ ${org}`)
     const email = viewer.json?.data?.viewer?.email
+    console.log(`Linear viewer: ${name} @ ${org}${email ? ` <${email}>` : ''}`)
     if (typeof email === 'string' && email.includes('@')) {
       emails.push(email.trim())
     }
@@ -828,13 +785,13 @@ async function harvestFromDoppler(token, found) {
   }
 }
 
-const emailCandidates = [
+const emailCandidates = uniqueAuthEmails([
   alreadyHave('CLOUDFLARE_EMAIL') ? process.env.CLOUDFLARE_EMAIL.trim() : '',
   found.CLOUDFLARE_EMAIL?.value,
   candidates.CLOUDFLARE_EMAIL?.[0]?.value,
   ...linearEmails,
-  FALLBACK_CLOUDFLARE_EMAIL,
-].filter((value) => typeof value === 'string' && value.includes('@'))
+])
+console.log(`Cloudflare auth emails: ${emailCandidates.join(', ')}`)
 
 for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_GLOBAL_API_TOKEN']) {
   const harvested = found[key]
@@ -846,13 +803,12 @@ for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_GLOBAL_API_TOKEN']) {
     console.log(`Skip ${key} from Notion/Linear: Images HTTP ${probeSummary(probe)} (${probe.mode})`)
     delete found[key]
   } else {
-    console.log(`Cloudflare Images ${key} from harvest accepted via ${probe.mode}`)
-    rememberCloudflareAccount(found, probe)
-    if (probe.mode === 'global' && probe.email && !found.CLOUDFLARE_EMAIL && !alreadyHave('CLOUDFLARE_EMAIL')) {
-      found.CLOUDFLARE_EMAIL = {
-        value: probe.email,
-        source: 'Cloudflare invoice recipient / Linear viewer',
-      }
+    console.log(
+      `Cloudflare Images ${key} from harvest accepted via ${probe.mode}${probe.minted ? ' (minted)' : ''}`,
+    )
+    acceptCloudflareProbe(key, harvested, probe, found)
+    if (probe.minted && key === 'CLOUDFLARE_GLOBAL_API_TOKEN') {
+      delete found.CLOUDFLARE_GLOBAL_API_TOKEN
     }
   }
 }
@@ -864,7 +820,6 @@ for (const [canonical, bucket] of Object.entries(candidates)) {
     continue
   }
   if (canonical === 'CLOUDFLARE_API_TOKEN' || canonical === 'CLOUDFLARE_GLOBAL_API_TOKEN') {
-    let accepted
     for (const candidate of bucket) {
       const probe = await cloudflareImagesCredentialWorks(candidate.value, emailCandidates)
       if (!probe.ok) {
@@ -885,24 +840,14 @@ for (const [canonical, bucket] of Object.entries(candidates)) {
         }
         continue
       }
-      console.log(`Cloudflare Images ${canonical} accepted via ${probe.mode}`)
-      accepted = candidate
-      rememberCloudflareAccount(found, probe)
-      if (
-        probe.mode === 'global' &&
-        probe.email &&
-        !found.CLOUDFLARE_EMAIL &&
-        !alreadyHave('CLOUDFLARE_EMAIL')
-      ) {
-        found.CLOUDFLARE_EMAIL = {
-          value: probe.email,
-          source: candidates.CLOUDFLARE_EMAIL?.[0]?.source || 'Cloudflare invoice recipient',
-        }
+      console.log(
+        `Cloudflare Images ${canonical} accepted via ${probe.mode}${probe.minted ? ' (minted)' : ''}`,
+      )
+      acceptCloudflareProbe(canonical, candidate, probe, found)
+      if (probe.minted && canonical === 'CLOUDFLARE_GLOBAL_API_TOKEN') {
+        delete found.CLOUDFLARE_GLOBAL_API_TOKEN
       }
       break
-    }
-    if (accepted) {
-      found[canonical] = accepted
     }
     continue
   }

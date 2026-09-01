@@ -21,6 +21,10 @@
 import { appendFile, readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import {
+  cloudflareImagesCredentialWorks,
+  uniqueAuthEmails,
+} from './cloudflare-images-auth.mjs'
 import { isRasterImageFile } from './raster-image.mjs'
 
 /** Public Cloudflare account id (Images) shared across Dr. Jan Duffy sites. */
@@ -48,14 +52,6 @@ const EMAIL =
 
 let authHeaders = null
 
-async function probeImages(headers) {
-  const res = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/v1?per_page=1`,
-    { headers },
-  )
-  return res
-}
-
 async function resolveAuth() {
   const tokens = uniqueTokens()
   if (tokens.length === 0) {
@@ -65,31 +61,25 @@ async function resolveAuth() {
     process.exit(1)
   }
 
+  const emails = uniqueAuthEmails([EMAIL])
+  console.log(`Cloudflare auth emails: ${emails.join(', ')}`)
   for (const token of tokens) {
-    const headers = { Authorization: `Bearer ${token}` }
-    const res = await probeImages(headers)
-    if (res.ok) {
-      authHeaders = headers
-      process.env.CLOUDFLARE_API_TOKEN = token
-      console.log('Cloudflare Images auth: Bearer token accepted')
-      return
+    const probe = await cloudflareImagesCredentialWorks(token, emails)
+    if (!probe.ok) {
+      console.log(`Cloudflare Images token probe HTTP ${probe.status}`)
+      continue
     }
-    console.log(`Cloudflare Images token probe HTTP ${res.status}`)
-  }
-
-  const globalKey =
-    process.env.CLOUDFLARE_GLOBAL_API_TOKEN?.trim() ||
-    process.env.CLOUDFLARE_API_KEY?.trim() ||
-    ''
-  if (EMAIL && globalKey) {
-    const headers = { 'X-Auth-Email': EMAIL, 'X-Auth-Key': globalKey }
-    const res = await probeImages(headers)
-    if (res.ok) {
-      authHeaders = headers
-      console.log('Cloudflare Images auth: Global API Key accepted')
-      return
+    authHeaders = probe.headers
+    if (probe.token && (probe.mode === 'bearer' || probe.minted)) {
+      process.env.CLOUDFLARE_API_TOKEN = probe.token
     }
-    console.log(`Cloudflare Images email/key probe HTTP ${res.status}`)
+    if (probe.email) {
+      process.env.CLOUDFLARE_EMAIL = probe.email
+    }
+    console.log(
+      `Cloudflare Images auth: ${probe.mode}${probe.minted ? ' minted Images:Edit token' : ''} accepted`,
+    )
+    return
   }
 
   console.warn(
