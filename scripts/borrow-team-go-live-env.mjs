@@ -15,6 +15,7 @@
 import { appendFile } from 'node:fs/promises'
 import {
   cloudflareImagesCredentialWorks,
+  looksLikeGlobalApiKey,
   probeSummary,
   uniqueAuthEmails,
 } from './cloudflare-images-auth.mjs'
@@ -540,15 +541,22 @@ for (const project of projects) {
 
   if (
     !notionToken &&
-    notionDecryptAttempts < 2 &&
     interesting.some((name) => /^notion_/i.test(name))
   ) {
-    notionDecryptAttempts += 1
-    const value = await decryptNamed(project.id, [
+    const notionEntry = pickByNames(result.envs, [
       'NOTION_TOKEN',
       'NOTION_API_KEY',
       'NOTION_SECRET',
     ])
+    let value = notionEntry ? entryValue(notionEntry) : ''
+    if (!value && notionDecryptAttempts < 2) {
+      notionDecryptAttempts += 1
+      value = await decryptNamed(project.id, [
+        'NOTION_TOKEN',
+        'NOTION_API_KEY',
+        'NOTION_SECRET',
+      ])
+    }
     if (value) {
       notionToken = value
       console.log(`Found NOTION_TOKEN on ${project.name} (not copied to Arroyo).`)
@@ -829,6 +837,7 @@ for (const [canonical, bucket] of Object.entries(candidates)) {
         if (
           canonical === 'CLOUDFLARE_API_TOKEN' &&
           probe.status === 400 &&
+          looksLikeGlobalApiKey(candidate.value) &&
           !candidates.CLOUDFLARE_GLOBAL_API_TOKEN?.some((item) => item.value === candidate.value)
         ) {
           const globalBucket = candidates.CLOUDFLARE_GLOBAL_API_TOKEN || []

@@ -21,6 +21,10 @@ export const CLOUDFLARE_AUTH_EMAILS = [
   'geneboyle@gmail.com',
 ]
 
+export function looksLikeGlobalApiKey(token) {
+  return typeof token === 'string' && /^[0-9a-f]{37}$/i.test(token.trim())
+}
+
 export function uniqueAuthEmails(extra = []) {
   const seen = new Set()
   const out = []
@@ -187,6 +191,19 @@ export async function cloudflareImagesCredentialWorks(token, emails) {
     })
   }
 
+  if (!looksLikeGlobalApiKey(token)) {
+    console.log(
+      `Skip Global API Key probe (len=${token.length}, not 37-hex). Bearer Images HTTP ${probeSummary(bearer)}`,
+    )
+    return {
+      ok: false,
+      mode: 'bearer',
+      status: bearer.status,
+      code: bearer.code,
+      message: bearer.message,
+    }
+  }
+
   const uniqueEmails = uniqueAuthEmails(emails)
   let lastProbe = bearer
   for (const email of uniqueEmails) {
@@ -229,6 +246,10 @@ export async function cloudflareImagesCredentialWorks(token, emails) {
       }
     }
 
+    if (user.status === 429 || onDefault.status === 429) {
+      console.log('Cloudflare auth rate-limited; stopping further email probes for this key.')
+      break
+    }
     if (onDefault.status !== 403) {
       continue
     }
