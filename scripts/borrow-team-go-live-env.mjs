@@ -224,6 +224,22 @@ async function decryptEnv(projectId, envId) {
   return entryValue(result.json)
 }
 
+async function decryptNamed(projectId, names) {
+  const listed = await vercelGet(`/v9/projects/${projectId}/env`)
+  const envs = asEnvList(listed.json)
+  for (const entry of envs.filter((item) => names.includes(item?.key))) {
+    const direct = entryValue(entry)
+    if (direct) {
+      return direct
+    }
+    const decrypted = await decryptEnv(projectId, entry?.id)
+    if (decrypted) {
+      return decrypted
+    }
+  }
+  return ''
+}
+
 async function probeImages(headers) {
   const res = await fetch(
     `https://api.cloudflare.com/client/v4/accounts/${IMAGES_ACCOUNT_ID}/images/v1?per_page=1`,
@@ -432,21 +448,17 @@ for (const project of projects) {
     console.log(`Interesting keys on ${project.name}: ${interesting.join(', ')}`)
   }
 
-  if (!notionToken) {
-    const notionEntry = pickByNames(result.envs, ['NOTION_TOKEN', 'NOTION_API_KEY', 'NOTION_SECRET'])
-    let value = notionEntry ? entryValue(notionEntry) : ''
-    if (!value) {
-      const listed = result.envs.filter((item) =>
-        ['NOTION_TOKEN', 'NOTION_API_KEY', 'NOTION_SECRET'].includes(item?.key),
-      )
-      const candidate = listed.find(prefersProduction) || listed[0]
-      if (candidate?.id) {
-        value = await decryptEnv(project.id, candidate.id)
-      }
-    }
+  if (!notionToken && interesting.some((name) => /^notion_/i.test(name))) {
+    const value = await decryptNamed(project.id, [
+      'NOTION_TOKEN',
+      'NOTION_API_KEY',
+      'NOTION_SECRET',
+    ])
     if (value) {
       notionToken = value
       console.log(`Found NOTION_TOKEN on ${project.name} (not copied to Arroyo).`)
+    } else {
+      console.log(`NOTION_TOKEN listed on ${project.name} but decrypt returned empty.`)
     }
   }
 
@@ -513,6 +525,18 @@ for (const [canonical, bucket] of Object.entries(candidates)) {
         console.log(
           `Skip ${canonical} from ${candidate.source}: Images HTTP ${probe.status} (${probe.mode})`,
         )
+        if (
+          canonical === 'CLOUDFLARE_API_TOKEN' &&
+          probe.status === 400 &&
+          !candidates.CLOUDFLARE_GLOBAL_API_TOKEN?.some((item) => item.value === candidate.value)
+        ) {
+          const globalBucket = candidates.CLOUDFLARE_GLOBAL_API_TOKEN || []
+          globalBucket.push({
+            ...candidate,
+            source: `${candidate.source} as Global API Key`,
+          })
+          candidates.CLOUDFLARE_GLOBAL_API_TOKEN = globalBucket
+        }
         continue
       }
       console.log(`Cloudflare Images ${canonical} accepted via ${probe.mode}`)
