@@ -95,6 +95,7 @@ jobs:
       - name: Upload Cloudflare Images
         if: steps.cf.outputs.skip != 'true'
         run: |
+          set -o pipefail
           node scripts/upload-cloudflare-images.mjs --write-hash | tee /tmp/cf-upload.log
           HASH=$(grep '^NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH=' /tmp/cf-upload.log | cut -d= -f2)
           if [ -n "$HASH" ]; then

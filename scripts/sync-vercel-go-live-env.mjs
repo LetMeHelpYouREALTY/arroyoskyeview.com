@@ -75,7 +75,42 @@ function envValue(key) {
       process.env.CALENDLY_PAT?.trim()
     )
   }
+  if (key === 'CLOUDFLARE_API_TOKEN' && process.env.CLOUDFLARE_IMAGES_AUTH_OK === '0') {
+    return undefined
+  }
   return process.env[key]?.trim()
+}
+
+async function deleteProjectEnv(key) {
+  const listUrl = new URL(`https://api.vercel.com/v9/projects/${PROJECT_ID}/env`)
+  listUrl.searchParams.set('teamId', TEAM_ID)
+  const listed = await fetch(listUrl, {
+    headers: { Authorization: `Bearer ${TOKEN}` },
+  })
+  if (!listed.ok) {
+    console.log(`Could not list env to remove ${key}: HTTP ${listed.status}`)
+    return
+  }
+  const json = await listed.json()
+  const envs = Array.isArray(json?.envs) ? json.envs : []
+  const matches = envs.filter((entry) => entry?.key === key && entry?.id)
+  for (const entry of matches) {
+    const del = new URL(`https://api.vercel.com/v9/projects/${PROJECT_ID}/env/${entry.id}`)
+    del.searchParams.set('teamId', TEAM_ID)
+    const res = await fetch(del, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    })
+    console.log(
+      res.ok
+        ? `Removed ${key} (${entry.target?.join(',') || 'unknown target'})`
+        : `Failed to remove ${key}: HTTP ${res.status}`,
+    )
+  }
+}
+
+if (process.env.CLOUDFLARE_IMAGES_AUTH_OK === '0') {
+  await deleteProjectEnv('CLOUDFLARE_API_TOKEN')
 }
 
 const payload = VARS.flatMap((item) => {

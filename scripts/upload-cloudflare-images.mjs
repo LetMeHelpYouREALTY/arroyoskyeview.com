@@ -18,7 +18,7 @@
  * Do not orange-cloud the Vercel apex. Images belong on imagedelivery.net
  * (or a gray-cloud images.arroyoskyeview.com custom host).
  */
-import { readdir, readFile, writeFile } from 'node:fs/promises'
+import { appendFile, readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isRasterImageFile } from './raster-image.mjs'
@@ -26,15 +26,79 @@ import { isRasterImageFile } from './raster-image.mjs'
 /** Public Cloudflare account id (Images) shared across Dr. Jan Duffy sites. */
 const DEFAULT_ACCOUNT_ID = '2cc579c1ec9e426ed585e933ebf4753b'
 const ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID?.trim() || DEFAULT_ACCOUNT_ID
-const TOKEN = process.env.CLOUDFLARE_API_TOKEN
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'public', 'images')
 const ALLOWED = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif'])
 
-if (!TOKEN) {
-  console.error(
-    'Set CLOUDFLARE_API_TOKEN (Images:Edit), then rerun:\n  npm run images:upload',
+function uniqueTokens() {
+  return [
+    ...new Set(
+      [
+        process.env.CLOUDFLARE_API_TOKEN,
+        process.env.CLOUDFLARE_GLOBAL_API_TOKEN,
+        process.env.CLOUDFLARE_API_KEY,
+      ]
+        .map((value) => (typeof value === 'string' ? value.trim() : ''))
+        .filter(Boolean),
+    ),
+  ]
+}
+
+const EMAIL =
+  process.env.CLOUDFLARE_EMAIL?.trim() || process.env.CF_EMAIL?.trim() || ''
+
+let authHeaders = null
+
+async function probeImages(headers) {
+  const res = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/v1?per_page=1`,
+    { headers },
   )
-  process.exit(1)
+  return res
+}
+
+async function resolveAuth() {
+  const tokens = uniqueTokens()
+  if (tokens.length === 0) {
+    console.error(
+      'Set CLOUDFLARE_API_TOKEN (Images:Edit), then rerun:\n  npm run images:upload',
+    )
+    process.exit(1)
+  }
+
+  for (const token of tokens) {
+    const headers = { Authorization: `Bearer ${token}` }
+    const res = await probeImages(headers)
+    if (res.ok) {
+      authHeaders = headers
+      process.env.CLOUDFLARE_API_TOKEN = token
+      console.log('Cloudflare Images auth: Bearer token accepted')
+      return
+    }
+    console.log(`Cloudflare Images Bearer probe HTTP ${res.status}`)
+  }
+
+  const globalKey =
+    process.env.CLOUDFLARE_GLOBAL_API_TOKEN?.trim() ||
+    process.env.CLOUDFLARE_API_KEY?.trim() ||
+    ''
+  if (EMAIL && globalKey) {
+    const headers = { 'X-Auth-Email': EMAIL, 'X-Auth-Key': globalKey }
+    const res = await probeImages(headers)
+    if (res.ok) {
+      authHeaders = headers
+      console.log('Cloudflare Images auth: Global API Key accepted')
+      return
+    }
+    console.log(`Cloudflare Images email/key probe HTTP ${res.status}`)
+  }
+
+  console.warn(
+    'No working Cloudflare Images credential (need Account · Cloudflare Images · Edit). Skipping upload.',
+  )
+  if (process.env.GITHUB_ENV) {
+    await appendFile(process.env.GITHUB_ENV, 'CLOUDFLARE_IMAGES_AUTH_OK=0\n')
+  }
+  process.exit(0)
 }
 
 async function walk(dir) {
@@ -97,7 +161,7 @@ async function upload(filePath) {
     `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/v1`,
     {
       method: 'POST',
-      headers: { Authorization: `Bearer ${TOKEN}` },
+      headers: authHeaders,
       body: form,
     },
   )
@@ -108,7 +172,7 @@ async function upload(filePath) {
 async function fetchAccountHash() {
   const res = await fetch(
     `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/v1?per_page=1`,
-    { headers: { Authorization: `Bearer ${TOKEN}` } },
+    { headers: authHeaders },
   )
   const json = await res.json()
   const variant = json?.result?.images?.[0]?.variants?.[0]
@@ -120,6 +184,10 @@ async function fetchAccountHash() {
 }
 
 async function main() {
+  await resolveAuth()
+  if (process.env.GITHUB_ENV) {
+    await appendFile(process.env.GITHUB_ENV, 'CLOUDFLARE_IMAGES_AUTH_OK=1\n')
+  }
   const candidates = await walk(ROOT)
   const files = []
   for (const file of candidates) {
@@ -152,6 +220,13 @@ async function main() {
         `FAIL ${result.id}: ${result.status}`,
         JSON.stringify(result.json?.errors || result.json),
       )
+      if (result.status === 401 || result.status === 403) {
+        console.warn('Cloudflare Images rejected the token; stopping further uploads.')
+        if (process.env.GITHUB_ENV) {
+          await appendFile(process.env.GITHUB_ENV, 'CLOUDFLARE_IMAGES_AUTH_OK=0\n')
+        }
+        process.exit(0)
+      }
       continue
     }
     const variant = result.json.result?.variants?.[0]

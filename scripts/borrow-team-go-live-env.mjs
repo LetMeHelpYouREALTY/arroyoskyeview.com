@@ -52,7 +52,8 @@ const ALIASES = {
     'CALENDLY_WEBHOOK_SIGNING_KEY',
     'CALENDLY_SIGNING_KEY',
   ],
-  CRON_SECRET: ['CRON_SECRET'],
+  CLOUDFLARE_GLOBAL_API_TOKEN: ['CLOUDFLARE_GLOBAL_API_TOKEN'],
+  CLOUDFLARE_EMAIL: ['CLOUDFLARE_EMAIL', 'CF_EMAIL'],
 }
 
 /** Sister projects most likely to already have Images / FUB / Calendly keys. */
@@ -72,6 +73,12 @@ const PROJECTS = [
   { id: 'prj_OKsb5CSYTYncUOJecJz8craMKgUU', name: 'inspiradahomes.com' },
   { id: 'prj_JLGCPPn46Oc7XqNNxl2cTShiczXg', name: 'letmehelpyourealtor-com' },
   { id: 'prj_V5549R7k5GyeTVngaNVzDEr8UqAL', name: 'trilogysunstonehomes' },
+  { id: 'prj_PcVsODtPjvyUQCg4hStpyILEbYFh', name: 'sandstonetulessprings' },
+  { id: 'prj_UPf2vK6xEdnz02NkWKgvaZcqnZrX', name: 'rhodesranchlasvegas.com' },
+  { id: 'prj_cgzb65mf2GDFh37vU9hPWQ2TGJ6m', name: 'midtownvegascondos-com' },
+  { id: 'prj_cAI32rOSAZCdPeMMOdoLnlsd378x', name: 'madeiracanyonhomes-com' },
+  { id: 'prj_f00T6IobVyA0nhUmwIWTwKJbEnFq', name: 'californiaforeverrealty-com' },
+  { id: 'prj_1oa9Zoow76266yZcUC5Z4LWyITfk', name: 'lasvegasfamilyhomes-com' },
 ]
 
 function alreadyHave(key) {
