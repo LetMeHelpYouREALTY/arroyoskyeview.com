@@ -21,6 +21,23 @@ export const CALENDLY_URL = withArroyoCampaign(
 /** Calendly event Confirmation page → Redirect here, pass event details. */
 export const CALENDLY_CONFIRMATION_URL = `${SITE_URL}/schedule-confirmed`
 
+/**
+ * Parent-page confirmation URL after an embed `calendly.event_scheduled`
+ * postMessage. URIs only — email still requires PAT lookup or dashboard
+ * “Pass event details”.
+ */
+export function scheduleConfirmedUrlFromCalendlyUris(
+  inviteeUri: string,
+  eventUri?: string,
+): string {
+  const next = new URL('/schedule-confirmed', SITE_URL)
+  next.searchParams.set('invitee_uri', inviteeUri)
+  if (eventUri) {
+    next.searchParams.set('event_uri', eventUri)
+  }
+  return next.toString()
+}
+
 export const CALENDLY_BADGE = {
   text: 'Schedule time with me',
   color: '#0069ff',

@@ -14,6 +14,8 @@ const EXCLUDED_PATH_FRAGMENTS = [
   'app/projects/',
   'app/components/prompt-component.tsx',
   'app/components/rename-chat-dialog.tsx',
+  // Noindex /schedule-confirmed only — FUB Pixel form-capture, not a marketing lead form.
+  'app/components/fub-pixel-identify.tsx',
 ]
 
 const FORM_PATTERN = /<form[\s>]/i

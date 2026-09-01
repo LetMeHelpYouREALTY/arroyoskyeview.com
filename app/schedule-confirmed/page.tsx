@@ -6,6 +6,7 @@ import {
   CALENDLY_CONFIRMATION_URL,
   calendlyLeadFromConfirmationParams,
 } from '@/lib/calendly'
+import { calendlyLeadFromInviteeUri } from '@/lib/calendly-invitee'
 import { sendCalendlyLeadToFollowUpBoss } from '@/lib/fub-client'
 import NapContactCard from '../components/nap-contact-card'
 import PageSchemas from '../components/page-schemas'
@@ -56,7 +57,14 @@ export default async function ScheduleConfirmedPage({
     redirect(`/schedule-confirmed?${next.toString()}`)
   }
 
-  const lead = calendlyLeadFromConfirmationParams(params)
+  const fromParams = calendlyLeadFromConfirmationParams(params)
+  const inviteeUri = firstQueryValue(params.invitee_uri)?.trim()
+  const eventUri = firstQueryValue(params.event_uri)?.trim()
+  const fromUris =
+    fromParams || !inviteeUri
+      ? null
+      : await calendlyLeadFromInviteeUri(inviteeUri, eventUri)
+  const lead = fromParams ?? fromUris
   if (lead) {
     after(() => {
       void sendCalendlyLeadToFollowUpBoss(lead)
@@ -84,7 +92,7 @@ export default async function ScheduleConfirmedPage({
       footerSuppressRealScout
     >
       <FubPixelIdentify
-        email={pixelEmail}
+        email={lead?.inviteeEmail || pixelEmail}
         name={lead?.inviteeName}
         phone={lead?.inviteePhone}
       />

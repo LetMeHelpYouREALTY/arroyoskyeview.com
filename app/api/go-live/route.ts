@@ -3,6 +3,7 @@ import { CALENDLY_CONFIRMATION_URL, CALENDLY_URL } from '@/lib/calendly'
 import { isCalendlyApiConfigured } from '@/lib/calendly-invitee'
 import { isCloudflareImagesHashConfigured } from '@/lib/cloudflare-images'
 import { isFollowUpBossConfigured } from '@/lib/fub-client'
+import { getFubPixelId } from '@/lib/fub-pixel-config'
 import { SITE_URL } from '@/lib/site-url'
 
 function hasEnv(name: string): boolean {
@@ -41,6 +42,9 @@ export async function GET() {
       cloudflareToken,
       cronSecret,
       deliveryHash,
+    },
+    fubPixel: {
+      enabled: Boolean(getFubPixelId()),
     },
   })
 }
