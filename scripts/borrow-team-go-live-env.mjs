@@ -102,6 +102,9 @@ const ALIASES = {
 /** Scan first — these are most likely to hold Images / FUB / Calendly keys. */
 const PRIORITY_PROJECTS = [
   { id: 'prj_4cKj3PWQYacJOBsrmSeWfkONU6Wm', name: 'arroyoskyeview.com' },
+  // Live imagedelivery.net heroes (UUID IDs). Scan before geneboyle so an
+  // unrestricted Images token is not skipped after a 9109 IP-allowlisted one.
+  { id: 'prj_vrMcC3LsxgF3yf51M06TdeYUI24j', name: 'sienalasvegas.com' },
   { id: 'prj_xZmrAjHZjKncFudRykf1hDaLVvtB', name: 'drjanduffy.com' },
   { id: 'prj_wLlJUFtUXEWI5lWpGaGAHlrfEMBg', name: 'assumablehomefinder.com' },
   { id: 'prj_yE6ZxHq8bfWfLrop5IaYncTHZmyB', name: 'justcallgene.com' },
@@ -111,7 +114,6 @@ const PRIORITY_PROJECTS = [
   { id: 'prj_OPeHlqAs7VKjCibR3xLONmQm2LbW', name: 'opportunityzonespecialist-com' },
   { id: 'prj_KDNbpc1vi3aOYg0lDisXWpp3hldj', name: 'video-creator' },
   { id: 'prj_riGA7w4NNpdcJikGwUo84ePXdk48', name: 'next-js-parallel-starter' },
-  { id: 'prj_vrMcC3LsxgF3yf51M06TdeYUI24j', name: 'sienalasvegas.com' },
   { id: 'prj_Egvst53Qns0tSJ0K5cqfbicv2MIj', name: 'hertagestonebridge.com' },
   { id: 'prj_4h22EmvSku2lGaqMJICZ4F4dWMci', name: 'villagestulesprings.com' },
 ]
@@ -316,18 +318,22 @@ function acceptCloudflareProbe(canonical, candidate, probe, found) {
   return key
 }
 
-function copyLocationRestrictedToken(canonical, candidate, probe, found) {
+/**
+ * Remember an IP-allowlisted Bearer for last-resort copy only.
+ * Do not put it on `found` yet — that skipped the rest of the sister
+ * bucket (Siena) after geneboyle 9109 on 2026-09-01.
+ */
+function rememberLocationRestrictedToken(canonical, candidate, probe, fallback) {
   if (!probe.locationRestricted || canonical !== 'CLOUDFLARE_API_TOKEN') {
-    return false
+    return fallback
   }
-  if (found.CLOUDFLARE_API_TOKEN || alreadyHave('CLOUDFLARE_API_TOKEN')) {
-    return false
+  if (fallback) {
+    return fallback
   }
   console.log(
-    `Copy IP-allowlisted CLOUDFLARE_API_TOKEN from ${candidate.source} (GitHub 9109 from location). Vercel production build will retry Images upload.`,
+    `Remember IP-allowlisted CLOUDFLARE_API_TOKEN from ${candidate.source} (9109 from this runner). Keep scanning sisters for an unrestricted token.`,
   )
-  found.CLOUDFLARE_API_TOKEN = candidate
-  return true
+  return candidate
 }
 
 function rememberCloudflareAccount(found, probe) {
@@ -1179,6 +1185,8 @@ const emailCandidates = uniqueAuthEmails([
 ])
 console.log(`Cloudflare auth emails: ${emailCandidates.join(', ')}`)
 
+let locationRestrictedFallback = null
+
 for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ORIGIN_CA_KEY', 'CLOUDFLARE_GLOBAL_API_TOKEN']) {
   const harvested = found[key]
   if (!harvested) {
@@ -1186,9 +1194,12 @@ for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ORIGIN_CA_KEY', 'CLOUDFLA
   }
   const probe = await cloudflareImagesCredentialWorks(harvested.value, emailCandidates)
   if (!probe.ok) {
-    if (copyLocationRestrictedToken(key, harvested, probe, found)) {
-      continue
-    }
+    locationRestrictedFallback = rememberLocationRestrictedToken(
+      key,
+      harvested,
+      probe,
+      locationRestrictedFallback,
+    )
     console.log(`Skip ${key} from Notion/Linear: Images HTTP ${probeSummary(probe)} (${probe.mode})`)
     delete found[key]
   } else {
@@ -1216,9 +1227,12 @@ for (const [canonical, bucket] of Object.entries(candidates)) {
     for (const candidate of bucket) {
       const probe = await cloudflareImagesCredentialWorks(candidate.value, emailCandidates)
       if (!probe.ok) {
-        if (copyLocationRestrictedToken(canonical, candidate, probe, found)) {
-          break
-        }
+        locationRestrictedFallback = rememberLocationRestrictedToken(
+          canonical,
+          candidate,
+          probe,
+          locationRestrictedFallback,
+        )
         console.log(
           `Skip ${canonical} from ${candidate.source}: Images HTTP ${probeSummary(probe)} (${probe.mode})`,
         )
@@ -1261,6 +1275,17 @@ for (const [canonical, bucket] of Object.entries(candidates)) {
     }
   }
   found[canonical] = bucket[0]
+}
+
+if (
+  !found.CLOUDFLARE_API_TOKEN &&
+  !alreadyHave('CLOUDFLARE_API_TOKEN') &&
+  locationRestrictedFallback
+) {
+  console.log(
+    `No unrestricted Images token found. Keeping IP-allowlisted CLOUDFLARE_API_TOKEN from ${locationRestrictedFallback.source} as last resort (GitHub/Vercel iad1 still 9109/401).`,
+  )
+  found.CLOUDFLARE_API_TOKEN = locationRestrictedFallback
 }
 
 if (
