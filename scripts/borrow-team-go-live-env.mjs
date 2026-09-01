@@ -2,7 +2,8 @@
  * Copy go-live keys from sister Vercel projects on the same team.
  * Prints only key names and source project — never secret values.
  *
- * GET /v9/projects/{id}/env?decrypt=true
+ * GET /v10/projects/{id}/env?decrypt=true&source=vercel-cli:env:pull
+ * GET /v3/env/pull/{id}/production (same path `vercel env pull` uses)
  * https://vercel.com/docs/rest-api/reference/endpoints/projects/retrieve-the-environment-variables-of-a-project-by-id-or-name
  */
 import { appendFile } from 'node:fs/promises'
@@ -23,6 +24,36 @@ const KEYS = [
   'CALENDLY_WEBHOOK_SIGNING_KEY',
   'CRON_SECRET',
 ]
+
+/** Sister env names that map onto the keys this repo actually reads. */
+const ALIASES = {
+  CLOUDFLARE_API_TOKEN: [
+    'CLOUDFLARE_API_TOKEN',
+    'CF_API_TOKEN',
+    'CF_IMAGES_TOKEN',
+    'CLOUDFLARE_IMAGES_TOKEN',
+    'CLOUDFLARE_IMAGES_API_TOKEN',
+  ],
+  CLOUDFLARE_ACCOUNT_ID: ['CLOUDFLARE_ACCOUNT_ID', 'CF_ACCOUNT_ID'],
+  FOLLOW_UP_BOSS_API_KEY: [
+    'FOLLOW_UP_BOSS_API_KEY',
+    'FUB_API_KEY',
+    'FOLLOWUPBOSS_API_KEY',
+    'FUB_APIKEY',
+  ],
+  CALENDLY_API_TOKEN: [
+    'CALENDLY_API_TOKEN',
+    'CALENDLY_PERSONAL_ACCESS_TOKEN',
+    'CALENDLY_PAT',
+    'CALENDLY_ACCESS_TOKEN',
+    'CALENDLY_TOKEN',
+  ],
+  CALENDLY_WEBHOOK_SIGNING_KEY: [
+    'CALENDLY_WEBHOOK_SIGNING_KEY',
+    'CALENDLY_SIGNING_KEY',
+  ],
+  CRON_SECRET: ['CRON_SECRET'],
+}
 
 /** Sister projects most likely to already have Images / FUB / Calendly keys. */
 const PROJECTS = [
@@ -67,27 +98,86 @@ function prefersProduction(entry) {
   return Array.isArray(entry?.target) && entry.target.includes('production')
 }
 
-async function listEnvs(projectId) {
-  const url = new URL(`https://api.vercel.com/v9/projects/${projectId}/env`)
-  url.searchParams.set('teamId', TEAM_ID)
-  url.searchParams.set('decrypt', 'true')
+async function vercelGet(path) {
+  const url = new URL(`https://api.vercel.com${path}`)
+  if (!url.searchParams.has('teamId')) {
+    url.searchParams.set('teamId', TEAM_ID)
+  }
   const res = await fetch(url, {
     headers: { Authorization: `Bearer ${TOKEN}` },
   })
-  if (!res.ok) {
-    return { ok: false, status: res.status, envs: [] }
+  const text = await res.text()
+  let json = null
+  try {
+    json = text ? JSON.parse(text) : null
+  } catch {
+    json = null
   }
-  const json = await res.json()
-  const envs = Array.isArray(json?.envs) ? json.envs : []
-  return { ok: true, status: res.status, envs }
+  return { ok: res.ok, status: res.status, json }
 }
 
-function pickKey(envs, key) {
-  const matches = envs.filter((entry) => entry?.key === key && entryValue(entry))
+function asEnvList(json) {
+  if (Array.isArray(json?.envs)) {
+    return json.envs
+  }
+  const bag = {}
+  if (json?.env && typeof json.env === 'object' && !Array.isArray(json.env)) {
+    Object.assign(bag, json.env)
+  }
+  if (json?.buildEnv && typeof json.buildEnv === 'object' && !Array.isArray(json.buildEnv)) {
+    Object.assign(bag, json.buildEnv)
+  }
+  return Object.entries(bag).map(([key, value]) => ({
+    key,
+    value,
+    target: ['production'],
+  }))
+}
+
+async function listEnvs(projectId) {
+  const attempts = [
+    `/v10/projects/${projectId}/env?decrypt=true&source=vercel-cli:env:pull&target=production`,
+    `/v9/projects/${projectId}/env?decrypt=true&source=vercel-cli:pull`,
+    `/v3/env/pull/${projectId}/production?source=vercel-cli:env:pull`,
+  ]
+  let best = { ok: false, status: 0, envs: [] }
+  for (const path of attempts) {
+    const result = await vercelGet(path)
+    const envs = asEnvList(result.json)
+    if (!result.ok) {
+      if (!best.ok) {
+        best = { ok: false, status: result.status, envs }
+      }
+      continue
+    }
+    const valued = envs.filter((entry) => entryValue(entry)).length
+    const scored = { ok: true, status: result.status, envs, valued }
+    if (valued > 0) {
+      return scored
+    }
+    if (!best.ok || envs.length > best.envs.length) {
+      best = scored
+    }
+  }
+  return best
+}
+
+function pickByNames(envs, names) {
+  const matches = envs.filter(
+    (entry) => names.includes(entry?.key) && entryValue(entry),
+  )
   if (matches.length === 0) {
     return undefined
   }
   return matches.find(prefersProduction) || matches[0]
+}
+
+async function decryptEnv(projectId, envId) {
+  if (!envId) {
+    return ''
+  }
+  const result = await vercelGet(`/v1/projects/${projectId}/env/${envId}`)
+  return entryValue(result.json)
 }
 
 if (!TOKEN) {
@@ -107,7 +197,7 @@ let decryptDenied = 0
 let readableProjects = 0
 
 for (const project of PROJECTS) {
-  const remaining = needed.filter((key) => !found[key])
+  const remaining = Object.keys(ALIASES).filter((key) => !alreadyHave(key) && !found[key])
   if (remaining.length === 0) {
     break
   }
@@ -120,31 +210,36 @@ for (const project of PROJECTS) {
     continue
   }
   readableProjects += 1
-  console.log(`Read ${result.envs.length} env name(s) from ${project.name}`)
-  for (const key of remaining) {
-    const entry = pickKey(result.envs, key)
-    const value = entry ? entryValue(entry) : ''
-    if (!value || found[key]) {
+  const names = result.envs.map((entry) => entry?.key).filter(Boolean)
+  const withValues = result.envs.filter((entry) => entryValue(entry)).map((entry) => entry.key)
+  console.log(
+    `Keys on ${project.name}: ${names.join(', ') || '(none)'} (values: ${withValues.length})`,
+  )
+  for (const [canonical, namesForKey] of Object.entries(ALIASES)) {
+    if (alreadyHave(canonical) || found[canonical]) {
       continue
     }
-    found[key] = { value, source: project.name }
-  }
-}
-
-function alias(fromKeys, toKey) {
-  if (alreadyHave(toKey) || found[toKey]) {
-    return
-  }
-  for (const fromKey of fromKeys) {
-    if (found[fromKey]) {
-      found[toKey] = { value: found[fromKey].value, source: `${found[fromKey].source} (${fromKey})` }
-      return
+    let entry = pickByNames(result.envs, namesForKey)
+    let value = entry ? entryValue(entry) : ''
+    if (!value) {
+      const listed = result.envs.filter((item) => namesForKey.includes(item?.key))
+      const candidate = listed.find(prefersProduction) || listed[0]
+      if (candidate?.id) {
+        value = await decryptEnv(project.id, candidate.id)
+        if (value) {
+          entry = candidate
+        }
+      }
+    }
+    if (!value) {
+      continue
+    }
+    found[canonical] = {
+      value,
+      source: `${project.name} (${entry?.key || namesForKey[0]})`,
     }
   }
 }
-
-alias(['FUB_API_KEY'], 'FOLLOW_UP_BOSS_API_KEY')
-alias(['CALENDLY_PERSONAL_ACCESS_TOKEN', 'CALENDLY_PAT'], 'CALENDLY_API_TOKEN')
 
 const copied = Object.keys(found)
 if (copied.length === 0) {
