@@ -1,6 +1,7 @@
 'use client'
 
 import type { ReactNode } from 'react'
+import Image from 'next/image'
 import { Phone, MapPin, Dumbbell, Mountain, Map } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { LUXURY_HERO_IMAGE } from '@/lib/luxury-theme'
@@ -56,12 +57,16 @@ export default function LuxuryHero() {
       className="relative min-h-[92dvh] w-full overflow-hidden"
     >
       {/* ── Background image layer ─────────────────────────────────────── */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url('${LUXURY_HERO_IMAGE}')` }}
-        role="img"
-        aria-label="Aerial view of Arroyo at Skyeview townhomes with Red Rock Canyon in the background"
-      />
+      <div className="absolute inset-0">
+        <Image
+          src={LUXURY_HERO_IMAGE}
+          alt="Aerial view of Arroyo at Skyeview townhomes with Red Rock Canyon in the background, Skye Canyon Las Vegas 89166"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
 
       {/* ── Gradient overlay: navy bottom-to-top for readability ─────── */}
       <div

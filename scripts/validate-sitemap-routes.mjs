@@ -10,7 +10,7 @@ const APP_DIR = join(ROOT, 'app')
 const ROUTES_FILE = join(ROOT, 'lib', 'sitemap-routes.ts')
 
 const EXCLUDED_PREFIXES = ['/api/', '/projects/']
-const EXCLUDED_EXACT = new Set(['/manifest.webmanifest'])
+const EXCLUDED_EXACT = new Set(['/manifest.webmanifest', '/schedule-confirmed'])
 
 function collectPagePaths(dir, segments = []) {
   const paths = []
