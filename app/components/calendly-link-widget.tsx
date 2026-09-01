@@ -14,12 +14,11 @@ export default function CalendlyLinkWidget({
   className = '',
 }: CalendlyLinkWidgetProps) {
   const openPopup = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault()
-    if (typeof window !== 'undefined' && window.Calendly?.initPopupWidget) {
-      window.Calendly.initPopupWidget({ url })
-    } else if (typeof window !== 'undefined') {
-      window.open(url, '_blank', 'noopener,noreferrer')
+    if (typeof window === 'undefined' || !window.Calendly?.initPopupWidget) {
+      return
     }
+    event.preventDefault()
+    window.Calendly.initPopupWidget({ url })
   }
 
   return (

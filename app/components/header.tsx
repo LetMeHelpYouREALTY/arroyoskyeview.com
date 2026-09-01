@@ -38,7 +38,7 @@ export default function Header() {
               className="inline-flex"
               aria-label="Work with Dr. Jan Duffy"
             >
-              <DrJanPortrait size="sm" priority />
+              <DrJanPortrait size="sm" />
             </Link>
             <Logo />
           </div>

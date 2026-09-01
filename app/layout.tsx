@@ -1,12 +1,10 @@
 import type { Metadata, Viewport } from 'next'
-import Script from 'next/script'
 import { Geist, Playfair_Display } from 'next/font/google'
 import { SITE_URL } from '@/lib/site-url'
 import StructuredData from './components/structured-data'
 import PreconnectLinks from './components/preconnect-links'
-import CalendlyBadgeWidget from './components/calendly-badge-widget'
 import CalendlyFubBridge from './components/calendly-fub-bridge'
-import FubPixelScript from './components/fub-pixel-script'
+import DeferredThirdParties from './components/deferred-third-parties'
 import SkipToMain from './components/skip-to-main'
 import './globals.css'
 
@@ -105,39 +103,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${playfair.variable} antialiased`}
       >
         <StructuredData />
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-6HBW87EGMR"
-          strategy="lazyOnload"
-        />
-        <Script id="google-analytics" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-6HBW87EGMR', {
-              page_path: window.location.pathname,
-              send_page_view: true,
-              anonymize_ip: true,
-              cookie_flags: 'SameSite=None;Secure',
-            });
-          `}
-        </Script>
-        <Script
-          id="realscout-web-components"
-          src="https://em.realscout.com/widgets/realscout-web-components.umd.js"
-          type="module"
-          strategy="lazyOnload"
-        />
-        <Script
-          id="calendly-widget-js"
-          src="https://assets.calendly.com/assets/external/widget.js"
-          strategy="lazyOnload"
-        />
-        <FubPixelScript strategy="lazyOnload" />
+        <DeferredThirdParties />
         <CalendlyFubBridge />
         <SkipToMain />
         {children}
-        <CalendlyBadgeWidget />
       </body>
     </html>
   )
