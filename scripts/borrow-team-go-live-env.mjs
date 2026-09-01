@@ -593,17 +593,26 @@ for (const project of projects) {
       }
     }
     if (!n8nDatabaseUrl) {
-      n8nDatabaseUrl =
-        (await decryptNamed(project.id, ['DATABASE_PUBLIC_URL'])) ||
-        (await decryptNamed(project.id, ['DATABASE_URL']))
-      if (n8nDatabaseUrl) {
+      const publicUrl = await decryptNamed(project.id, ['DATABASE_PUBLIC_URL'])
+      const internalUrl = await decryptNamed(project.id, ['DATABASE_URL'])
+      const raw = publicUrl || internalUrl
+      if (raw) {
+        const trimmed = raw.trim().replace(/^['"]|['"]$/g, '')
+        console.log(
+          `n8n database string from ${project.name}: len=${trimmed.length} scheme=${trimmed.split(':')[0].slice(0, 16)} hasAt=${trimmed.includes('@')} hasScheme=${trimmed.includes('://')}`,
+        )
+        if (/^postgres(ql)?:\/\//i.test(trimmed) || /^https?:\/\//i.test(trimmed)) {
+          n8nDatabaseUrl = trimmed
+        } else if (/^[A-Za-z0-9.-]+\.[A-Za-z0-9.-]+/.test(trimmed) && !trimmed.includes(' ')) {
+          n8nDatabaseUrl = `postgres://${trimmed}`
+        }
         let host = ''
         try {
-          host = new URL(n8nDatabaseUrl).hostname
+          host = n8nDatabaseUrl ? new URL(n8nDatabaseUrl).hostname : 'unparsed'
         } catch {
           host = 'invalid'
         }
-        console.log(`Found n8n database host on ${project.name}: ${host}`)
+        console.log(`n8n database host on ${project.name}: ${host}`)
       }
     }
     const hostValue = await decryptNamed(project.id, [
