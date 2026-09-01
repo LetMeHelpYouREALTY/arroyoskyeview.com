@@ -25,6 +25,10 @@ jobs:
   sync:
     name: Upload Cloudflare Images and sync Vercel env
     runs-on: ubuntu-latest
+    # Vercel GitHub integration created this environment. Repo-level
+    # secrets.CLOUDFLARE_API_TOKEN is empty; environment secrets are only
+    # injected when the job sets `environment`.
+    environment: Production
     permissions:
       contents: read
     steps:
@@ -81,6 +85,7 @@ jobs:
           if [ -n "$NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH" ] && [ -z "$CLOUDFLARE_IMAGES_HASH" ]; then
             echo "CLOUDFLARE_IMAGES_HASH=$NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH" >> "$GITHUB_ENV"
           fi
+          echo "Seeded from GitHub environment Production (token present: CF=$([ -n "$CLOUDFLARE_API_TOKEN" ] && echo yes || echo no) CAL=$([ -n "$CALENDLY_API_TOKEN" ] && echo yes || echo no))"
 
       - name: Borrow go-live env from sister Vercel projects
         env:
