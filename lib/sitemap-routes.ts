@@ -48,6 +48,7 @@ const PUBLIC_ROUTES: SitemapRouteDef[] = [
   { path: '/contact-us', tier: 'core' },
   { path: '/schedule', tier: 'conversion', priority: 0.9 },
   { path: '/work-with-dr-jan', tier: 'core', priority: 0.95 },
+  { path: '/llms.txt', tier: 'aeo-guide', priority: 0.7 },
   { path: '/testimonials', tier: 'conversion' },
 
   // Geo — communities & Skye Canyon inventory

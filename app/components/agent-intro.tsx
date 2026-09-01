@@ -1,13 +1,21 @@
 import { SITE_CONTACT } from '@/lib/site-contact'
 import CalendlyScheduleButton from './calendly-schedule-button'
+import DrJanPortrait from './dr-jan-portrait'
 
 export default function AgentIntro() {
   return (
-    <section className="bg-luxury-navy py-16 text-luxury-ivory md:py-20" aria-labelledby="agent-heading">
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:px-8">
+    <section
+      className="bg-luxury-navy py-16 text-luxury-ivory md:py-20"
+      aria-labelledby="agent-heading"
+      data-has-agent-portrait
+    >
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1fr)] lg:px-8">
+        <div className="flex justify-center lg:justify-start">
+          <DrJanPortrait size="hero" />
+        </div>
         <div>
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-luxury-champagne">
-            Your Arroyo at Skyeview REALTOR®
+            Luxury buyer&apos;s agent · Arroyo at Skyeview
           </p>
           <h2 id="agent-heading" className="mt-3 font-serif text-4xl font-light md:text-5xl">
             {SITE_CONTACT.agentName}
@@ -16,8 +24,9 @@ export default function AgentIntro() {
             REALTOR® · {SITE_CONTACT.licenseDisplay} · Berkshire Hathaway HomeServices Nevada Properties
           </p>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-luxury-ivory/85 text-pretty">
-            Dr. Jan Duffy represents buyers at Arroyo at Skyeview in Skye Canyon (89166)—new construction
-            tours, contract advocacy, and MLS search. She works for you, not the builder sales office.
+            White-glove representation at Arroyo at Skyeview in Skye Canyon (89166). Private tours,
+            contract advocacy, and construction checks every 7–10 days. She works for you, not the
+            builder sales office.
           </p>
           <p className="mt-4 text-sm text-luxury-ivory/70">
             {SITE_CONTACT.email} · {SITE_CONTACT.formattedAddress}

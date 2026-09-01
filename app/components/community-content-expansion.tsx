@@ -1,5 +1,6 @@
 import PageQASection from './page-qa-section'
 import Link from 'next/link'
+import SectionPortraitMark from './section-portrait-mark'
 
 interface CommunityContentExpansionProps {
   communityName: string
@@ -20,6 +21,7 @@ export default function CommunityContentExpansion({
 }: CommunityContentExpansionProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <SectionPortraitMark size="lg" decorative={false} align="start" />
       {/* H1 - Main Title */}
       <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-8">
         {communityName}: New {homeType} in {location}, Las Vegas | Buyer's Agent

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import CalendlyScheduleButton from './calendly-schedule-button'
+import DrJanPortrait from './dr-jan-portrait'
 import { cn } from '@/lib/utils'
 
 export default function DrJanContactCard() {
@@ -8,9 +9,7 @@ export default function DrJanContactCard() {
     <div className="rounded-xl border-2 border-primary/25 bg-primary/5 p-6">
       <div className="mb-4 flex items-start">
         <div className="shrink-0">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary">
-            <span className="text-xl font-bold text-primary-foreground">DJ</span>
-          </div>
+          <DrJanPortrait size="md" />
         </div>
         <div className="ml-4 flex-1">
           <h3 className="mb-1 text-xl font-bold text-foreground">Dr. Jan Duffy</h3>

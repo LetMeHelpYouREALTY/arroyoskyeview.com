@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import SectionPortraitMark from './section-portrait-mark'
 
 interface NeighborhoodLinksSectionProps {
   location: string
@@ -9,8 +10,9 @@ export default function NeighborhoodLinksSection({ location, zipCode }: Neighbor
   const isSkyeCanyon = location === 'Skye Canyon' || zipCode === '89166'
 
   return (
-    <section className="bg-white py-12 mt-12 border-t border-border">
+    <section className="bg-white py-12 mt-12 border-t border-border" data-has-agent-portrait>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionPortraitMark size="md" align="start" />
         <h2 className="text-3xl font-bold text-foreground mb-6">
           Explore the Neighborhood
         </h2>

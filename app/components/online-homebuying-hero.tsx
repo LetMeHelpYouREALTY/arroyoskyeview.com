@@ -1,7 +1,10 @@
+import SectionPortraitMark from './section-portrait-mark'
+
 export default function OnlineHomebuyingHero() {
   return (
-    <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
+    <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16" data-has-agent-portrait>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <SectionPortraitMark size="lg" decorative={false} />
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
           Online Homebuying: Skye Canyon, Northwest Las Vegas | Buyer's Agent
         </h1>

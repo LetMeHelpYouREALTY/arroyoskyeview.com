@@ -16,7 +16,11 @@ const widthClasses = {
 
 export function PageSection({ children, className, id, variant = 'default' }: PageSectionProps) {
   return (
-    <section id={id} className={cn('mx-auto px-4 sm:px-6 lg:px-8', widthClasses[variant], className)}>
+    <section
+      id={id}
+      data-has-agent-portrait
+      className={cn('mx-auto px-4 sm:px-6 lg:px-8', widthClasses[variant], className)}
+    >
       {children}
     </section>
   )

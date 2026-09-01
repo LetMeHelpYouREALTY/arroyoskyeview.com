@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { LUXURY_HERO_IMAGE } from '@/lib/luxury-theme'
 import CalendlyScheduleButton from './calendly-schedule-button'
 import { trackPhoneClick } from './analytics-tracker'
+import DrJanPortrait from './dr-jan-portrait'
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
@@ -59,6 +60,7 @@ export default function LuxuryHero({ imageSrc = LUXURY_HERO_IMAGE }: LuxuryHeroP
     <section
       aria-label="Arroyo at Skyeview luxury townhomes hero"
       className="relative min-h-[92dvh] w-full overflow-hidden"
+      data-has-agent-portrait
     >
       {/* ── Background image layer ─────────────────────────────────────── */}
       <div className="absolute inset-0">
@@ -88,6 +90,9 @@ export default function LuxuryHero({ imageSrc = LUXURY_HERO_IMAGE }: LuxuryHeroP
       <div className="relative flex min-h-[92dvh] flex-col items-center justify-end pb-12 sm:justify-center sm:pb-0">
         <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-6 px-5 text-center sm:gap-8 sm:px-8 lg:px-12">
 
+          {/* Agent portrait */}
+          <DrJanPortrait size="xl" priority />
+
           {/* Location pill */}
           <div
             className="flex items-center gap-2 rounded-full border border-[#C5A880]/50 bg-[#C5A880]/10 px-4 py-1.5 backdrop-blur-sm"
@@ -109,16 +114,15 @@ export default function LuxuryHero({ imageSrc = LUXURY_HERO_IMAGE }: LuxuryHeroP
             <GoldDivider />
 
             <p className="font-serif text-lg font-light italic leading-relaxed text-[#D8C3A5] text-balance sm:text-xl lg:text-2xl">
-              New-Build Townhomes in the Heart of Skye Canyon
+              Luxury New-Build Townhomes · Private Buyer Advocacy
             </p>
           </div>
 
           {/* Body copy */}
           <p className="max-w-2xl font-sans text-sm leading-relaxed text-[#F7F3ED]/75 text-pretty sm:text-base">
-            Discover resort-inspired living where the Mojave desert meets modern luxury.
-            Arroyo at Skyeview offers thoughtfully designed townhomes within a{' '}
-            <strong className="font-semibold text-[#F7F3ED]/90">1,700-acre master-planned community</strong>{' '}
-            — minutes from Red Rock Canyon, world-class dining, and the Las Vegas Strip.
+            Dr. Jan Duffy represents buyers at Arroyo at Skyeview in Skye Canyon, ZIP 89166.
+            Townhomes from 1,531–1,729 sq ft inside a 1,700-acre master plan—15 minutes from
+            Red Rock Canyon, 20–25 minutes from the Las Vegas Strip. She works for you, not the builder.
           </p>
 
           {/* Hyperlocal badges */}

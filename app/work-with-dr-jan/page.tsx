@@ -8,24 +8,29 @@ import DrJanFAQ from '../components/dr-jan-faq'
 import Link from 'next/link'
 import PageSchemas from '../components/page-schemas'
 
+import LuxuryAeoAnswers from '../components/luxury-aeo-answers'
+import { LUXURY_AEO_FAQS } from '@/lib/aeo-answers'
 import MarketingPageShell from '../components/marketing-page-shell'
+
 export const metadata: Metadata = {
-  title: 'Work with Dr. Jan Duffy | New Construction Home Expert | Las Vegas, Nevada',
-  description: 'Expert buyer representation for new construction homes in Las Vegas, Nevada. Dr. Jan Duffy represents YOU, not the builder. Construction monitoring, building standards inspection, insider knowledge. No extra cost. Call (702) 903-4687.',
+  title: "Work with Dr. Jan Duffy | Luxury Buyer's Agent | Arroyo at Skyeview Las Vegas 89166",
+  description:
+    "White-glove buyer representation at Arroyo at Skyeview in Skye Canyon 89166. Dr. Jan Duffy represents you—not the builder. Construction monitoring every 7–10 days. Call (702) 903-4687.",
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/work-with-dr-jan',
   },
   openGraph: {
-    title: 'Work with Dr. Jan Duffy | New Construction Home Expert | Las Vegas, Nevada',
-    description: 'Expert buyer representation for new construction homes in Las Vegas, Nevada. Dr. Jan Duffy represents YOU, not the builder. Construction monitoring, building standards inspection, insider knowledge. No extra cost. Call (702) 903-4687.',
+    title: "Work with Dr. Jan Duffy | Luxury Buyer's Agent | Arroyo at Skyeview",
+    description:
+      "Private tours, contract advocacy, and 7–10 day construction checks at Arroyo at Skyeview, Skye Canyon Las Vegas 89166.",
     url: 'https://www.arroyoskyeview.com/work-with-dr-jan',
     type: 'website',
     images: [
       {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Arroyo at Skyeview at Skye Canyon',
+        url: '/images/brand/dr-jan-duffy.png',
+        width: 800,
+        height: 800,
+        alt: "Dr. Jan Duffy, luxury buyer's agent for Arroyo at Skyeview",
       },
     ],
   },
@@ -49,26 +54,19 @@ export default function WorkWithDrJanPage() {
         <PageSchemas
         pageType="about"
         url="/work-with-dr-jan"
-        title="Work with Dr. Jan Duffy | New Construction Home Expert | Las Vegas, Nevada"
-        description="Get expert buyer representation on new construction homes in Las Vegas, Nevada. Dr. Jan Duffy represents YOU, not the builder. Construction monitoring, building standards inspection, and insider knowledge—at no extra cost to you."
+        title="Work with Dr. Jan Duffy | Luxury Buyer's Agent | Arroyo at Skyeview Las Vegas 89166"
+        description="White-glove buyer representation at Arroyo at Skyeview in Skye Canyon 89166. Dr. Jan Duffy represents you—not the builder."
         breadcrumbs={[
           { name: 'Work with Dr. Jan', url: '/work-with-dr-jan' },
         ]}
-        questions={[
-          {
-            question: 'Why should I work with Dr. Jan Duffy?',
-            answer: 'Dr. Jan Duffy is a New Construction Home Expert providing expert buyer representation for new construction homes in Las Vegas, Nevada. She represents YOU, not the builder. Services include construction monitoring every 7-10 days, building standards inspection at closing, and insider knowledge of available inventory and pricing.',
-          },
-          {
-            question: 'How much does it cost to work with Dr. Jan Duffy?',
-            answer: 'There is no extra cost to you. Builders pay for buyer representation on all new construction homes in Las Vegas, Nevada. The commission is built into home pricing whether you use an agent or not.',
-          },
-        ]}
+        image="/images/brand/dr-jan-duffy.png"
+        questions={LUXURY_AEO_FAQS}
       />
       }
       showContactCta={true}
     >
       <DrJanHero />
+        <LuxuryAeoAnswers />
         <WhyChooseDrJan />
         <BuyerJourney />
         <DrJanTestimonials />
@@ -77,10 +75,10 @@ export default function WorkWithDrJanPage() {
         <section className="bg-muted py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-foreground mb-6 text-center">
-              New Construction Homes in Las Vegas, Nevada with Dr. Jan's Buyer Representation
+              Arroyo at Skyeview and Skye Canyon with Dr. Jan&apos;s buyer representation
             </h2>
             <p className="text-center text-muted-foreground mb-8 max-w-3xl mx-auto">
-              Explore these featured new construction communities in Las Vegas, Nevada where Dr. Jan Duffy provides expert buyer representation. She represents YOU, not the builder—at no extra cost to you.
+              Explore new-construction communities in northwest Las Vegas 89166 where Dr. Jan Duffy provides luxury buyer advocacy—not the builder sales office.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               <Link

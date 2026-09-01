@@ -4,6 +4,7 @@ import { useId } from 'react'
 import { buildRealScoutOfficeListingsMarkup } from '@/lib/realscout-markup'
 import type { RealScoutOfficeListingsOverrides } from '@/lib/realscout-markup'
 import { cn } from '@/lib/utils'
+import SectionPortraitMark from './section-portrait-mark'
 
 type RealScoutOfficeWidgetProps = {
   /** Extra Tailwind classes for the outer section */
@@ -38,8 +39,10 @@ export default function RealScoutOfficeWidget({
       )}
       aria-labelledby={headingId}
       data-realscout-office-section
+      data-has-agent-portrait
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionPortraitMark size="sm" />
         <h2
           id={headingId}
           className="mb-2 text-center text-2xl font-bold tracking-tight text-foreground sm:text-3xl"

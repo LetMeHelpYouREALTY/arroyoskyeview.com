@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { SITE_CONTACT } from '@/lib/site-contact'
 import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
 import RealScoutOfficeWidget from './realscout-office-widget'
+import DrJanPortrait from './dr-jan-portrait'
 
 type FooterProps = {
   /** Reserved for backwards compatibility. */
@@ -100,7 +101,10 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-12 mb-12">
           {/* Work with Dr. Jan - Enhanced SEO Section */}
           <div className="col-span-1 md:col-span-2 lg:col-span-2">
-            <section aria-labelledby="dr-jan-heading">
+            <section aria-labelledby="dr-jan-heading" data-has-agent-portrait>
+              <div className="mb-4">
+                <DrJanPortrait size="lg" />
+              </div>
               <h2 id="dr-jan-heading" className="text-xl font-bold mb-4 text-luxury-ivory">
                 Work with Dr. Jan Duffy
               </h2>

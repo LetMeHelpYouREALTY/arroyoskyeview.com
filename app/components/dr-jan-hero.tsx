@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import CalendlyScheduleButton from './calendly-schedule-button'
 import { cn } from '@/lib/utils'
 import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
+import DrJanPortrait from './dr-jan-portrait'
 
 export default function DrJanHero() {
   const handleCallClick = () => {
@@ -15,20 +16,26 @@ export default function DrJanHero() {
   }
 
   return (
-    <section className="relative overflow-hidden bg-luxury-navy py-16 text-luxury-ivory md:py-20">
+    <section
+      className="relative overflow-hidden bg-luxury-navy py-16 text-luxury-ivory md:py-20"
+      data-has-agent-portrait
+    >
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(197,168,128,0.15),transparent)]"
         aria-hidden
       />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center lg:max-w-5xl">
+          <div className="mb-8 flex justify-center">
+            <DrJanPortrait size="hero" priority />
+          </div>
           <h2 className="text-balance text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
-            Buying Arroyo at Skyeview Homes? Get Expert Buyer Representation in Skye Canyon, Northwest Las Vegas
+            Luxury buyer representation at Arroyo at Skyeview, Skye Canyon Las Vegas 89166
           </h2>
           <p className="mt-6 text-pretty text-lg text-luxury-ivory/90 md:text-xl">
-            <strong className="text-luxury-ivory">Dr. Jan Duffy represents HOME BUYERS</strong>
-            —not the builder. Expert buyer representation for Arroyo at Skyeview Homes in Skye Canyon, zip code
-            89166, northwest Las Vegas, Nevada. No extra cost to you.
+            <strong className="text-luxury-ivory">Dr. Jan Duffy represents home buyers</strong>
+            —not the builder. White-glove advocacy for Arroyo at Skyeview townhomes in Skye Canyon,
+            ZIP 89166. Private tours. Construction monitoring every 7–10 days. No extra cost to you.
           </p>
 
           <ul className="mx-auto mt-8 grid max-w-3xl gap-3 text-left text-sm text-luxury-ivory/95 sm:grid-cols-1 md:text-base lg:mx-auto lg:max-w-4xl lg:grid-cols-3 lg:gap-4">

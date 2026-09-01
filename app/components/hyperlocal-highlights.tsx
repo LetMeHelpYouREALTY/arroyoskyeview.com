@@ -1,5 +1,6 @@
 import { Dumbbell, Mountain, Trees, Coffee } from 'lucide-react'
 import { SKYE_AMENITIES } from '@/lib/hyperlocal-content'
+import SectionPortraitMark from './section-portrait-mark'
 
 const ICONS = {
   fitness: Dumbbell,
@@ -10,9 +11,14 @@ const ICONS = {
 
 export default function HyperlocalHighlights() {
   return (
-    <section className="border-y border-border/60 bg-muted/40 py-14 md:py-16" aria-labelledby="hyperlocal-heading">
+    <section
+      className="border-y border-border/60 bg-muted/40 py-14 md:py-16"
+      aria-labelledby="hyperlocal-heading"
+      data-has-agent-portrait
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-10 max-w-3xl text-center">
+          <SectionPortraitMark size="md" />
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-luxury-champagne">
             Skye Canyon · Zip 89166
           </p>

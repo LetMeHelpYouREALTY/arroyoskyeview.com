@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ARROYO_AT_SKYEVIEW, SKYE_CANYON } from '@/lib/hyperlocal-content'
 import { SITE_CONTACT } from '@/lib/site-contact'
 import CalendlyScheduleButton from './calendly-schedule-button'
+import SectionPortraitMark from './section-portrait-mark'
 
 const GLANCE = [
   {
@@ -39,9 +40,14 @@ const TOUR_STEPS = [
 
 export default function CommunityAtAGlance() {
   return (
-    <section className="bg-background py-16 md:py-20" aria-labelledby="glance-heading">
+    <section
+      className="bg-background py-16 md:py-20"
+      aria-labelledby="glance-heading"
+      data-has-agent-portrait
+    >
       <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
         <div>
+          <SectionPortraitMark size="md" align="start" />
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-luxury-champagne">
             Arroyo at Skyeview
           </p>

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Header from './components/header'
 import LuxuryHero from './components/luxury-hero'
 import RealScoutOfficePriceBands from './components/realscout-office-price-bands'
@@ -5,6 +6,7 @@ import CommunityAtAGlance from './components/community-at-a-glance'
 import LifeAtArroyo from './components/life-at-arroyo'
 import ArroyoHubLinks from './components/arroyo-hub-links'
 import AgentIntro from './components/agent-intro'
+import LuxuryAeoAnswers from './components/luxury-aeo-answers'
 import WhyChooseUs from './components/why-choose-us'
 import HyperlocalHighlights from './components/hyperlocal-highlights'
 import DrJanTestimonials from './components/dr-jan-testimonials'
@@ -17,8 +19,35 @@ import Footer from './components/footer'
 import AnalyticsTracker from './components/analytics-tracker'
 import ReviewSchema from './components/review-schema'
 import ProductSchemas from './components/product-schemas'
+import { LUXURY_AEO_FAQS } from '@/lib/aeo-answers'
 import { ARROYO_AVAILABLE_HOMES, ARROYO_PRICE_RANGE } from '@/lib/arroyo-inventory'
 import { LUXURY_HERO_IMAGE } from '@/lib/luxury-theme'
+
+export const metadata: Metadata = {
+  title:
+    "Dr. Jan Duffy | Luxury Buyer's Agent for Arroyo at Skyeview, Skye Canyon Las Vegas 89166",
+  description:
+    "White-glove buyer representation at Arroyo at Skyeview in Skye Canyon, ZIP 89166. Dr. Jan Duffy represents buyers—not the builder. Private tours, 7–10 day build checks. Call (702) 903-4687.",
+  openGraph: {
+    title: "Dr. Jan Duffy | Luxury Buyer's Agent | Arroyo at Skyeview Las Vegas",
+    description:
+      'Luxury new-construction buyer advocacy in Skye Canyon 89166. Register before the model. Construction monitoring through closing. (702) 903-4687.',
+    images: [
+      {
+        url: '/images/brand/dr-jan-duffy.png',
+        width: 800,
+        height: 800,
+        alt: "Dr. Jan Duffy, luxury buyer's agent for Arroyo at Skyeview in Skye Canyon Las Vegas 89166",
+      },
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Arroyo at Skyeview at Skye Canyon',
+      },
+    ],
+  },
+}
 
 export default function HomePage() {
   return (
@@ -27,26 +56,18 @@ export default function HomePage() {
       <PageSchemas
         pageType="homepage"
         url="/"
-        title="Arroyo at Skyeview Homes | New Construction Townhomes in Skye Canyon, Northwest Las Vegas, Nevada (Zip Code 89166)"
-        description="Arroyo at Skyeview Homes offers modern new construction townhomes in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). Starting from $392,640. Dr. Jan Duffy is your buyer's agent—she represents HOME BUYERS, not the builder. Call (702) 903-4687."
+        title="Dr. Jan Duffy | Luxury Buyer's Agent for Arroyo at Skyeview, Skye Canyon Las Vegas 89166"
+        description="White-glove buyer representation at Arroyo at Skyeview in Skye Canyon, ZIP 89166. Dr. Jan Duffy represents home buyers—not the builder. Call (702) 903-4687."
         breadcrumbs={[]}
         location="Skye Canyon"
         zipCode="89166"
+        image="/images/brand/dr-jan-duffy.png"
         questions={[
-          {
-            question: 'What is Arroyo at Skyeview Homes and where is it located?',
-            answer:
-              'Arroyo at Skyeview Homes is a community of new construction townhomes in Skye Canyon, northwest Las Vegas, Nevada (zip 89166), near US-95 and the 215 Beltway. Dr. Jan Duffy represents home buyers—not the builder.',
-          },
+          ...LUXURY_AEO_FAQS,
           {
             question: 'Where can I see available homes and floor plans?',
             answer:
-              'Browse dedicated pages for available homes, floor plans, homesite map, community overview, and area schools at arroyoskyeview.com/arroyo-at-skyeview/.',
-          },
-          {
-            question: 'Where is the office and what are the hours?',
-            answer:
-              'Arroyo at Skyeview | Homes by Dr. Jan Duffy is at 8912 Vanhoy Creek St, Las Vegas, NV 89166. Hours are Monday through Sunday, 9:00 AM to 6:00 PM. Call (702) 903-4687.',
+              'Browse available homes, floor plans, the homesite map, and community overview at arroyoskyeview.com/arroyo-at-skyeview/. Dr. Jan Duffy quotes live inventory before you tour.',
           },
         ]}
         priceRange={ARROYO_PRICE_RANGE}
@@ -63,6 +84,7 @@ export default function HomePage() {
         <LifeAtArroyo />
         <ArroyoHubLinks />
         <AgentIntro />
+        <LuxuryAeoAnswers />
         <WhyChooseUs />
         <HyperlocalHighlights />
         <DrJanTestimonials />

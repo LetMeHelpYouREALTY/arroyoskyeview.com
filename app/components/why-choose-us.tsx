@@ -1,4 +1,4 @@
-import { SITE_CONTACT } from '@/lib/site-contact'
+import SectionPortraitMark from './section-portrait-mark'
 
 const REASONS = [
   {
@@ -18,8 +18,8 @@ const REASONS = [
     body: 'Hundreds of closings across the Las Vegas Valley with a documented new-construction process.',
   },
   {
-    title: 'Responsive',
-    body: `Call or text ${SITE_CONTACT.phoneDisplay} — same-day replies during office hours.`,
+    title: 'White-glove advocacy',
+    body: 'Private tours, contract strategy, and same-day replies at (702) 903-4687 during office hours.',
   },
   {
     title: 'Full service',
@@ -29,17 +29,18 @@ const REASONS = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="bg-background py-16 md:py-20" aria-labelledby="why-heading">
+    <section className="bg-background py-16 md:py-20" aria-labelledby="why-heading" data-has-agent-portrait>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
+          <SectionPortraitMark size="md" />
           <h2
             id="why-heading"
             className="font-serif text-3xl font-light tracking-tight text-foreground md:text-4xl"
           >
-            Why choose us
+            Why choose Dr. Jan Duffy
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Work with a dedicated buyer&apos;s agent for Arroyo at Skyeview and Skye Canyon.
+            Ultra-luxury buyer advocacy for Arroyo at Skyeview and Skye Canyon 89166.
           </p>
         </div>
         <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

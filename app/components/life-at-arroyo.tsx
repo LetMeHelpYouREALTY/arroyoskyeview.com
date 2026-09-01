@@ -1,4 +1,5 @@
 import SiteImage from './site-image'
+import SectionPortraitMark from './section-portrait-mark'
 
 export default function LifeAtArroyo() {
   const scenes = [
@@ -19,9 +20,14 @@ export default function LifeAtArroyo() {
     },
   ] as const
   return (
-    <section className="bg-muted/30 py-16 md:py-20" aria-labelledby="life-heading">
+    <section
+      className="bg-muted/30 py-16 md:py-20"
+      aria-labelledby="life-heading"
+      data-has-agent-portrait
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
+          <SectionPortraitMark size="md" />
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-luxury-champagne">
             Skye Canyon · 89166
           </p>

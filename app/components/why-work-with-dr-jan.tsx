@@ -1,12 +1,14 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import SectionPortraitMark from './section-portrait-mark'
 
 export default function WhyWorkWithDrJan() {
   return (
-    <section className="bg-muted/35 py-16">
+    <section className="bg-muted/35 py-16" data-has-agent-portrait>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
+          <SectionPortraitMark size="md" />
           <h2 className="mb-4 text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             Why Work with Dr. Jan Duffy?
           </h2>

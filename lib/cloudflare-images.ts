@@ -117,7 +117,7 @@ export function cloudflareCustomId(localPath: string): string {
 }
 
 export function cloudflareFlexibleVariant(width: number, quality = 75): string {
-  return `w=${width},q=${quality}`
+  return `w=${width},q=${quality},format=auto`
 }
 
 export function isSiteImageSrc(src: string): boolean {

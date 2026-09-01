@@ -1,4 +1,5 @@
 import { SITE_CONTACT } from '@/lib/site-contact'
+import SectionPortraitMark from './section-portrait-mark'
 
 const testimonials = [
   {
@@ -23,9 +24,10 @@ const testimonials = [
 
 export default function DrJanTestimonials() {
   return (
-    <section className="bg-background py-16 md:py-20" aria-labelledby="reviews-heading">
+    <section className="bg-background py-16 md:py-20" aria-labelledby="reviews-heading" data-has-agent-portrait>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
+          <SectionPortraitMark size="md" />
           <h2
             id="reviews-heading"
             className="font-serif text-3xl font-light tracking-tight text-foreground md:text-4xl"

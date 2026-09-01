@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { trackFAQExpand } from './analytics-tracker'
+import SectionPortraitMark from './section-portrait-mark'
 
 const faqs = [
   {
@@ -34,8 +35,9 @@ export default function DrJanFAQ() {
   }
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-white" data-has-agent-portrait>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionPortraitMark size="md" />
         <h2 className="mb-4 text-center font-serif text-3xl font-light tracking-tight text-foreground md:text-4xl">
           Frequently Asked Questions
         </h2>

@@ -1,14 +1,17 @@
 import { OFFICE_HOURS_DISPLAY, SITE_CONTACT } from '@/lib/site-contact'
 import GoogleMapEmbed from './google-map-embed'
+import SectionPortraitMark from './section-portrait-mark'
+import DrJanPortrait from './dr-jan-portrait'
 
 const MAP_SHARE_URL = SITE_CONTACT.googleMapsPlaceUrl
 const REVIEWS_URL = SITE_CONTACT.googleReviewsUrl
 
 export default function VisitOurOffice() {
   return (
-    <section className="bg-muted/40 py-16 md:py-20" aria-labelledby="office-heading">
+    <section className="bg-muted/40 py-16 md:py-20" aria-labelledby="office-heading" data-has-agent-portrait>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
+          <SectionPortraitMark size="md" />
           <h2
             id="office-heading"
             className="font-serif text-3xl font-light tracking-tight text-foreground md:text-4xl"
@@ -22,6 +25,9 @@ export default function VisitOurOffice() {
 
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
           <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
+            <div className="mb-4">
+              <DrJanPortrait size="md" />
+            </div>
             <h3 className="text-lg font-semibold text-foreground">Office address (NAP)</h3>
             <address className="mt-4 not-italic text-muted-foreground">
               <p className="font-medium text-foreground">{SITE_CONTACT.businessName}</p>

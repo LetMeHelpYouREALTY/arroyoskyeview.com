@@ -57,4 +57,4 @@ export const SKYE_AMENITIES = [
 ] as const
 
 export const LUXURY_AGENT_TAGLINE =
-  'Dr. Jan Duffy · Luxury Buyer\'s Agent · Skye Canyon Specialist'
+  "Dr. Jan Duffy · Luxury buyer's agent · Arroyo at Skyeview · Skye Canyon 89166"

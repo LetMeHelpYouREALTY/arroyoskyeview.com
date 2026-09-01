@@ -1,11 +1,13 @@
 import { SITE_CONTACT } from '@/lib/site-contact'
 import { GBP_LATEST_POSTS, GBP_POSTS_FETCHED_AT } from '@/lib/gbp-posts'
+import SectionPortraitMark from './section-portrait-mark'
 
 export default function GbpLatestPosts() {
   return (
-    <section className="bg-background py-16 md:py-20" aria-labelledby="gbp-posts-heading">
+    <section className="bg-background py-16 md:py-20" aria-labelledby="gbp-posts-heading" data-has-agent-portrait>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
+          <SectionPortraitMark size="md" />
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-luxury-champagne">
             Google Business Profile
           </p>

@@ -1,6 +1,7 @@
 import PageQASection from './page-qa-section'
 import Link from 'next/link'
 import { trackPhoneClick, trackCTAClick } from './analytics-tracker'
+import SectionPortraitMark from './section-portrait-mark'
 
 export default function HomepageContentSection() {
   const homepageQuestions = [
@@ -48,6 +49,7 @@ export default function HomepageContentSection() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <SectionPortraitMark size="lg" decorative={false} />
       {/* H1 - Main Title */}
         <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-8 text-center">
         Arroyo at Skyeview Homes: New Construction Townhomes in Skye Canyon, Northwest Las Vegas, Nevada (Zip Code 89166)

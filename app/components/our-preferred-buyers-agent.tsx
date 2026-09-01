@@ -2,13 +2,15 @@
 
 import Link from 'next/link'
 import { trackPhoneClick, trackCTAClick } from './analytics-tracker'
+import SectionPortraitMark from './section-portrait-mark'
 
 export default function OurPreferredBuyersAgent() {
   return (
-    <section className="py-16 bg-muted">
+    <section className="py-16 bg-muted" data-has-agent-portrait>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg shadow-lg p-8 md:p-12">
           <div className="text-center mb-8">
+            <SectionPortraitMark size="lg" decorative={false} />
             <div className="inline-block bg-blue-100 px-4 py-2 rounded-full mb-4">
               <span className="text-blue-800 font-semibold text-sm">New Construction Home Expert | Las Vegas, Nevada</span>
             </div>
