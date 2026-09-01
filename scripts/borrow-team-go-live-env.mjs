@@ -1022,7 +1022,7 @@ async function loadPg() {
   }
 }
 
-async function harvestFromN8nPostgres(databaseUrl, encryptionKey, found) {
+async function harvestFromN8nPostgres(databaseUrl, encryptionKey, found, tried = new Set()) {
   let host = ''
   try {
     host = new URL(databaseUrl).hostname
@@ -1084,19 +1084,21 @@ async function harvestFromN8nPostgres(databaseUrl, encryptionKey, found) {
     const currentDb = await client.query('SELECT current_database() AS db')
     const connectedDb = currentDb.rows?.[0]?.db || ''
     console.log(`n8n current database: ${connectedDb}`)
+    tried.add(connectedDb)
     const ranked = (counts.rows || []).filter(
       (row) => /credential/i.test(row.relname) && Number(row.rows) > 0,
     )
-    if (
-      ranked.length === 0 &&
-      (dbs.rows || []).some((row) => row.datname === 'railway') &&
-      connectedDb !== 'railway'
-    ) {
-      console.log('n8n postgres: empty credentials on this database; retrying database railway.')
-      await client.end().catch(() => {})
-      const next = new URL(databaseUrl)
-      next.pathname = '/railway'
-      return harvestFromN8nPostgres(next.toString(), encryptionKey, found)
+    if (ranked.length === 0) {
+      const others = (dbs.rows || [])
+        .map((row) => row.datname)
+        .filter((name) => name && !tried.has(name) && /^(railway|postgres|n8n)$/i.test(name))
+      if (others[0]) {
+        console.log(`n8n postgres: empty credentials on ${connectedDb}; retrying database ${others[0]}.`)
+        await client.end().catch(() => {})
+        const next = new URL(databaseUrl)
+        next.pathname = `/${others[0]}`
+        return harvestFromN8nPostgres(next.toString(), encryptionKey, found, tried)
+      }
     }
     const credentialTable =
       ranked[0]?.relname ||
