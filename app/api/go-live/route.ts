@@ -106,7 +106,9 @@ export async function GET() {
     hostedConfirmation.passEventDetails !== false
   const embedOrWebhookReady =
     followUpBoss && (calendlySigningKey || calendlyApiToken)
-  const calendlyConfigured = embedOrWebhookReady || hostedRedirectReady
+  const nativeFromThisSite = Boolean(fubCalendlySource?.fromThisSite)
+  const calendlyConfigured =
+    embedOrWebhookReady || hostedRedirectReady || nativeFromThisSite
   const imagesHtmlReady = deliveryHash || manifestIds.ok
   const blockers: string[] = []
   if (!imagesHtmlReady) {
@@ -145,6 +147,7 @@ export async function GET() {
       confirmationPathReady: followUpBoss,
       hostedConfirmation,
       hostedRedirectReady,
+      nativeFromThisSite,
       webhookUrl: `${SITE_URL}/api/calendly/webhook`,
       scheduledUrl: `${SITE_URL}/api/calendly/scheduled`,
       confirmationUrl: CALENDLY_CONFIRMATION_URL,

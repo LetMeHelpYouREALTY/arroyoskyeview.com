@@ -105,6 +105,7 @@ const PRIORITY_PROJECTS = [
   // Live imagedelivery.net heroes (UUID IDs). Scan before geneboyle so an
   // unrestricted Images token is not skipped after a 9109 IP-allowlisted one.
   { id: 'prj_vrMcC3LsxgF3yf51M06TdeYUI24j', name: 'sienalasvegas.com' },
+  { id: 'prj_SZWSyg5C0N9pEzeLoHQNtSYo4U0L', name: 'mesaskyeview-com' },
   { id: 'prj_xZmrAjHZjKncFudRykf1hDaLVvtB', name: 'drjanduffy.com' },
   { id: 'prj_wLlJUFtUXEWI5lWpGaGAHlrfEMBg', name: 'assumablehomefinder.com' },
   { id: 'prj_yE6ZxHq8bfWfLrop5IaYncTHZmyB', name: 'justcallgene.com' },

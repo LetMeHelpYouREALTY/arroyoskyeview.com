@@ -131,6 +131,38 @@ export async function sendCalendlyLeadToFollowUpBoss(
 export type FollowUpBossCalendlySourceProbe = {
   ok: boolean
   latestCreated: string | null
+  /** True when a Calendly-sourced person cites arroyoskyeview.com (no PII). */
+  fromThisSite: boolean
+  fromThisSiteCreated: string | null
+}
+
+type FubPersonRecord = {
+  created?: unknown
+  source?: unknown
+  sourceUrl?: unknown
+  tags?: unknown
+}
+
+function isFubPersonRecord(value: unknown): value is FubPersonRecord {
+  return Boolean(value) && typeof value === 'object'
+}
+
+function personMentionsArroyo(person: FubPersonRecord): boolean {
+  const parts: string[] = []
+  if (typeof person.source === 'string') {
+    parts.push(person.source)
+  }
+  if (typeof person.sourceUrl === 'string') {
+    parts.push(person.sourceUrl)
+  }
+  if (Array.isArray(person.tags)) {
+    for (const tag of person.tags) {
+      if (typeof tag === 'string') {
+        parts.push(tag)
+      }
+    }
+  }
+  return parts.join(' ').toLowerCase().includes('arroyoskyeview')
 }
 
 /**
@@ -145,7 +177,7 @@ export async function probeFollowUpBossCalendlySource(): Promise<FollowUpBossCal
 
   try {
     const url = new URL('https://api.followupboss.com/v1/people')
-    url.searchParams.set('limit', '1')
+    url.searchParams.set('limit', '20')
     url.searchParams.set('sort', '-created')
     url.searchParams.set('source', 'Calendly')
     const response = await fetch(url, {
@@ -153,19 +185,34 @@ export async function probeFollowUpBossCalendlySource(): Promise<FollowUpBossCal
       signal: AbortSignal.timeout(8000),
     })
     if (!response.ok) {
-      return { ok: false, latestCreated: null }
+      return {
+        ok: false,
+        latestCreated: null,
+        fromThisSite: false,
+        fromThisSiteCreated: null,
+      }
     }
     const body: unknown = await response.json().catch(() => null)
     const people =
       body && typeof body === 'object' && Array.isArray((body as { people?: unknown }).people)
-        ? (body as { people: Array<{ created?: unknown }> }).people
+        ? (body as { people: unknown[] }).people.filter(isFubPersonRecord)
         : []
     const created = people[0]?.created
+    const fromSite = people.find(personMentionsArroyo)
+    const fromSiteCreated = fromSite?.created
     return {
       ok: true,
       latestCreated: typeof created === 'string' ? created : null,
+      fromThisSite: Boolean(fromSite),
+      fromThisSiteCreated:
+        typeof fromSiteCreated === 'string' ? fromSiteCreated : null,
     }
   } catch {
-    return { ok: false, latestCreated: null }
+    return {
+      ok: false,
+      latestCreated: null,
+      fromThisSite: false,
+      fromThisSiteCreated: null,
+    }
   }
 }
