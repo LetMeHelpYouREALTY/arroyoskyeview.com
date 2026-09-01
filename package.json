@@ -13,6 +13,7 @@
     "validate:sitemap": "node scripts/validate-sitemap-routes.mjs",
     "attach:domains": "node scripts/attach-vercel-domains.mjs",
     "images:upload": "node scripts/upload-cloudflare-images.mjs",
+    "env:sync": "node scripts/sync-vercel-go-live-env.mjs",
     "workflow:web": "workflow web",
     "audit:forms": "node scripts/audit-no-forms.mjs",
     "format": "prettier --write \"**/*.{ts,tsx}\"",

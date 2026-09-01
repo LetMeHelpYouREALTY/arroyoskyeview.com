@@ -7,9 +7,11 @@
  * https://developers.cloudflare.com/images/storage/upload-images/methods/
  * Custom IDs: https://developers.cloudflare.com/images/storage/upload-images/upload-custom-path/
  *
- * Requires CLOUDFLARE_API_TOKEN (Account · Cloudflare Images · Edit)
- * and CLOUDFLARE_ACCOUNT_ID. After a successful run, set
- * NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH on Vercel to the printed hash.
+ * Requires CLOUDFLARE_API_TOKEN (Account · Cloudflare Images · Edit).
+ * CLOUDFLARE_ACCOUNT_ID defaults to the team Images account used by
+ * sienalasvegas.com / villagestulesprings (public account id).
+ * After a successful run, set NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH on Vercel
+ * to the printed hash (or run scripts/sync-vercel-go-live-env.mjs).
  *
  * Do not orange-cloud the Vercel apex. Images belong on imagedelivery.net
  * (or a gray-cloud images.arroyoskyeview.com custom host).
@@ -18,14 +20,16 @@ import { readdir, readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID
+/** Public Cloudflare account id (Images) shared across Dr. Jan Duffy sites. */
+const DEFAULT_ACCOUNT_ID = '2cc579c1ec9e426ed585e933ebf4753b'
+const ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID?.trim() || DEFAULT_ACCOUNT_ID
 const TOKEN = process.env.CLOUDFLARE_API_TOKEN
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'public', 'images')
 const ALLOWED = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif'])
 
-if (!ACCOUNT_ID || !TOKEN) {
+if (!TOKEN) {
   console.error(
-    'Set CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN, then rerun:\n  npm run images:upload',
+    'Set CLOUDFLARE_API_TOKEN (Images:Edit), then rerun:\n  npm run images:upload',
   )
   process.exit(1)
 }

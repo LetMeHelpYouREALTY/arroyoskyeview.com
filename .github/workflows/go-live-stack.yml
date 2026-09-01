@@ -1,0 +1,44 @@
+name: Go-live stack
+
+# Uploads Cloudflare Images and upserts Vercel env when the matching
+# GitHub secrets exist. Workflow file must be on main to run from the UI.
+# Do not orange-cloud the Vercel apex.
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: go-live-stack
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Upload Cloudflare Images
+        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          node scripts/upload-cloudflare-images.mjs | tee /tmp/cf-upload.log
+          HASH=$(grep '^NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH=' /tmp/cf-upload.log | cut -d= -f2)
+          if [ -n "$HASH" ]; then
+            echo "NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH=$HASH" >> "$GITHUB_ENV"
+          fi
+
+      - name: Upsert Vercel env
+        if: ${{ secrets.VERCEL_TOKEN != '' }}
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          FOLLOW_UP_BOSS_API_KEY: ${{ secrets.FOLLOW_UP_BOSS_API_KEY }}
+          CALENDLY_WEBHOOK_SIGNING_KEY: ${{ secrets.CALENDLY_WEBHOOK_SIGNING_KEY }}
+        run: node scripts/sync-vercel-go-live-env.mjs
