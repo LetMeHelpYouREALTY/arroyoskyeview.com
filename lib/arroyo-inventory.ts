@@ -1,7 +1,5 @@
 /** Shared Arroyo at Skyeview inventory for ProductSchemas and child pages. */
 
-import { siteImage } from '@/lib/cloudflare-images'
-
 export const ARROYO_FLOOR_PLANS = [
   {
     name: 'Beverly',
@@ -11,7 +9,7 @@ export const ARROYO_FLOOR_PLANS = [
     bathrooms: 2.5,
     parking: 2,
     description: 'Interior Unit',
-    image: siteImage('/images/floor-plans/beverly-model.jpg'),
+    image: '/images/floor-plans/beverly-model.jpg',
   },
   {
     name: 'Captiva',
@@ -21,7 +19,7 @@ export const ARROYO_FLOOR_PLANS = [
     bathrooms: 2.5,
     parking: 2,
     description: '3 Bed + Loft',
-    image: siteImage('/images/floor-plans/captiva-model.jpg'),
+    image: '/images/floor-plans/captiva-model.jpg',
   },
   {
     name: 'Delray',
@@ -31,7 +29,7 @@ export const ARROYO_FLOOR_PLANS = [
     bathrooms: 2.5,
     parking: 2,
     description: 'End Unit',
-    image: siteImage('/images/floor-plans/delray-model.jpg'),
+    image: '/images/floor-plans/delray-model.jpg',
   },
 ]
 
@@ -47,7 +45,7 @@ export const ARROYO_AVAILABLE_HOMES = [
     parking: 2,
     completion: 'Dec. Move In',
     features: ['Gray cabinets'],
-    image: siteImage('/images/homes/homes-1.jpg'),
+    image: '/images/homes/homes-1.jpg',
   },
   {
     address: '8925 Grabill Spruce St',
@@ -60,7 +58,7 @@ export const ARROYO_AVAILABLE_HOMES = [
     parking: 2,
     completion: 'Dec. Move In',
     features: ['LVP Flooring', 'White Cabinets'],
-    image: siteImage('/images/homes/homes-2.jpg'),
+    image: '/images/homes/homes-2.jpg',
   },
   {
     address: '8942 Grabill Spruce St',
@@ -73,7 +71,7 @@ export const ARROYO_AVAILABLE_HOMES = [
     parking: 2,
     completion: 'Dec. Move In',
     features: ['End Unit', 'White Cabinets'],
-    image: siteImage('/images/homes/homes-3.jpg'),
+    image: '/images/homes/homes-3.jpg',
   },
   {
     address: '8917 Grabill Spruce St',
@@ -86,7 +84,7 @@ export const ARROYO_AVAILABLE_HOMES = [
     parking: 2,
     completion: 'Dec. Move In',
     features: ['LG Kitchen Appliances', 'Java Cabinets'],
-    image: siteImage('/images/homes/homes-4.jpg'),
+    image: '/images/homes/homes-4.jpg',
   },
   {
     address: '8909 Grabill Spruce St',
@@ -99,7 +97,7 @@ export const ARROYO_AVAILABLE_HOMES = [
     parking: 2,
     completion: 'Dec. Move In',
     features: ['End unit', 'Courtyard Entry'],
-    image: siteImage('/images/homes/homes-5.jpg'),
+    image: '/images/homes/homes-5.jpg',
   },
 ]
 

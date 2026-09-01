@@ -1,10 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
+import SiteImage from './site-image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { siteImage } from '@/lib/cloudflare-images'
 import CalendlyScheduleButton from './calendly-schedule-button'
 
 interface Home {
@@ -35,7 +34,7 @@ const homes: Home[] = [
     parking: 2,
     completion: 'Dec. Move In',
     features: ['Gray cabinets'],
-    image: siteImage('/images/homes/homes-1.jpg'),
+    image: '/images/homes/homes-1.jpg',
   },
   {
     id: '2',
@@ -49,7 +48,7 @@ const homes: Home[] = [
     parking: 2,
     completion: 'Dec. Move In',
     features: ['LVP Flooring', 'White Cabinets'],
-    image: siteImage('/images/homes/homes-2.jpg'),
+    image: '/images/homes/homes-2.jpg',
   },
   {
     id: '3',
@@ -63,7 +62,7 @@ const homes: Home[] = [
     parking: 2,
     completion: 'Dec. Move In',
     features: ['End Unit', 'White Cabinets'],
-    image: siteImage('/images/homes/homes-3.jpg'),
+    image: '/images/homes/homes-3.jpg',
   },
   {
     id: '4',
@@ -77,7 +76,7 @@ const homes: Home[] = [
     parking: 2,
     completion: 'Dec. Move In',
     features: ['LG Kitchen Appliances', 'Java Cabinets'],
-    image: siteImage('/images/homes/homes-4.jpg'),
+    image: '/images/homes/homes-4.jpg',
   },
   {
     id: '5',
@@ -91,7 +90,7 @@ const homes: Home[] = [
     parking: 2,
     completion: 'Dec. Move In',
     features: ['End unit', 'Courtyard Entry'],
-    image: siteImage('/images/homes/homes-5.jpg'),
+    image: '/images/homes/homes-5.jpg',
   },
 ]
 
@@ -168,7 +167,7 @@ export default function AvailableHomes() {
           >
             <div className="relative h-48 overflow-hidden bg-muted">
               {home.image ? (
-                <Image
+                <SiteImage
                   src={home.image}
                   alt={`${home.floorPlan} floor plan at ${home.address}`}
                   fill

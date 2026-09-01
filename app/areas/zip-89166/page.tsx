@@ -73,7 +73,7 @@ export default function Zip89166Page() {
               h3s: [
                 {
                   h3: 'Roger Bryan Elementary School - Skye Canyon, Zip Code 89166',
-                  content: 'Roger Bryan Elementary School (GreatSchools 9/10) serves zip code 89166 and is located within Skye Canyon, northwest Las Vegas.',
+                  content: 'Roger Bryan Elementary School serves zip code 89166 and is located within Skye Canyon, northwest Las Vegas.',
                 },
                 {
                   h3: 'Sig Rogich Middle School and Shadow Ridge High School',
@@ -121,7 +121,7 @@ export default function Zip89166Page() {
           questions={[
             {
               question: 'What is zip code 89166 and where exactly is it located in Las Vegas, Nevada?',
-              answer: 'Zip code 89166 encompasses Skye Canyon, a premier 1,700-acre master-planned community in northwest Las Vegas, Nevada. The area is located near the intersection of US-95 and the 215 Beltway, approximately 20-25 minutes northwest of the Las Vegas Strip, 15 minutes west of Red Rock Canyon National Conservation Area, and 30 minutes northwest of Mount Charleston. The area is home to multiple new construction developments including Arroyo at Skyeview, Sierra at Skyeview, and Terra at Skyeview, and offers exceptional new construction homes, Roger Bryan Elementary (GreatSchools 9/10), and extensive amenities.',
+              answer: 'Zip code 89166 encompasses Skye Canyon, a premier 1,700-acre master-planned community in northwest Las Vegas, Nevada. The area is located near the intersection of US-95 and the 215 Beltway, approximately 20-25 minutes northwest of the Las Vegas Strip, 15 minutes west of Red Rock Canyon National Conservation Area, and 30 minutes northwest of Mount Charleston. The area is home to multiple new construction developments including Arroyo at Skyeview, Sierra at Skyeview, and Terra at Skyeview, and offers exceptional new construction homes, Roger Bryan Elementary, and extensive amenities.',
             },
             {
               question: 'What new construction developments are in zip code 89166, Skye Canyon, northwest Las Vegas?',
@@ -129,7 +129,7 @@ export default function Zip89166Page() {
             },
             {
               question: 'What schools serve zip code 89166?',
-              answer: 'Zip code 89166 is served by Clark County School District campuses including Roger Bryan Elementary School (rated 9/10), Sig Rogich Middle School, and Shadow Ridge High School. The area is known for quality education, with Roger Bryan Elementary, Sig Rogich Middle School, and Shadow Ridge High School nearby.',
+              answer: 'Zip code 89166 is served by Clark County School District campuses including Roger Bryan Elementary School, Sig Rogich Middle School, and Shadow Ridge High School. Nearby campuses include Roger Bryan Elementary, Sig Rogich Middle School, and Shadow Ridge High School.',
             },
             {
               question: 'What are property taxes like in zip code 89166?',

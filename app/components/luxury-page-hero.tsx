@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import { LUXURY_HERO_FALLBACK } from '@/lib/luxury-theme'
+import SiteImage from './site-image'
 
 type LuxuryPageHeroProps = {
   eyebrow?: string
@@ -20,7 +20,7 @@ export default function LuxuryPageHero({
 }: LuxuryPageHeroProps) {
   return (
     <section className="relative overflow-hidden bg-luxury-navy py-16 text-luxury-ivory md:py-20">
-      <Image
+      <SiteImage
         src={imageSrc}
         alt=""
         fill

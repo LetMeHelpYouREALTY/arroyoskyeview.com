@@ -1,20 +1,19 @@
-import Image from 'next/image'
-import { siteImage } from '@/lib/cloudflare-images'
+import SiteImage from './site-image'
 
 export default function LifeAtArroyo() {
   const scenes = [
     {
-      src: siteImage('/images/hero/luxury-hero-skye-canyon.jpg'),
+      src: '/images/hero/luxury-hero-skye-canyon.jpg',
       alt: 'Aerial view of Arroyo at Skyeview townhomes in Skye Canyon, northwest Las Vegas ZIP 89166',
       caption: 'Two-story townhomes in Skye Canyon',
     },
     {
-      src: siteImage('/images/homes/homes-2.jpg'),
+      src: '/images/homes/homes-2.jpg',
       alt: 'Arroyo at Skyeview townhome exterior in Skye Canyon, northwest Las Vegas',
       caption: 'Townhome exteriors in Skye Canyon',
     },
     {
-      src: siteImage('/images/homes/homes-1.jpg'),
+      src: '/images/homes/homes-1.jpg',
       alt: 'Move-in ready townhome inventory at Arroyo at Skyeview on Grabill Spruce Street',
       caption: 'Move-in ready homes on Grabill Spruce St',
     },
@@ -41,7 +40,7 @@ export default function LifeAtArroyo() {
           {scenes.map((scene) => (
             <li key={scene.caption} className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
               <div className="relative aspect-[4/3]">
-                <Image
+                <SiteImage
                   src={scene.src}
                   alt={scene.alt}
                   fill

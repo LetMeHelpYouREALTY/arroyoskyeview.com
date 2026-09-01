@@ -1,4 +1,10 @@
 import Script from 'next/script'
+import { siteImage } from '@/lib/cloudflare-images'
+
+function productImageUrl(image: string, baseUrl: string): string {
+  const resolved = siteImage(image)
+  return resolved.startsWith('http') ? resolved : `${baseUrl}${resolved}`
+}
 
 interface FloorPlan {
   name: string
@@ -88,7 +94,7 @@ export default function ProductSchemas({ floorPlans = [], homes = [] }: ProductS
       },
     ],
     ...(plan.image && {
-      image: plan.image.startsWith('http') ? plan.image : `${baseUrl}${plan.image}`,
+      image: productImageUrl(plan.image, baseUrl),
     }),
   }))
 
@@ -172,7 +178,7 @@ export default function ProductSchemas({ floorPlans = [], homes = [] }: ProductS
       },
     ],
     ...(home.image && {
-      image: home.image.startsWith('http') ? home.image : `${baseUrl}${home.image}`,
+      image: productImageUrl(home.image, baseUrl),
     }),
   }))
 

@@ -1,8 +1,8 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import Image from 'next/image'
 import { Phone, MapPin, Dumbbell, Mountain, Map } from 'lucide-react'
+import SiteImage from './site-image'
 import { Button } from '@/components/ui/button'
 import { LUXURY_HERO_IMAGE } from '@/lib/luxury-theme'
 import CalendlyScheduleButton from './calendly-schedule-button'
@@ -62,7 +62,7 @@ export default function LuxuryHero({ imageSrc = LUXURY_HERO_IMAGE }: LuxuryHeroP
     >
       {/* ── Background image layer ─────────────────────────────────────── */}
       <div className="absolute inset-0">
-        <Image
+        <SiteImage
           src={imageSrc}
           alt="Aerial view of Arroyo at Skyeview townhomes with Red Rock Canyon in the background, Skye Canyon Las Vegas 89166"
           fill

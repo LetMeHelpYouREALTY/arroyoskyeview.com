@@ -115,7 +115,7 @@ export default function SierraAtSkyeviewPage() {
             },
             {
               question: 'What schools serve Sierra at Skyeview in Skye Canyon?',
-              answer: 'Sierra at Skyeview is served by Clark County School District campuses including Roger Bryan Elementary School (GreatSchools 9/10), Sig Rogich Middle School, and Shadow Ridge High School.',
+              answer: 'Sierra at Skyeview is served by Clark County School District campuses including Roger Bryan Elementary School, Sig Rogich Middle School, and Shadow Ridge High School.',
             },
             {
               question: 'What amenities are available in Skye Canyon?',

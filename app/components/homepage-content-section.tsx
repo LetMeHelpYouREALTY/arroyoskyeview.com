@@ -6,7 +6,7 @@ export default function HomepageContentSection() {
   const homepageQuestions = [
     {
       question: 'What is Arroyo at Skyeview Homes and where exactly is it located in northwest Las Vegas, Nevada?',
-      answer: 'Arroyo at Skyeview Homes is a residential community of modern new construction townhomes located in Skye Canyon, a 1,700-acre master-planned community in northwest Las Vegas, Nevada (zip code 89166). The community is situated near the intersection of US-95 and the 215 Beltway, approximately 20-25 minutes northwest of the Las Vegas Strip, 15 minutes west of Red Rock Canyon National Conservation Area, and 30 minutes northwest of Mount Charleston. Skye Canyon spans 1,700 acres in northwest Las Vegas and features extensive parks, trails, Roger Bryan Elementary (GreatSchools 9/10), and recreational facilities. This northwest Las Vegas location offers easy access to major employment centers including Summerlin, Downtown Las Vegas, and the Strip corridor while maintaining a peaceful residential atmosphere away from the hustle and bustle.',
+      answer: 'Arroyo at Skyeview Homes is a residential community of modern new construction townhomes located in Skye Canyon, a 1,700-acre master-planned community in northwest Las Vegas, Nevada (zip code 89166). The community is situated near the intersection of US-95 and the 215 Beltway, approximately 20-25 minutes northwest of the Las Vegas Strip, 15 minutes west of Red Rock Canyon National Conservation Area, and 30 minutes northwest of Mount Charleston. Skye Canyon spans 1,700 acres in northwest Las Vegas and features extensive parks, trails, Roger Bryan Elementary, and recreational facilities. This northwest Las Vegas location offers easy access to major employment centers including Summerlin, Downtown Las Vegas, and the Strip corridor while maintaining a peaceful residential atmosphere away from the hustle and bustle.',
     },
     {
       question: 'What are the prices for Arroyo at Skyeview Homes?',
@@ -18,7 +18,7 @@ export default function HomepageContentSection() {
     },
     {
       question: 'What schools serve Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas?',
-      answer: 'Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada is served by Clark County School District campuses. Roger Bryan Elementary School (GreatSchools 9/10) is located within Skye Canyon. Sig Rogich Middle School and Shadow Ridge High School serve older students in this northwest Las Vegas area. These campuses are within or near zip code 89166.',
+      answer: 'Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada is served by Clark County School District campuses. Roger Bryan Elementary School is located within Skye Canyon. Sig Rogich Middle School and Shadow Ridge High School serve older students in this northwest Las Vegas area. These campuses are within or near zip code 89166.',
     },
     {
       question: 'What amenities are available near Arroyo at Skyeview Homes in Skye Canyon, northwest Las Vegas, Nevada?',
@@ -180,7 +180,7 @@ export default function HomepageContentSection() {
           Schools in Zip Code 89166
         </h3>
         <p className="text-lg text-muted-foreground mb-4">
-          Arroyo at Skyeview is served by Clark County School District campuses. Roger Bryan Elementary School (GreatSchools 9/10) serves Skye Canyon in zip code 89166. Sig Rogich Middle School and Shadow Ridge High School serve older students in northwest Las Vegas, Nevada.
+          Arroyo at Skyeview is served by Clark County School District campuses. Roger Bryan Elementary School serves Skye Canyon in zip code 89166. Sig Rogich Middle School and Shadow Ridge High School serve older students in northwest Las Vegas, Nevada.
         </p>
 
         <h3 className="text-2xl font-bold text-foreground mt-6 mb-4">

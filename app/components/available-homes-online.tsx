@@ -1,9 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
+import SiteImage from './site-image'
 import { Button } from '@/components/ui/button'
-import { siteImage } from '@/lib/cloudflare-images'
 import CalendlyScheduleButton from './calendly-schedule-button'
 
 const homes = [
@@ -12,7 +11,7 @@ const homes = [
     name: 'Arroyo at Skyeview',
     location: 'Las Vegas, NV',
     price: 392640,
-    image: siteImage('/images/hero/luxury-hero-skye-canyon.jpg'),
+    image: '/images/hero/luxury-hero-skye-canyon.jpg',
     url: '/arroyo-at-skyeview/available-homes',
     available: true,
   },
@@ -21,7 +20,7 @@ const homes = [
     name: 'The Townes at Union Village',
     location: 'Henderson, NV',
     price: 366990,
-    image: siteImage('/images/homes/homes-2.jpg'),
+    image: '/images/homes/homes-2.jpg',
     url: '/find-your-new-home/nevada/las-vegas-metro',
     available: true,
   },
@@ -53,7 +52,7 @@ export default function AvailableHomesOnline() {
             <div key={home.id} className="bg-white border border-border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
               <div className="h-64 bg-gray-200 relative overflow-hidden">
                 {home.image ? (
-                  <Image
+                  <SiteImage
                     src={home.image}
                     alt={home.name}
                     fill

@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import PageQASection from '../../components/page-qa-section'
 import PageSchemas from '../../components/page-schemas'
-import Image from 'next/image'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {

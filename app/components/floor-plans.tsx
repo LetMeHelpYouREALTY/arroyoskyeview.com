@@ -1,9 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
+import SiteImage from './site-image'
 import { Button } from '@/components/ui/button'
-import { siteImage } from '@/lib/cloudflare-images'
 import CalendlyScheduleButton from './calendly-schedule-button'
 
 interface FloorPlan {
@@ -31,8 +30,8 @@ const floorPlans: FloorPlan[] = [
     parking: 2,
     description: 'Interior Unit',
     status: 'Model Open',
-    image: siteImage('/images/floor-plans/beverly-model.jpg'),
-    floorPlanImage: siteImage('/images/floor-plans/beverly-floorplan.jpg'),
+    image: '/images/floor-plans/beverly-model.jpg',
+    floorPlanImage: '/images/floor-plans/beverly-floorplan.jpg',
   },
   {
     id: '2',
@@ -44,8 +43,8 @@ const floorPlans: FloorPlan[] = [
     parking: 2,
     description: '3 Bed + Loft',
     status: 'Modeled',
-    image: siteImage('/images/floor-plans/captiva-model.jpg'),
-    floorPlanImage: siteImage('/images/floor-plans/captiva-floorplan.jpg'),
+    image: '/images/floor-plans/captiva-model.jpg',
+    floorPlanImage: '/images/floor-plans/captiva-floorplan.jpg',
   },
   {
     id: '3',
@@ -57,8 +56,8 @@ const floorPlans: FloorPlan[] = [
     parking: 2,
     description: 'End Unit',
     status: 'Stunning Model',
-    image: siteImage('/images/floor-plans/delray-model.jpg'),
-    floorPlanImage: siteImage('/images/floor-plans/delray-floorplan.jpg'),
+    image: '/images/floor-plans/delray-model.jpg',
+    floorPlanImage: '/images/floor-plans/delray-floorplan.jpg',
   },
 ]
 
@@ -130,7 +129,7 @@ export default function FloorPlans() {
           >
             <div className="relative h-64 overflow-hidden bg-muted">
               {plan.image ? (
-                <Image
+                <SiteImage
                   src={plan.image}
                   alt={`${plan.name} floor plan model home at Arroyo at Skyeview Homes in Skye Canyon, Las Vegas. ${plan.sqft} square feet, ${plan.bedrooms} bedrooms, ${plan.bathrooms} bathrooms.`}
                   fill

@@ -1,10 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
+import SiteImage from './site-image'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { siteImage } from '@/lib/cloudflare-images'
 
 const opportunities = [
   {
@@ -14,7 +13,7 @@ const opportunities = [
     price: 392640,
     incentives: '$5,000 toward closing costs',
     features: ['US-95 and 215 Beltway access', 'Red Rock hiking access', 'Resort-style amenities'],
-    image: siteImage('/images/homes/homes-1.jpg'),
+    image: '/images/homes/homes-1.jpg',
     phone: '(702) 903-4687',
     href: '/',
   },
@@ -25,7 +24,7 @@ const opportunities = [
     price: 392640,
     incentives: 'Competitive financing rates',
     features: ['Master-planned community', 'NW Las Vegas', 'Quick move-in available'],
-    image: siteImage('/images/homes/homes-3.jpg'),
+    image: '/images/homes/homes-3.jpg',
     phone: '(702) 903-4687',
     href: '/sierra-at-skyeview',
   },
@@ -36,7 +35,7 @@ const opportunities = [
     price: 392640,
     incentives: 'Special incentives available',
     features: ['Skye Canyon location', 'New construction', 'Move-in ready homes'],
-    image: siteImage('/images/homes/homes-4.jpg'),
+    image: '/images/homes/homes-4.jpg',
     phone: '(702) 903-4687',
     href: '/terra-at-skyeview',
   },
@@ -65,7 +64,7 @@ export default function BestOpportunities() {
             <div key={opportunity.id} className="surface-elevated overflow-hidden transition hover:shadow-lg">
               <div className="relative h-48 overflow-hidden bg-muted">
                 {opportunity.image ? (
-                  <Image
+                  <SiteImage
                     src={opportunity.image}
                     alt={opportunity.community}
                     fill

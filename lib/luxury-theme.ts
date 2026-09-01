@@ -1,5 +1,3 @@
-import { siteImage } from '@/lib/cloudflare-images'
-
 /** Desert Luxe brand palette — navy anchor, champagne gold accents, warm neutrals. */
 export const LUXURY_COLORS = {
   navy: '#1B2838',
@@ -11,11 +9,6 @@ export const LUXURY_COLORS = {
   charcoal: '#3C3C3C',
 } as const
 
-export const LUXURY_HERO_IMAGE = siteImage(
-  '/images/hero/luxury-hero-skye-canyon.jpg',
-  'images/hero/luxury-hero-skye-canyon',
-)
-export const LUXURY_HERO_FALLBACK = siteImage(
-  '/images/hero/luxury-hero-skye-canyon.jpg',
-  'images/hero/luxury-hero-skye-canyon',
-)
+/** Local public path — SiteImage rewrites to imagedelivery.net when the hash is set. */
+export const LUXURY_HERO_IMAGE = '/images/hero/luxury-hero-skye-canyon.jpg'
+export const LUXURY_HERO_FALLBACK = LUXURY_HERO_IMAGE

@@ -1,10 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
+import SiteImage from './site-image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { siteImage } from '@/lib/cloudflare-images'
 
 interface Community {
   id: string
@@ -30,7 +29,7 @@ const communities: Community[] = [
     phone: '(702) 903-4687',
     price: 392640,
     homeTypes: ['Townhomes'],
-    image: siteImage('/images/hero/luxury-hero-skye-canyon.jpg'),
+    image: '/images/hero/luxury-hero-skye-canyon.jpg',
     url: '/',
     features: ['New Construction', 'Quick Move-In Available'],
   },
@@ -43,7 +42,7 @@ const communities: Community[] = [
     phone: '(702) 903-4687',
     price: 392640,
     homeTypes: ['Single-Family Homes', 'Townhomes'],
-    image: siteImage('/images/floor-plans/floor-plans-1.jpg'),
+    image: '/images/floor-plans/floor-plans-1.jpg',
     url: '/',
     features: ['Masterplan Community', 'NW Las Vegas'],
   },
@@ -56,7 +55,7 @@ const communities: Community[] = [
     phone: '(702) 903-4687',
     price: 366990,
     homeTypes: ['Townhomes'],
-    image: siteImage('/images/homes/homes-2.jpg'),
+    image: '/images/homes/homes-2.jpg',
     url: '/',
     features: ['Special Incentives', 'Tour Models Today!'],
   },
@@ -165,7 +164,7 @@ export default function CommunityListings() {
             >
               <div className={`${viewMode === 'list' ? 'w-1/3' : 'w-full'} h-48 bg-gray-200 relative overflow-hidden`}>
                 {community.image ? (
-                  <Image
+                  <SiteImage
                     src={community.image}
                     alt={community.name}
                     fill

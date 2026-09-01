@@ -28,8 +28,8 @@ export default function MovingToLasVegasPage() {
         ]}
         questions={[
           {
-            question: 'What are the best neighborhoods for new construction homes in Las Vegas?',
-            answer: 'Skye Canyon (zip code 89166) in northwest Las Vegas is one of the best neighborhoods for new construction homes, offering master-planned community living, neighborhood schools including Roger Bryan Elementary, and modern homes. Other great areas include Summerlin and northwest Las Vegas communities. Contact Dr. Jan Duffy at (702) 903-4687 for guidance.',
+            question: 'Where is new construction available in the Las Vegas area?',
+            answer: 'Skye Canyon (zip code 89166) in northwest Las Vegas has new construction townhomes and single-family homes, including Arroyo at Skyeview, with Roger Bryan Elementary School in the master plan. Other areas with new construction include Summerlin and additional northwest Las Vegas communities. Contact Dr. Jan Duffy at (702) 903-4687 for current inventory.',
           },
           {
             question: 'What is the cost of living in Las Vegas, Nevada?',
@@ -37,7 +37,7 @@ export default function MovingToLasVegasPage() {
           },
           {
             question: 'Which Clark County School District campuses serve Skye Canyon in zip code 89166?',
-            answer: 'Skye Canyon (zip code 89166) in northwest Las Vegas features Roger Bryan Elementary (GreatSchools 9/10). Summerlin is also served by Clark County School District campuses. The Clark County School District serves most of Las Vegas.',
+            answer: 'Skye Canyon (zip code 89166) in northwest Las Vegas features Roger Bryan Elementary. Summerlin is also served by Clark County School District campuses. The Clark County School District serves most of Las Vegas.',
           },
         ]}
       />
@@ -102,7 +102,7 @@ export default function MovingToLasVegasPage() {
                   <div className="border-l-4 border-luxury-champagne pl-4">
                     <h3 className="text-xl font-bold text-foreground mb-2">Skye Canyon (Zip Code 89166) - Northwest Las Vegas</h3>
                     <p className="text-muted-foreground mb-2">
-                      Skye Canyon is a premier 1,700-acre master-planned community in northwest Las Vegas offering new construction homes, Roger Bryan Elementary (GreatSchools 9/10), extensive amenities, and parks, trails, and recreation amenities. The community features Arroyo at Skyeview, Sierra at Skyeview, Terra at Skyeview, and Eaglepointe at Skye Canyon.
+                      Skye Canyon is a premier 1,700-acre master-planned community in northwest Las Vegas offering new construction homes, Roger Bryan Elementary, extensive amenities, and parks, trails, and recreation amenities. The community features Arroyo at Skyeview, Sierra at Skyeview, Terra at Skyeview, and Eaglepointe at Skye Canyon.
                     </p>
                     <Link href="/areas/zip-89166" className="text-primary hover:text-primary font-semibold">
                       Learn more about Skye Canyon →
@@ -149,7 +149,7 @@ export default function MovingToLasVegasPage() {
                   Las Vegas is served by the Clark County School District, one of the largest school districts in the nation. Skye Canyon (zip code 89166) in northwest Las Vegas features neighborhood schools including Roger Bryan Elementary:
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
-                  <li><strong>Roger Bryan Elementary School:</strong> Rated 9/10, located in Skye Canyon</li>
+                  <li><strong>Roger Bryan Elementary School:</strong> Located in Skye Canyon</li>
                   <li><strong>Sig Rogich Middle School:</strong> Serves Skye Canyon area</li>
                   <li><strong>Shadow Ridge High School:</strong> Serves Skye Canyon area</li>
                 </ul>

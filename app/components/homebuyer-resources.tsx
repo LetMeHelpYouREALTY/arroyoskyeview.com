@@ -1,7 +1,6 @@
-import Image from 'next/image'
+import SiteImage from './site-image'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { siteImage } from '@/lib/cloudflare-images'
 
 export default function HomebuyerResources() {
   const resources = [
@@ -9,7 +8,7 @@ export default function HomebuyerResources() {
       id: '1',
       title: 'Is the Housing Market Going To Crash? Here\'s What Experts Say',
       description: 'Expert forecasts show home prices are expected to rise nationally, not fall, over the next 5 years. Learn what the data says about the housing market outlook.',
-      image: siteImage('/images/homes/homes-1.jpg'),
+      image: '/images/homes/homes-1.jpg',
       category: 'Market Insights',
       url: '/blog/housing-market-crash-2025',
     },
@@ -17,7 +16,7 @@ export default function HomebuyerResources() {
       id: '2',
       title: 'Thought the Market Passed You By? Think Again.',
       description: 'With more homes to choose from, prices leveling off, and mortgage rates easing, today\'s market is offering something you haven\'t had in a while: options.',
-      image: siteImage('/images/homes/homes-2.jpg'),
+      image: '/images/homes/homes-2.jpg',
       category: 'Market Insights',
       url: '/blog/market-passed-you-by',
     },
@@ -25,7 +24,7 @@ export default function HomebuyerResources() {
       id: '3',
       title: 'You Can Buy a Home When You Have Student Loans',
       description: 'Learn how student loans don\'t have to prevent you from buying a new construction home in Las Vegas. Get expert advice on managing student debt while purchasing a home at Arroyo at Skyeview Homes or other Skye Canyon communities.',
-      image: siteImage('/images/homes/homes-3.jpg'),
+      image: '/images/homes/homes-3.jpg',
       category: 'Homebuying Guide',
       url: '/blog/buying-home-with-student-loans',
     },
@@ -33,7 +32,7 @@ export default function HomebuyerResources() {
       id: '4',
       title: 'How To Make Sure Your Sale Crosses the Finish Line',
       description: 'Learn how pre-listing inspections can help prevent buyers from backing out. Get expert advice on avoiding common deal breakers and ensuring a smooth home sale.',
-      image: siteImage('/images/homes/homes-4.jpg'),
+      image: '/images/homes/homes-4.jpg',
       category: 'Selling Tips',
       url: '/blog/sale-crosses-finish-line',
     },
@@ -41,7 +40,7 @@ export default function HomebuyerResources() {
       id: '5',
       title: 'New Home Inventory is 2x the Normal: Why It\'s Time to Buy New',
       description: 'With low resale inventory and 2x the normal new home inventory, builders are buying down mortgage rates, lowering prices, and offering promotions and incentives. It\'s time to buy new!',
-      image: siteImage('/images/homes/homes-5.jpg'),
+      image: '/images/homes/homes-5.jpg',
       category: 'Market Insights',
       url: '/blog/new-home-inventory-2x',
     },
@@ -61,7 +60,7 @@ export default function HomebuyerResources() {
           <div key={resource.id} className="surface-elevated overflow-hidden transition hover:shadow-md">
             <div className="relative h-48 overflow-hidden bg-muted">
               {resource.image ? (
-                <Image
+                <SiteImage
                   src={resource.image}
                   alt={resource.title}
                   fill

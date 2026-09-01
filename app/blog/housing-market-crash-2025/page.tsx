@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
-import Image from 'next/image'
 import PageSchemas from '../../components/page-schemas'
 
 import MarketingPageShell from '../../components/marketing-page-shell'

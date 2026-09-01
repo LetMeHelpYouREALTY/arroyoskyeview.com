@@ -15,8 +15,8 @@ export const metadata: Metadata = {
 
 const neighborhoodQuestions = [
   {
-    question: 'What are the best neighborhoods in Las Vegas, Nevada for new construction homes?',
-    answer: 'Some of the best neighborhoods for new construction in Las Vegas, Nevada include Skye Canyon (northwest Las Vegas, zip code 89166) where Arroyo at Skyeview is located, Summerlin (west side), Henderson (southeast), and North Las Vegas. Skye Canyon offers master-planned community amenities, Roger Bryan Elementary (GreatSchools 9/10), and proximity to nature including Red Rock Canyon (15 minutes west) and Mount Charleston (30 minutes northwest). Summerlin is known for luxury homes and golf courses. Henderson offers residential neighborhoods with parks and trails with Clark County School District campuses. Your buyer\'s agent, Dr. Jan Duffy, specializes in northwest Las Vegas new construction including Skye Canyon, zip code 89166.',
+    question: 'Where is new construction available in the Las Vegas area?',
+    answer: 'New construction is available in several Las Vegas area communities including Skye Canyon (northwest Las Vegas, zip code 89166) where Arroyo at Skyeview is located, Summerlin, Henderson, and North Las Vegas. Skye Canyon offers master-planned amenities, Roger Bryan Elementary School, Red Rock Canyon about 15 minutes west, and Mount Charleston about 30 minutes northwest. Henderson communities include parks and trails. Dr. Jan Duffy specializes in northwest Las Vegas new construction including Skye Canyon, zip code 89166.',
   },
   {
     question: 'What zip codes in Las Vegas, Nevada have new construction homes, especially near Arroyo at Skyeview?',
@@ -24,7 +24,7 @@ const neighborhoodQuestions = [
   },
   {
     question: 'What schools serve Arroyo at Skyeview in Skye Canyon, zip code 89166, northwest Las Vegas?',
-    answer: 'Yes, Arroyo at Skyeview in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada is served by Clark County School District campuses. Roger Bryan Elementary School (GreatSchools 9/10) is located within Skye Canyon. Sig Rogich Middle School and Shadow Ridge High School serve older students in this northwest Las Vegas area. All three campuses are within or near zip code 89166.',
+    answer: 'Yes, Arroyo at Skyeview in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada is served by Clark County School District campuses. Roger Bryan Elementary School is located within Skye Canyon. Sig Rogich Middle School and Shadow Ridge High School serve older students in this northwest Las Vegas area. All three campuses are within or near zip code 89166.',
   },
   {
     question: 'What is the average price of new construction homes in Las Vegas, Nevada, especially at Arroyo at Skyeview?',
@@ -40,7 +40,7 @@ const neighborhoodQuestions = [
   },
   {
     question: 'What master-planned communities in Las Vegas, Nevada have new construction homes, especially near Arroyo at Skyeview?',
-    answer: 'New construction homes are available in several master-planned communities in Las Vegas, Nevada including Skye Canyon (northwest Las Vegas, zip code 89166 where Arroyo at Skyeview is located), Summerlin, and Henderson communities. Skye Canyon, a premier 1,700-acre master-planned community in northwest Las Vegas, features extensive amenities including Skye Canyon Park, trails connecting throughout the community, Skye Canyon Marketplace shopping, and Roger Bryan Elementary (GreatSchools 9/10). Each master-planned community offers unique lifestyle benefits and amenities. Your buyer\'s agent, Dr. Jan Duffy, specializes in northwest Las Vegas communities including Skye Canyon.',
+    answer: 'New construction homes are available in several master-planned communities in Las Vegas, Nevada including Skye Canyon (northwest Las Vegas, zip code 89166 where Arroyo at Skyeview is located), Summerlin, and Henderson communities. Skye Canyon, a premier 1,700-acre master-planned community in northwest Las Vegas, features extensive amenities including Skye Canyon Park, trails connecting throughout the community, Skye Canyon Marketplace shopping, and Roger Bryan Elementary. Each master-planned community offers unique lifestyle benefits and amenities. Your buyer\'s agent, Dr. Jan Duffy, specializes in northwest Las Vegas communities including Skye Canyon.',
   },
   {
     question: 'What are the community fees for new construction homes in Las Vegas?',

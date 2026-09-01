@@ -97,7 +97,7 @@ export default function AboutUsPage() {
                 },
                 {
                   h3: 'Las Vegas Communities: Skye Canyon, Summerlin, and More',
-                  content: 'Arroyo at Skyeview Homes is strategically located in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). Skye Canyon is a premier 1,700-acre master-planned community featuring extensive parks, trails, recreation center, Roger Bryan Elementary (GreatSchools 9/10), and the Skye Canyon Marketplace shopping center. The community is approximately 20-25 minutes northwest of the Las Vegas Strip, 15 minutes west of Red Rock Canyon, and 30 minutes northwest of Mount Charleston.',
+                  content: 'Arroyo at Skyeview Homes is strategically located in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). Skye Canyon is a premier 1,700-acre master-planned community featuring extensive parks, trails, recreation center, Roger Bryan Elementary, and the Skye Canyon Marketplace shopping center. The community is approximately 20-25 minutes northwest of the Las Vegas Strip, 15 minutes west of Red Rock Canyon, and 30 minutes northwest of Mount Charleston.',
                 },
                 {
                   h3: 'Why Choose Arroyo at Skyeview Homes?',
@@ -137,7 +137,7 @@ export default function AboutUsPage() {
                 },
                 {
                   h3: 'Las Vegas Communities: Skye Canyon, Summerlin, Henderson',
-                  content: 'Arroyo at Skyeview Homes is located in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). Skye Canyon includes Roger Bryan Elementary (GreatSchools 9/10), parks, trails, a recreation center, Skye Canyon Marketplace, Red Rock Canyon about 15 minutes west, and Mount Charleston about 30 minutes northwest.',
+                  content: 'Arroyo at Skyeview Homes is located in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). Skye Canyon includes Roger Bryan Elementary, parks, trails, a recreation center, Skye Canyon Marketplace, Red Rock Canyon about 15 minutes west, and Mount Charleston about 30 minutes northwest.',
                 },
                 {
                   h3: 'Current Market Conditions in Las Vegas',
@@ -185,7 +185,7 @@ export default function AboutUsPage() {
             },
             {
               question: 'What schools serve Arroyo at Skyeview Homes?',
-              answer: 'Arroyo at Skyeview Homes is served by Clark County School District campuses including Roger Bryan Elementary (GreatSchools 9/10), Sig Rogich Middle School, and Shadow Ridge High School. All three are within or near zip code 89166.',
+              answer: 'Arroyo at Skyeview Homes is served by Clark County School District campuses including Roger Bryan Elementary, Sig Rogich Middle School, and Shadow Ridge High School. All three are within or near zip code 89166.',
             },
           ]}
         />

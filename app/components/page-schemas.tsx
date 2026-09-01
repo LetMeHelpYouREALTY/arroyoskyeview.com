@@ -198,13 +198,6 @@ export default function PageSchemas({
       'Skye Canyon Real Estate',
     ],
     priceRange: 'No Cost to Buyer',
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: 5,
-      reviewCount: 50,
-      bestRating: 5,
-      worstRating: 1,
-    },
   }
 
   const localBusinessSchema = {
@@ -218,13 +211,6 @@ export default function PageSchemas({
       'Arroyo at Skyeview Homes Expert',
       'Skye Canyon Real Estate',
     ],
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: 5,
-      reviewCount: 50,
-      bestRating: 5,
-      worstRating: 1,
-    },
     contactPoint: [
       {
         '@type': 'ContactPoint',
