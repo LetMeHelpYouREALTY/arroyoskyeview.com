@@ -447,7 +447,12 @@ for (const project of projects) {
     )
   }
 
-  if (!notionToken && interesting.some((name) => /^notion_/i.test(name))) {
+  if (
+    !notionToken &&
+    notionDecryptAttempts < 2 &&
+    interesting.some((name) => /^notion_/i.test(name))
+  ) {
+    notionDecryptAttempts += 1
     const value = await decryptNamed(project.id, [
       'NOTION_TOKEN',
       'NOTION_API_KEY',
@@ -456,6 +461,8 @@ for (const project of projects) {
     if (value) {
       notionToken = value
       console.log(`Found NOTION_TOKEN on ${project.name} (not copied to Arroyo).`)
+    } else {
+      console.log(`NOTION_TOKEN on ${project.name} did not decrypt.`)
     }
   }
 
