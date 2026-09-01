@@ -1,4 +1,6 @@
-/** Public /images paths uploaded to Cloudflare Images (custom IDs). Raster files only. */
+/** Public /images paths uploaded to Cloudflare Images (custom IDs). Raster files only.
+ * Keep workers/hosted-images/src/index.ts IMAGE_PATHS in sync with this list.
+ */
 export const CLOUDFLARE_IMAGE_PUBLIC_PATHS = [
   '/images/brand/dr-jan-duffy.png',
   '/images/floor-plans/beverly-floorplan.jpg',

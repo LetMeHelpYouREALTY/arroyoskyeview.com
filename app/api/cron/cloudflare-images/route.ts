@@ -22,13 +22,19 @@ function cronSecret(): string | undefined {
   return process.env.CRON_SECRET?.trim() || undefined
 }
 
+function imagesWorkerUrl(): string | undefined {
+  return process.env.CLOUDFLARE_IMAGES_WORKER_URL?.trim() || undefined
+}
+
 function publicStatus() {
   const token = Boolean(cloudflareToken())
   const secret = Boolean(cronSecret())
+  const worker = Boolean(imagesWorkerUrl())
   return {
     ok: true as const,
-    configured: token && secret,
+    configured: (token || worker) && secret,
     cloudflareToken: token,
+    imagesWorker: worker,
     cronSecret: secret,
     deliveryHash: isCloudflareImagesHashConfigured(),
   }
@@ -45,7 +51,60 @@ function isAuthorized(request: Request): boolean {
   return request.headers.get('x-vercel-cron') === '1'
 }
 
+type WorkerSyncSummary = {
+  uploaded: number
+  exists: number
+  failed: number
+  hash?: string
+  via?: 'worker'
+}
+
+async function syncViaImagesWorker(): Promise<WorkerSyncSummary | null> {
+  const workerUrl = imagesWorkerUrl()
+  const secret = cronSecret()
+  if (!workerUrl || !secret) {
+    return null
+  }
+  try {
+    const res = await fetch(new URL('/sync', workerUrl).toString(), {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${secret}`,
+        'Content-Type': 'application/json',
+      },
+      signal: AbortSignal.timeout(60000),
+    })
+    const body: unknown = await res.json().catch(() => null)
+    if (!body || typeof body !== 'object') {
+      return null
+    }
+    const record = body as {
+      uploaded?: unknown
+      exists?: unknown
+      failed?: unknown
+      hash?: unknown
+    }
+    if (typeof record.uploaded !== 'number' || typeof record.failed !== 'number') {
+      return null
+    }
+    return {
+      uploaded: record.uploaded,
+      exists: typeof record.exists === 'number' ? record.exists : 0,
+      failed: record.failed,
+      hash: typeof record.hash === 'string' ? record.hash : undefined,
+      via: 'worker',
+    }
+  } catch {
+    return null
+  }
+}
+
 async function syncImages() {
+  const workerSummary = await syncViaImagesWorker()
+  if (workerSummary) {
+    return workerSummary
+  }
+
   const token = cloudflareToken()
   if (!token) {
     return { uploaded: 0, exists: 0, failed: CLOUDFLARE_IMAGE_PUBLIC_PATHS.length }
@@ -101,7 +160,7 @@ async function syncImagesWithHash() {
 }
 
 export async function GET(request: Request) {
-  if (!cloudflareToken() || !isAuthorized(request)) {
+  if ((!cloudflareToken() && !imagesWorkerUrl()) || !isAuthorized(request)) {
     return NextResponse.json(publicStatus())
   }
 

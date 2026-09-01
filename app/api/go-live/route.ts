@@ -90,7 +90,7 @@ export async function GET() {
   const nextHumanActions: string[] = []
   if (!deliveryHash) {
     nextHumanActions.push(
-      'Mint a Cloudflare Account API token with Account.Cloudflare Images.Edit and no IP allowlist on account 2cc579c1ec9e426ed585e933ebf4753b. Set it as CLOUDFLARE_API_TOKEN on Vercel project prj_4cKj3PWQYacJOBsrmSeWfkONU6Wm. The geneboyle token is 9109 on GitHub and 401/10000 on Vercel iad1 (list and POST /images/v1). Do not default the Siena hash until Arroyo custom IDs return 200.',
+      'Deploy workers/hosted-images on Cloudflare account 2cc579c1ec9e426ed585e933ebf4753b (`npx wrangler deploy --config workers/hosted-images/wrangler.jsonc`). It uploads via the Images binding, so the geneboyle IP-allowlisted REST token is not required. After every custom ID returns 200 on imagedelivery.net, the next production build inlines the hash into homepage <img src>. Alternatively mint Account.Cloudflare Images.Edit with no IP allowlist as CLOUDFLARE_API_TOKEN. Do not default the Siena hash until Arroyo custom IDs return 200.',
     )
   }
   if (!calendlyConfigured) {
@@ -122,6 +122,8 @@ export async function GET() {
       deliveryHash,
       api: imagesApi,
       teamCustomIds: customIds,
+      hostedWorker:
+        'npx wrangler deploy --config workers/hosted-images/wrangler.jsonc',
       edgeProbeUrl: `${SITE_URL}/api/go-live/images-edge`,
       sfoProbeUrl: `${SITE_URL}/api/go-live/images-sfo`,
     },

@@ -1,32 +1,104 @@
 /**
- * Upload site rasters to Cloudflare Images during `npm run build` when
- * CLOUDFLARE_API_TOKEN is present (Vercel Production env). Writes the
- * public account hash so middleware and SiteImage can serve imagedelivery.net
- * from that deployment without a second env round-trip.
+ * Upload site rasters to Cloudflare Images during `npm run build`.
  *
- * Skips (exit 0) when the token is missing so local/preview builds still work.
+ * 1. Probe imagedelivery.net custom IDs (no token). If every manifest
+ *    path returns 200, write the public hash so SiteImage SSR points at
+ *    imagedelivery.net — this is how the hosted-images Worker (Images
+ *    binding, no IP-allowlisted REST token) lands in production HTML.
+ * 2. If a REST token is present, try POST /images/v1 (may 401/9109).
+ * 3. Probe again after upload.
+ *
  * Upload failures do not fail the site build.
  */
 import { spawnSync } from 'node:child_process'
+import { readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const TOKEN = process.env.CLOUDFLARE_API_TOKEN?.trim()
-if (!TOKEN) {
-  console.log('Skipping Cloudflare Images upload (CLOUDFLARE_API_TOKEN unset)')
-  process.exit(0)
+const TEAM_HASH = 'byE6BTe9lNqo21V57n4aPQ'
+const ROOT = path.dirname(fileURLToPath(import.meta.url))
+const HASH_FILE = path.join(ROOT, '..', 'lib', 'cloudflare-images-hash.generated.ts')
+const MANIFEST = path.join(ROOT, '..', 'lib', 'cloudflare-image-manifest.ts')
+
+function customId(localPath) {
+  return localPath.replace(/^\/+/, '').replace(/\.[^.]+$/, '')
 }
 
-const script = path.join(path.dirname(fileURLToPath(import.meta.url)), 'upload-cloudflare-images.mjs')
-const result = spawnSync(process.execPath, [script, '--write-hash'], {
-  stdio: 'inherit',
-  env: process.env,
-})
+async function readManifestPaths() {
+  const src = await readFile(MANIFEST, 'utf8')
+  return [...src.matchAll(/'(\/images\/[^']+)'/g)].map((match) => match[1])
+}
 
-if (result.status !== 0) {
-  console.warn(
-    'Cloudflare Images upload did not complete; continuing the site build with local /images fallback.',
+async function deliveryStatus(hash, imageId) {
+  const url = `https://imagedelivery.net/${hash}/${imageId}/public`
+  try {
+    const res = await fetch(url, {
+      method: 'GET',
+      redirect: 'manual',
+      headers: { Range: 'bytes=0-0' },
+      signal: AbortSignal.timeout(8000),
+    })
+    return res.status
+  } catch {
+    return 0
+  }
+}
+
+async function writeGeneratedHash(hash) {
+  await writeFile(
+    HASH_FILE,
+    `/**
+ * Written by scripts/ensure-cloudflare-images.mjs after Arroyo custom IDs
+ * returned HTTP 200 on imagedelivery.net.
+ */
+export const GENERATED_CLOUDFLARE_IMAGES_HASH: string | undefined = ${JSON.stringify(hash)}
+`,
   )
+  console.log(`Wrote Cloudflare Images hash ${hash} to lib/cloudflare-images-hash.generated.ts`)
+}
+
+async function probeAndWriteHash() {
+  const paths = await readManifestPaths()
+  if (paths.length === 0) {
+    console.warn('Cloudflare Images manifest had no /images paths')
+    return false
+  }
+  const statuses = await Promise.all(
+    paths.map((localPath) => deliveryStatus(TEAM_HASH, customId(localPath))),
+  )
+  const ready = statuses.filter((status) => status === 200).length
+  console.log(
+    `Cloudflare Images custom IDs: ${ready}/${paths.length} HTTP 200 on ${TEAM_HASH}`,
+  )
+  if (ready === paths.length) {
+    await writeGeneratedHash(TEAM_HASH)
+    return true
+  }
+  return false
+}
+
+function tryRestUpload() {
+  const token = process.env.CLOUDFLARE_API_TOKEN?.trim()
+  if (!token) {
+    console.log('Skipping Cloudflare Images REST upload (CLOUDFLARE_API_TOKEN unset)')
+    return
+  }
+  const script = path.join(ROOT, 'upload-cloudflare-images.mjs')
+  const result = spawnSync(process.execPath, [script, '--write-hash'], {
+    stdio: 'inherit',
+    env: process.env,
+  })
+  if (result.status !== 0) {
+    console.warn(
+      'Cloudflare Images REST upload did not complete; continuing the site build.',
+    )
+  }
+}
+
+const alreadyReady = await probeAndWriteHash()
+if (!alreadyReady) {
+  tryRestUpload()
+  await probeAndWriteHash()
 }
 
 process.exit(0)
