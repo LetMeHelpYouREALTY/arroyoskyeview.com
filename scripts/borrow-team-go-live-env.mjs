@@ -268,7 +268,9 @@ async function cloudflareImagesCredentialWorks(token, email) {
 
 function interestingKeyNames(names) {
   return names.filter((name) =>
-    /cloudflare|calendly|wrangler|cf_|notion|images_hash|images_token/i.test(name),
+    /cloudflare|calendly|wrangler|cf_|notion|^linear$|linear_|images_hash|images_token/i.test(
+      name,
+    ),
   )
 }
 
@@ -424,9 +426,11 @@ console.log(`Scanning ${projects.length} Vercel project(s) on the team.`)
 
 const found = {}
 const candidates = {}
+let decryptDenied = 0
 let notionDecryptAttempts = 0
 let readableProjects = 0
 let notionToken = process.env.NOTION_TOKEN?.trim() || ''
+let linearToken = process.env.LINEAR_API_KEY?.trim() || process.env.LINEAR_API_TOKEN?.trim() || ''
 
 for (const project of projects) {
   const result = await listEnvs(project.id)
@@ -466,6 +470,20 @@ for (const project of projects) {
     }
   }
 
+  if (!linearToken) {
+    const linearEntry = pickByNames(result.envs, [
+      'Linear',
+      'LINEAR_API_KEY',
+      'LINEAR_API_TOKEN',
+      'LINEAR_KEY',
+    ])
+    const linearValue = linearEntry ? entryValue(linearEntry) : ''
+    if (linearValue) {
+      linearToken = linearValue
+      console.log(`Found Linear API key on ${project.name} (not copied to Arroyo).`)
+    }
+  }
+
   for (const [canonical, namesForKey] of Object.entries(ALIASES)) {
     if (alreadyHave(canonical) || found[canonical]) {
       continue
@@ -496,6 +514,43 @@ for (const project of projects) {
 
 if (notionToken) {
   await harvestFromNotion(notionToken, found)
+}
+
+if (linearToken) {
+  await harvestFromLinear(linearToken, found)
+}
+
+async function harvestFromLinear(token, found) {
+  const res = await fetch('https://api.linear.app/graphql', {
+    method: 'POST',
+    headers: {
+      Authorization: token,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query:
+        '{ issueSearch(query: "CLOUDFLARE_API_TOKEN OR CALENDLY_API_TOKEN OR Calendly PAT", first: 8) { nodes { identifier title description } } }',
+    }),
+  })
+  const json = await res.json().catch(() => null)
+  if (!res.ok) {
+    console.log(`Linear search HTTP ${res.status}`)
+    return
+  }
+  const nodes = json?.data?.issueSearch?.nodes
+  if (!Array.isArray(nodes)) {
+    console.log('Linear search returned no issues')
+    return
+  }
+  console.log(`Linear search: ${nodes.length} issue(s)`)
+  const texts = []
+  for (const node of nodes) {
+    console.log(`Linear issue: ${node?.identifier || '?'} ${node?.title || ''}`)
+    if (typeof node?.description === 'string' && node.description) {
+      texts.push(node.description)
+    }
+  }
+  harvestLabeledSecrets(texts, found)
 }
 
 for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_GLOBAL_API_TOKEN']) {
