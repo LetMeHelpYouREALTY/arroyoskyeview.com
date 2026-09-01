@@ -22,6 +22,7 @@ import {
 } from './cloudflare-images-auth.mjs'
 import {
   IMAGES_CREATOR,
+  isCloudflareRateLimit,
   listImages,
   parseDeliveryHash,
 } from './cloudflare-images-list.mjs'
@@ -73,6 +74,14 @@ async function resolveAuth() {
   let locationRestricted = null
   for (const token of tokens) {
     const probe = await cloudflareImagesCredentialWorks(token, emails)
+    if (probe.rateLimited && probe.token) {
+      process.env.CLOUDFLARE_API_TOKEN = probe.token
+      await writeGithubEnv('CLOUDFLARE_IMAGES_AUTH_OK=rate-limited')
+      console.warn(
+        'Cloudflare rate-limited this runner (429). Skipping upload here. CLOUDFLARE_API_TOKEN stays set so Vercel can retry.',
+      )
+      process.exit(0)
+    }
     if (probe.locationRestricted && probe.token) {
       locationRestricted = probe
       console.log(
@@ -171,8 +180,11 @@ const ORIGIN = (process.env.CLOUDFLARE_IMAGES_ORIGIN || 'https://www.arroyoskyev
   '',
 )
 
-async function upload(filePath) {
-  const id = customId(filePath)
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+async function buildUploadForm(filePath, id) {
   const form = new FormData()
   if (FROM_ORIGIN) {
     const relative = path.relative(path.join(ROOT, '..'), filePath).replaceAll('\\', '/')
@@ -185,17 +197,31 @@ async function upload(filePath) {
   form.append('requireSignedURLs', 'false')
   form.append('creator', IMAGES_CREATOR)
   form.append('metadata', imageMetadata(id))
+  return form
+}
 
-  const res = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/v1`,
-    {
-      method: 'POST',
-      headers: authHeaders,
-      body: form,
-    },
-  )
-  const json = await res.json()
-  return { id, status: res.status, json }
+async function upload(filePath) {
+  const id = customId(filePath)
+  let last = { id, status: 0, json: null }
+  for (let i = 0; i < 4; i++) {
+    const res = await fetch(
+      `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/v1`,
+      {
+        method: 'POST',
+        headers: authHeaders,
+        body: await buildUploadForm(filePath, id),
+      },
+    )
+    const json = await res.json().catch(() => null)
+    last = { id, status: res.status, json }
+    if (!isCloudflareRateLimit(last) || i === 3) {
+      return last
+    }
+    const wait = Math.min(32000, 4000 * 2 ** i)
+    console.log(`Upload ${id} HTTP ${res.status}; retry in ${wait}ms (${i + 1}/4)`)
+    await sleep(wait)
+  }
+  return last
 }
 
 async function fetchAccountHash() {

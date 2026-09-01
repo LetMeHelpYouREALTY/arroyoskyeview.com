@@ -23,6 +23,45 @@ function apiError(json) {
   }
 }
 
+export function isCloudflareRateLimit(probe) {
+  return probe?.status === 429 || probe?.code === 10429 || probe?.code === 10502
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+/** GET/POST JSON with backoff on Cloudflare 429 / 10429 / 10502. */
+export async function cloudflareJsonFetch(url, options = {}) {
+  const { headers, method, body, attempts = 4, label = 'Cloudflare' } = options
+  let last = {
+    ok: false,
+    status: 0,
+    json: null,
+    code: undefined,
+    message: '',
+  }
+  for (let i = 0; i < attempts; i++) {
+    const res = await fetch(url, { headers, method, body })
+    const json = await res.json().catch(() => null)
+    last = {
+      ok: res.ok,
+      status: res.status,
+      json,
+      ...apiError(json),
+    }
+    if (!isCloudflareRateLimit(last) || i === attempts - 1) {
+      return last
+    }
+    const wait = Math.min(32000, 4000 * 2 ** i)
+    console.log(
+      `${label} HTTP ${last.status} ${last.message || 'rate limited'}; retry in ${wait}ms (${i + 1}/${attempts})`,
+    )
+    await sleep(wait)
+  }
+  return last
+}
+
 export function clampImagesPerPage(value) {
   const n = typeof value === 'number' && Number.isFinite(value) ? Math.round(value) : LIST_PER_PAGE_MIN
   return Math.min(LIST_PER_PAGE_MAX, Math.max(LIST_PER_PAGE_MIN, n))
@@ -80,22 +119,26 @@ export async function listImagesV2(headers, accountId, options = {}) {
   if (options.metaSite) {
     url.searchParams.set('meta.site[eq]', options.metaSite)
   }
-  const res = await fetch(url, { headers })
-  const json = await res.json().catch(() => null)
+  const fetched = await cloudflareJsonFetch(url, {
+    headers,
+    label: 'Images v2 list',
+  })
+  const json = fetched.json
   const images = imagesFromListJson(json)
   const continuationToken =
     typeof json?.result?.continuation_token === 'string' && json.result.continuation_token
       ? json.result.continuation_token
       : undefined
   return {
-    ok: res.ok,
-    status: res.status,
+    ok: fetched.ok,
+    status: fetched.status,
     api: 'v2',
     json,
     images,
     continuationToken,
     hash: hashFromImages(images),
-    ...apiError(json),
+    code: fetched.code,
+    message: fetched.message,
   }
 }
 
@@ -111,18 +154,22 @@ export async function listImagesV1(headers, accountId, options = {}) {
   if (options.creator !== undefined) {
     url.searchParams.set('creator', options.creator)
   }
-  const res = await fetch(url, { headers })
-  const json = await res.json().catch(() => null)
+  const fetched = await cloudflareJsonFetch(url, {
+    headers,
+    label: 'Images v1 list',
+  })
+  const json = fetched.json
   const images = imagesFromListJson(json)
   return {
-    ok: res.ok,
-    status: res.status,
+    ok: fetched.ok,
+    status: fetched.status,
     api: 'v1',
     json,
     images,
     continuationToken: undefined,
     hash: hashFromImages(images),
-    ...apiError(json),
+    code: fetched.code,
+    message: fetched.message,
   }
 }
 

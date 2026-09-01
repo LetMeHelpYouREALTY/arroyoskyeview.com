@@ -12,7 +12,7 @@
  *
  * Images probes use List V2 (per_page ≥ 10). Deprecated v1 list is fallback.
  */
-import { probeImages as probeListedImages } from './cloudflare-images-list.mjs'
+import { isCloudflareRateLimit, probeImages as probeListedImages } from './cloudflare-images-list.mjs'
 
 export const IMAGES_ACCOUNT_ID = '2cc579c1ec9e426ed585e933ebf4753b'
 
@@ -466,6 +466,50 @@ export async function cloudflareImagesCredentialWorks(token, emails) {
       accountId: IMAGES_ACCOUNT_ID,
       token,
     })
+  }
+
+  // GitHub borrow + Vercel build in parallel 429'd Cloudflare (10502).
+  // Do not spray verify/user/mint after a rate limit — that made it worse.
+  if (looksLikeApiToken(token) && isCloudflareRateLimit(bearer)) {
+    console.log(
+      `Images list HTTP ${probeSummary(bearer)}; not spraying verify/user/mint.`,
+    )
+    if (process.env.VERCEL) {
+      console.log(
+        'Vercel build: uploading with the configured Bearer after rate-limit retries.',
+      )
+      return success({
+        mode: 'bearer',
+        status: bearer.status,
+        headers: bearerHeaders,
+        accountId: IMAGES_ACCOUNT_ID,
+        token,
+      })
+    }
+    return {
+      ok: false,
+      rateLimited: true,
+      mode: 'bearer',
+      status: bearer.status,
+      code: bearer.code,
+      message: bearer.message,
+      token,
+      headers: bearerHeaders,
+      accountId: IMAGES_ACCOUNT_ID,
+    }
+  }
+
+  if (process.env.VERCEL && looksLikeApiToken(token)) {
+    console.log(
+      `Vercel build Images probe HTTP ${probeSummary(bearer)}; not minting from the production token.`,
+    )
+    return {
+      ok: false,
+      mode: 'bearer',
+      status: bearer.status,
+      code: bearer.code,
+      message: bearer.message,
+    }
   }
 
   if (looksLikeOriginCaKey(token)) {
