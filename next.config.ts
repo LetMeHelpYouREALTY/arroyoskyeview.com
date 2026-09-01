@@ -84,31 +84,9 @@ const nextConfig: NextConfig = {
   productionBrowserSourceMaps: false,
   async redirects() {
     return [
-      {
-        source: '/faq/financing',
-        destination: '/buyers/financing-new-construction',
-        permanent: true,
-      },
-      {
-        source: '/faq/inspections',
-        destination: '/services/building-standards-inspection',
-        permanent: true,
-      },
-      {
-        source: '/buyers/inspections-new-construction',
-        destination: '/services/construction-monitoring',
-        permanent: true,
-      },
-      {
-        source: '/buyers/closing-process-guide',
-        destination: '/homebuying-process',
-        permanent: true,
-      },
-      {
-        source: '/online-homebuying',
-        destination: '/homebuying-process',
-        permanent: true,
-      },
+      // Only aliases with no App Router page. Do not 301 /faq/*, /buyers/*,
+      // or /online-homebuying — those routes exist, are in the sitemap, and
+      // Google Search Console listed them as "Page with redirect".
       {
         source: '/contact',
         destination: '/contact-us',
@@ -131,6 +109,15 @@ const nextConfig: NextConfig = {
           {
             key: 'Content-Security-Policy',
             value: contentSecurityPolicy,
+          },
+        ],
+      },
+      {
+        source: '/_next/static/media/:path*',
+        headers: [
+          {
+            key: 'X-Robots-Tag',
+            value: 'noindex, nofollow',
           },
         ],
       },

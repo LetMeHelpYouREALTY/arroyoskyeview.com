@@ -240,6 +240,14 @@ export function siteEntityGraphJsonLd() {
         url: SITE_URL,
         publisher: { '@id': ENTITY_IDS.organization },
         inLanguage: 'en-US',
+        potentialAction: {
+          '@type': 'SearchAction' as const,
+          target: {
+            '@type': 'EntryPoint' as const,
+            urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+          },
+          'query-input': 'required name=search_term_string',
+        },
       },
       organizationEntityJsonLd(),
       personEntityJsonLd(),

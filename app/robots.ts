@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/site-url'
 
-const DISALLOW = ['/api/', '/admin/', '/projects/']
+const DISALLOW = ['/api/', '/admin/', '/projects/', '/_next/static/media/']
 
 export default function robots(): MetadataRoute.Robots {
   return {
