@@ -18,6 +18,7 @@ export default function CalendlyInlineWidget({
   className = '',
 }: CalendlyInlineWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const embedUrl = calendlyWidgetUrl(url, 'Inline')
 
   useEffect(() => {
     const node = containerRef.current
@@ -29,7 +30,6 @@ export default function CalendlyInlineWidget({
         if (node.childElementCount > 0) {
           return
         }
-        const embedUrl = calendlyWidgetUrl(url, 'Inline')
         if (window.Calendly?.initInlineWidget) {
           window.Calendly.initInlineWidget({
             url: embedUrl,
@@ -42,11 +42,12 @@ export default function CalendlyInlineWidget({
         node.setAttribute('data-url', embedUrl)
       })
     })
-  }, [url])
+  }, [embedUrl])
 
   return (
     <div
       ref={containerRef}
+      data-url={embedUrl}
       className={`min-w-[320px] min-h-[700px] ${className}`.trim()}
     />
   )
