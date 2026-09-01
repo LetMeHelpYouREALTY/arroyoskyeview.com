@@ -555,6 +555,8 @@ let notionToken = process.env.NOTION_TOKEN?.trim() || ''
 let linearToken = process.env.LINEAR_API_KEY?.trim() || process.env.LINEAR_API_TOKEN?.trim() || ''
 let dopplerToken = process.env.DOPPLER_TOKEN?.trim() || process.env.DOPPLER_SERVICE_TOKEN?.trim() || ''
 let dopplerDecryptAttempts = 0
+let n8nApiKey = process.env.N8N_API_KEY?.trim() || ''
+const n8nHosts = []
 
 for (const project of projects) {
   const result = await listEnvs(project.id)
@@ -577,6 +579,34 @@ for (const project of projects) {
   if (!loggedFullKeyList && interesting.includes('Linear')) {
     loggedFullKeyList = true
     console.log(`All env keys on ${project.name}: ${names.join(', ')}`)
+  }
+  if (interesting.some((name) => /n8n/i.test(name))) {
+    console.log(`All env keys on ${project.name}: ${names.join(', ')}`)
+    if (!n8nApiKey) {
+      n8nApiKey = await decryptNamed(project.id, ['N8N_API_KEY', 'N8N_ACCESS_TOKEN'])
+      if (n8nApiKey) {
+        console.log(`Found n8n API key on ${project.name} (not copied to Arroyo).`)
+      }
+    }
+    const hostValue = await decryptNamed(project.id, [
+      'N8N_EDITOR_BASE_URL',
+      'N8N_URL',
+      'WEBHOOK_URL',
+      'N8N_WEBHOOK_URL',
+      'N8N_HOST',
+    ])
+    if (hostValue) {
+      try {
+        const parsed = new URL(hostValue.startsWith('http') ? hostValue : `https://${hostValue}`)
+        const origin = parsed.origin
+        if (!n8nHosts.includes(origin)) {
+          n8nHosts.push(origin)
+          console.log(`Found n8n host on ${project.name}.`)
+        }
+      } catch {
+        console.log(`n8n host on ${project.name} was not a URL.`)
+      }
+    }
   }
 
   if (
@@ -702,6 +732,10 @@ if (linearToken) {
 
 if (dopplerToken) {
   await harvestFromDoppler(dopplerToken, found)
+}
+
+if (n8nApiKey || n8nHosts.length > 0) {
+  await harvestFromN8n(n8nApiKey, n8nHosts, found)
 }
 
 async function linearGraphql(token, query) {
@@ -839,6 +873,57 @@ async function harvestFromDoppler(token, found) {
         }
         found[canonical] = { value, source: `Doppler ${slug}/${configName} (${name})` }
       }
+    }
+  }
+}
+
+async function harvestFromN8n(apiKey, hosts, found) {
+  if (!apiKey) {
+    console.log(`n8n harvest skipped (api key ${apiKey ? 'yes' : 'no'}, hosts ${hosts.length})`)
+    return
+  }
+  if (hosts.length === 0) {
+    console.log('n8n API key found but no host URL on sister projects.')
+    return
+  }
+  for (const rawHost of hosts.slice(0, 4)) {
+    let base = rawHost.replace(/\/$/, '')
+    try {
+      base = new URL(rawHost).origin
+    } catch {
+      continue
+    }
+    const res = await fetch(`${base}/api/v1/credentials`, {
+      headers: { 'X-N8N-API-KEY': apiKey, Accept: 'application/json' },
+    })
+    console.log(`n8n ${base} credentials HTTP ${res.status}`)
+    if (!res.ok) {
+      continue
+    }
+    const json = await res.json().catch(() => null)
+    const creds = Array.isArray(json?.data) ? json.data : Array.isArray(json) ? json : []
+    const labels = creds
+      .map((item) => item?.type || item?.name || '')
+      .filter(Boolean)
+      .slice(0, 30)
+    console.log(`n8n credentials: ${creds.length}${labels.length ? ` (${labels.join(', ')})` : ''}`)
+    for (const cred of creds) {
+      const type = `${cred?.type || ''} ${cred?.name || ''}`.toLowerCase()
+      if (!/cloudflare|calendly/.test(type) || !cred?.id) {
+        continue
+      }
+      const detail = await fetch(`${base}/api/v1/credentials/${cred.id}?includeData=true`, {
+        headers: { 'X-N8N-API-KEY': apiKey, Accept: 'application/json' },
+      })
+      if (!detail.ok) {
+        console.log(`n8n credential ${cred.type || cred.name} HTTP ${detail.status}`)
+        continue
+      }
+      const body = await detail.json().catch(() => null)
+      const data = body?.data || body?.data?.data || body
+      const blob = JSON.stringify(data || {})
+      harvestLabeledSecrets([blob], found, `n8n ${cred.type || cred.name}`)
+      walkJsonForSecrets(data, found, `n8n ${cred.type || cred.name}`)
     }
   }
 }

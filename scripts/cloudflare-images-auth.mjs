@@ -194,6 +194,28 @@ function success({ mode, status, headers, email, accountId, token, minted = fals
   return { ok: true, mode, status, headers, email, accountId, token, minted }
 }
 
+async function tryMintedImagesToken(headers, email) {
+  const minted = await mintImagesEditToken(headers)
+  if (!minted.ok) {
+    return null
+  }
+  const mintedHeaders = { Authorization: `Bearer ${minted.token}` }
+  const mintedProbe = await probeImages(mintedHeaders)
+  console.log(`Minted Images token probe HTTP ${probeSummary(mintedProbe)}`)
+  if (!mintedProbe.ok) {
+    return null
+  }
+  return success({
+    mode: 'bearer',
+    status: mintedProbe.status,
+    headers: mintedHeaders,
+    email,
+    accountId: IMAGES_ACCOUNT_ID,
+    token: minted.token,
+    minted: true,
+  })
+}
+
 /**
  * Accept a Cloudflare API token (Bearer), Origin CA service key, or Global
  * API Key. When a credential authenticates as a user but Images:Edit is
@@ -216,24 +238,15 @@ export async function cloudflareImagesCredentialWorks(token, emails) {
   if (looksLikeOriginCaKey(token)) {
     const serviceHeaders = { 'X-Auth-User-Service-Key': token.trim() }
     const images = await probeImages(serviceHeaders)
-    console.log(`Origin CA service key Images HTTP ${probeSummary(images)}`)
+    const user = await probeUser(serviceHeaders)
+    console.log(
+      `Origin CA service key Images HTTP ${probeSummary(images)} /user HTTP ${probeSummary(user)}`,
+    )
+    const minted = await tryMintedImagesToken(serviceHeaders, user.email)
+    if (minted) {
+      return minted
+    }
     if (images.ok) {
-      const minted = await mintImagesEditToken(serviceHeaders)
-      if (minted.ok) {
-        const mintedHeaders = { Authorization: `Bearer ${minted.token}` }
-        const mintedProbe = await probeImages(mintedHeaders)
-        console.log(`Minted Images token probe HTTP ${probeSummary(mintedProbe)}`)
-        if (mintedProbe.ok) {
-          return success({
-            mode: 'bearer',
-            status: mintedProbe.status,
-            headers: mintedHeaders,
-            accountId: IMAGES_ACCOUNT_ID,
-            token: minted.token,
-            minted: true,
-          })
-        }
-      }
       return success({
         mode: 'service',
         status: images.status,
@@ -258,22 +271,9 @@ export async function cloudflareImagesCredentialWorks(token, emails) {
       `Bearer token verify HTTP ${probeSummary(verify)}${verify.statusText ? ` (${verify.statusText})` : ''} /user HTTP ${probeSummary(user)}`,
     )
     if (user.ok || verify.ok) {
-      const minted = await mintImagesEditToken(bearerHeaders)
-      if (minted.ok) {
-        const mintedHeaders = { Authorization: `Bearer ${minted.token}` }
-        const mintedProbe = await probeImages(mintedHeaders)
-        console.log(`Minted Images token probe HTTP ${probeSummary(mintedProbe)}`)
-        if (mintedProbe.ok) {
-          return success({
-            mode: 'bearer',
-            status: mintedProbe.status,
-            headers: mintedHeaders,
-            email: user.email,
-            accountId: IMAGES_ACCOUNT_ID,
-            token: minted.token,
-            minted: true,
-          })
-        }
+      const minted = await tryMintedImagesToken(bearerHeaders, user.email)
+      if (minted) {
+        return minted
       }
     }
   }
@@ -314,22 +314,9 @@ export async function cloudflareImagesCredentialWorks(token, emails) {
     }
 
     if (user.ok) {
-      const minted = await mintImagesEditToken(headers)
-      if (minted.ok) {
-        const mintedHeaders = { Authorization: `Bearer ${minted.token}` }
-        const mintedProbe = await probeImages(mintedHeaders)
-        console.log(`Minted Images token probe HTTP ${probeSummary(mintedProbe)}`)
-        if (mintedProbe.ok) {
-          return success({
-            mode: 'bearer',
-            status: mintedProbe.status,
-            headers: mintedHeaders,
-            email: user.email || email,
-            accountId: IMAGES_ACCOUNT_ID,
-            token: minted.token,
-            minted: true,
-          })
-        }
+      const minted = await tryMintedImagesToken(headers, user.email || email)
+      if (minted) {
+        return minted
       }
     }
 
