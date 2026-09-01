@@ -6,6 +6,8 @@ import {
 } from '@/lib/calendly'
 import { isCalendlyApiConfigured } from '@/lib/calendly-invitee'
 import { isCloudflareImagesHashConfigured } from '@/lib/cloudflare-images'
+import { CLOUDFLARE_IMAGES_ACCOUNT_ID } from '@/lib/cloudflare-images-upload'
+import { probeCloudflareImagesToken } from '@/lib/cloudflare-images-list'
 import { isFollowUpBossConfigured } from '@/lib/fub-client'
 import { getFubPixelId } from '@/lib/fub-pixel-config'
 import { SITE_URL } from '@/lib/site-url'
@@ -49,6 +51,10 @@ export async function GET() {
   const cronSecret = hasEnv('CRON_SECRET')
   const deliveryHash = isCloudflareImagesHashConfigured()
   const hostedConfirmation = await fetchCalendlyHostedConfirmation()
+  const imagesToken = process.env.CLOUDFLARE_API_TOKEN?.trim()
+  const imagesApi = imagesToken
+    ? await probeCloudflareImagesToken(imagesToken, CLOUDFLARE_IMAGES_ACCOUNT_ID)
+    : null
   const hostedRedirectReady =
     followUpBoss &&
     hostedConfirmation?.pointsAtSite === true &&
@@ -62,6 +68,9 @@ export async function GET() {
   }
   if (!cloudflareToken) {
     blockers.push('cloudflare-images-token')
+  }
+  if (imagesApi?.locationRestricted) {
+    blockers.push('cloudflare-images-token-ip-allowlist')
   }
   if (!calendlyConfigured) {
     blockers.push('calendly-pat-or-signing-key')
@@ -88,6 +97,7 @@ export async function GET() {
       cloudflareToken,
       cronSecret,
       deliveryHash,
+      api: imagesApi,
     },
     fubPixel: {
       enabled: Boolean(getFubPixelId()),

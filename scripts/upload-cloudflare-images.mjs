@@ -112,6 +112,13 @@ async function resolveAuth() {
   if (locationRestricted) {
     process.env.CLOUDFLARE_API_TOKEN = locationRestricted.token
     await writeGithubEnv('CLOUDFLARE_IMAGES_AUTH_OK=location-restricted')
+    if (process.env.VERCEL) {
+      authHeaders = locationRestricted.headers
+      console.warn(
+        'Vercel build IP is Cloudflare 9109-blocked (same as GitHub). Attempting Images upload anyway; serverless cron uses different egress.',
+      )
+      return
+    }
     console.warn(
       'GitHub runner IP cannot use this Images token (9109 from location). Skipping upload here. CLOUDFLARE_API_TOKEN stays set so Vercel env upsert and the production build can retry.',
     )

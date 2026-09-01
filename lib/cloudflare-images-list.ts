@@ -187,3 +187,36 @@ export async function fetchCloudflareImagesHash(
   })
   return listed.hash
 }
+
+export type CloudflareImagesTokenProbe = {
+  ok: boolean
+  status: number
+  api: 'v2' | 'v1'
+  code?: number
+  message?: string
+  hash?: string
+  imageCount: number
+  locationRestricted: boolean
+}
+
+/** One Images list call from the current runtime IP (Vercel serverless vs build). */
+export async function probeCloudflareImagesToken(
+  token: string,
+  accountId: string,
+): Promise<CloudflareImagesTokenProbe> {
+  const listed = await listCloudflareImages(token, accountId, {
+    perPage: LIST_PER_PAGE_MIN,
+  })
+  const message = listed.message || ''
+  return {
+    ok: listed.ok,
+    status: listed.status,
+    api: listed.api,
+    code: listed.code,
+    message,
+    hash: listed.hash,
+    imageCount: listed.images.length,
+    locationRestricted:
+      listed.code === 9109 || /from location/i.test(message),
+  }
+}
