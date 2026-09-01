@@ -1,6 +1,6 @@
 'use client'
 
-import { CALENDLY_URL } from '@/lib/calendly'
+import { CALENDLY_URL, CALENDLY_UTM } from '@/lib/calendly'
 
 type CalendlyLinkWidgetProps = {
   text?: string
@@ -18,7 +18,7 @@ export default function CalendlyLinkWidget({
       return
     }
     event.preventDefault()
-    window.Calendly.initPopupWidget({ url })
+    window.Calendly.initPopupWidget({ url, utm: CALENDLY_UTM })
   }
 
   return (

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { CALENDLY_URL } from '@/lib/calendly'
+import { CALENDLY_URL, CALENDLY_UTM } from '@/lib/calendly'
 import { loadCalendlyWidget, whenVisible } from '@/lib/third-party-loaders'
 
 type CalendlyInlineWidgetProps = {
@@ -30,7 +30,11 @@ export default function CalendlyInlineWidget({
           return
         }
         if (window.Calendly?.initInlineWidget) {
-          window.Calendly.initInlineWidget({ url, parentElement: node })
+          window.Calendly.initInlineWidget({
+            url,
+            parentElement: node,
+            utm: CALENDLY_UTM,
+          })
           return
         }
         node.classList.add('calendly-inline-widget')

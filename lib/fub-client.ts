@@ -165,9 +165,37 @@ function personMentionsArroyo(person: FubPersonRecord): boolean {
   return parts.join(' ').toLowerCase().includes('arroyoskyeview')
 }
 
+async function fetchRecentCalendlyPeople(
+  apiKey: string,
+  source: string,
+): Promise<FubPersonRecord[]> {
+  const url = new URL('https://api.followupboss.com/v1/people')
+  url.searchParams.set('limit', '20')
+  url.searchParams.set('sort', '-created')
+  url.searchParams.set('source', source)
+  const response = await fetch(url, {
+    headers: fubHeaders(apiKey),
+    signal: AbortSignal.timeout(8000),
+  })
+  if (!response.ok) {
+    return []
+  }
+  const body: unknown = await response.json().catch(() => null)
+  if (
+    !body ||
+    typeof body !== 'object' ||
+    !Array.isArray((body as { people?: unknown }).people)
+  ) {
+    return []
+  }
+  return (body as { people: unknown[] }).people.filter(isFubPersonRecord)
+}
+
 /**
  * Public go-live evidence only — created timestamp, never names or emails.
  * Native FUB↔Calendly can create people even when this site has no PAT.
+ * Sister sites often source as “Calendly - drjanetduffy.com”; embed utm
+ * should source this site as “Calendly - arroyoskyeview.com”.
  */
 export async function probeFollowUpBossCalendlySource(): Promise<FollowUpBossCalendlySourceProbe | null> {
   const apiKey = followUpBossApiKey()
@@ -176,32 +204,16 @@ export async function probeFollowUpBossCalendlySource(): Promise<FollowUpBossCal
   }
 
   try {
-    const url = new URL('https://api.followupboss.com/v1/people')
-    url.searchParams.set('limit', '20')
-    url.searchParams.set('sort', '-created')
-    url.searchParams.set('source', 'Calendly')
-    const response = await fetch(url, {
-      headers: fubHeaders(apiKey),
-      signal: AbortSignal.timeout(8000),
-    })
-    if (!response.ok) {
-      return {
-        ok: false,
-        latestCreated: null,
-        fromThisSite: false,
-        fromThisSiteCreated: null,
-      }
-    }
-    const body: unknown = await response.json().catch(() => null)
-    const people =
-      body && typeof body === 'object' && Array.isArray((body as { people?: unknown }).people)
-        ? (body as { people: unknown[] }).people.filter(isFubPersonRecord)
-        : []
+    const [generic, fromSiteSource] = await Promise.all([
+      fetchRecentCalendlyPeople(apiKey, 'Calendly'),
+      fetchRecentCalendlyPeople(apiKey, 'Calendly - arroyoskyeview.com'),
+    ])
+    const people = [...fromSiteSource, ...generic]
     const created = people[0]?.created
-    const fromSite = people.find(personMentionsArroyo)
+    const fromSite = people.find(personMentionsArroyo) ?? fromSiteSource[0]
     const fromSiteCreated = fromSite?.created
     return {
-      ok: true,
+      ok: generic.length > 0 || fromSiteSource.length > 0,
       latestCreated: typeof created === 'string' ? created : null,
       fromThisSite: Boolean(fromSite),
       fromThisSiteCreated:

@@ -14,7 +14,7 @@ import {
   onFirstUserIntent,
   whenVisible,
 } from '@/lib/third-party-loaders'
-import { CALENDLY_BADGE, CALENDLY_URL } from '@/lib/calendly'
+import { CALENDLY_BADGE, CALENDLY_URL, CALENDLY_UTM } from '@/lib/calendly'
 
 const GA_MEASUREMENT_ID = 'G-6HBW87EGMR'
 const REALSCOUT_SELECTOR =
@@ -29,6 +29,7 @@ function initCalendlyBadge(): void {
   }
   window.Calendly.initBadgeWidget({
     url: CALENDLY_URL,
+    utm: CALENDLY_UTM,
     ...CALENDLY_BADGE,
   })
 }

@@ -18,6 +18,17 @@ export const CALENDLY_URL = withArroyoCampaign(
   process.env.NEXT_PUBLIC_CALENDLY_URL || DEFAULT_CALENDLY_URL,
 )
 
+/**
+ * Calendly embed `utm` object (in addition to query params on CALENDLY_URL).
+ * Native FUB↔Calendly otherwise sources people as “Calendly - drjanetduffy.com”
+ * and never cites this site.
+ */
+export const CALENDLY_UTM = {
+  utmSource: 'arroyoskyeview.com',
+  utmMedium: 'website',
+  utmCampaign: 'buyer-consultation',
+} as const
+
 /** Calendly event Confirmation page → Redirect here, pass event details. */
 export const CALENDLY_CONFIRMATION_URL = `${SITE_URL}/schedule-confirmed`
 
