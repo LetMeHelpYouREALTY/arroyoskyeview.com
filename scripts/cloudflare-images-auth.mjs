@@ -236,31 +236,44 @@ export async function cloudflareImagesCredentialWorks(token, emails) {
   }
 
   if (looksLikeOriginCaKey(token)) {
-    const serviceHeaders = { 'X-Auth-User-Service-Key': token.trim() }
-    const images = await probeImages(serviceHeaders)
-    const user = await probeUser(serviceHeaders)
-    console.log(
-      `Origin CA service key Images HTTP ${probeSummary(images)} /user HTTP ${probeSummary(user)}`,
-    )
-    const minted = await tryMintedImagesToken(serviceHeaders, user.email)
-    if (minted) {
-      return minted
-    }
-    if (images.ok) {
-      return success({
-        mode: 'service',
-        status: images.status,
-        headers: serviceHeaders,
-        accountId: IMAGES_ACCOUNT_ID,
-        token: token.trim(),
-      })
+    const uniqueEmails = uniqueAuthEmails(emails).slice(0, 3)
+    let lastImages = bearer
+    for (const email of uniqueEmails) {
+      const serviceHeaders = {
+        'X-Auth-User-Service-Key': token.trim(),
+        'X-Auth-Email': email,
+      }
+      const images = await probeImages(serviceHeaders)
+      const user = await probeUser(serviceHeaders)
+      lastImages = images
+      console.log(
+        `Origin CA email=${email}: Images HTTP ${probeSummary(images)} /user HTTP ${probeSummary(user)}`,
+      )
+      const minted = await tryMintedImagesToken(serviceHeaders, user.email || email)
+      if (minted) {
+        return minted
+      }
+      if (images.ok) {
+        return success({
+          mode: 'service',
+          status: images.status,
+          headers: serviceHeaders,
+          email: user.email || email,
+          accountId: IMAGES_ACCOUNT_ID,
+          token: token.trim(),
+        })
+      }
+      if (user.status === 429 || images.status === 429) {
+        console.log('Origin CA rate-limited; stopping further email probes for this key.')
+        break
+      }
     }
     return {
       ok: false,
       mode: 'service',
-      status: images.status,
-      code: images.code,
-      message: images.message,
+      status: lastImages.status,
+      code: lastImages.code,
+      message: lastImages.message,
     }
   }
 
