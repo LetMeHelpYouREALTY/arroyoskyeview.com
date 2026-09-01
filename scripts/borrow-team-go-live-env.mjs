@@ -424,7 +424,7 @@ console.log(`Scanning ${projects.length} Vercel project(s) on the team.`)
 
 const found = {}
 const candidates = {}
-let decryptDenied = 0
+let notionDecryptAttempts = 0
 let readableProjects = 0
 let notionToken = process.env.NOTION_TOKEN?.trim() || ''
 
@@ -440,12 +440,11 @@ for (const project of projects) {
   readableProjects += 1
   const names = result.envs.map((entry) => entry?.key).filter(Boolean)
   const withValues = result.envs.filter((entry) => entryValue(entry)).map((entry) => entry.key)
-  console.log(
-    `Keys on ${project.name}: ${names.join(', ') || '(none)'} (values: ${withValues.length})`,
-  )
   const interesting = interestingKeyNames(names)
   if (interesting.length > 0) {
-    console.log(`Interesting keys on ${project.name}: ${interesting.join(', ')}`)
+    console.log(
+      `Interesting keys on ${project.name}: ${interesting.join(', ')} (values: ${withValues.length})`,
+    )
   }
 
   if (!notionToken && interesting.some((name) => /^notion_/i.test(name))) {
@@ -457,8 +456,6 @@ for (const project of projects) {
     if (value) {
       notionToken = value
       console.log(`Found NOTION_TOKEN on ${project.name} (not copied to Arroyo).`)
-    } else {
-      console.log(`NOTION_TOKEN listed on ${project.name} but decrypt returned empty.`)
     }
   }
 
@@ -594,6 +591,10 @@ if (copied.length === 0) {
 
 for (const key of copied) {
   const { value, source } = found[key]
+  if (value.length > 4096) {
+    console.log(`Skip ${key} from ${source}: value too long to export`)
+    continue
+  }
   console.log(`::add-mask::${value}`)
   console.log(`Copied ${key} from ${source}`)
   if (githubEnv) {
