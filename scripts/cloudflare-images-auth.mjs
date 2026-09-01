@@ -285,7 +285,21 @@ async function tryMintedImagesToken(headers, email, accountId = IMAGES_ACCOUNT_I
   })
 }
 
-function uniqueAccountIds(accounts) {
+async function listCloudflareZones(headers) {
+  const res = await fetch('https://api.cloudflare.com/client/v4/zones?per_page=50', {
+    headers,
+  })
+  const json = await res.json().catch(() => null)
+  const zones = Array.isArray(json?.result) ? json.result : []
+  return {
+    ok: res.ok,
+    status: res.status,
+    zones,
+    ...apiError(json),
+  }
+}
+
+function uniqueAccountIds(accounts, zones) {
   const ids = [IMAGES_ACCOUNT_ID]
   for (const account of accounts) {
     const id = typeof account?.id === 'string' ? account.id : ''
@@ -293,7 +307,24 @@ function uniqueAccountIds(accounts) {
       ids.push(id)
     }
   }
+  for (const zone of zones) {
+    const id = typeof zone?.account?.id === 'string' ? zone.account.id : ''
+    if (id && !ids.includes(id)) {
+      ids.push(id)
+    }
+  }
   return ids.slice(0, 21)
+}
+
+function zoneSummary(zones) {
+  return zones
+    .slice(0, 8)
+    .map((zone) => {
+      const name = typeof zone?.name === 'string' ? zone.name : '?'
+      const accountId = typeof zone?.account?.id === 'string' ? zone.account.id.slice(0, 8) : '?'
+      return `${name}@${accountId}`
+    })
+    .join(', ')
 }
 
 /**
@@ -325,10 +356,11 @@ async function recoverBearerImagesAccess(headers, token, email) {
   }
 
   const listed = await listCloudflareAccounts(headers)
+  const zones = await listCloudflareZones(headers)
   console.log(
-    `Bearer accounts: HTTP ${probeSummary(listed)}, ${listed.accounts.length}`,
+    `Bearer accounts: HTTP ${probeSummary(listed)}, ${listed.accounts.length}; zones HTTP ${probeSummary(zones)}, ${zones.zones.length}${zones.zones.length ? ` (${zoneSummary(zones.zones)})` : ''}`,
   )
-  for (const accountId of uniqueAccountIds(listed.accounts)) {
+  for (const accountId of uniqueAccountIds(listed.accounts, zones.zones)) {
     const probed = await probeImages(headers, accountId)
     console.log(`Images on account ${accountId.slice(0, 8)}…: HTTP ${probeSummary(probed)}`)
     if (probed.ok) {
