@@ -90,7 +90,7 @@ export async function GET() {
   const nextHumanActions: string[] = []
   if (!deliveryHash) {
     nextHumanActions.push(
-      'From any machine already logged into Wrangler on account 2cc579c1ec9e426ed585e933ebf4753b (laptop is fine): checkout cursor/go-live-stack-f7eb and run `npm run images:go-live`. That deploys workers/hosted-images and POSTs /sync on arroyoskyeview-hosted-images.drduffy.workers.dev. Commit lib/cloudflare-images-hash.generated.ts when it is written so production HTML uses imagedelivery.net. This cloud VM can use `npx wrangler login --device` at https://dash.cloudflare.com/oauth2/device/verify if you approve a live 5-minute code. Alternatively mint Account.Cloudflare Images.Edit with no IP allowlist as CLOUDFLARE_API_TOKEN. Do not default the Siena hash until Arroyo custom IDs return 200.',
+      'On a machine already logged into Wrangler for account 2cc579c1ec9e426ed585e933ebf4753b run `npx wrangler deploy --config workers/hosted-images/wrangler.jsonc` then `npm run images:ingest-remote` (branch cursor/go-live-stack-f7eb). The Worker uploads via the Images binding; GitHub/Vercel REST still 9109 on the IP-allowlisted token. After custom IDs return 200, the next production build inlines imagedelivery.net. Alternatively mint Account.Cloudflare Images.Edit with no IP allowlist as CLOUDFLARE_API_TOKEN. Do not default the Siena hash until Arroyo IDs return 200.',
     )
   }
   if (!calendlyConfigured) {
