@@ -34,6 +34,7 @@ const KEYS = [
   'CLOUDFLARE_ACCOUNT_ID',
   'CLOUDFLARE_IMAGES_HASH',
   'NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH',
+  'CLOUDFLARE_WORKERS_SCRIPTS_EDIT',
   'FOLLOW_UP_BOSS_API_KEY',
   'FUB_API_KEY',
   'CALENDLY_API_TOKEN',
@@ -96,6 +97,13 @@ const ALIASES = {
     'CLOUDFLARE_IMAGES_HASH',
     'NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH',
     'NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH',
+  ],
+  CLOUDFLARE_WORKERS_SCRIPTS_EDIT: [
+    'CLOUDFLARE_WORKERS_SCRIPTS_EDIT',
+    'CF_WORKERS_TOKEN',
+    'CLOUDFLARE_WORKERS_TOKEN',
+    'WRANGLER_API_TOKEN',
+    'CLOUDFLARE_WORKERS_API_TOKEN',
   ],
 }
 
@@ -335,6 +343,26 @@ function rememberLocationRestrictedToken(canonical, candidate, probe, fallback) 
     `Remember IP-allowlisted CLOUDFLARE_API_TOKEN from ${candidate.source} (9109 from this runner). Keep scanning sisters for an unrestricted token.`,
   )
   return candidate
+}
+
+function rememberWorkersScriptsToken(candidate, probe, found) {
+  if (!probe?.workersOk) {
+    return
+  }
+  if (found.CLOUDFLARE_WORKERS_SCRIPTS_EDIT || alreadyHave('CLOUDFLARE_WORKERS_SCRIPTS_EDIT')) {
+    return
+  }
+  const token = probe.token || candidate.value
+  if (!token) {
+    return
+  }
+  found.CLOUDFLARE_WORKERS_SCRIPTS_EDIT = {
+    value: token,
+    source: `${candidate.source} Workers Scripts API`,
+  }
+  console.log(
+    `Remember Workers Scripts token from ${candidate.source} (Images REST still unusable). Wrangler can deploy hosted-images.`,
+  )
 }
 
 function rememberCloudflareAccount(found, probe) {
@@ -1250,6 +1278,7 @@ for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ORIGIN_CA_KEY', 'CLOUDFLA
   }
   const probe = await cloudflareImagesCredentialWorks(harvested.value, emailCandidates)
   if (!probe.ok) {
+    rememberWorkersScriptsToken(harvested, probe, found)
     locationRestrictedFallback = rememberLocationRestrictedToken(
       key,
       harvested,
@@ -1283,6 +1312,7 @@ for (const [canonical, bucket] of Object.entries(candidates)) {
     for (const candidate of bucket) {
       const probe = await cloudflareImagesCredentialWorks(candidate.value, emailCandidates)
       if (!probe.ok) {
+        rememberWorkersScriptsToken(candidate, probe, found)
         locationRestrictedFallback = rememberLocationRestrictedToken(
           canonical,
           candidate,

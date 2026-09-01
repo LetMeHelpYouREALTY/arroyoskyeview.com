@@ -82,6 +82,15 @@ async function resolveAuth() {
       )
       process.exit(0)
     }
+    if (probe.workersOk && probe.token) {
+      process.env.CLOUDFLARE_WORKERS_SCRIPTS_EDIT = probe.token
+      await writeGithubEnv(
+        `CLOUDFLARE_WORKERS_SCRIPTS_EDIT<<EOF_WORKERS\n${probe.token}\nEOF_WORKERS`,
+      )
+      console.log(
+        'Bearer can call Workers Scripts API. Exported CLOUDFLARE_WORKERS_SCRIPTS_EDIT for wrangler deploy.',
+      )
+    }
     if (probe.locationRestricted && probe.token) {
       locationRestricted = probe
       console.log(

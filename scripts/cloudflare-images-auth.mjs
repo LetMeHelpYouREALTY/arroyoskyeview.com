@@ -258,17 +258,22 @@ function success({ mode, status, headers, email, accountId, token, minted = fals
 }
 
 /**
- * 9109 "Cannot use the access token from location".
+ * IP allowlist, not missing User.Read.
+ *
+ * 9109 "Cannot use the access token from location" is geneboyle-style CIDR.
  * Vercel iad1 (0bfbff2) returned 401/10000 on list and POST /images/v1 instead.
- * Treat those as the same IP allowlist — do not keep production-deploying
- * solely to retry this token.
+ *
+ * Do NOT treat every 9109 as an allowlist. Scoped tokens (summerlinwest /
+ * pewtervalleyestates) verify HTTP 200 then GET /user 403/9109
+ * "Unauthorized to access requested resource" because they lack User.Read.
+ * Those Bearers can still list Workers or Images from GitHub.
  */
 export function isTokenBlockedByCallerIp(probe) {
   if (!probe) {
     return false
   }
   const message = typeof probe.message === 'string' ? probe.message : ''
-  if (probe.code === 9109 || /from location/i.test(message)) {
+  if (/from location/i.test(message)) {
     return true
   }
   return probe.status === 401 && (probe.code === 10000 || probe.code === 1000)
@@ -350,30 +355,42 @@ function zonePermissionSummary(zones) {
     : `${name} permissions: (none in zone payload)`
 }
 
+async function probeWorkersScripts(headers, accountId) {
+  const res = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${accountId}/workers/scripts?per_page=1`,
+    { headers },
+  )
+  const json = await res.json().catch(() => null)
+  const scripts = Array.isArray(json?.result) ? json.result : []
+  const names = scripts
+    .map((script) => (typeof script?.id === 'string' ? script.id : script?.name))
+    .filter(Boolean)
+    .slice(0, 8)
+  return {
+    ok: res.ok,
+    status: res.status,
+    names,
+    ...apiError(json),
+  }
+}
+
 async function probeAccountSurface(headers, accountId) {
+  const workers = await probeWorkersScripts(headers, accountId)
   const paths = [
-    ['workers', `/accounts/${accountId}/workers/scripts?per_page=1`],
     ['r2', `/accounts/${accountId}/r2/buckets`],
     ['pages', `/accounts/${accountId}/pages/projects?per_page=1`],
   ]
-  const parts = []
+  const parts = [
+    `workers HTTP ${probeSummary(workers)}${workers.names.length ? ` (${workers.names.join(', ')})` : ''}`,
+  ]
   for (const [label, path] of paths) {
     const res = await fetch(`https://api.cloudflare.com/client/v4${path}`, { headers })
     const json = await res.json().catch(() => null)
     const extra = apiError(json)
     parts.push(`${label} HTTP ${probeSummary({ status: res.status, ...extra })}`)
-    if (label === 'workers' && res.ok) {
-      const scripts = Array.isArray(json?.result) ? json.result : []
-      const names = scripts
-        .map((script) => (typeof script?.id === 'string' ? script.id : script?.name))
-        .filter(Boolean)
-        .slice(0, 8)
-      if (names.length) {
-        parts.push(`workers scripts: ${names.join(', ')}`)
-      }
-    }
   }
   console.log(`Account ${accountId.slice(0, 8)}… surface: ${parts.join('; ')}`)
+  return { workersOk: workers.ok }
 }
 
 /**
@@ -381,6 +398,8 @@ async function probeAccountSurface(headers, accountId) {
  * CI 2026-09-01: summerlinwestrealestate / pewtervalleyestates.com tokens
  * verify HTTP 200 (active), /user 403 9109, user permission groups 403.
  * Try Images on every reachable account, then mint an account-owned token.
+ * If Images stay 403 but GET /workers/scripts works, return workersOk so
+ * CI can wrangler-deploy hosted-images (Images binding, no REST token).
  */
 async function recoverBearerImagesAccess(headers, token, email) {
   console.log(`Bearer token len=${token.length}; trying verify + account Images mint`)
@@ -410,6 +429,11 @@ async function recoverBearerImagesAccess(headers, token, email) {
   if (!verify.ok && !user.ok) {
     return null
   }
+
+  let workersOk = false
+  const workers = await probeWorkersScripts(headers, IMAGES_ACCOUNT_ID)
+  console.log(`Workers scripts on default account: HTTP ${probeSummary(workers)}`)
+  workersOk = workers.ok
 
   const userMinted = await tryMintedImagesToken(
     headers,
@@ -442,7 +466,12 @@ async function recoverBearerImagesAccess(headers, token, email) {
         token,
       })
     }
-    await probeAccountSurface(headers, accountId)
+    if (!workersOk) {
+      const surface = await probeAccountSurface(headers, accountId)
+      if (surface.workersOk) {
+        workersOk = true
+      }
+    }
     const minted = await tryMintedImagesToken(
       headers,
       user.email || email,
@@ -453,6 +482,22 @@ async function recoverBearerImagesAccess(headers, token, email) {
       return minted
     }
   }
+
+  if (workersOk) {
+    console.log(
+      'Bearer has Workers Scripts API access but not Images REST. Export for wrangler deploy of hosted-images.',
+    )
+    return {
+      ok: false,
+      workersOk: true,
+      mode: 'bearer',
+      status: 403,
+      token,
+      headers,
+      accountId: IMAGES_ACCOUNT_ID,
+    }
+  }
+
   console.log('Bearer recovery failed: no Images access and account-owned mint denied')
   return null
 }
