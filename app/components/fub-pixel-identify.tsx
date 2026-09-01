@@ -1,17 +1,22 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 type FubPixelIdentifyProps = {
   email?: string
+  name?: string
+  phone?: string
 }
 
 /**
- * Identifies an existing Follow Up Boss contact from the confirmation URL.
- * New contacts still need the Events API (`/api/calendly/webhook` or
- * confirmation `after()` sync). No HTML form — marketing pages stay Calendly-only.
+ * Identifies a Follow Up Boss contact from the Calendly confirmation URL and
+ * submits a visually hidden form so Pixel form-capture can create a new lead
+ * when Events API keys are not set. Marketing pages stay Calendly-only.
  */
-export default function FubPixelIdentify({ email }: FubPixelIdentifyProps) {
+export default function FubPixelIdentify({ email, name, phone }: FubPixelIdentifyProps) {
+  const formRef = useRef<HTMLFormElement>(null)
+  const submitted = useRef(false)
+
   useEffect(() => {
     if (!email) {
       return
@@ -21,18 +26,59 @@ export default function FubPixelIdentify({ email }: FubPixelIdentifyProps) {
     const timer = window.setInterval(() => {
       attempts += 1
       const tracker = window.widgetTracker
-      if (typeof tracker === 'function') {
-        tracker('set', 'email', email)
-        window.clearInterval(timer)
+      if (typeof tracker !== 'function') {
+        if (attempts >= 20) {
+          window.clearInterval(timer)
+        }
         return
       }
-      if (attempts >= 20) {
-        window.clearInterval(timer)
+
+      tracker('set', 'email', email)
+      if (name) {
+        tracker('set', 'name', name)
       }
+      if (phone) {
+        tracker('set', 'phone', phone)
+      }
+      if (!submitted.current && formRef.current) {
+        submitted.current = true
+        formRef.current.requestSubmit()
+      }
+      window.clearInterval(timer)
     }, 250)
 
     return () => window.clearInterval(timer)
-  }, [email])
+  }, [email, name, phone])
 
-  return null
+  if (!email) {
+    return null
+  }
+
+  return (
+    <form
+      ref={formRef}
+      className="sr-only"
+      aria-hidden="true"
+      tabIndex={-1}
+      onSubmit={(event) => {
+        event.preventDefault()
+      }}
+    >
+      <label htmlFor="fub-pixel-email">Email</label>
+      <input id="fub-pixel-email" name="email" type="email" value={email} readOnly />
+      {name ? (
+        <>
+          <label htmlFor="fub-pixel-name">Name</label>
+          <input id="fub-pixel-name" name="name" type="text" value={name} readOnly />
+        </>
+      ) : null}
+      {phone ? (
+        <>
+          <label htmlFor="fub-pixel-phone">Phone</label>
+          <input id="fub-pixel-phone" name="phone" type="tel" value={phone} readOnly />
+        </>
+      ) : null}
+      <button type="submit">Record booking</button>
+    </form>
+  )
 }

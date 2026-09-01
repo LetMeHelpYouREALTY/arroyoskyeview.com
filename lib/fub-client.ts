@@ -16,6 +16,20 @@ function fubAuthHeader(apiKey: string): string {
   return `Basic ${Buffer.from(`${apiKey}:`).toString('base64')}`
 }
 
+function fubHeaders(apiKey: string): Record<string, string> {
+  const headers: Record<string, string> = {
+    Authorization: fubAuthHeader(apiKey),
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    'X-System': 'arroyoskyeview.com',
+  }
+  const systemKey = process.env.FUB_X_SYSTEM_KEY?.trim()
+  if (systemKey) {
+    headers['X-System-Key'] = systemKey
+  }
+  return headers
+}
+
 function personIdFromEventResponse(body: unknown): number | undefined {
   if (!body || typeof body !== 'object') {
     return undefined
@@ -36,11 +50,7 @@ async function applyBuyerRegistrationPlan(
 ): Promise<void> {
   await fetch('https://api.followupboss.com/v1/actionPlansPeople', {
     method: 'POST',
-    headers: {
-      Authorization: fubAuthHeader(apiKey),
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
+    headers: fubHeaders(apiKey),
     body: JSON.stringify({
       personId,
       actionPlanId: FUB_BUYER_WEBSITE_REGISTRATION_PLAN_ID,
@@ -64,11 +74,7 @@ export async function sendCalendlyLeadToFollowUpBoss(
   const payload = buildCalendlyFubEvent(input)
   const response = await fetch('https://api.followupboss.com/v1/events', {
     method: 'POST',
-    headers: {
-      Authorization: fubAuthHeader(apiKey),
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
+    headers: fubHeaders(apiKey),
     body: JSON.stringify(payload),
   })
 

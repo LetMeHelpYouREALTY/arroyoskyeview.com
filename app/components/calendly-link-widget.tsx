@@ -23,7 +23,7 @@ export default function CalendlyLinkWidget({
   }
 
   return (
-    <a href={url} onClick={openPopup} className={className}>
+    <a href="/schedule" onClick={openPopup} className={className}>
       {text}
     </a>
   )

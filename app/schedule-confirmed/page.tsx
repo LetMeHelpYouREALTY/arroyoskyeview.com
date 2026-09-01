@@ -83,7 +83,11 @@ export default async function ScheduleConfirmedPage({
       }
       footerSuppressRealScout
     >
-      <FubPixelIdentify email={pixelEmail} />
+      <FubPixelIdentify
+        email={pixelEmail}
+        name={lead?.inviteeName}
+        phone={lead?.inviteePhone}
+      />
       <PageContent className="max-w-3xl">
         <h1 className="font-serif text-3xl font-light tracking-tight text-foreground md:text-4xl">
           You are on the calendar
