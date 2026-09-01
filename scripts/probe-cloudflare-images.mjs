@@ -6,6 +6,7 @@
 import { readdir } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { isRasterImageFile } from './raster-image.mjs'
 
 const HASH = process.env.NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH?.trim() || 'byE6BTe9lNqo21V57n4aPQ'
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'public', 'images')
@@ -32,7 +33,13 @@ function customId(fullPath) {
   return relative.replace(/\.[^.]+$/, '')
 }
 
-const files = await walk(ROOT)
+const candidates = await walk(ROOT)
+const files = []
+for (const file of candidates) {
+  if (await isRasterImageFile(file)) {
+    files.push(file)
+  }
+}
 let ok = 0
 let missing = 0
 for (const file of files) {

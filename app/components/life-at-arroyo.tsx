@@ -4,14 +4,14 @@ import { siteImage } from '@/lib/cloudflare-images'
 export default function LifeAtArroyo() {
   const scenes = [
     {
-      src: siteImage('/images/hero/hero-14.jpg'),
-      alt: 'Arroyo at Skyeview townhomes in Skye Canyon, northwest Las Vegas ZIP 89166',
+      src: siteImage('/images/hero/luxury-hero-skye-canyon.jpg'),
+      alt: 'Aerial view of Arroyo at Skyeview townhomes in Skye Canyon, northwest Las Vegas ZIP 89166',
       caption: 'Two-story townhomes in Skye Canyon',
     },
     {
-      src: siteImage('/images/hero/hero-10.jpg'),
-      alt: 'Skye Canyon master-planned community amenities near Arroyo at Skyeview',
-      caption: 'Skye Canyon amenities and trails',
+      src: siteImage('/images/homes/homes-2.jpg'),
+      alt: 'Arroyo at Skyeview townhome exterior in Skye Canyon, northwest Las Vegas',
+      caption: 'Townhome exteriors in Skye Canyon',
     },
     {
       src: siteImage('/images/homes/homes-1.jpg'),

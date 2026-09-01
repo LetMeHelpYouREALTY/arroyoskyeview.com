@@ -17,8 +17,14 @@
 const DEFAULT_VARIANT = 'public'
 const DEFAULT_HOST = 'https://imagedelivery.net'
 
+function readEnv(name: string): string | undefined {
+  // Bracket access so Next.js does not inline an empty string at build time.
+  const value = process.env[name]
+  return typeof value === 'string' && value.trim() ? value.trim() : undefined
+}
+
 function imagesHost(): string {
-  const host = process.env.NEXT_PUBLIC_CLOUDFLARE_IMAGES_HOST?.trim()
+  const host = readEnv('NEXT_PUBLIC_CLOUDFLARE_IMAGES_HOST')
   if (host) {
     return host.replace(/\/$/, '')
   }
@@ -30,12 +36,7 @@ export function isCloudflareImagesHashConfigured(): boolean {
 }
 
 function accountHash(): string | undefined {
-  const runtimeHash = process.env.CLOUDFLARE_IMAGES_HASH?.trim()
-  if (runtimeHash) {
-    return runtimeHash
-  }
-  const publicHash = process.env.NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH?.trim()
-  return publicHash || undefined
+  return readEnv('CLOUDFLARE_IMAGES_HASH') || readEnv('NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH')
 }
 
 /** Custom ID derived from a local public path, e.g. images/hero/hero-5 */

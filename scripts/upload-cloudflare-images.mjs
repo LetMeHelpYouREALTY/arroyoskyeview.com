@@ -19,6 +19,7 @@
 import { readdir, readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { isRasterImageFile } from './raster-image.mjs'
 
 /** Public Cloudflare account id (Images) shared across Dr. Jan Duffy sites. */
 const DEFAULT_ACCOUNT_ID = '2cc579c1ec9e426ed585e933ebf4753b'
@@ -110,9 +111,17 @@ async function fetchAccountHash() {
 }
 
 async function main() {
-  const files = await walk(ROOT)
+  const candidates = await walk(ROOT)
+  const files = []
+  for (const file of candidates) {
+    if (await isRasterImageFile(file)) {
+      files.push(file)
+      continue
+    }
+    console.log(`SKIP ${customId(file)} (not a raster image)`)
+  }
   if (files.length === 0) {
-    console.error(`No images found under ${ROOT}`)
+    console.error(`No raster images found under ${ROOT}`)
     process.exit(1)
   }
 

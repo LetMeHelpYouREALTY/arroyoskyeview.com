@@ -12,10 +12,10 @@ export const LUXURY_COLORS = {
 } as const
 
 export const LUXURY_HERO_IMAGE = siteImage(
-  '/images/hero/luxury-hero-skye-canyon.png',
+  '/images/hero/luxury-hero-skye-canyon.jpg',
   'images/hero/luxury-hero-skye-canyon',
 )
 export const LUXURY_HERO_FALLBACK = siteImage(
-  '/images/hero/hero-5.jpg',
-  'images/hero/hero-5',
+  '/images/hero/luxury-hero-skye-canyon.jpg',
+  'images/hero/luxury-hero-skye-canyon',
 )
