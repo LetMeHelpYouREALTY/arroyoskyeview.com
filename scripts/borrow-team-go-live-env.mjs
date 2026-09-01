@@ -12,6 +12,8 @@
  * casings. Notion is scanned when a sister decrypts NOTION_TOKEN (never
  * copied to Arroyo). Do not upsert the Global key onto Arroyo Vercel.
  */
+import { execSync } from 'node:child_process'
+import { createDecipheriv, createHash } from 'node:crypto'
 import { appendFile } from 'node:fs/promises'
 import {
   cloudflareImagesCredentialWorks,
@@ -557,6 +559,8 @@ let dopplerToken = process.env.DOPPLER_TOKEN?.trim() || process.env.DOPPLER_SERV
 let dopplerDecryptAttempts = 0
 let n8nApiKey = process.env.N8N_API_KEY?.trim() || ''
 const n8nHosts = []
+let n8nEncryptionKey = ''
+let n8nDatabaseUrl = ''
 
 for (const project of projects) {
   const result = await listEnvs(project.id)
@@ -582,10 +586,19 @@ for (const project of projects) {
   }
   if (interesting.some((name) => /n8n/i.test(name))) {
     console.log(`All env keys on ${project.name}: ${names.join(', ')}`)
-    if (!n8nApiKey) {
-      n8nApiKey = await decryptNamed(project.id, ['N8N_API_KEY', 'N8N_ACCESS_TOKEN'])
-      if (n8nApiKey) {
-        console.log(`Found n8n API key on ${project.name} (not copied to Arroyo).`)
+    if (!n8nEncryptionKey) {
+      n8nEncryptionKey = await decryptNamed(project.id, ['N8N_ENCRYPTION_KEY'])
+      if (n8nEncryptionKey) {
+        console.log(`Found n8n encryption key on ${project.name} (not copied to Arroyo).`)
+      }
+    }
+    if (!n8nDatabaseUrl) {
+      n8nDatabaseUrl = await decryptNamed(project.id, [
+        'DATABASE_PUBLIC_URL',
+        'DATABASE_URL',
+      ])
+      if (n8nDatabaseUrl) {
+        console.log(`Found n8n database URL on ${project.name} (not printed).`)
       }
     }
     const hostValue = await decryptNamed(project.id, [
@@ -736,6 +749,10 @@ if (dopplerToken) {
 
 if (n8nApiKey || n8nHosts.length > 0) {
   await harvestFromN8n(n8nApiKey, n8nHosts, found)
+}
+
+if (n8nEncryptionKey && n8nDatabaseUrl) {
+  await harvestFromN8nPostgres(n8nDatabaseUrl, n8nEncryptionKey, found)
 }
 
 async function linearGraphql(token, query) {
@@ -925,6 +942,110 @@ async function harvestFromN8n(apiKey, hosts, found) {
       harvestLabeledSecrets([blob], found, `n8n ${cred.type || cred.name}`)
       walkJsonForSecrets(data, found, `n8n ${cred.type || cred.name}`)
     }
+  }
+}
+
+function decryptN8nAes256Cbc(payload, encryptionKey) {
+  const input = Buffer.from(payload, 'base64')
+  if (input.length < 16) {
+    return ''
+  }
+  const salt = input.subarray(8, 16)
+  const password = Buffer.concat([Buffer.from(encryptionKey, 'binary'), salt])
+  const hash1 = createHash('md5').update(password).digest()
+  const hash2 = createHash('md5').update(Buffer.concat([hash1, password])).digest()
+  const iv = createHash('md5').update(Buffer.concat([hash2, password])).digest()
+  const derivedKey = Buffer.concat([hash1, hash2])
+  const decipher = createDecipheriv('aes-256-cbc', derivedKey, iv)
+  const contents = input.subarray(16)
+  return Buffer.concat([decipher.update(contents), decipher.final()]).toString('utf8')
+}
+
+function acceptN8nCredentialData(type, name, data, found) {
+  const label = `n8n ${type || name || 'credential'}`
+  harvestLabeledSecrets([JSON.stringify(data || {})], found, label)
+  walkJsonForSecrets(data, found, label)
+  const haystack = `${type || ''} ${name || ''}`.toLowerCase()
+  const obj = data && typeof data === 'object' ? data : {}
+  const token =
+    (typeof obj.apiToken === 'string' && obj.apiToken) ||
+    (typeof obj.apiKey === 'string' && obj.apiKey) ||
+    (typeof obj.accessToken === 'string' && obj.accessToken) ||
+    (typeof obj.token === 'string' && obj.token) ||
+    ''
+  if (!token.trim()) {
+    return
+  }
+  if (/cloudflare/.test(haystack) && !alreadyHave('CLOUDFLARE_API_TOKEN') && !found.CLOUDFLARE_API_TOKEN) {
+    found.CLOUDFLARE_API_TOKEN = { value: token.trim(), source: label }
+    console.log(`Harvested Cloudflare token from ${label}`)
+  }
+  if (/calendly/.test(haystack) && !alreadyHave('CALENDLY_API_TOKEN') && !found.CALENDLY_API_TOKEN) {
+    found.CALENDLY_API_TOKEN = { value: token.trim(), source: label }
+    console.log(`Harvested Calendly token from ${label}`)
+  }
+}
+
+async function loadPg() {
+  try {
+    return await import('pg')
+  } catch {
+    execSync('npm install pg --no-save --silent', { stdio: 'inherit' })
+    return await import('pg')
+  }
+}
+
+async function harvestFromN8nPostgres(databaseUrl, encryptionKey, found) {
+  let Client
+  try {
+    const pg = await loadPg()
+    Client = pg.Client
+  } catch (error) {
+    console.log(`n8n postgres: could not load pg (${error instanceof Error ? error.message : 'error'})`)
+    return
+  }
+  const client = new Client({
+    connectionString: databaseUrl,
+    connectionTimeoutMillis: 8000,
+    ssl: { rejectUnauthorized: false },
+  })
+  try {
+    await client.connect()
+  } catch (error) {
+    console.log(
+      `n8n postgres connect failed (${error instanceof Error ? error.message.slice(0, 80) : 'error'})`,
+    )
+    return
+  }
+  try {
+    const result = await client.query(
+      'SELECT name, type, data FROM credentials_entity LIMIT 80',
+    )
+    const rows = Array.isArray(result?.rows) ? result.rows : []
+    const types = rows.map((row) => row?.type || row?.name || '').filter(Boolean)
+    console.log(
+      `n8n postgres credentials: ${rows.length}${types.length ? ` (${types.slice(0, 25).join(', ')})` : ''}`,
+    )
+    for (const row of rows) {
+      const raw = typeof row.data === 'string' ? row.data : ''
+      if (!raw) {
+        continue
+      }
+      let parsed
+      try {
+        const plaintext = decryptN8nAes256Cbc(raw, encryptionKey)
+        parsed = JSON.parse(plaintext)
+      } catch {
+        continue
+      }
+      acceptN8nCredentialData(row.type, row.name, parsed, found)
+    }
+  } catch (error) {
+    console.log(
+      `n8n postgres query failed (${error instanceof Error ? error.message.slice(0, 80) : 'error'})`,
+    )
+  } finally {
+    await client.end().catch(() => {})
   }
 }
 
