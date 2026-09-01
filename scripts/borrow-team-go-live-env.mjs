@@ -59,26 +59,39 @@ const ALIASES = {
 /** Sister projects most likely to already have Images / FUB / Calendly keys. */
 const PROJECTS = [
   { id: 'prj_4cKj3PWQYacJOBsrmSeWfkONU6Wm', name: 'arroyoskyeview.com' },
+  { id: 'prj_xZmrAjHZjKncFudRykf1hDaLVvtB', name: 'drjanduffy.com' },
   { id: 'prj_vrMcC3LsxgF3yf51M06TdeYUI24j', name: 'sienalasvegas.com' },
   { id: 'prj_Egvst53Qns0tSJ0K5cqfbicv2MIj', name: 'hertagestonebridge.com' },
-  { id: 'prj_SZWSyg5C0N9pEzeLoHQNtSYo4U0L', name: 'mesaskyeview-com' },
   { id: 'prj_4h22EmvSku2lGaqMJICZ4F4dWMci', name: 'villagestulesprings.com' },
+  { id: 'prj_SZWSyg5C0N9pEzeLoHQNtSYo4U0L', name: 'mesaskyeview-com' },
   { id: 'prj_yqEdVMMf80FUnFC8sdo3YZyT1fAB', name: 'providencelasvegas.com' },
   { id: 'prj_adBpYedAsrNmRAe7mZQhPrhOQUOx', name: 'ironmountainranchlasvegas-com' },
   { id: 'prj_XSQcFHSlv16uyGR0vQxAokNky9Em', name: 'townesunionvillage.com' },
   { id: 'prj_zPQHYgfe5kwPxzxGAF3Hy5Wt9QiL', name: 'anthemhenderson-com' },
   { id: 'prj_1stBQmZJKMVcoH85G3bggNCVFr0t', name: 'summerlinwesthomes-com' },
   { id: 'prj_ssXC2GDDK31BEgguytzs7H4dQepP', name: 'vegas55plushomes.com' },
-  { id: 'prj_kTz2rCHAVLMutQA6DDGv7nskA39Q', name: 'suncitysummerlinhomesforsale-com' },
-  { id: 'prj_OKsb5CSYTYncUOJecJz8craMKgUU', name: 'inspiradahomes.com' },
+  { id: 'prj_0RZw34lbC34PRwztLG5bqduiRxwY', name: 'aliantehomesforsale.com' },
+  { id: 'prj_uzgEko8BNfpKr4HP4pktBSBd3XMx', name: 'lone-mountain-homes-cydw' },
+  { id: 'prj_nfZl8JIWImhfJjjnwfS0wVQ56LJl', name: 'lonemountainvistas.com' },
+  { id: 'prj_YCuKEqNcUDlG6BdaesCckgyzMnU4', name: 'delwebbnorthranchhomes.com' },
+  { id: 'prj_ywWvx5BgFs8fabs1ovPepf3LwJRW', name: 'zoomintohomes-com' },
   { id: 'prj_JLGCPPn46Oc7XqNNxl2cTShiczXg', name: 'letmehelpyourealtor-com' },
+  { id: 'prj_OKsb5CSYTYncUOJecJz8craMKgUU', name: 'inspiradahomes.com' },
+  { id: 'prj_kTz2rCHAVLMutQA6DDGv7nskA39Q', name: 'suncitysummerlinhomesforsale-com' },
   { id: 'prj_V5549R7k5GyeTVngaNVzDEr8UqAL', name: 'trilogysunstonehomes' },
   { id: 'prj_PcVsODtPjvyUQCg4hStpyILEbYFh', name: 'sandstonetulessprings' },
   { id: 'prj_UPf2vK6xEdnz02NkWKgvaZcqnZrX', name: 'rhodesranchlasvegas.com' },
   { id: 'prj_cgzb65mf2GDFh37vU9hPWQ2TGJ6m', name: 'midtownvegascondos-com' },
   { id: 'prj_cAI32rOSAZCdPeMMOdoLnlsd378x', name: 'madeiracanyonhomes-com' },
+  { id: 'prj_TLj1w6420Kpz0J6jm1zWFnIdCYd1', name: 'elkhorn-springs-las-vegas' },
   { id: 'prj_f00T6IobVyA0nhUmwIWTwKJbEnFq', name: 'californiaforeverrealty-com' },
   { id: 'prj_1oa9Zoow76266yZcUC5Z4LWyITfk', name: 'lasvegasfamilyhomes-com' },
+  { id: 'prj_2f9IWa9d0yhPmnDmvpBei0PQ2sNS', name: 'grandparkvillagehomes-com' },
+  { id: 'prj_GrBoYN6AKCR5KYCMqIvM4Jg1zQHf', name: 'arieshenderson.com' },
+  { id: 'prj_2kChhUalaDgjNusFzNRg955DaRMO', name: 'macdonaldhighlandshomes.com' },
+  { id: 'prj_pUOjYbbN2KGic5l1kGKUx78sXG62', name: 'reverencesummerlinhomes' },
+  { id: 'prj_ra6l2Wk7J5q10hO1AQdIMlwAXsRw', name: 'sunstonewoodsidehomes.com' },
+  { id: 'prj_Di671TiJBWZ5k2bN6OKUeyohj8vc', name: 'mesquiteestates.com' },
 ]
 
 function alreadyHave(key) {
@@ -103,6 +116,16 @@ function entryValue(entry) {
 
 function prefersProduction(entry) {
   return Array.isArray(entry?.target) && entry.target.includes('production')
+}
+
+const IMAGES_ACCOUNT_ID = '2cc579c1ec9e426ed585e933ebf4753b'
+
+async function cloudflareImagesTokenWorks(token) {
+  const res = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${IMAGES_ACCOUNT_ID}/images/v1?per_page=1`,
+    { headers: { Authorization: `Bearer ${token}` } },
+  )
+  return { ok: res.ok, status: res.status }
 }
 
 async function vercelGet(path) {
@@ -222,6 +245,10 @@ for (const project of PROJECTS) {
   console.log(
     `Keys on ${project.name}: ${names.join(', ') || '(none)'} (values: ${withValues.length})`,
   )
+  const calendlyKeys = names.filter((name) => /calendly/i.test(name))
+  if (calendlyKeys.length > 0) {
+    console.log(`Calendly-related keys on ${project.name}: ${calendlyKeys.join(', ')}`)
+  }
   for (const [canonical, namesForKey] of Object.entries(ALIASES)) {
     if (alreadyHave(canonical) || found[canonical]) {
       continue
@@ -240,6 +267,15 @@ for (const project of PROJECTS) {
     }
     if (!value) {
       continue
+    }
+    if (canonical === 'CLOUDFLARE_API_TOKEN' || canonical === 'CLOUDFLARE_GLOBAL_API_TOKEN') {
+      const probe = await cloudflareImagesTokenWorks(value)
+      if (!probe.ok) {
+        console.log(
+          `Skip ${canonical} from ${project.name}: Images HTTP ${probe.status}`,
+        )
+        continue
+      }
     }
     found[canonical] = {
       value,
