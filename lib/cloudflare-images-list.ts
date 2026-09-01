@@ -6,6 +6,8 @@
  * Both require per_page between 10 and 10000.
  */
 
+import { CLOUDFLARE_IMAGE_PUBLIC_PATHS } from '@/lib/cloudflare-image-manifest'
+
 export const CLOUDFLARE_IMAGES_CREATOR = 'arroyoskyeview.com'
 
 /** Public hash on sienalasvegas.com. Probe-only until Arroyo custom IDs return 200. */
@@ -293,6 +295,10 @@ async function deliveryStatus(hash: string, imageId: string): Promise<number> {
   }
 }
 
+function customIdFromPath(localPath: string): string {
+  return localPath.replace(/^\/+/, '').replace(/\.[^.]+$/, '')
+}
+
 /** Public imagedelivery.net check — no API token. Do not default this hash on 404. */
 export async function probeArroyoCustomIds(
   hash: string = TEAM_CLOUDFLARE_IMAGES_HASH,
@@ -302,4 +308,40 @@ export async function probeArroyoCustomIds(
     deliveryStatus(hash, 'images/brand/dr-jan-duffy'),
   ])
   return { hash, hero, brand }
+}
+
+export type CloudflareManifestIdProbe = {
+  hash: string
+  ready: number
+  total: number
+  ok: boolean
+}
+
+const MANIFEST_PROBE_CONCURRENCY = 8
+
+/**
+ * Probe every raster custom ID. Use this before inlining imagedelivery.net
+ * src attributes so floor-plan and home photos do not 404 while ingest runs.
+ */
+export async function probeManifestCustomIds(
+  hash: string = TEAM_CLOUDFLARE_IMAGES_HASH,
+): Promise<CloudflareManifestIdProbe> {
+  const statuses: number[] = []
+  for (let i = 0; i < CLOUDFLARE_IMAGE_PUBLIC_PATHS.length; i += MANIFEST_PROBE_CONCURRENCY) {
+    const batch = CLOUDFLARE_IMAGE_PUBLIC_PATHS.slice(
+      i,
+      i + MANIFEST_PROBE_CONCURRENCY,
+    )
+    const batchStatuses = await Promise.all(
+      batch.map((localPath) => deliveryStatus(hash, customIdFromPath(localPath))),
+    )
+    statuses.push(...batchStatuses)
+  }
+  const ready = statuses.filter((status) => status === 200).length
+  return {
+    hash,
+    ready,
+    total: CLOUDFLARE_IMAGE_PUBLIC_PATHS.length,
+    ok: ready === CLOUDFLARE_IMAGE_PUBLIC_PATHS.length,
+  }
 }

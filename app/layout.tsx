@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Playfair_Display } from 'next/font/google'
 import { SITE_URL } from '@/lib/site-url'
+import { getCachedArroyoHostedImagesHash } from '@/lib/cloudflare-images-ready'
 import StructuredData from './components/structured-data'
 import PreconnectLinks from './components/preconnect-links'
 import CalendlyFubBridge from './components/calendly-fub-bridge'
+import { CloudflareImagesProvider } from './components/cloudflare-images-provider'
 import DeferredThirdParties from './components/deferred-third-parties'
 import SkipToMain from './components/skip-to-main'
 import './globals.css'
@@ -89,11 +91,12 @@ export const viewport: Viewport = {
   userScalable: true,
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const hostedImagesHash = await getCachedArroyoHostedImagesHash()
   return (
     <html lang="en">
       <head>
@@ -102,11 +105,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${playfair.variable} antialiased`}
       >
-        <StructuredData />
-        <DeferredThirdParties />
-        <CalendlyFubBridge />
-        <SkipToMain />
-        {children}
+        <CloudflareImagesProvider hash={hostedImagesHash}>
+          <StructuredData />
+          <DeferredThirdParties />
+          <CalendlyFubBridge />
+          <SkipToMain />
+          {children}
+        </CloudflareImagesProvider>
       </body>
     </html>
   )

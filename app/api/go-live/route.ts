@@ -10,6 +10,7 @@ import { CLOUDFLARE_IMAGES_ACCOUNT_ID } from '@/lib/cloudflare-images-upload'
 import {
   probeArroyoCustomIds,
   probeCloudflareImagesToken,
+  probeManifestCustomIds,
 } from '@/lib/cloudflare-images-list'
 import {
   isFollowUpBossConfigured,
@@ -88,13 +89,14 @@ export async function GET() {
   const cronSecret = hasEnv('CRON_SECRET')
   const deliveryHash = isCloudflareImagesHashConfigured()
   const imagesToken = process.env.CLOUDFLARE_API_TOKEN?.trim()
-  const [hostedConfirmation, imagesApi, customIds, fubCalendlySource, hostedWorker] =
+  const [hostedConfirmation, imagesApi, customIds, manifestIds, fubCalendlySource, hostedWorker] =
     await Promise.all([
       fetchCalendlyHostedConfirmation(),
       imagesToken
         ? probeCloudflareImagesToken(imagesToken, CLOUDFLARE_IMAGES_ACCOUNT_ID)
         : Promise.resolve(null),
       probeArroyoCustomIds(),
+      probeManifestCustomIds(),
       probeFollowUpBossCalendlySource(),
       probeHostedImagesWorker(),
     ])
@@ -105,8 +107,9 @@ export async function GET() {
   const embedOrWebhookReady =
     followUpBoss && (calendlySigningKey || calendlyApiToken)
   const calendlyConfigured = embedOrWebhookReady || hostedRedirectReady
+  const imagesHtmlReady = deliveryHash || manifestIds.ok
   const blockers: string[] = []
-  if (!deliveryHash) {
+  if (!imagesHtmlReady) {
     blockers.push('cloudflare-images-hash')
   }
   if (!cloudflareToken) {
@@ -120,9 +123,9 @@ export async function GET() {
   }
 
   const nextHumanActions: string[] = []
-  if (!deliveryHash) {
+  if (!imagesHtmlReady) {
     nextHumanActions.push(
-      'Deploy workers/hosted-images on Cloudflare account 2cc579c1ec9e426ed585e933ebf4753b. One click: https://deploy.workers.cloudflare.com/?url=https://github.com/LetMeHelpYouREALTY/arroyoskyeview.com/tree/cursor/go-live-stack-f7eb/workers/hosted-images (sign in as Duffy). Laptop: `npx wrangler deploy --config workers/hosted-images/wrangler.jsonc`. Dashboard: Workers & Pages → Create → Import this repo → root workers/hosted-images. Cron ingest runs every 5 minutes via the Images binding. After every custom ID returns 200, Production CI inlines homepage <img src>. Alternatively mint Account.Cloudflare Images.Edit with no IP allowlist as CLOUDFLARE_API_TOKEN. Do not default the Siena hash until Arroyo IDs return 200.',
+      'Deploy workers/hosted-images on Cloudflare account 2cc579c1ec9e426ed585e933ebf4753b. One click: https://deploy.workers.cloudflare.com/?url=https://github.com/LetMeHelpYouREALTY/arroyoskyeview.com/tree/cursor/go-live-stack-f7eb/workers/hosted-images (sign in as Duffy). Laptop: `npx wrangler deploy --config workers/hosted-images/wrangler.jsonc`. Dashboard: Workers & Pages → Create → Import this repo → root workers/hosted-images. Cron ingest runs every 5 minutes via the Images binding. After every custom ID returns 200, the site emits homepage <img src> on imagedelivery.net (layout probe, 60s cache) without another hash file. Alternatively mint Account.Cloudflare Images.Edit with no IP allowlist as CLOUDFLARE_API_TOKEN. Do not default the Siena hash until Arroyo IDs return 200.',
     )
   }
   if (!calendlyConfigured) {
@@ -148,12 +151,14 @@ export async function GET() {
       eventTypeUrl: CALENDLY_URL,
     },
     cloudflareImages: {
-      configured: deliveryHash,
+      configured: imagesHtmlReady,
       cloudflareToken,
       cronSecret,
       deliveryHash,
       api: imagesApi,
       teamCustomIds: customIds,
+      manifestCustomIds: manifestIds,
+      runtimeSrcReady: manifestIds.ok,
       hostedWorker,
       edgeProbeUrl: `${SITE_URL}/api/go-live/images-edge`,
       sfoProbeUrl: `${SITE_URL}/api/go-live/images-sfo`,

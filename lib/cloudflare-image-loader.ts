@@ -13,11 +13,17 @@ import {
  * Cloudflare Images flexible variants (imagedelivery.net):
  * /<ACCOUNT_HASH>/<IMAGE_ID>/w=<WIDTH>,q=<QUALITY>
  */
-export function cloudflareImageLoader({
-  src,
-  width,
-  quality,
-}: ImageLoaderProps): string {
-  const variant = cloudflareFlexibleVariant(width, quality ?? 75)
-  return cloudflareImageUrl(imageIdFromSrc(src), variant) ?? src
+export function createCloudflareImageLoader(hashOverride?: string) {
+  return function cloudflareImageLoader({
+    src,
+    width,
+    quality,
+  }: ImageLoaderProps): string {
+    const variant = cloudflareFlexibleVariant(width, quality ?? 75)
+    return cloudflareImageUrl(imageIdFromSrc(src), variant, hashOverride) ?? src
+  }
+}
+
+export function cloudflareImageLoader(props: ImageLoaderProps): string {
+  return createCloudflareImageLoader()(props)
 }

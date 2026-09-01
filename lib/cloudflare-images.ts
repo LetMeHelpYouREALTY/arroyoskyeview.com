@@ -95,6 +95,7 @@ export function cloudflareFlexibleDeliveryUrl(
   localPath: string,
   width: number,
   quality = 75,
+  hashOverride?: string,
 ): string | undefined {
   const path = localImagesPath(localPath)
   if (!path) {
@@ -109,6 +110,7 @@ export function cloudflareFlexibleDeliveryUrl(
   return cloudflareImageUrl(
     cloudflareCustomId(path),
     cloudflareFlexibleVariant(safeWidth, safeQuality),
+    hashOverride,
   )
 }
 
@@ -165,8 +167,9 @@ export function imageIdFromSrc(src: string): string {
 export function cloudflareImageUrl(
   imageId: string,
   variant: string = DEFAULT_VARIANT,
+  hashOverride?: string,
 ): string | undefined {
-  const hash = accountHash()
+  const hash = hashOverride?.trim() || accountHash()
   if (!hash) {
     return undefined
   }
