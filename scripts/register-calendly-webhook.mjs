@@ -15,7 +15,10 @@
  */
 import { appendFile } from 'node:fs/promises'
 
-const TOKEN = process.env.CALENDLY_API_TOKEN?.trim()
+const TOKEN =
+  process.env.CALENDLY_API_TOKEN?.trim() ||
+  process.env.CALENDLY_PERSONAL_ACCESS_TOKEN?.trim() ||
+  process.env.CALENDLY_PAT?.trim()
 const CALLBACK =
   process.env.CALENDLY_WEBHOOK_URL?.trim() ||
   'https://www.arroyoskyeview.com/api/calendly/webhook'
@@ -116,9 +119,11 @@ const signingKey =
   created.json?.resource?.signingKey
 
 if (signingKey && process.env.GITHUB_ENV) {
+  console.log(`::add-mask::${signingKey}`)
+  const delim = `EOF_CALENDLY_SIGNING_${Date.now()}`
   await appendFile(
     process.env.GITHUB_ENV,
-    `CALENDLY_WEBHOOK_SIGNING_KEY=${signingKey}\n`,
+    `CALENDLY_WEBHOOK_SIGNING_KEY<<${delim}\n${signingKey}\n${delim}\n`,
   )
 }
 

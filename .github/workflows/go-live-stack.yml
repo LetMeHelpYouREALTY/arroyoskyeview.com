@@ -1,12 +1,16 @@
 name: Go-live stack
 
-# Uploads Cloudflare Images and upserts Vercel env when repo secrets exist.
+# Uploads Cloudflare Images and upserts Vercel env when repo secrets exist
+# or when VERCEL_TOKEN can decrypt the same keys from a sister project.
 # Heritage's Images Sync uses this same skip-if-empty pattern. Do not
 # orange-cloud the Vercel apex.
 #
 # Push/PR must actually start jobs — a workflow_dispatch-only file was
 # creating 0s failed runs with jobs: [] on cursor[bot] pushes, so an
 # existing CLOUDFLARE_API_TOKEN would never upload.
+#
+# Later steps must NOT re-bind go-live keys from empty GitHub secrets.
+# An empty `env: KEY: ${{ secrets.KEY }}` overwrites GITHUB_ENV.
 
 on:
   workflow_dispatch:
@@ -30,25 +34,56 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Seed image hash from secrets
-        env:
-          NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH: ${{ secrets.NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH }}
-          CLOUDFLARE_IMAGES_HASH: ${{ secrets.CLOUDFLARE_IMAGES_HASH }}
-        run: |
-          if [ -n "$NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH" ]; then
-            echo "NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH=$NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH" >> "$GITHUB_ENV"
-          fi
-          if [ -n "$CLOUDFLARE_IMAGES_HASH" ]; then
-            echo "CLOUDFLARE_IMAGES_HASH=$CLOUDFLARE_IMAGES_HASH" >> "$GITHUB_ENV"
-          elif [ -n "$NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH" ]; then
-            echo "CLOUDFLARE_IMAGES_HASH=$NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH" >> "$GITHUB_ENV"
-          fi
-
-      - name: Check Cloudflare secrets
-        id: cf
+      - name: Seed native GitHub secrets into GITHUB_ENV
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_IMAGES_HASH: ${{ secrets.CLOUDFLARE_IMAGES_HASH }}
+          NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH: ${{ secrets.NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH }}
+          FOLLOW_UP_BOSS_API_KEY: ${{ secrets.FOLLOW_UP_BOSS_API_KEY }}
+          FUB_API_KEY: ${{ secrets.FUB_API_KEY }}
+          CALENDLY_API_TOKEN: ${{ secrets.CALENDLY_API_TOKEN }}
+          CALENDLY_PERSONAL_ACCESS_TOKEN: ${{ secrets.CALENDLY_PERSONAL_ACCESS_TOKEN }}
+          CALENDLY_PAT: ${{ secrets.CALENDLY_PAT }}
+          CALENDLY_WEBHOOK_SIGNING_KEY: ${{ secrets.CALENDLY_WEBHOOK_SIGNING_KEY }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          seed() {
+            local key="$1"
+            local val="${!key}"
+            if [ -z "$val" ]; then
+              return 0
+            fi
+            echo "::add-mask::$val"
+            {
+              echo "${key}<<EOF_${key}"
+              printf '%s\n' "$val"
+              echo "EOF_${key}"
+            } >> "$GITHUB_ENV"
+          }
+          seed CLOUDFLARE_API_TOKEN
+          seed CLOUDFLARE_ACCOUNT_ID
+          seed CLOUDFLARE_IMAGES_HASH
+          seed NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH
+          seed FOLLOW_UP_BOSS_API_KEY
+          seed FUB_API_KEY
+          seed CALENDLY_API_TOKEN
+          seed CALENDLY_PERSONAL_ACCESS_TOKEN
+          seed CALENDLY_PAT
+          seed CALENDLY_WEBHOOK_SIGNING_KEY
+          seed CRON_SECRET
+          if [ -n "$NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH" ] && [ -z "$CLOUDFLARE_IMAGES_HASH" ]; then
+            echo "CLOUDFLARE_IMAGES_HASH=$NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH" >> "$GITHUB_ENV"
+          fi
+
+      - name: Borrow go-live env from sister Vercel projects
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        run: node scripts/borrow-team-go-live-env.mjs
+
+      - name: Check Cloudflare token
+        id: cf
         run: |
           if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
@@ -59,9 +94,6 @@ jobs:
 
       - name: Upload Cloudflare Images
         if: steps.cf.outputs.skip != 'true'
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           node scripts/upload-cloudflare-images.mjs --write-hash | tee /tmp/cf-upload.log
           HASH=$(grep '^NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH=' /tmp/cf-upload.log | cut -d= -f2)
@@ -72,20 +104,25 @@ jobs:
 
       - name: Check Calendly PAT
         id: calendly
-        env:
-          CALENDLY_API_TOKEN: ${{ secrets.CALENDLY_API_TOKEN }}
         run: |
-          if [ -z "$CALENDLY_API_TOKEN" ]; then
+          TOKEN="${CALENDLY_API_TOKEN:-${CALENDLY_PERSONAL_ACCESS_TOKEN:-$CALENDLY_PAT}}"
+          if [ -z "$TOKEN" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
             echo "::warning::CALENDLY_API_TOKEN is not set. Skipping webhook register."
             exit 0
+          fi
+          echo "::add-mask::$TOKEN"
+          if [ -z "$CALENDLY_API_TOKEN" ]; then
+            {
+              echo "CALENDLY_API_TOKEN<<EOF_CALENDLY"
+              printf '%s\n' "$TOKEN"
+              echo "EOF_CALENDLY"
+            } >> "$GITHUB_ENV"
           fi
           echo "skip=false" >> "$GITHUB_OUTPUT"
 
       - name: Register Calendly webhook
         if: steps.calendly.outputs.skip != 'true'
-        env:
-          CALENDLY_API_TOKEN: ${{ secrets.CALENDLY_API_TOKEN }}
         run: node scripts/register-calendly-webhook.mjs
 
       - name: Check Vercel token
@@ -106,11 +143,4 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          FOLLOW_UP_BOSS_API_KEY: ${{ secrets.FOLLOW_UP_BOSS_API_KEY }}
-          FUB_API_KEY: ${{ secrets.FUB_API_KEY }}
-          CALENDLY_API_TOKEN: ${{ secrets.CALENDLY_API_TOKEN }}
-          CALENDLY_WEBHOOK_SIGNING_KEY: ${{ secrets.CALENDLY_WEBHOOK_SIGNING_KEY }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: node scripts/sync-vercel-go-live-env.mjs
