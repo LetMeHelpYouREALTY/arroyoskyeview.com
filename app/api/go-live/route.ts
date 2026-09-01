@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server'
-import { CALENDLY_CONFIRMATION_URL, CALENDLY_URL } from '@/lib/calendly'
+import {
+  CALENDLY_CONFIRMATION_URL,
+  CALENDLY_URL,
+  fetchCalendlyHostedConfirmation,
+} from '@/lib/calendly'
 import { isCalendlyApiConfigured } from '@/lib/calendly-invitee'
 import { isCloudflareImagesHashConfigured } from '@/lib/cloudflare-images'
 import { isFollowUpBossConfigured } from '@/lib/fub-client'
@@ -10,10 +14,7 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 function hasEnv(
-  name:
-    | 'CALENDLY_WEBHOOK_SIGNING_KEY'
-    | 'CLOUDFLARE_API_TOKEN'
-    | 'CRON_SECRET',
+  name: 'CALENDLY_WEBHOOK_SIGNING_KEY' | 'CLOUDFLARE_API_TOKEN' | 'CRON_SECRET',
 ): boolean {
   let value: string | undefined
   switch (name) {
@@ -37,8 +38,8 @@ function hasEnv(
 /**
  * Public go-live flags only — never include secret values.
  * Embed/webhook Calendly → FUB needs FUB plus a signing key or PAT.
- * Hosted Calendly + dashboard “Pass event details” only needs FUB
- * (confirmationPathReady) — that dashboard switch is not readable here.
+ * Hosted Calendly + dashboard “Pass event details” only needs FUB.
+ * hostedConfirmation is read from Calendly’s public booking lookup.
  */
 export async function GET() {
   const calendlySigningKey = hasEnv('CALENDLY_WEBHOOK_SIGNING_KEY')
@@ -47,7 +48,14 @@ export async function GET() {
   const cloudflareToken = hasEnv('CLOUDFLARE_API_TOKEN')
   const cronSecret = hasEnv('CRON_SECRET')
   const deliveryHash = isCloudflareImagesHashConfigured()
-  const embedOrWebhookReady = followUpBoss && (calendlySigningKey || calendlyApiToken)
+  const hostedConfirmation = await fetchCalendlyHostedConfirmation()
+  const hostedRedirectReady =
+    followUpBoss &&
+    hostedConfirmation?.pointsAtSite === true &&
+    hostedConfirmation.passEventDetails !== false
+  const embedOrWebhookReady =
+    followUpBoss && (calendlySigningKey || calendlyApiToken)
+  const calendlyConfigured = embedOrWebhookReady || hostedRedirectReady
   const blockers: string[] = []
   if (!deliveryHash) {
     blockers.push('cloudflare-images-hash')
@@ -55,7 +63,7 @@ export async function GET() {
   if (!cloudflareToken) {
     blockers.push('cloudflare-images-token')
   }
-  if (!embedOrWebhookReady) {
+  if (!calendlyConfigured) {
     blockers.push('calendly-pat-or-signing-key')
   }
 
@@ -63,11 +71,13 @@ export async function GET() {
     ok: true,
     domain: SITE_URL,
     calendlyToFub: {
-      configured: embedOrWebhookReady,
+      configured: calendlyConfigured,
       calendlySigningKey,
       followUpBoss,
       calendlyApiToken,
       confirmationPathReady: followUpBoss,
+      hostedConfirmation,
+      hostedRedirectReady,
       webhookUrl: `${SITE_URL}/api/calendly/webhook`,
       scheduledUrl: `${SITE_URL}/api/calendly/scheduled`,
       confirmationUrl: CALENDLY_CONFIRMATION_URL,

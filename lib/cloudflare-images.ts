@@ -46,7 +46,15 @@ export function isCloudflareImagesHashConfigured(): boolean {
 }
 
 function accountHash(): string | undefined {
+  // Static NEXT_PUBLIC read so the client bundle inlines the hash at build
+  // (bracket access is not inlined). After CI upserts the hash and
+  // production-deploys, SiteImage SSR/HTML can point at imagedelivery.net
+  // instead of only middleware-rewriting /_next/image.
+  const inlinedPublic = process.env.NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH
   return (
+    (typeof inlinedPublic === 'string' && inlinedPublic.trim()
+      ? inlinedPublic.trim()
+      : undefined) ||
     readEnv('CLOUDFLARE_IMAGES_HASH') ||
     readEnv('NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH') ||
     GENERATED_CLOUDFLARE_IMAGES_HASH
@@ -66,7 +74,8 @@ function localImagesPath(value: string): string | undefined {
   try {
     const url = new URL(withoutQuery)
     if (
-      (url.hostname === 'www.arroyoskyeview.com' || url.hostname === 'arroyoskyeview.com') &&
+      (url.hostname === 'www.arroyoskyeview.com' ||
+        url.hostname === 'arroyoskyeview.com') &&
       url.pathname.startsWith('/images/')
     ) {
       return url.pathname
@@ -90,9 +99,12 @@ export function cloudflareFlexibleDeliveryUrl(
   if (!path) {
     return undefined
   }
-  const safeWidth = Number.isFinite(width) && width > 0 ? Math.round(width) : 1920
+  const safeWidth =
+    Number.isFinite(width) && width > 0 ? Math.round(width) : 1920
   const safeQuality =
-    Number.isFinite(quality) && quality > 0 ? Math.min(100, Math.round(quality)) : 75
+    Number.isFinite(quality) && quality > 0
+      ? Math.min(100, Math.round(quality))
+      : 75
   return cloudflareImageUrl(
     cloudflareCustomId(path),
     cloudflareFlexibleVariant(safeWidth, safeQuality),
