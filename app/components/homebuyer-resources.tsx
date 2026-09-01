@@ -142,6 +142,14 @@ export default function HomebuyerResources() {
             </p>
           </li>
           <li>
+            <Link href="/buyers/inspections-new-construction" className={linkClass}>
+              New Construction Inspections Guide
+            </Link>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Pre-drywall through closing at Arroyo at Skyeview in Skye Canyon ZIP 89166
+            </p>
+          </li>
+          <li>
             <Link href="/online-homebuying" className={linkClass}>
               Online Homebuying
             </Link>

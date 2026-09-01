@@ -130,6 +130,12 @@ export default function FAQPage() {
                 </Link>
                 <span className="block text-sm text-gray-600">Documents, timeline, and what to expect at closing</span>
               </li>
+              <li>
+                <Link href="/buyers/inspections-new-construction" className="font-semibold text-blue-700 hover:text-blue-800 hover:underline">
+                  Inspections Timeline Guide →
+                </Link>
+                <span className="block text-sm text-gray-600">Pre-drywall through closing at Arroyo at Skyeview</span>
+              </li>
             </ul>
           </section>
 

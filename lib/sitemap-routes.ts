@@ -103,7 +103,7 @@ const PUBLIC_ROUTES: SitemapRouteDef[] = [
   { path: '/buyers/financing-new-construction', tier: 'aeo-guide' },
   { path: '/buyers/new-construction-vs-resale', tier: 'aeo-guide' },
   { path: '/buyers/closing-process-guide', tier: 'aeo-guide' },
-  { path: '/buyers/inspections-new-construction', tier: 'aeo-guide' },
+  { path: '/buyers/inspections-new-construction', tier: 'aeo-guide', priority: 0.88 },
 
   // Services
   { path: '/services/buyer-representation', tier: 'aeo-guide', priority: 0.88 },

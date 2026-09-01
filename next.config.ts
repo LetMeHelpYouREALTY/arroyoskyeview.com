@@ -113,11 +113,29 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        source: '/_next/static/media/:path*',
+        source: '/_next/static/:path*',
         headers: [
           {
             key: 'X-Robots-Tag',
             value: 'noindex, nofollow',
+          },
+        ],
+      },
+      {
+        source: '/favicon.ico',
+        headers: [
+          {
+            key: 'X-Robots-Tag',
+            value: 'noindex, nofollow',
+          },
+        ],
+      },
+      {
+        source: '/manifest.webmanifest',
+        headers: [
+          {
+            key: 'X-Robots-Tag',
+            value: 'noindex, nofollow, noarchive, nosnippet',
           },
         ],
       },

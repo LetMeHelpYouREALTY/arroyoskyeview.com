@@ -56,6 +56,7 @@ const GUIDE_LINKS = [
   { href: '/arroyo-at-skyeview/available-homes', label: 'Available homes at Arroyo' },
   { href: '/faq/financing', label: 'Financing FAQ' },
   { href: '/faq/inspections', label: 'Inspections FAQ' },
+  { href: '/buyers/inspections-new-construction', label: 'Inspections timeline' },
   { href: '/buyers/closing-process-guide', label: 'Closing process' },
   { href: '/schedule', label: 'Schedule a consultation' },
 ] as const
