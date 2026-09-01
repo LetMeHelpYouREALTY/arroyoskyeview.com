@@ -9,8 +9,28 @@ import { SITE_URL } from '@/lib/site-url'
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-function hasEnv(name: string): boolean {
-  const value = process.env[name]
+function hasEnv(
+  name:
+    | 'CALENDLY_WEBHOOK_SIGNING_KEY'
+    | 'CLOUDFLARE_API_TOKEN'
+    | 'CRON_SECRET',
+): boolean {
+  let value: string | undefined
+  switch (name) {
+    case 'CALENDLY_WEBHOOK_SIGNING_KEY':
+      value = process.env.CALENDLY_WEBHOOK_SIGNING_KEY
+      break
+    case 'CLOUDFLARE_API_TOKEN':
+      value = process.env.CLOUDFLARE_API_TOKEN
+      break
+    case 'CRON_SECRET':
+      value = process.env.CRON_SECRET
+      break
+    default: {
+      const _exhaustive: never = name
+      return _exhaustive
+    }
+  }
   return typeof value === 'string' && value.trim().length > 0
 }
 

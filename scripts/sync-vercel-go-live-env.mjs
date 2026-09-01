@@ -162,7 +162,18 @@ if (!res.ok) {
   process.exit(1)
 }
 
-console.log(`Upserted ${payload.length} env var(s): ${keys} (HTTP ${res.status})`)
+console.log(`Upserted ${payload.length} env var(s): ${keys} on ${PROJECT_ID} (HTTP ${res.status})`)
+const listed = await fetch(
+  `https://api.vercel.com/v9/projects/${PROJECT_ID}/env?teamId=${TEAM_ID}`,
+  { headers: { Authorization: `Bearer ${TOKEN}` } },
+)
+if (listed.ok) {
+  const listedJson = await listed.json()
+  const names = Array.isArray(listedJson?.envs)
+    ? listedJson.envs.map((entry) => entry?.key).filter(Boolean)
+    : []
+  console.log(`Project now has ${names.length} env name(s): ${names.join(', ')}`)
+}
 const failed = json?.failed
 if (Array.isArray(failed) && failed.length > 0) {
   console.error('Some env vars failed:', failed.map((item) => item.key || item).join(', '))

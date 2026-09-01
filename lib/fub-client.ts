@@ -8,11 +8,29 @@ export type FollowUpBossSyncResult =
   | { ok: true }
   | { ok: false; reason: 'not-configured' | 'upstream'; status?: number }
 
-function firstEnv(...names: string[]): string | undefined {
+function firstEnv(...names: Array<'FOLLOW_UP_BOSS_API_KEY' | 'FUB_API_KEY' | 'FUB_X_SYSTEM_KEY' | 'FUB_SYSTEM_KEY'>): string | undefined {
   for (const name of names) {
-    const value = process.env[name]?.trim()
-    if (value) {
-      return value
+    let value: string | undefined
+    switch (name) {
+      case 'FOLLOW_UP_BOSS_API_KEY':
+        value = process.env.FOLLOW_UP_BOSS_API_KEY
+        break
+      case 'FUB_API_KEY':
+        value = process.env.FUB_API_KEY
+        break
+      case 'FUB_X_SYSTEM_KEY':
+        value = process.env.FUB_X_SYSTEM_KEY
+        break
+      case 'FUB_SYSTEM_KEY':
+        value = process.env.FUB_SYSTEM_KEY
+        break
+      default: {
+        const _exhaustive: never = name
+        return _exhaustive
+      }
+    }
+    if (typeof value === 'string' && value.trim()) {
+      return value.trim()
     }
   }
   return undefined
