@@ -74,7 +74,7 @@ async function resolveAuth() {
       console.log('Cloudflare Images auth: Bearer token accepted')
       return
     }
-    console.log(`Cloudflare Images Bearer probe HTTP ${res.status}`)
+    console.log(`Cloudflare Images token probe HTTP ${res.status}`)
   }
 
   const globalKey =
