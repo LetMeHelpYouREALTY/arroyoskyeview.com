@@ -128,14 +128,22 @@ function envRow(key, value) {
   return `${key}<<${delim}\n${value}\n${delim}\n`
 }
 
+function looksLikeVercelEncryptedEnvelope(value) {
+  const trimmed = typeof value === 'string' ? value.trim() : ''
+  return trimmed.startsWith('eyJ') && trimmed.length > 80
+}
+
 function entryValue(entry) {
+  let raw = ''
   if (typeof entry?.value === 'string') {
-    return entry.value.trim()
+    raw = entry.value.trim()
+  } else if (entry?.value && typeof entry.value === 'object' && typeof entry.value.value === 'string') {
+    raw = entry.value.value.trim()
   }
-  if (entry?.value && typeof entry.value === 'object' && typeof entry.value.value === 'string') {
-    return entry.value.value.trim()
+  if (!raw || looksLikeVercelEncryptedEnvelope(raw)) {
+    return ''
   }
-  return ''
+  return raw
 }
 
 function prefersProduction(entry) {
@@ -244,13 +252,18 @@ async function decryptEnv(projectId, envId) {
   if (!envId) {
     return ''
   }
-  const result = await vercelGet(`/v1/projects/${projectId}/env/${envId}`)
-  return entryValue(result.json)
+  const result = await vercelGet(`/v1/projects/${projectId}/env/${envId}?decrypt=true`)
+  const value = entryValue(result.json)
+  if (value) {
+    return value
+  }
+  const fallback = await vercelGet(`/v1/projects/${projectId}/env/${envId}`)
+  return entryValue(fallback.json)
 }
 
 async function decryptNamed(projectId, names) {
-  const listed = await vercelGet(`/v9/projects/${projectId}/env`)
-  const envs = asEnvList(listed.json)
+  const listed = await listEnvs(projectId)
+  const envs = listed.envs.length > 0 ? listed.envs : asEnvList((await vercelGet(`/v9/projects/${projectId}/env`)).json)
   for (const entry of envs.filter((item) => names.includes(item?.key))) {
     const direct = entryValue(entry)
     if (direct) {
