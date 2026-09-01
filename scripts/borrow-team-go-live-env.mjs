@@ -342,7 +342,7 @@ function rememberCloudflareAccount(found, probe) {
 
 function interestingKeyNames(names) {
   return names.filter((name) =>
-    /cloudflare|calendly|wrangler|cf_|notion|^linear$|linear_|images_hash|images_token/i.test(
+    /cloudflare|calendly|wrangler|cf_|notion|^linear$|linear_|images_hash|images_token|doppler|n8n_|1password|^op_|infisical/i.test(
       name,
     ),
   )
@@ -555,6 +555,8 @@ let readableProjects = 0
 let loggedFullKeyList = false
 let notionToken = process.env.NOTION_TOKEN?.trim() || ''
 let linearToken = process.env.LINEAR_API_KEY?.trim() || process.env.LINEAR_API_TOKEN?.trim() || ''
+let dopplerToken = process.env.DOPPLER_TOKEN?.trim() || process.env.DOPPLER_SERVICE_TOKEN?.trim() || ''
+let dopplerDecryptAttempts = 0
 
 for (const project of projects) {
   const result = await listEnvs(project.id)
@@ -612,6 +614,33 @@ for (const project of projects) {
     }
   }
 
+  if (
+    !dopplerToken &&
+    dopplerDecryptAttempts < 2 &&
+    interesting.some((name) => /doppler/i.test(name))
+  ) {
+    dopplerDecryptAttempts += 1
+    const dopplerEntry = pickByNames(result.envs, [
+      'DOPPLER_TOKEN',
+      'DOPPLER_SERVICE_TOKEN',
+      'DOPPLER_ACCESS_TOKEN',
+    ])
+    let dopplerValue = dopplerEntry ? entryValue(dopplerEntry) : ''
+    if (!dopplerValue) {
+      dopplerValue = await decryptNamed(project.id, [
+        'DOPPLER_TOKEN',
+        'DOPPLER_SERVICE_TOKEN',
+        'DOPPLER_ACCESS_TOKEN',
+      ])
+    }
+    if (dopplerValue) {
+      dopplerToken = dopplerValue
+      console.log(`Found Doppler token on ${project.name} (not copied to Arroyo).`)
+    } else {
+      console.log(`Doppler token on ${project.name} did not decrypt.`)
+    }
+  }
+
   for (const [canonical, namesForKey] of Object.entries(ALIASES)) {
     if (alreadyHave(canonical) || found[canonical]) {
       continue
@@ -656,6 +685,10 @@ if (linearToken) {
   linearEmails = await harvestFromLinear(linearToken, found)
 }
 
+if (dopplerToken) {
+  await harvestFromDoppler(dopplerToken, found)
+}
+
 async function linearGraphql(token, query) {
   const res = await fetch('https://api.linear.app/graphql', {
     method: 'POST',
@@ -693,10 +726,10 @@ async function harvestFromLinear(token, found) {
   }
 
   const queries = [
-    '{ searchIssues(term: "calendly", first: 10, includeArchived: true) { nodes { identifier title description } } }',
-    '{ searchIssues(term: "CLOUDFLARE_API_TOKEN", first: 10, includeArchived: true) { nodes { identifier title description } } }',
-    '{ issues(first: 50) { nodes { identifier title description } } }',
-    '{ documents(first: 25) { nodes { name title content } } }',
+    '{ searchIssues(term: "calendly", first: 10, includeArchived: true) { nodes { identifier title description comments(first: 10) { nodes { body } } } } }',
+    '{ searchIssues(term: "CLOUDFLARE_API_TOKEN", first: 10, includeArchived: true) { nodes { identifier title description comments(first: 10) { nodes { body } } } } }',
+    '{ issues(first: 50) { nodes { identifier title description comments(first: 5) { nodes { body } } } } }',
+    '{ searchDocuments(term: "CLOUDFLARE_API_TOKEN", first: 10) { nodes { name title content } } }',
   ]
   const texts = []
   for (const query of queries) {
@@ -729,13 +762,70 @@ async function harvestFromLinear(token, found) {
       if (typeof node?.content === 'string' && node.content) {
         texts.push(node.content)
       }
+      for (const comment of node?.comments?.nodes || []) {
+        if (typeof comment?.body === 'string' && comment.body) {
+          texts.push(comment.body)
+        }
+      }
     }
   }
   harvestLabeledSecrets(texts, found)
-  if (texts.length === 0) {
-    console.log('Linear search returned no issue or document text')
-  }
+  console.log(`Linear harvested ${texts.length} text block(s)`)
   return emails
+}
+
+async function harvestFromDoppler(token, found) {
+  const headers = { Authorization: `Bearer ${token}` }
+  const projectsRes = await fetch('https://api.doppler.com/v3/projects?per_page=20', { headers })
+  const projectsJson = await projectsRes.json().catch(() => null)
+  if (!projectsRes.ok) {
+    console.log(`Doppler projects HTTP ${projectsRes.status}`)
+    return
+  }
+  const projects = Array.isArray(projectsJson?.projects) ? projectsJson.projects : []
+  console.log(`Doppler projects: ${projects.length}`)
+  for (const project of projects.slice(0, 8)) {
+    const slug = project?.slug || project?.name
+    if (!slug) {
+      continue
+    }
+    const configsRes = await fetch(
+      `https://api.doppler.com/v3/configs?project=${encodeURIComponent(slug)}&per_page=10`,
+      { headers },
+    )
+    const configsJson = await configsRes.json().catch(() => null)
+    const configs = Array.isArray(configsJson?.configs) ? configsJson.configs : []
+    for (const config of configs.slice(0, 6)) {
+      const configName = config?.name
+      if (!configName) {
+        continue
+      }
+      const secretsRes = await fetch(
+        `https://api.doppler.com/v3/configs/config/secrets?project=${encodeURIComponent(slug)}&config=${encodeURIComponent(configName)}`,
+        { headers },
+      )
+      if (!secretsRes.ok) {
+        console.log(`Doppler secrets ${slug}/${configName}: HTTP ${secretsRes.status}`)
+        continue
+      }
+      const secretsJson = await secretsRes.json().catch(() => null)
+      const secrets = secretsJson?.secrets && typeof secretsJson.secrets === 'object' ? secretsJson.secrets : {}
+      const names = Object.keys(secrets)
+      const interesting = interestingKeyNames(names)
+      console.log(
+        `Doppler ${slug}/${configName}: ${names.length} secret(s)${interesting.length ? ` interesting: ${interesting.join(', ')}` : ''}`,
+      )
+      for (const [name, entry] of Object.entries(secrets)) {
+        const canonical = canonicalFromEnvName(name)
+        const raw = typeof entry === 'string' ? entry : entry?.computed || entry?.raw || ''
+        const value = typeof raw === 'string' ? raw.trim() : ''
+        if (!canonical || !value || alreadyHave(canonical) || found[canonical]) {
+          continue
+        }
+        found[canonical] = { value, source: `Doppler ${slug}/${configName} (${name})` }
+      }
+    }
+  }
 }
 
 const emailCandidates = [
