@@ -1,3 +1,5 @@
+import { SITE_CONTACT } from '@/lib/site-contact'
+
 interface GoogleMapEmbedProps {
   address?: string
   mapUrl?: string
@@ -16,7 +18,7 @@ export default function GoogleMapEmbed({
   if (mapUrl && mapUrl.includes('maps.app.goo.gl')) {
     // For Google Maps short links, use the address-based embed
     // Short links don't work directly in iframes, so we'll use the address
-    const encodedAddress = encodeURIComponent(address || '8912 Vanhoy Crk St, Las Vegas, NV 89166')
+    const encodedAddress = encodeURIComponent(address || SITE_CONTACT.formattedAddress)
     embedUrl = `https://www.google.com/maps?q=${encodedAddress}&output=embed`
   } else if (mapUrl) {
     // Use provided embed URL directly
@@ -27,7 +29,7 @@ export default function GoogleMapEmbed({
     embedUrl = `https://www.google.com/maps?q=${encodedAddress}&output=embed`
   } else {
     // Fallback to default address
-    const encodedAddress = encodeURIComponent('8912 Vanhoy Crk St, Las Vegas, NV 89166')
+    const encodedAddress = encodeURIComponent(SITE_CONTACT.formattedAddress)
     embedUrl = `https://www.google.com/maps?q=${encodedAddress}&output=embed`
   }
 

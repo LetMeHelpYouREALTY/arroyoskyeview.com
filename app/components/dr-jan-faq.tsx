@@ -16,6 +16,10 @@ const faqs = [
     question: 'Why should I work with Dr. Jan Duffy when buying Arroyo at Skyeview Homes in Skye Canyon?',
     answer: 'Dr. Jan Duffy is a New Construction Home Expert and buyer\'s agent who specializes in Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada. She represents HOME BUYERS, not the builder. She offers construction monitoring every 7-10 days, building standards inspection at closing, and insider knowledge of available inventory, pricing, and lot selection. Best of all, builders pay for buyer representation—so there\'s no extra cost to you. Call/text (702) 903-4687 to get started.',
   },
+  {
+    question: 'Where is the Arroyo at Skyeview office and what are the hours?',
+    answer: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy is at 8912 Vanhoy Creek St, Las Vegas, NV 89166. Office hours are Monday through Sunday, 9:00 AM to 6:00 PM. Call or text (702) 903-4687 for directions or to schedule a showing.',
+  },
 ]
 
 export default function DrJanFAQ() {

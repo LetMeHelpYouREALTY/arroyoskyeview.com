@@ -1,4 +1,4 @@
-import { SITE_CONTACT } from '@/lib/site-contact'
+import { OFFICE_HOURS_DISPLAY, SITE_CONTACT } from '@/lib/site-contact'
 import GoogleMapEmbed from './google-map-embed'
 
 const MAP_SHARE_URL = 'https://maps.app.goo.gl/E4ySRChkkQjnYjeN7'
@@ -58,7 +58,7 @@ export default function VisitOurOffice() {
               </div>
               <div>
                 <dt className="font-semibold text-foreground">Office hours</dt>
-                <dd className="text-muted-foreground">Monday–Sunday: 10:00 AM – 5:00 PM</dd>
+                <dd className="text-muted-foreground">{OFFICE_HOURS_DISPLAY}</dd>
               </div>
             </dl>
 

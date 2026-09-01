@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { siteImage } from '@/lib/cloudflare-images'
 
 interface Home {
   id: string
@@ -33,7 +34,7 @@ const homes: Home[] = [
     parking: 2,
     completion: 'Dec. Move In',
     features: ['Gray cabinets'],
-    image: '/images/homes/homes-1.jpg',
+    image: siteImage('/images/homes/homes-1.jpg'),
   },
   {
     id: '2',
@@ -47,7 +48,7 @@ const homes: Home[] = [
     parking: 2,
     completion: 'Dec. Move In',
     features: ['LVP Flooring', 'White Cabinets'],
-    image: '/images/homes/homes-2.jpg',
+    image: siteImage('/images/homes/homes-2.jpg'),
   },
   {
     id: '3',
@@ -61,7 +62,7 @@ const homes: Home[] = [
     parking: 2,
     completion: 'Dec. Move In',
     features: ['End Unit', 'White Cabinets'],
-    image: '/images/homes/homes-3.jpg',
+    image: siteImage('/images/homes/homes-3.jpg'),
   },
   {
     id: '4',
@@ -75,7 +76,7 @@ const homes: Home[] = [
     parking: 2,
     completion: 'Dec. Move In',
     features: ['LG Kitchen Appliances', 'Java Cabinets'],
-    image: '/images/homes/homes-4.jpg',
+    image: siteImage('/images/homes/homes-4.jpg'),
   },
   {
     id: '5',
@@ -89,7 +90,7 @@ const homes: Home[] = [
     parking: 2,
     completion: 'Dec. Move In',
     features: ['End unit', 'Courtyard Entry'],
-    image: '/images/homes/homes-5.jpg',
+    image: siteImage('/images/homes/homes-5.jpg'),
   },
 ]
 
@@ -113,8 +114,10 @@ export default function AvailableHomes() {
           return b.sqft - a.sqft
         case 'completion':
           return a.completion.localeCompare(b.completion)
-        default:
-          return 0
+        default: {
+          const _exhaustive: never = option
+          return _exhaustive
+        }
       }
     })
     setSortedHomes(sorted)

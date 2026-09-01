@@ -1,33 +1,29 @@
 import Script from 'next/script'
+import { postalAddressJsonLd } from '@/lib/local-business-schema'
+import { SITE_CONTACT } from '@/lib/site-contact'
+import { SITE_URL } from '@/lib/site-url'
 
 export default function ReviewSchema() {
-  const baseUrl = 'https://www.arroyoskyeview.com'
-  const businessId = `${baseUrl}#reviews`
+  const baseUrl = SITE_URL
+  const businessId = `${baseUrl}#localbusiness`
 
   const itemReviewed = {
-    '@type': 'RealEstateAgent',
+    '@type': ['LocalBusiness', 'RealEstateAgent'],
     '@id': businessId,
-    name: 'Dr. Jan Duffy - Buyer\'s Agent for Arroyo at Skyeview Homes',
+    name: SITE_CONTACT.businessName,
     url: baseUrl,
   }
 
   const reviewSchema = {
     '@context': 'https://schema.org',
-    '@type': 'RealEstateAgent',
+    '@type': ['LocalBusiness', 'RealEstateAgent'],
     '@id': businessId,
-    name: 'Dr. Jan Duffy - Buyer\'s Agent for Arroyo at Skyeview Homes',
+    name: SITE_CONTACT.businessName,
     alternateName: ['Dr. Jan Duffy Real Estate', 'Arroyo at Skyeview Homes'],
     image: `${baseUrl}/og-image.png`,
     url: baseUrl,
     description: 'Expert buyer representation for new construction homes in Skye Canyon (zip code 89166) and northwest Las Vegas, Nevada. Dr. Jan Duffy provides construction monitoring, building standards inspection, and insider knowledge of new construction homes. Represents HOME BUYERS, not the builder.',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '8912 Vanhoy Crk St',
-      addressLocality: 'Las Vegas',
-      addressRegion: 'NV',
-      postalCode: '89161',
-      addressCountry: 'US',
-    },
+    address: postalAddressJsonLd(),
     geo: {
       '@type': 'GeoCoordinates',
       latitude: '36.2765',

@@ -1,3 +1,6 @@
+import { localBusinessJsonLd, postalAddressJsonLd } from '@/lib/local-business-schema'
+import { OFFICE_OPENING_HOURS, SITE_CONTACT } from '@/lib/site-contact'
+
 export default function StructuredData() {
   // Residential Complex Schema (Wikipedia/Knowledge Base friendly)
   const residentialComplex = {
@@ -8,12 +11,8 @@ export default function StructuredData() {
     description: 'Arroyo at Skyeview Homes is a residential community of new construction townhomes located in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). The development offers two-story townhomes with 2 to 4 bedrooms, 2.5 baths, and 2-bay garages, featuring quartz countertops and open layouts, starting from $392,640.',
     url: 'https://www.arroyoskyeview.com',
     address: {
-      '@type': 'PostalAddress',
-      streetAddress: '8912 Vanhoy Crk St',
-      addressLocality: 'Las Vegas',
-      addressRegion: 'NV',
-      postalCode: '89166',
-      addressCountry: 'US',
+      ...postalAddressJsonLd(),
+      postalCode: SITE_CONTACT.communityPostalCode,
     },
     geo: {
       '@type': 'GeoCoordinates',
@@ -108,46 +107,7 @@ export default function StructuredData() {
     },
   }
 
-  // Real Estate Agent Schema (for sales office)
-  const realEstateAgent = {
-    '@context': 'https://schema.org',
-    '@type': 'RealEstateAgent',
-    name: 'Dr. Jan Duffy',
-    alternateName: 'Arroyo at Skyeview Map',
-    description: 'Expert buyer representation for Arroyo at Skyeview Homes and new construction homes in Las Vegas, Nevada. Dr. Jan Duffy provides construction monitoring, building standards inspection, and insider knowledge of new construction homes.',
-    url: 'https://www.arroyoskyeview.com',
-    telephone: '+1-702-903-4687',
-    email: 'info@arroyoskyeview.com',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '8912 Vanhoy Crk St',
-      addressLocality: 'Las Vegas',
-      addressRegion: 'NV',
-      postalCode: '89161',
-      addressCountry: 'US',
-    },
-    openingHoursSpecification: [
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: [
-          'Monday',
-          'Tuesday',
-          'Wednesday',
-          'Thursday',
-          'Saturday',
-          'Sunday',
-        ],
-        opens: '10:00',
-        closes: '17:00',
-      },
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'Friday',
-        opens: '12:00',
-        closes: '17:00',
-      },
-    ],
-  }
+  const localBusiness = localBusinessJsonLd()
 
   const breadcrumbData = {
     '@context': 'https://schema.org',
@@ -240,7 +200,7 @@ export default function StructuredData() {
         name: 'What are the sales office hours?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'The sales office is open Monday through Thursday and Saturday through Sunday from 10:00 AM to 5:00 PM, and Friday from 12:00 PM to 5:00 PM.',
+          text: 'The sales office at 8912 Vanhoy Creek St, Las Vegas, NV 89166 is open Monday through Sunday from 9:00 AM to 6:00 PM. Call (702) 903-4687.',
         },
       },
     ],
@@ -287,14 +247,7 @@ export default function StructuredData() {
       url: 'https://www.arroyoskyeview.com/og-image.png',
     },
     image: 'https://www.arroyoskyeview.com/og-image.png',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '8912 Vanhoy Crk St',
-      addressLocality: 'Las Vegas',
-      addressRegion: 'NV',
-      postalCode: '89161',
-      addressCountry: 'US',
-    },
+    address: postalAddressJsonLd(),
     geo: {
       '@type': 'GeoCoordinates',
       latitude: '36.2765',
@@ -337,20 +290,7 @@ export default function StructuredData() {
         contactType: 'Customer Service',
         areaServed: 'US',
         availableLanguage: 'English',
-        hoursAvailable: {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: [
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-            'Sunday',
-          ],
-          opens: '09:00',
-          closes: '18:00',
-        },
+        hoursAvailable: OFFICE_OPENING_HOURS[0],
       },
       {
         '@type': 'ContactPoint',
@@ -377,7 +317,7 @@ export default function StructuredData() {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(realEstateAgent) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusiness) }}
       />
       <script
         type="application/ld+json"

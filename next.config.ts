@@ -106,16 +106,19 @@ const nextConfig: NextConfig = {
   },
   // Apex→www and HTTP→HTTPS live in middleware.ts (skips *.vercel.app).
   async headers() {
+    const contentSecurityPolicy = [
+      "img-src 'self' data: blob: https: http://drjanduffy.realscout.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://em.realscout.com https://www.realscout.com https://assets.calendly.com https://calendly.com https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com",
+      "connect-src 'self' https://em.realscout.com https://www.realscout.com https://*.realscout.com https://assets.calendly.com https://calendly.com https://www.google-analytics.com https://www.googletagmanager.com https://region1.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://imagedelivery.net https://vitals.vercel-insights.com wss://*.realscout.com",
+    ].join('; ')
+
     return [
       {
         source: '/:path*',
         headers: [
           {
-            // img-src must allow Cloudflare Images / R2. Other fetch types
-            // stay unrestricted because default-src is omitted.
             key: 'Content-Security-Policy',
-            value:
-              "img-src 'self' data: blob: https: http://drjanduffy.realscout.com",
+            value: contentSecurityPolicy,
           },
         ],
       },

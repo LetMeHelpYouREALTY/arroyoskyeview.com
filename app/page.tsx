@@ -39,6 +39,11 @@ export default function HomePage() {
             answer:
               'Browse dedicated pages for available homes, floor plans, homesite map, community overview, and area schools at arroyoskyeview.com/arroyo-at-skyeview/.',
           },
+          {
+            question: 'Where is the office and what are the hours?',
+            answer:
+              'Arroyo at Skyeview | Homes by Dr. Jan Duffy is at 8912 Vanhoy Creek St, Las Vegas, NV 89166. Hours are Monday through Sunday, 9:00 AM to 6:00 PM. Call (702) 903-4687.',
+          },
         ]}
         priceRange={ARROYO_PRICE_RANGE}
         rating={{ value: '4.5', count: '8866' }}

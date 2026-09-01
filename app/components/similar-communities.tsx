@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { siteImage } from '@/lib/cloudflare-images'
 
 interface Community {
   id: string
@@ -25,7 +26,7 @@ const communities: Community[] = [
     location: 'Las Vegas, NV 89166',
     phone: '(702) 903-4687',
     price: 392640,
-    image: '/images/hero/hero-5.jpg',
+    image: siteImage('/images/hero/hero-5.jpg'),
     features: ['New Construction', 'Skye Canyon'],
     href: '/sierra-at-skyeview',
     anchorText: 'Explore Sierra at Skyeview townhomes in Skye Canyon',
@@ -36,7 +37,7 @@ const communities: Community[] = [
     location: 'Las Vegas, NV 89166',
     phone: '(702) 903-4687',
     price: 392640,
-    image: '/images/floor-plans/floor-plans-1.jpg',
+    image: siteImage('/images/floor-plans/floor-plans-1.jpg'),
     features: ['Skye Canyon', 'New Homes'],
     href: '/terra-at-skyeview',
     anchorText: 'Compare Terra at Skyeview pricing and floor plans',
@@ -47,7 +48,7 @@ const communities: Community[] = [
     location: 'Las Vegas, NV',
     phone: '(702) 903-4687',
     price: 392640,
-    image: '/images/hero/hero-6.jpg',
+    image: siteImage('/images/hero/hero-6.jpg'),
     features: ['Arroyo at Skyeview Homes', 'Las Vegas Metro'],
     href: '/ironwood',
     anchorText: 'View Ironwood new construction homes',
@@ -58,7 +59,7 @@ const communities: Community[] = [
     location: 'Las Vegas, NV',
     phone: '(702) 903-4687',
     price: 392640,
-    image: '/images/hero/hero-7.jpg',
+    image: siteImage('/images/hero/hero-7.jpg'),
     features: ['Arroyo at Skyeview Homes', 'Las Vegas'],
     href: '/homestead-west',
     anchorText: 'Discover Homestead West single-family homes',
@@ -69,7 +70,7 @@ const communities: Community[] = [
     location: 'Las Vegas, NV 89166',
     phone: '(702) 903-4687',
     price: 392640,
-    image: '/images/hero/hero-5.jpg',
+    image: siteImage('/images/hero/hero-5.jpg'),
     features: ['Skye Canyon', 'Masterplan'],
     href: '/eaglepointe-skye-canyon',
     anchorText: 'Browse Eaglepointe at Skye Canyon master-planned community',
