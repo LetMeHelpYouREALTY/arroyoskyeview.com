@@ -16,6 +16,10 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const TEAM_HASH = 'byE6BTe9lNqo21V57n4aPQ'
+const PROBE_HASH =
+  process.env.CLOUDFLARE_IMAGES_HASH?.trim() ||
+  process.env.NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH?.trim() ||
+  TEAM_HASH
 const ROOT = path.dirname(fileURLToPath(import.meta.url))
 const HASH_FILE = path.join(ROOT, '..', 'lib', 'cloudflare-images-hash.generated.ts')
 const MANIFEST = path.join(ROOT, '..', 'lib', 'cloudflare-image-manifest.ts')
@@ -64,14 +68,14 @@ async function probeAndWriteHash() {
     return false
   }
   const statuses = await Promise.all(
-    paths.map((localPath) => deliveryStatus(TEAM_HASH, customId(localPath))),
+    paths.map((localPath) => deliveryStatus(PROBE_HASH, customId(localPath))),
   )
   const ready = statuses.filter((status) => status === 200).length
   console.log(
-    `Cloudflare Images custom IDs: ${ready}/${paths.length} HTTP 200 on ${TEAM_HASH}`,
+    `Cloudflare Images custom IDs: ${ready}/${paths.length} HTTP 200 on ${PROBE_HASH}`,
   )
   if (ready === paths.length) {
-    await writeGeneratedHash(TEAM_HASH)
+    await writeGeneratedHash(PROBE_HASH)
     return true
   }
   return false

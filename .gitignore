@@ -45,3 +45,4 @@ next-env.d.ts
 # Cloudflare Wrangler local state (Images worker)
 /workers/**/.wrangler/
 /workers/**/node_modules/
+/workers/**/.dev.vars

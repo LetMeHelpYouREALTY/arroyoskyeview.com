@@ -117,6 +117,12 @@ function isAuthorized(request: Request, env: WorkerEnv): boolean {
   return request.headers.get('authorization') === `Bearer ${secret}`
 }
 
+/** wrangler dev binds localhost; never treat workers.dev as local. */
+function isLocalDevRequest(request: Request): boolean {
+  const host = new URL(request.url).hostname
+  return host === '127.0.0.1' || host === 'localhost'
+}
+
 async function ingestOne(
   env: WorkerEnv,
   localPath: string,
@@ -248,8 +254,14 @@ const worker = {
       })
     }
 
-    if (request.method === 'POST' && (url.pathname === '/' || url.pathname === '/sync')) {
-      if (!isAuthorized(request, env)) {
+    const isSync =
+      url.pathname === '/sync' ||
+      (request.method === 'POST' && url.pathname === '/')
+    if (
+      isSync &&
+      (request.method === 'GET' || request.method === 'POST')
+    ) {
+      if (!isAuthorized(request, env) && !isLocalDevRequest(request)) {
         return json(
           {
             ok: false,

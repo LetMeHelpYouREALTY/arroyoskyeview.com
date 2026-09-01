@@ -15,6 +15,7 @@
     "images:upload": "node scripts/upload-cloudflare-images.mjs",
     "images:upload:origin": "node scripts/upload-cloudflare-images.mjs --from-origin",
     "images:worker": "npx wrangler deploy --config workers/hosted-images/wrangler.jsonc",
+    "images:ingest-dev": "node scripts/ingest-hosted-images-dev.mjs",
     "images:list": "node scripts/list-cloudflare-images.mjs",
     "images:probe": "node scripts/probe-cloudflare-images.mjs",
     "env:sync": "node scripts/sync-vercel-go-live-env.mjs",
