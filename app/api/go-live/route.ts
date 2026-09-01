@@ -122,6 +122,8 @@ export async function GET() {
       deliveryHash,
       api: imagesApi,
       teamCustomIds: customIds,
+      edgeProbeUrl: `${SITE_URL}/api/go-live/images-edge`,
+      sfoProbeUrl: `${SITE_URL}/api/go-live/images-sfo`,
     },
     fubPixel: {
       enabled: Boolean(getFubPixelId()),

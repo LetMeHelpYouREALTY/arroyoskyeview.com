@@ -9,8 +9,8 @@ import {
 import { absoluteUrl } from '@/lib/site-url'
 import { upsertCloudflareImagesHash } from '@/lib/upsert-cloudflare-images-hash'
 
-export const runtime = 'nodejs'
-export const maxDuration = 60
+/** Edge egress is a different IP space than iad1 Lambda (401/10000 / 9109). */
+export const runtime = 'edge'
 
 const CONCURRENCY = 4
 

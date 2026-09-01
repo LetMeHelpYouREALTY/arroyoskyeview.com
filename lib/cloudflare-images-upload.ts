@@ -19,12 +19,16 @@ export type CloudflareImageUploadResult = {
   hash?: string
 }
 
+function utf8ByteLength(value: string): number {
+  return new TextEncoder().encode(value).length
+}
+
 function imageMetadata(id: string): string {
   const meta = JSON.stringify({
     git: id,
     site: CLOUDFLARE_IMAGES_CREATOR,
   })
-  return Buffer.byteLength(meta, 'utf8') <= 1024
+  return utf8ByteLength(meta) <= 1024
     ? meta
     : JSON.stringify({ git: id.slice(0, 200) })
 }
