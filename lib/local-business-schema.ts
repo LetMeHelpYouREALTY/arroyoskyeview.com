@@ -46,6 +46,7 @@ export function localBusinessJsonLd() {
       { '@type': 'City', name: 'Henderson', addressRegion: 'NV' },
       { '@type': 'City', name: 'Summerlin', addressRegion: 'NV' },
     ],
-    hasMap: 'https://maps.app.goo.gl/E4ySRChkkQjnYjeN7',
+    hasMap: SITE_CONTACT.googleMapsPlaceUrl,
+    sameAs: [SITE_CONTACT.googleMapsPlaceUrl],
   }
 }

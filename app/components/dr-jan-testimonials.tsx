@@ -1,3 +1,5 @@
+import { SITE_CONTACT } from '@/lib/site-contact'
+
 const testimonials = [
   {
     quote:
@@ -51,7 +53,7 @@ export default function DrJanTestimonials() {
         <p className="mt-8 text-center text-sm text-muted-foreground">
           On-site quotes are client experiences.{' '}
           <a
-            href="https://www.google.com/maps/search/?api=1&query=Dr+Jan+Duffy+Berkshire+Hathaway+Las+Vegas"
+            href={SITE_CONTACT.googleReviewsUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="font-medium text-primary underline-offset-2 hover:underline"

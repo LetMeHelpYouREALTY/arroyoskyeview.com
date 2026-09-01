@@ -12,7 +12,7 @@ export default function ContactLocations() {
             </h3>
             <div className="mb-4">
               <GoogleMapEmbed 
-                mapUrl="https://maps.app.goo.gl/E4ySRChkkQjnYjeN7"
+                mapUrl={SITE_CONTACT.googleMapsPlaceUrl}
                 address={SITE_CONTACT.formattedAddress}
                 height="200px"
                 className="rounded-lg overflow-hidden"

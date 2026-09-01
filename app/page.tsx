@@ -10,6 +10,7 @@ import HyperlocalHighlights from './components/hyperlocal-highlights'
 import DrJanTestimonials from './components/dr-jan-testimonials'
 import DrJanFAQ from './components/dr-jan-faq'
 import VisitOurOffice from './components/visit-our-office'
+import GbpLatestPosts from './components/gbp-latest-posts'
 import RequestInfo from './components/request-info'
 import PageSchemas from './components/page-schemas'
 import Footer from './components/footer'
@@ -47,7 +48,6 @@ export default function HomePage() {
           },
         ]}
         priceRange={ARROYO_PRICE_RANGE}
-        rating={{ value: '4.5', count: '8866' }}
       />
       <Header />
       <main
@@ -65,6 +65,7 @@ export default function HomePage() {
         <HyperlocalHighlights />
         <DrJanTestimonials />
         <DrJanFAQ />
+        <GbpLatestPosts />
         <VisitOurOffice />
         <RequestInfo />
       </main>

@@ -5,6 +5,10 @@ name: Vercel Deploy
 # The previous arroyoskyeview.com-2 project was deleted and orphaned the domain.
 # Build job validates every PR; deploy needs Vercel secrets matching that project.
 
+permissions:
+  contents: read
+  pull-requests: read
+
 on:
   push:
     branches:

@@ -15,9 +15,7 @@ export default function GoogleMapEmbed({
 }: GoogleMapEmbedProps) {
   // Use provided mapUrl, or generate from address
   let embedUrl: string
-  if (mapUrl && mapUrl.includes('maps.app.goo.gl')) {
-    // For Google Maps short links, use the address-based embed
-    // Short links don't work directly in iframes, so we'll use the address
+  if (mapUrl && (mapUrl.includes('maps.app.goo.gl') || mapUrl.includes('place_id'))) {
     const encodedAddress = encodeURIComponent(address || SITE_CONTACT.formattedAddress)
     embedUrl = `https://www.google.com/maps?q=${encodedAddress}&output=embed`
   } else if (mapUrl) {
@@ -45,7 +43,7 @@ export default function GoogleMapEmbed({
         src={embedUrl}
         title={`Map showing ${address || 'location'}`}
       />
-      {mapUrl && mapUrl.includes('maps.app.goo.gl') && (
+      {mapUrl && (mapUrl.includes('maps.app.goo.gl') || mapUrl.includes('place_id')) && (
         <div className="mt-2 text-center">
           <a 
             href={mapUrl} 

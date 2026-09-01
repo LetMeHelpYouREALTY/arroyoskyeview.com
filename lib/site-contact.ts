@@ -20,6 +20,12 @@ export const SITE_CONTACT = {
   /** Skye Canyon / Arroyo community area */
   communityPostalCode: '89166',
   formattedAddress: '8912 Vanhoy Creek St, Las Vegas, NV 89166',
+  /** GBP metadata.placeId verified 2026-09-01 */
+  placeId: 'ChIJrxbP-IWTyIAR7xJ9RFwdCNk',
+  googleMapsPlaceUrl:
+    'https://www.google.com/maps/place/?q=place_id:ChIJrxbP-IWTyIAR7xJ9RFwdCNk',
+  googleReviewsUrl:
+    'https://search.google.com/local/reviews?placeid=ChIJrxbP-IWTyIAR7xJ9RFwdCNk',
   geo: {
     latitude: '36.2765',
     longitude: '-115.2832',

@@ -1,9 +1,8 @@
 import { OFFICE_HOURS_DISPLAY, SITE_CONTACT } from '@/lib/site-contact'
 import GoogleMapEmbed from './google-map-embed'
 
-const MAP_SHARE_URL = 'https://maps.app.goo.gl/E4ySRChkkQjnYjeN7'
-const REVIEWS_URL =
-  'https://www.google.com/maps/search/?api=1&query=Dr+Jan+Duffy+Berkshire+Hathaway+Las+Vegas'
+const MAP_SHARE_URL = SITE_CONTACT.googleMapsPlaceUrl
+const REVIEWS_URL = SITE_CONTACT.googleReviewsUrl
 
 export default function VisitOurOffice() {
   return (
