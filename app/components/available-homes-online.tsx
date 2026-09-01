@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
+import { siteImage } from '@/lib/cloudflare-images'
 
 const homes = [
   {
@@ -10,7 +11,7 @@ const homes = [
     name: 'Arroyo at Skyeview',
     location: 'Las Vegas, NV',
     price: 392640,
-    image: '/images/hero/hero-5.jpg',
+    image: siteImage('/images/hero/hero-5.jpg'),
     url: '/',
     available: true,
   },
@@ -19,7 +20,7 @@ const homes = [
     name: 'The Townes at Union Village',
     location: 'Henderson, NV',
     price: 366990,
-    image: '/images/hero/hero-7.jpg',
+    image: siteImage('/images/hero/hero-7.jpg'),
     url: '/',
     available: true,
   },

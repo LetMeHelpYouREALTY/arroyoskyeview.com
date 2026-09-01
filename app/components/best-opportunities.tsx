@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { siteImage } from '@/lib/cloudflare-images'
 
 const opportunities = [
   {
@@ -12,8 +13,8 @@ const opportunities = [
     location: 'Skye Canyon',
     price: 392640,
     incentives: '$5,000 toward closing costs',
-    features: ['Top-rated schools', 'Red Rock hiking access', 'Resort-style amenities'],
-    image: '/images/hero/hero-5.jpg',
+    features: ['US-95 and 215 Beltway access', 'Red Rock hiking access', 'Resort-style amenities'],
+    image: siteImage('/images/hero/hero-5.jpg'),
     phone: '(702) 903-4687',
     href: '/',
   },
@@ -24,7 +25,7 @@ const opportunities = [
     price: 392640,
     incentives: 'Competitive financing rates',
     features: ['Master-planned community', 'NW Las Vegas', 'Quick move-in available'],
-    image: '/images/hero/hero-6.jpg',
+    image: siteImage('/images/hero/hero-6.jpg'),
     phone: '(702) 903-4687',
     href: '/sierra-at-skyeview',
   },
@@ -35,7 +36,7 @@ const opportunities = [
     price: 392640,
     incentives: 'Special incentives available',
     features: ['Skye Canyon location', 'New construction', 'Move-in ready homes'],
-    image: '/images/hero/hero-7.jpg',
+    image: siteImage('/images/hero/hero-7.jpg'),
     phone: '(702) 903-4687',
     href: '/terra-at-skyeview',
   },

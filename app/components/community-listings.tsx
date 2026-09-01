@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { siteImage } from '@/lib/cloudflare-images'
 
 interface Community {
   id: string
@@ -29,7 +30,7 @@ const communities: Community[] = [
     phone: '(702) 903-4687',
     price: 392640,
     homeTypes: ['Townhomes'],
-    image: '/images/hero/hero-5.jpg',
+    image: siteImage('/images/hero/hero-5.jpg'),
     url: '/',
     features: ['New Construction', 'Quick Move-In Available'],
   },
@@ -42,7 +43,7 @@ const communities: Community[] = [
     phone: '(702) 903-4687',
     price: 392640,
     homeTypes: ['Single-Family Homes', 'Townhomes'],
-    image: '/images/floor-plans/floor-plans-1.jpg',
+    image: siteImage('/images/floor-plans/floor-plans-1.jpg'),
     url: '/',
     features: ['Masterplan Community', 'NW Las Vegas'],
   },
@@ -55,7 +56,7 @@ const communities: Community[] = [
     phone: '(702) 903-4687',
     price: 366990,
     homeTypes: ['Townhomes'],
-    image: '/images/hero/hero-7.jpg',
+    image: siteImage('/images/hero/hero-7.jpg'),
     url: '/',
     features: ['Special Incentives', 'Tour Models Today!'],
   },
@@ -75,9 +76,18 @@ export default function CommunityListings() {
   }
 
   const sortedCommunities = [...communities].sort((a, b) => {
-    if (sortBy === 'price-low') return a.price - b.price
-    if (sortBy === 'price-high') return b.price - a.price
-    return a.name.localeCompare(b.name)
+    switch (sortBy) {
+      case 'price-low':
+        return a.price - b.price
+      case 'price-high':
+        return b.price - a.price
+      case 'name':
+        return a.name.localeCompare(b.name)
+      default: {
+        const _exhaustive: never = sortBy
+        return _exhaustive
+      }
+    }
   })
 
   return (
