@@ -9,7 +9,8 @@
     "enabled": true
   },
   "images": {
-    "binding": "IMAGES"
+    "binding": "IMAGES",
+    "remote": true
   },
   "vars": {
     "ORIGIN": "https://www.arroyoskyeview.com",

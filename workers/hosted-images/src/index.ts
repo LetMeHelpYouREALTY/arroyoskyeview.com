@@ -212,6 +212,31 @@ async function ingestAll(env: WorkerEnv): Promise<{
   return { uploaded, exists, failed, hash, results }
 }
 
+function logIngestSummary(summary: {
+  uploaded: number
+  exists: number
+  failed: number
+  hash?: string
+  results: IngestResult[]
+}): void {
+  console.log(
+    'ingest',
+    JSON.stringify({
+      uploaded: summary.uploaded,
+      exists: summary.exists,
+      failed: summary.failed,
+      hash: summary.hash,
+      errors: summary.results
+        .filter((result) => !result.ok)
+        .map((result) => ({
+          id: result.id,
+          error: result.error,
+          status: result.status,
+        })),
+    }),
+  )
+}
+
 const worker = {
   async fetch(request: Request, env: WorkerEnv): Promise<Response> {
     const url = new URL(request.url)
@@ -235,6 +260,7 @@ const worker = {
         )
       }
       const summary = await ingestAll(env)
+      logIngestSummary(summary)
       const status = summary.failed > 0 ? 500 : 200
       return json({ ok: summary.failed === 0, ...summary }, status)
     }
@@ -243,7 +269,7 @@ const worker = {
   },
 
   async scheduled(_controller: unknown, env: WorkerEnv): Promise<void> {
-    await ingestAll(env)
+    logIngestSummary(await ingestAll(env))
   },
 }
 
