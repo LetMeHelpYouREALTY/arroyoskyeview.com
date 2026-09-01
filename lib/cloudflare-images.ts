@@ -46,6 +46,52 @@ function accountHash(): string | undefined {
   return readEnv('CLOUDFLARE_IMAGES_HASH') || readEnv('NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH')
 }
 
+/** Public/runtime hash — middleware reads this on each request (no rebuild). */
+export function cloudflareImagesAccountHash(): string | undefined {
+  return accountHash()
+}
+
+function localImagesPath(value: string): string | undefined {
+  const withoutQuery = value.split('?')[0] ?? value
+  if (withoutQuery.startsWith('/images/')) {
+    return withoutQuery
+  }
+  try {
+    const url = new URL(withoutQuery)
+    if (
+      (url.hostname === 'www.arroyoskyeview.com' || url.hostname === 'arroyoskyeview.com') &&
+      url.pathname.startsWith('/images/')
+    ) {
+      return url.pathname
+    }
+  } catch {
+    return undefined
+  }
+  return undefined
+}
+
+/**
+ * imagedelivery.net flexible-variant URL for a local /images path.
+ * Undefined when the account hash is not configured or the path is not a site image.
+ */
+export function cloudflareFlexibleDeliveryUrl(
+  localPath: string,
+  width: number,
+  quality = 75,
+): string | undefined {
+  const path = localImagesPath(localPath)
+  if (!path) {
+    return undefined
+  }
+  const safeWidth = Number.isFinite(width) && width > 0 ? Math.round(width) : 1920
+  const safeQuality =
+    Number.isFinite(quality) && quality > 0 ? Math.min(100, Math.round(quality)) : 75
+  return cloudflareImageUrl(
+    cloudflareCustomId(path),
+    cloudflareFlexibleVariant(safeWidth, safeQuality),
+  )
+}
+
 /** Custom ID derived from a local public path, e.g. images/hero/hero-5 */
 export function cloudflareCustomId(localPath: string): string {
   return localPath.replace(/^\/+/, '').replace(/\.[^.]+$/, '')

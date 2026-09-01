@@ -16,12 +16,14 @@ import PageSchemas from './components/page-schemas'
 import Footer from './components/footer'
 import AnalyticsTracker from './components/analytics-tracker'
 import ReviewSchema from './components/review-schema'
-import { ARROYO_PRICE_RANGE } from '@/lib/arroyo-inventory'
+import ProductSchemas from './components/product-schemas'
+import { ARROYO_AVAILABLE_HOMES, ARROYO_PRICE_RANGE } from '@/lib/arroyo-inventory'
 import { LUXURY_HERO_IMAGE } from '@/lib/luxury-theme'
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
+      <ProductSchemas homes={[...ARROYO_AVAILABLE_HOMES]} />
       <PageSchemas
         pageType="homepage"
         url="/"

@@ -11,8 +11,10 @@ const nextConfig: NextConfig = {
   ],
   images: {
     // Do not set loader/loaderFile globally. RealScout listing photos must
-    // keep the Vercel Image Optimization API. Site photos use SiteImage
-    // (cloudflareImageLoader) when NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH is set.
+    // keep the Vercel Image Optimization API. Site /images/* photos use
+    // SiteImage (cloudflareImageLoader) when NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH
+    // is inlined at build, or middleware rewrites /_next/image to
+    // imagedelivery.net when CLOUDFLARE_IMAGES_HASH is set at runtime.
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],

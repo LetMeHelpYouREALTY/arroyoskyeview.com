@@ -48,6 +48,12 @@ jobs:
             echo "CLOUDFLARE_IMAGES_HASH=$HASH" >> "$GITHUB_ENV"
           fi
 
+      - name: Register Calendly webhook
+        if: ${{ secrets.CALENDLY_API_TOKEN != '' }}
+        env:
+          CALENDLY_API_TOKEN: ${{ secrets.CALENDLY_API_TOKEN }}
+        run: node scripts/register-calendly-webhook.mjs
+
       - name: Upsert Vercel env
         if: ${{ secrets.VERCEL_TOKEN != '' }}
         env:

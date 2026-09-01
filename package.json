@@ -16,6 +16,7 @@
     "images:upload:origin": "node scripts/upload-cloudflare-images.mjs --from-origin",
     "images:probe": "node scripts/probe-cloudflare-images.mjs",
     "env:sync": "node scripts/sync-vercel-go-live-env.mjs",
+    "calendly:webhook": "node scripts/register-calendly-webhook.mjs",
     "workflow:web": "workflow web",
     "audit:forms": "node scripts/audit-no-forms.mjs",
     "format": "prettier --write \"**/*.{ts,tsx}\"",

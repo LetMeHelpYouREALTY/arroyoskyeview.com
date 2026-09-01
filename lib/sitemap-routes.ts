@@ -46,6 +46,7 @@ const PUBLIC_ROUTES: SitemapRouteDef[] = [
   { path: '/', tier: 'core' },
   { path: '/about-us', tier: 'core' },
   { path: '/contact-us', tier: 'core' },
+  { path: '/schedule', tier: 'conversion', priority: 0.9 },
   { path: '/work-with-dr-jan', tier: 'core', priority: 0.95 },
   { path: '/testimonials', tier: 'conversion' },
 

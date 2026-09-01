@@ -9,7 +9,9 @@ import {
 
 /**
  * next/image wrapper that serves /images/* from Cloudflare Images when the
- * public or server hash is set, and otherwise uses the Vercel optimizer.
+ * public hash is inlined at build. Middleware also rewrites /_next/image
+ * (and /images/*) to imagedelivery.net when CLOUDFLARE_IMAGES_HASH is set
+ * at runtime, so site photos do not need a rebuild after the hash is added.
  */
 export default function SiteImage({ loader, src, ...rest }: ImageProps) {
   const useCloudflare =

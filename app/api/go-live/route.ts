@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { CALENDLY_CONFIRMATION_URL, CALENDLY_URL } from '@/lib/calendly'
 import { isCloudflareImagesHashConfigured } from '@/lib/cloudflare-images'
 import { isFollowUpBossConfigured } from '@/lib/fub-client'
 import { SITE_URL } from '@/lib/site-url'
@@ -26,6 +27,10 @@ export async function GET() {
       configured: calendlySigningKey && followUpBoss,
       calendlySigningKey,
       followUpBoss,
+      calendlyApiToken: hasEnv('CALENDLY_API_TOKEN'),
+      webhookUrl: `${SITE_URL}/api/calendly/webhook`,
+      confirmationUrl: CALENDLY_CONFIRMATION_URL,
+      eventTypeUrl: CALENDLY_URL,
     },
     cloudflareImages: {
       configured: cloudflareToken && deliveryHash,
