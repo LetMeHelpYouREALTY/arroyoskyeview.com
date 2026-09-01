@@ -18,17 +18,25 @@ on:
   push:
 
 concurrency:
-  group: go-live-stack
+  group: go-live-stack-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: false
 
 jobs:
   sync:
-    name: Upload Cloudflare Images and sync Vercel env
+    name: Upload Cloudflare Images (${{ matrix.environment }})
     runs-on: ubuntu-latest
-    # Vercel GitHub integration created this environment. Repo-level
-    # secrets.CLOUDFLARE_API_TOKEN is empty; environment secrets are only
-    # injected when the job sets `environment`.
-    environment: Production
+    # Vercel GitHub integration created these environments with no
+    # protection rules. Environment secrets only inject when `environment`
+    # is set. Probe each one — repo-level CLOUDFLARE_API_TOKEN is empty.
+    strategy:
+      fail-fast: false
+      matrix:
+        environment:
+          - Production
+          - Preview
+          - Production – arroyoskyeview.com-2
+          - Preview – arroyoskyeview.com-2
+    environment: ${{ matrix.environment }}
     permissions:
       contents: read
     steps:
@@ -85,9 +93,10 @@ jobs:
           if [ -n "$NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH" ] && [ -z "$CLOUDFLARE_IMAGES_HASH" ]; then
             echo "CLOUDFLARE_IMAGES_HASH=$NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH" >> "$GITHUB_ENV"
           fi
-          echo "Seeded from GitHub environment Production (token present: CF=$([ -n "$CLOUDFLARE_API_TOKEN" ] && echo yes || echo no) CAL=$([ -n "$CALENDLY_API_TOKEN" ] && echo yes || echo no))"
+          echo "Seeded from GitHub environment ${{ matrix.environment }} (token present: CF=$([ -n "$CLOUDFLARE_API_TOKEN" ] && echo yes || echo no) CAL=$([ -n "$CALENDLY_API_TOKEN" ] && echo yes || echo no))"
 
       - name: Borrow go-live env from sister Vercel projects
+        if: matrix.environment == 'Production'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
