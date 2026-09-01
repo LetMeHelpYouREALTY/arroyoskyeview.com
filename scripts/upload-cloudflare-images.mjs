@@ -80,6 +80,20 @@ async function upload(filePath) {
   return { id, status: res.status, json }
 }
 
+async function fetchAccountHash() {
+  const res = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/v1?per_page=1`,
+    { headers: { Authorization: `Bearer ${TOKEN}` } },
+  )
+  const json = await res.json()
+  const variant = json?.result?.images?.[0]?.variants?.[0]
+  if (typeof variant === 'string') {
+    const match = variant.match(/imagedelivery\.net\/([^/]+)\//)
+    return match?.[1]
+  }
+  return undefined
+}
+
 async function main() {
   const files = await walk(ROOT)
   if (files.length === 0) {
@@ -91,7 +105,14 @@ async function main() {
   let failed = 0
   for (const file of files) {
     const result = await upload(file)
+    const alreadyExists =
+      result.status === 409 ||
+      result.json?.errors?.some((error) => error?.code === 5408 || /already exist/i.test(error?.message ?? ''))
     const ok = result.json?.success === true
+    if (alreadyExists) {
+      console.log(`EXISTS ${result.id}`)
+      continue
+    }
     if (!ok) {
       failed += 1
       console.error(
@@ -106,6 +127,10 @@ async function main() {
       hash = match?.[1]
     }
     console.log(`OK ${result.id}`)
+  }
+
+  if (!hash) {
+    hash = await fetchAccountHash()
   }
 
   if (hash) {

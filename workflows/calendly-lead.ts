@@ -1,4 +1,5 @@
 import { FatalError } from 'workflow'
+import { buildCalendlyFubEvent } from '@/lib/fub-events'
 
 export type CalendlyLeadInput = {
   event: string
@@ -25,28 +26,7 @@ async function syncLeadToFollowUpBoss(input: CalendlyLeadInput) {
     throw new FatalError('FOLLOW_UP_BOSS_API_KEY is not configured')
   }
 
-  const parts = input.inviteeName.trim().split(/\s+/).filter(Boolean)
-  const firstName = parts[0] ?? 'Calendly'
-  const lastName = parts.length > 1 ? parts.slice(1).join(' ') : undefined
-
-  const messageLines = [
-    `Calendly booking: ${input.eventType ?? 'Buyer consultation'}`,
-    input.scheduledAt ? `Scheduled: ${input.scheduledAt}` : null,
-    ...(input.questionsAndAnswers?.map((qa) => `${qa.question}: ${qa.answer}`) ?? []),
-  ].filter(Boolean)
-
-  const payload = {
-    source: 'arroyoskyeview.com',
-    system: 'Calendly',
-    type: 'Buyer Consultation',
-    message: messageLines.join('\n'),
-    person: {
-      firstName,
-      lastName,
-      emails: [{ value: input.inviteeEmail }],
-    },
-    occurred: input.scheduledAt,
-  }
+  const payload = buildCalendlyFubEvent(input)
 
   const auth = Buffer.from(`${apiKey}:`).toString('base64')
   const response = await fetch('https://api.followupboss.com/v1/events', {

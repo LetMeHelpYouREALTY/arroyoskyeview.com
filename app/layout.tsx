@@ -5,6 +5,7 @@ import { SITE_URL } from '@/lib/site-url'
 import StructuredData from './components/structured-data'
 import PreconnectLinks from './components/preconnect-links'
 import CalendlyBadgeWidget from './components/calendly-badge-widget'
+import CalendlyFubBridge from './components/calendly-fub-bridge'
 import FubPixelScript from './components/fub-pixel-script'
 import SkipToMain from './components/skip-to-main'
 import './globals.css'
@@ -139,6 +140,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
         <FubPixelScript />
+        <CalendlyFubBridge />
         <SkipToMain />
         {children}
         <CalendlyBadgeWidget />
