@@ -6,7 +6,9 @@
  * only tried janet.duffy@bhhsnv.com (Linear) and drduffy@bhhsnv.com
  * (invoice To:). Do not lowercase-dedupe those variants.
  *
- * Never print token or Global key values.
+ * Never print token or Global key values. Active Bearer tokens that
+ * 403 on Images still get an account-owned Images:Edit mint attempt
+ * (GET /accounts/{id}/tokens/permission_groups + POST /accounts/{id}/tokens).
  */
 export const IMAGES_ACCOUNT_ID = '2cc579c1ec9e426ed585e933ebf4753b'
 
@@ -84,9 +86,21 @@ async function probeTokenVerify(headers) {
   }
 }
 
-function looksLikeApiToken(token) {
+/**
+ * Cloudflare TokenValue is 40–80 chars. Sister env sometimes stores a
+ * prefixed copy; skip Global keys, Origin CA, and Vercel envelopes.
+ */
+export function looksLikeApiToken(token) {
   const trimmed = typeof token === 'string' ? token.trim() : ''
-  return trimmed.length >= 40 && trimmed.length <= 80 && !looksLikeGlobalApiKey(trimmed)
+  if (
+    !trimmed ||
+    looksLikeGlobalApiKey(trimmed) ||
+    looksLikeOriginCaKey(trimmed) ||
+    (trimmed.startsWith('eyJ') && trimmed.length > 80)
+  ) {
+    return false
+  }
+  return trimmed.length >= 40 && trimmed.length <= 200 && !/\s/.test(trimmed)
 }
 
 async function probeUser(headers) {
@@ -114,11 +128,20 @@ async function listCloudflareAccounts(headers) {
   }
 }
 
-async function listPermissionGroups(headers) {
-  const res = await fetch(
-    'https://api.cloudflare.com/client/v4/user/tokens/permission_groups',
-    { headers },
-  )
+function permissionGroupsUrl(accountId, name) {
+  const base = accountId
+    ? `https://api.cloudflare.com/client/v4/accounts/${accountId}/tokens/permission_groups`
+    : 'https://api.cloudflare.com/client/v4/user/tokens/permission_groups'
+  const url = new URL(base)
+  url.searchParams.set('per_page', '50')
+  if (name) {
+    url.searchParams.set('name', name)
+  }
+  return url
+}
+
+async function listPermissionGroups(headers, accountId, name) {
+  const res = await fetch(permissionGroupsUrl(accountId, name), { headers })
   const json = await res.json().catch(() => null)
   const groups = Array.isArray(json?.result) ? json.result : []
   return { ok: res.ok, status: res.status, groups, ...apiError(json) }
@@ -131,41 +154,85 @@ function imagesEditGroup(groups) {
   )
 }
 
-async function existingImagesToken(headers) {
-  const res = await fetch('https://api.cloudflare.com/client/v4/user/tokens?per_page=50', {
-    headers,
-  })
+async function findImagesEditGroup(headers, accountId) {
+  const names = ['Cloudflare Images Write', 'Images Write', 'Images']
+  const seen = []
+  for (const name of names) {
+    const listed = await listPermissionGroups(headers, accountId, name)
+    if (!listed.ok) {
+      return listed
+    }
+    seen.push(...listed.groups)
+    const group = imagesEditGroup(listed.groups)
+    if (group?.id) {
+      return { ok: true, status: listed.status, groups: listed.groups, group }
+    }
+  }
+  const listed = await listPermissionGroups(headers, accountId)
+  if (!listed.ok) {
+    return listed
+  }
+  const merged = [...seen, ...listed.groups]
+  return {
+    ok: true,
+    status: listed.status,
+    groups: merged,
+    group: imagesEditGroup(merged),
+  }
+}
+
+function tokensUrl(accountId) {
+  return accountId
+    ? `https://api.cloudflare.com/client/v4/accounts/${accountId}/tokens?per_page=50`
+    : 'https://api.cloudflare.com/client/v4/user/tokens?per_page=50'
+}
+
+function createTokenUrl(accountId) {
+  return accountId
+    ? `https://api.cloudflare.com/client/v4/accounts/${accountId}/tokens`
+    : 'https://api.cloudflare.com/client/v4/user/tokens'
+}
+
+async function existingImagesToken(headers, accountId) {
+  const res = await fetch(tokensUrl(accountId), { headers })
   const json = await res.json().catch(() => null)
   const tokens = Array.isArray(json?.result) ? json.result : []
   return tokens.find((token) => token?.name === TOKEN_NAME)
 }
 
-async function mintImagesEditToken(headers, accountId = IMAGES_ACCOUNT_ID) {
-  const existing = await existingImagesToken(headers)
+/**
+ * @param {'user' | 'account'} owner
+ */
+async function mintImagesEditToken(headers, accountId, owner) {
+  const accountApi = owner === 'account'
+  const scope = accountApi ? `account ${accountId.slice(0, 8)}…` : 'user'
+  const existing = await existingImagesToken(headers, accountApi ? accountId : undefined)
   if (existing?.id) {
     console.log(
-      `Cloudflare user token "${TOKEN_NAME}" already exists (id ${String(existing.id).slice(0, 8)}…). Secret is not recoverable.`,
+      `Cloudflare ${scope} token "${TOKEN_NAME}" already exists (id ${String(existing.id).slice(0, 8)}…). Secret is not recoverable.`,
     )
     return { ok: false, status: 409, message: 'token exists' }
   }
 
-  const listed = await listPermissionGroups(headers)
+  const listed = await findImagesEditGroup(headers, accountApi ? accountId : undefined)
   if (!listed.ok) {
-    console.log(`Permission groups HTTP ${probeSummary(listed)}`)
+    console.log(`${scope} permission groups HTTP ${probeSummary(listed)}`)
     return { ok: false, status: listed.status, message: listed.message }
   }
-  const group = imagesEditGroup(listed.groups)
+  const group = listed.group
   if (!group?.id) {
-    const names = listed.groups
+    const names = (listed.groups || [])
       .filter((item) => /image/i.test(item?.name || ''))
       .map((item) => item.name)
       .slice(0, 8)
-    console.log(`No Images Edit permission group. Image-named groups: ${names.join(', ') || 'none'}`)
+    console.log(
+      `No Images Edit permission group on ${scope}. Image-named groups: ${names.join(', ') || 'none'}`,
+    )
     return { ok: false, status: 404, message: 'no Images permission group' }
   }
-  console.log(`Minting Images token with permission group ${group.name}`)
+  console.log(`Minting Images token on ${scope} with permission group ${group.name}`)
 
-  const res = await fetch('https://api.cloudflare.com/client/v4/user/tokens', {
+  const res = await fetch(createTokenUrl(accountApi ? accountId : undefined), {
     method: 'POST',
     headers: { ...headers, 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -184,23 +251,25 @@ async function mintImagesEditToken(headers, accountId = IMAGES_ACCOUNT_ID) {
   const json = await res.json().catch(() => null)
   const token = typeof json?.result?.value === 'string' ? json.result.value.trim() : ''
   if (!res.ok || !token) {
-    console.log(`Mint Images token HTTP ${probeSummary({ status: res.status, ...apiError(json) })}`)
+    console.log(
+      `Mint Images token on ${scope} HTTP ${probeSummary({ status: res.status, ...apiError(json) })}`,
+    )
     return { ok: false, status: res.status, ...apiError(json) }
   }
-  return { ok: true, token }
+  return { ok: true, token, accountId }
 }
 
 function success({ mode, status, headers, email, accountId, token, minted = false }) {
   return { ok: true, mode, status, headers, email, accountId, token, minted }
 }
 
-async function tryMintedImagesToken(headers, email) {
-  const minted = await mintImagesEditToken(headers)
+async function tryMintedImagesToken(headers, email, accountId = IMAGES_ACCOUNT_ID, owner = 'user') {
+  const minted = await mintImagesEditToken(headers, accountId, owner)
   if (!minted.ok) {
     return null
   }
   const mintedHeaders = { Authorization: `Bearer ${minted.token}` }
-  const mintedProbe = await probeImages(mintedHeaders)
+  const mintedProbe = await probeImages(mintedHeaders, minted.accountId || accountId)
   console.log(`Minted Images token probe HTTP ${probeSummary(mintedProbe)}`)
   if (!mintedProbe.ok) {
     return null
@@ -210,10 +279,80 @@ async function tryMintedImagesToken(headers, email) {
     status: mintedProbe.status,
     headers: mintedHeaders,
     email,
-    accountId: IMAGES_ACCOUNT_ID,
+    accountId: minted.accountId || accountId,
     token: minted.token,
     minted: true,
   })
+}
+
+function uniqueAccountIds(accounts) {
+  const ids = [IMAGES_ACCOUNT_ID]
+  for (const account of accounts) {
+    const id = typeof account?.id === 'string' ? account.id : ''
+    if (id && !ids.includes(id)) {
+      ids.push(id)
+    }
+  }
+  return ids.slice(0, 21)
+}
+
+/**
+ * Active Bearer tokens often lack Images:Edit and User API Tokens Write.
+ * CI 2026-09-01: summerlinwestrealestate / pewtervalleyestates.com tokens
+ * verify HTTP 200 (active), /user 403 9109, user permission groups 403.
+ * Try Images on every reachable account, then mint an account-owned token.
+ */
+async function recoverBearerImagesAccess(headers, token, email) {
+  console.log(`Bearer token len=${token.length}; trying verify + account Images mint`)
+  const verify = await probeTokenVerify(headers)
+  const user = await probeUser(headers)
+  console.log(
+    `Bearer token verify HTTP ${probeSummary(verify)}${verify.statusText ? ` (${verify.statusText})` : ''} /user HTTP ${probeSummary(user)}`,
+  )
+
+  if (!verify.ok && !user.ok) {
+    return null
+  }
+
+  const userMinted = await tryMintedImagesToken(
+    headers,
+    user.email || email,
+    IMAGES_ACCOUNT_ID,
+    'user',
+  )
+  if (userMinted) {
+    return userMinted
+  }
+
+  const listed = await listCloudflareAccounts(headers)
+  console.log(
+    `Bearer accounts: HTTP ${probeSummary(listed)}, ${listed.accounts.length}`,
+  )
+  for (const accountId of uniqueAccountIds(listed.accounts)) {
+    const probed = await probeImages(headers, accountId)
+    console.log(`Images on account ${accountId.slice(0, 8)}…: HTTP ${probeSummary(probed)}`)
+    if (probed.ok) {
+      return success({
+        mode: 'bearer',
+        status: probed.status,
+        headers,
+        email: user.email || email,
+        accountId,
+        token,
+      })
+    }
+    const minted = await tryMintedImagesToken(
+      headers,
+      user.email || email,
+      accountId,
+      'account',
+    )
+    if (minted) {
+      return minted
+    }
+  }
+  console.log('Bearer recovery failed: no Images access and account-owned mint denied')
+  return null
 }
 
 /**
@@ -236,58 +375,39 @@ export async function cloudflareImagesCredentialWorks(token, emails) {
   }
 
   if (looksLikeOriginCaKey(token)) {
-    const uniqueEmails = uniqueAuthEmails(emails).slice(0, 3)
-    let lastImages = bearer
-    for (const email of uniqueEmails) {
-      const serviceHeaders = {
-        'X-Auth-User-Service-Key': token.trim(),
-        'X-Auth-Email': email,
-      }
-      const images = await probeImages(serviceHeaders)
-      const user = await probeUser(serviceHeaders)
-      lastImages = images
-      console.log(
-        `Origin CA email=${email}: Images HTTP ${probeSummary(images)} /user HTTP ${probeSummary(user)}`,
-      )
-      const minted = await tryMintedImagesToken(serviceHeaders, user.email || email)
-      if (minted) {
-        return minted
-      }
-      if (images.ok) {
-        return success({
-          mode: 'service',
-          status: images.status,
-          headers: serviceHeaders,
-          email: user.email || email,
-          accountId: IMAGES_ACCOUNT_ID,
-          token: token.trim(),
-        })
-      }
-      if (user.status === 429 || images.status === 429) {
-        console.log('Origin CA rate-limited; stopping further email probes for this key.')
-        break
-      }
+    // Origin CA + email is 9107 (Missing X-Auth-Key). It cannot mint tokens.
+    const email = uniqueAuthEmails(emails)[0] || ''
+    const serviceHeaders = {
+      'X-Auth-User-Service-Key': token.trim(),
+      ...(email ? { 'X-Auth-Email': email } : {}),
+    }
+    const images = await probeImages(serviceHeaders)
+    console.log(
+      `Origin CA${email ? ` email=${email}` : ''}: Images HTTP ${probeSummary(images)} (skip mint; service keys cannot call /user/tokens)`,
+    )
+    if (images.ok) {
+      return success({
+        mode: 'service',
+        status: images.status,
+        headers: serviceHeaders,
+        email,
+        accountId: IMAGES_ACCOUNT_ID,
+        token: token.trim(),
+      })
     }
     return {
       ok: false,
       mode: 'service',
-      status: lastImages.status,
-      code: lastImages.code,
-      message: lastImages.message,
+      status: images.status,
+      code: images.code,
+      message: images.message,
     }
   }
 
   if (looksLikeApiToken(token)) {
-    const verify = await probeTokenVerify(bearerHeaders)
-    const user = await probeUser(bearerHeaders)
-    console.log(
-      `Bearer token verify HTTP ${probeSummary(verify)}${verify.statusText ? ` (${verify.statusText})` : ''} /user HTTP ${probeSummary(user)}`,
-    )
-    if (user.ok || verify.ok) {
-      const minted = await tryMintedImagesToken(bearerHeaders, user.email)
-      if (minted) {
-        return minted
-      }
+    const recovered = await recoverBearerImagesAccess(bearerHeaders, token, '')
+    if (recovered) {
+      return recovered
     }
   }
 
