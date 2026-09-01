@@ -643,9 +643,19 @@ for (const project of projects) {
     if (!value) {
       continue
     }
-    if (looksLikeSecretDump(value)) {
+    if (
+      looksLikeSecretDump(value) &&
+      (canonical.startsWith('CLOUDFLARE') || canonical.startsWith('CALENDLY'))
+    ) {
       console.log(
         `${canonical} on ${project.name} is ${value.length} chars; scanning blob, not copying`,
+      )
+      harvestFromBlob(value, found, `${project.name} ${canonical}`)
+      continue
+    }
+    if (canonical === 'FOLLOW_UP_BOSS_API_KEY' && value.length > 200) {
+      console.log(
+        `Skip ${canonical} from ${project.name}: ${value.length} chars (not a FUB Events API key)`,
       )
       harvestFromBlob(value, found, `${project.name} ${canonical}`)
       continue

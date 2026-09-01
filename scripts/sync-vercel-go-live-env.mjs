@@ -68,7 +68,13 @@ if (!TOKEN) {
 
 function envValue(key) {
   if (key === 'FOLLOW_UP_BOSS_API_KEY') {
-    return process.env.FOLLOW_UP_BOSS_API_KEY?.trim() || process.env.FUB_API_KEY?.trim()
+    const value =
+      process.env.FOLLOW_UP_BOSS_API_KEY?.trim() || process.env.FUB_API_KEY?.trim()
+    if (value && value.length > 200) {
+      console.log('Skip upserting FOLLOW_UP_BOSS_API_KEY: value is not an Events API key length')
+      return undefined
+    }
+    return value
   }
   if (key === 'CALENDLY_API_TOKEN') {
     return (
