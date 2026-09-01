@@ -1,0 +1,3 @@
+# Optional. Cron ingest runs every 5 minutes without this.
+# Only required for POST /sync from a non-localhost client.
+UPLOAD_SECRET=
