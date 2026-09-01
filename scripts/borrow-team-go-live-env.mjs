@@ -9,6 +9,8 @@
  * Cloudflare Images: Bearer tokens on clones are expired (401). Global API
  * keys return 400 as Bearer — they need X-Auth-Email + X-Auth-Key. Notion is
  * scanned when a sister decrypts NOTION_TOKEN (never copied to Arroyo).
+ * Cloudflare invoice To: header (verified 2026-09-01) is the Global API Key
+ * email probe. Do not upsert the Global key onto Arroyo Vercel.
  */
 import { appendFile } from 'node:fs/promises'
 
@@ -46,7 +48,14 @@ const ALIASES = {
     'CF_GLOBAL_API_KEY',
     'CF_API_KEY',
   ],
-  CLOUDFLARE_EMAIL: ['CLOUDFLARE_EMAIL', 'CF_EMAIL', 'CLOUDFLARE_ACCOUNT_EMAIL'],
+  CLOUDFLARE_EMAIL: [
+    'CLOUDFLARE_EMAIL',
+    'CF_EMAIL',
+    'CLOUDFLARE_ACCOUNT_EMAIL',
+    'CF_ACCOUNT_EMAIL',
+    'CLOUDFLARE_USER_EMAIL',
+    'CF_USER_EMAIL',
+  ],
   CLOUDFLARE_ACCOUNT_ID: ['CLOUDFLARE_ACCOUNT_ID', 'CF_ACCOUNT_ID'],
   FOLLOW_UP_BOSS_API_KEY: [
     'FOLLOW_UP_BOSS_API_KEY',
@@ -93,6 +102,8 @@ const PRIORITY_PROJECTS = [
 ]
 
 const IMAGES_ACCOUNT_ID = '2cc579c1ec9e426ed585e933ebf4753b'
+/** Cloudflare invoice recipient. Used only to probe sister Global API Keys. */
+const FALLBACK_CLOUDFLARE_EMAIL = 'drduffy@bhhsnv.com'
 
 function alreadyHave(key) {
   const value = process.env[key]
@@ -248,20 +259,25 @@ async function probeImages(headers) {
   return { ok: res.ok, status: res.status }
 }
 
-async function cloudflareImagesCredentialWorks(token, email) {
+async function cloudflareImagesCredentialWorks(token, emails) {
   const bearer = await probeImages({ Authorization: `Bearer ${token}` })
   if (bearer.ok) {
     return { ok: true, mode: 'bearer', status: bearer.status }
   }
-  if (email) {
+  const uniqueEmails = [...new Set((Array.isArray(emails) ? emails : [emails]).filter(Boolean))]
+  let lastStatus = bearer.status
+  for (const email of uniqueEmails) {
     const globalAuth = await probeImages({
       'X-Auth-Email': email,
       'X-Auth-Key': token,
     })
+    lastStatus = globalAuth.status
     if (globalAuth.ok) {
-      return { ok: true, mode: 'global', status: globalAuth.status }
+      return { ok: true, mode: 'global', status: globalAuth.status, email }
     }
-    return { ok: false, mode: 'global', status: globalAuth.status }
+  }
+  if (uniqueEmails.length > 0) {
+    return { ok: false, mode: 'global', status: lastStatus }
   }
   return { ok: false, mode: 'bearer', status: bearer.status }
 }
@@ -337,6 +353,40 @@ async function notionBlocks(token, pageId) {
     cursor = json.next_cursor
   }
   return texts
+}
+
+function canonicalFromEnvName(name) {
+  for (const [canonical, names] of Object.entries(ALIASES)) {
+    if (names.includes(name)) {
+      return canonical
+    }
+  }
+  return undefined
+}
+
+function walkJsonForSecrets(node, found, source, depth = 0) {
+  if (!node || typeof node !== 'object' || depth > 6) {
+    return
+  }
+  for (const [key, val] of Object.entries(node)) {
+    if (typeof val === 'string' && val.trim() && val.length <= 4096) {
+      const canonical = canonicalFromEnvName(key)
+      if (canonical && !alreadyHave(canonical) && !found[canonical]) {
+        found[canonical] = { value: val.trim(), source: `${source} JSON.${key}` }
+      }
+    } else if (val && typeof val === 'object') {
+      walkJsonForSecrets(val, found, source, depth + 1)
+    }
+  }
+}
+
+function harvestFromBlob(value, found, source) {
+  harvestLabeledSecrets([value], found)
+  try {
+    walkJsonForSecrets(JSON.parse(value), found, source)
+  } catch {
+    // Not JSON — labeled KEY=value lines are enough.
+  }
 }
 
 function harvestLabeledSecrets(texts, found) {
@@ -429,6 +479,7 @@ const candidates = {}
 let decryptDenied = 0
 let notionDecryptAttempts = 0
 let readableProjects = 0
+let loggedFullKeyList = false
 let notionToken = process.env.NOTION_TOKEN?.trim() || ''
 let linearToken = process.env.LINEAR_API_KEY?.trim() || process.env.LINEAR_API_TOKEN?.trim() || ''
 
@@ -449,6 +500,10 @@ for (const project of projects) {
     console.log(
       `Interesting keys on ${project.name}: ${interesting.join(', ')} (values: ${withValues.length})`,
     )
+  }
+  if (!loggedFullKeyList && interesting.includes('Linear')) {
+    loggedFullKeyList = true
+    console.log(`All env keys on ${project.name}: ${names.join(', ')}`)
   }
 
   if (
@@ -503,6 +558,13 @@ for (const project of projects) {
     if (!value) {
       continue
     }
+    if (value.length > 4096) {
+      console.log(
+        `${canonical} on ${project.name} is ${value.length} chars; scanning blob, not copying`,
+      )
+      harvestFromBlob(value, found, `${project.name} ${canonical}`)
+      continue
+    }
     const source = `${project.name} (${entry?.key || namesForKey[0]})`
     const bucket = candidates[canonical] || []
     if (!bucket.some((item) => item.value === value)) {
@@ -516,61 +578,122 @@ if (notionToken) {
   await harvestFromNotion(notionToken, found)
 }
 
+let linearEmails = []
 if (linearToken) {
-  await harvestFromLinear(linearToken, found)
+  linearEmails = await harvestFromLinear(linearToken, found)
 }
 
-async function harvestFromLinear(token, found) {
+async function linearGraphql(token, query) {
   const res = await fetch('https://api.linear.app/graphql', {
     method: 'POST',
     headers: {
       Authorization: token,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      query:
-        '{ issueSearch(query: "CLOUDFLARE_API_TOKEN OR CALENDLY_API_TOKEN OR Calendly PAT", first: 8) { nodes { identifier title description } } }',
-    }),
+    body: JSON.stringify({ query }),
   })
   const json = await res.json().catch(() => null)
-  if (!res.ok) {
-    console.log(`Linear search HTTP ${res.status}`)
-    return
+  return { ok: res.ok, status: res.status, json }
+}
+
+async function harvestFromLinear(token, found) {
+  const emails = []
+  const viewer = await linearGraphql(
+    token,
+    '{ viewer { id name email organization { name urlKey } } }',
+  )
+  if (!viewer.ok) {
+    console.log(`Linear viewer HTTP ${viewer.status}`)
+  } else if (viewer.json?.errors?.[0]?.message) {
+    console.log(`Linear viewer GraphQL: ${String(viewer.json.errors[0].message).slice(0, 160)}`)
+  } else {
+    const name = viewer.json?.data?.viewer?.name || '?'
+    const org =
+      viewer.json?.data?.viewer?.organization?.urlKey ||
+      viewer.json?.data?.viewer?.organization?.name ||
+      '?'
+    console.log(`Linear viewer: ${name} @ ${org}`)
+    const email = viewer.json?.data?.viewer?.email
+    if (typeof email === 'string' && email.includes('@')) {
+      emails.push(email.trim())
+    }
   }
-  const nodes = json?.data?.issueSearch?.nodes
-  if (!Array.isArray(nodes)) {
-    console.log('Linear search returned no issues')
-    return
-  }
-  console.log(`Linear search: ${nodes.length} issue(s)`)
+
+  const queries = [
+    '{ searchIssues(term: "calendly", first: 10, includeArchived: true) { nodes { identifier title description } } }',
+    '{ searchIssues(term: "CLOUDFLARE_API_TOKEN", first: 10, includeArchived: true) { nodes { identifier title description } } }',
+    '{ issues(first: 50) { nodes { identifier title description } } }',
+    '{ documents(first: 25) { nodes { name title content } } }',
+  ]
   const texts = []
-  for (const node of nodes) {
-    console.log(`Linear issue: ${node?.identifier || '?'} ${node?.title || ''}`)
-    if (typeof node?.description === 'string' && node.description) {
-      texts.push(node.description)
+  for (const query of queries) {
+    const result = await linearGraphql(token, query)
+    if (!result.ok) {
+      console.log(`Linear query HTTP ${result.status}`)
+      continue
+    }
+    const message = result.json?.errors?.[0]?.message
+    if (message) {
+      console.log(`Linear GraphQL: ${String(message).slice(0, 160)}`)
+    }
+    const data = result.json?.data || {}
+    const nodes =
+      data.searchIssues?.nodes ||
+      data.issueSearch?.nodes ||
+      data.issues?.nodes ||
+      data.documents?.nodes ||
+      []
+    if (!Array.isArray(nodes) || nodes.length === 0) {
+      continue
+    }
+    console.log(`Linear nodes: ${nodes.length}`)
+    for (const node of nodes) {
+      const title = node?.identifier || node?.name || node?.title || '?'
+      console.log(`Linear: ${title} ${node?.title || ''}`.trim())
+      if (typeof node?.description === 'string' && node.description) {
+        texts.push(node.description)
+      }
+      if (typeof node?.content === 'string' && node.content) {
+        texts.push(node.content)
+      }
     }
   }
   harvestLabeledSecrets(texts, found)
+  if (texts.length === 0) {
+    console.log('Linear search returned no issue or document text')
+  }
+  return emails
 }
+
+const emailCandidates = [
+  alreadyHave('CLOUDFLARE_EMAIL') ? process.env.CLOUDFLARE_EMAIL.trim() : '',
+  found.CLOUDFLARE_EMAIL?.value,
+  candidates.CLOUDFLARE_EMAIL?.[0]?.value,
+  ...linearEmails,
+  FALLBACK_CLOUDFLARE_EMAIL,
+].filter((value) => typeof value === 'string' && value.includes('@'))
 
 for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_GLOBAL_API_TOKEN']) {
   const harvested = found[key]
   if (!harvested) {
     continue
   }
-  const notionEmail = found.CLOUDFLARE_EMAIL?.value || ''
-  const probe = await cloudflareImagesCredentialWorks(harvested.value, notionEmail)
+  const probe = await cloudflareImagesCredentialWorks(harvested.value, emailCandidates)
   if (!probe.ok) {
-    console.log(`Skip ${key} from Notion: Images HTTP ${probe.status} (${probe.mode})`)
+    console.log(`Skip ${key} from Notion/Linear: Images HTTP ${probe.status} (${probe.mode})`)
     delete found[key]
   } else {
-    console.log(`Cloudflare Images ${key} from Notion accepted via ${probe.mode}`)
+    console.log(`Cloudflare Images ${key} from harvest accepted via ${probe.mode}`)
+    if (probe.mode === 'global' && probe.email && !found.CLOUDFLARE_EMAIL && !alreadyHave('CLOUDFLARE_EMAIL')) {
+      found.CLOUDFLARE_EMAIL = {
+        value: probe.email,
+        source: 'Cloudflare invoice recipient / Linear viewer',
+      }
+    }
   }
 }
 
-const email = alreadyHave('CLOUDFLARE_EMAIL')
-  ? process.env.CLOUDFLARE_EMAIL.trim()
-  : found.CLOUDFLARE_EMAIL?.value || candidates.CLOUDFLARE_EMAIL?.[0]?.value || ''
+const email = emailCandidates[0] || ''
 
 for (const [canonical, bucket] of Object.entries(candidates)) {
   if (alreadyHave(canonical) || found[canonical]) {
@@ -579,7 +702,7 @@ for (const [canonical, bucket] of Object.entries(candidates)) {
   if (canonical === 'CLOUDFLARE_API_TOKEN' || canonical === 'CLOUDFLARE_GLOBAL_API_TOKEN') {
     let accepted
     for (const candidate of bucket) {
-      const probe = await cloudflareImagesCredentialWorks(candidate.value, email)
+      const probe = await cloudflareImagesCredentialWorks(candidate.value, emailCandidates)
       if (!probe.ok) {
         console.log(
           `Skip ${canonical} from ${candidate.source}: Images HTTP ${probe.status} (${probe.mode})`,
@@ -602,12 +725,14 @@ for (const [canonical, bucket] of Object.entries(candidates)) {
       accepted = candidate
       if (
         probe.mode === 'global' &&
-        email &&
+        probe.email &&
         !found.CLOUDFLARE_EMAIL &&
         !alreadyHave('CLOUDFLARE_EMAIL')
       ) {
-        const emailSource = candidates.CLOUDFLARE_EMAIL?.[0]?.source || 'paired with Global API Key'
-        found.CLOUDFLARE_EMAIL = { value: email, source: emailSource }
+        found.CLOUDFLARE_EMAIL = {
+          value: probe.email,
+          source: candidates.CLOUDFLARE_EMAIL?.[0]?.source || 'Cloudflare invoice recipient',
+        }
       }
       break
     }
@@ -628,14 +753,14 @@ for (const [canonical, bucket] of Object.entries(candidates)) {
 }
 
 if (
-  email &&
+  (found.CLOUDFLARE_GLOBAL_API_TOKEN || found.CLOUDFLARE_API_TOKEN) &&
   !found.CLOUDFLARE_EMAIL &&
   !alreadyHave('CLOUDFLARE_EMAIL') &&
-  found.CLOUDFLARE_GLOBAL_API_TOKEN
+  email
 ) {
   found.CLOUDFLARE_EMAIL = {
     value: email,
-    source: candidates.CLOUDFLARE_EMAIL?.[0]?.source || 'paired with Global API Key',
+    source: candidates.CLOUDFLARE_EMAIL?.[0]?.source || 'Cloudflare invoice recipient',
   }
 }
 
