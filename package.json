@@ -18,6 +18,7 @@
     "env:sync": "node scripts/sync-vercel-go-live-env.mjs",
     "env:names": "node scripts/list-arroyo-vercel-env-names.mjs",
     "calendly:webhook": "node scripts/register-calendly-webhook.mjs",
+    "calendly:probe": "node scripts/probe-calendly-confirmation.mjs",
     "workflow:web": "workflow web",
     "audit:forms": "node scripts/audit-no-forms.mjs",
     "format": "prettier --write \"**/*.{ts,tsx}\"",

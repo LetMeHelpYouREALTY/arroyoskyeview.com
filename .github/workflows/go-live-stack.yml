@@ -124,6 +124,9 @@ jobs:
             echo "CLOUDFLARE_IMAGES_HASH=$HASH" >> "$GITHUB_ENV"
           fi
 
+      - name: Probe Calendly confirmation redirect (public, no PAT)
+        run: node scripts/probe-calendly-confirmation.mjs
+
       - name: Check Calendly PAT
         id: calendly
         run: |
