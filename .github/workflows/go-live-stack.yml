@@ -129,10 +129,12 @@ jobs:
           fi
 
       # Wrangler uses the same token as REST; skip when GitHub 9109 unless a
-      # dedicated Workers Edit token is seeded. When an unrestricted token
-      # lands, this deploys hosted-images so cron ingest keeps custom IDs
-      # fresh without another REST pass. Do not re-bind CLOUDFLARE_API_TOKEN
-      # from secrets here — empty GitHub secrets overwrite GITHUB_ENV.
+      # dedicated Workers Edit token is seeded. Sister Zone.Read Bearers
+      # (summerlinwest, pewtervalley) verify 200 but Workers Scripts 403/10000
+      # — do not treat them as deploy tokens. When an unrestricted Images:Edit
+      # + Workers Scripts:Edit token lands, this deploys hosted-images so cron
+      # ingest keeps custom IDs fresh. Do not re-bind CLOUDFLARE_API_TOKEN from
+      # secrets here — empty GitHub secrets overwrite GITHUB_ENV.
       - name: Deploy hosted-images Worker
         if: matrix.environment == 'Production'
         continue-on-error: true
