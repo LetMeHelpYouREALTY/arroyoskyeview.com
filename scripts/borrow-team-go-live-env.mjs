@@ -1081,9 +1081,23 @@ async function harvestFromN8nPostgres(databaseUrl, encryptionKey, found) {
     console.log(
       `n8n postgres databases: ${(dbs.rows || []).map((row) => row.datname).join(', ')}`,
     )
+    const currentDb = await client.query('SELECT current_database() AS db')
+    const connectedDb = currentDb.rows?.[0]?.db || ''
+    console.log(`n8n current database: ${connectedDb}`)
     const ranked = (counts.rows || []).filter(
       (row) => /credential/i.test(row.relname) && Number(row.rows) > 0,
     )
+    if (
+      ranked.length === 0 &&
+      (dbs.rows || []).some((row) => row.datname === 'railway') &&
+      connectedDb !== 'railway'
+    ) {
+      console.log('n8n postgres: empty credentials on this database; retrying database railway.')
+      await client.end().catch(() => {})
+      const next = new URL(databaseUrl)
+      next.pathname = '/railway'
+      return harvestFromN8nPostgres(next.toString(), encryptionKey, found)
+    }
     const credentialTable =
       ranked[0]?.relname ||
       tableNames.find((name) => name === 'credentials_entity') ||
