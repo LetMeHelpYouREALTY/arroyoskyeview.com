@@ -127,5 +127,9 @@ if (body?.hash && process.exitCode !== 1) {
   )
   if (probe.status !== 0) {
     process.exitCode = 1
+  } else {
+    console.log(
+      'Next: commit lib/cloudflare-images-hash.generated.ts and ship production so homepage <img src> uses imagedelivery.net.',
+    )
   }
 }
