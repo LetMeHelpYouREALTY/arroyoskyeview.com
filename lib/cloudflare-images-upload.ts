@@ -1,8 +1,15 @@
 import { cloudflareCustomId } from '@/lib/cloudflare-images'
+import {
+  CLOUDFLARE_IMAGES_CREATOR,
+  fetchCloudflareImagesHash,
+  parseCloudflareDeliveryHash,
+} from '@/lib/cloudflare-images-list'
 
 /** Public Cloudflare account id (Images) shared across Dr. Jan Duffy sites. */
 export const CLOUDFLARE_IMAGES_ACCOUNT_ID =
   process.env.CLOUDFLARE_ACCOUNT_ID?.trim() || '2cc579c1ec9e426ed585e933ebf4753b'
+
+export { fetchCloudflareImagesHash }
 
 export type CloudflareImageUploadResult = {
   id: string
@@ -12,12 +19,14 @@ export type CloudflareImageUploadResult = {
   hash?: string
 }
 
-function parseHash(variant: unknown): string | undefined {
-  if (typeof variant !== 'string') {
-    return undefined
-  }
-  const match = variant.match(/imagedelivery\.net\/([^/]+)\//)
-  return match?.[1]
+function imageMetadata(id: string): string {
+  const meta = JSON.stringify({
+    git: id,
+    site: CLOUDFLARE_IMAGES_CREATOR,
+  })
+  return Buffer.byteLength(meta, 'utf8') <= 1024
+    ? meta
+    : JSON.stringify({ git: id.slice(0, 200) })
 }
 
 export async function uploadCloudflareImageFromUrl(options: {
@@ -31,6 +40,8 @@ export async function uploadCloudflareImageFromUrl(options: {
   form.append('url', options.sourceUrl)
   form.append('id', id)
   form.append('requireSignedURLs', 'false')
+  form.append('creator', CLOUDFLARE_IMAGES_CREATOR)
+  form.append('metadata', imageMetadata(id))
 
   const res = await fetch(
     `https://api.cloudflare.com/client/v4/accounts/${options.accountId}/images/v1`,
@@ -55,7 +66,7 @@ export async function uploadCloudflareImageFromUrl(options: {
       ),
     )
   const ok = json.success === true || exists
-  const hash = parseHash(json.result?.variants?.[0])
+  const hash = parseCloudflareDeliveryHash(json.result?.variants?.[0])
 
   return { id, status: res.status, ok, exists, hash }
 }

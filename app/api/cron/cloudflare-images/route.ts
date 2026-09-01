@@ -3,6 +3,7 @@ import { isCloudflareImagesHashConfigured } from '@/lib/cloudflare-images'
 import { CLOUDFLARE_IMAGE_PUBLIC_PATHS } from '@/lib/cloudflare-image-manifest'
 import {
   CLOUDFLARE_IMAGES_ACCOUNT_ID,
+  fetchCloudflareImagesHash,
   uploadCloudflareImageFromUrl,
 } from '@/lib/cloudflare-images-upload'
 import { absoluteUrl } from '@/lib/site-url'
@@ -86,12 +87,25 @@ async function syncImages() {
   return { uploaded, exists, failed, hash }
 }
 
+async function syncImagesWithHash() {
+  const summary = await syncImages()
+  const token = cloudflareToken()
+  if (summary.hash || !token) {
+    return summary
+  }
+  const listedHash = await fetchCloudflareImagesHash(
+    token,
+    CLOUDFLARE_IMAGES_ACCOUNT_ID,
+  )
+  return { ...summary, hash: listedHash }
+}
+
 export async function GET(request: Request) {
   if (!cloudflareToken() || !isAuthorized(request)) {
     return NextResponse.json(publicStatus())
   }
 
-  const summary = await syncImages()
+  const summary = await syncImagesWithHash()
   if (summary.hash) {
     try {
       await upsertCloudflareImagesHash(summary.hash)

@@ -1,5 +1,6 @@
 /** Public /images paths uploaded to Cloudflare Images (custom IDs). Raster files only. */
 export const CLOUDFLARE_IMAGE_PUBLIC_PATHS = [
+  '/images/brand/dr-jan-duffy.png',
   '/images/floor-plans/beverly-floorplan.jpg',
   '/images/floor-plans/beverly-model.jpg',
   '/images/floor-plans/captiva-floorplan.jpg',

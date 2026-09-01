@@ -6,7 +6,9 @@
  * https://vercel.com/docs/rest-api/reference/endpoints/projects/create-one-or-more-environment-variables
  *
  * Requires VERCEL_TOKEN. Optional VERCEL_ORG_ID / VERCEL_PROJECT_ID.
- * Only keys present in the environment are sent. Values are never printed.
+ * Only skip/delete CLOUDFLARE_API_TOKEN when AUTH_OK is exactly '0'
+ * (GitHub proved the token has no Images access). 'location-restricted'
+ * means Cloudflare 9109 from GitHub IPs — still upsert so Vercel can upload.
  */
 const TEAM_ID = process.env.VERCEL_ORG_ID || 'team_EIbjFXaDDtGMTweb5Hvo3CG3'
 // Do not trust a shared GitHub VERCEL_PROJECT_ID secret — team workflows

@@ -9,7 +9,11 @@
  * Never print token or Global key values. Active Bearer tokens that
  * 403 on Images still get an account-owned Images:Edit mint attempt
  * (GET /accounts/{id}/tokens/permission_groups + POST /accounts/{id}/tokens).
+ *
+ * Images probes use List V2 (per_page ≥ 10). Deprecated v1 list is fallback.
  */
+import { probeImages as probeListedImages } from './cloudflare-images-list.mjs'
+
 export const IMAGES_ACCOUNT_ID = '2cc579c1ec9e426ed585e933ebf4753b'
 
 const TOKEN_NAME = 'arroyoskyeview.com Images:Edit'
@@ -62,17 +66,7 @@ function apiError(json) {
 }
 
 export async function probeImages(headers, accountId = IMAGES_ACCOUNT_ID) {
-  const res = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${accountId}/images/v1?per_page=1`,
-    { headers },
-  )
-  const json = await res.json().catch(() => null)
-  return {
-    ok: res.ok,
-    status: res.status,
-    json,
-    ...apiError(json),
-  }
+  return probeListedImages(headers, accountId)
 }
 
 async function probeTokenVerify(headers) {

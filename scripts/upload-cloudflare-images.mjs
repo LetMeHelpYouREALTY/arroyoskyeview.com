@@ -2,21 +2,16 @@
  * Upload public/images assets to Cloudflare Images using custom IDs that
  * match lib/cloudflare-images.ts (e.g. images/hero/hero-5).
  *
- * Based on Cloudflare Images API (docs updated 2026-04-21):
+ * Create (not deprecated):
  * POST https://api.cloudflare.com/client/v4/accounts/{account_id}/images/v1
- * https://developers.cloudflare.com/images/storage/upload-images/methods/
- * Custom IDs: https://developers.cloudflare.com/images/storage/upload-images/upload-custom-path/
+ * List (preferred): GET .../images/v2 (continuation_token, per_page ≥ 10)
+ * List (deprecated fallback): GET .../images/v1 (page, per_page 10–10000)
+ *
+ * Custom IDs match git paths. requireSignedURLs=false (custom IDs cannot
+ * use signed URLs). metadata stores { git, site } (≤1024 bytes).
  *
  * Requires CLOUDFLARE_API_TOKEN (Account · Cloudflare Images · Edit).
- * CLOUDFLARE_ACCOUNT_ID defaults to the team Images account used by
- * sienalasvegas.com / villagestulesprings (public account id).
- * After a successful run, `npm run build` writes the hash into
- * lib/cloudflare-images-hash.generated.ts (--write-hash) so delivery
- * works without a separate NEXT_PUBLIC env var. You can still set
- * CLOUDFLARE_IMAGES_HASH on Vercel for runtime middleware rewrites.
- *
- * Do not orange-cloud the Vercel apex. Images belong on imagedelivery.net
- * (or a gray-cloud images.arroyoskyeview.com custom host).
+ * Do not orange-cloud the Vercel apex. Images belong on imagedelivery.net.
  */
 import { appendFile, readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -25,6 +20,11 @@ import {
   cloudflareImagesCredentialWorks,
   uniqueAuthEmails,
 } from './cloudflare-images-auth.mjs'
+import {
+  IMAGES_CREATOR,
+  listImages,
+  parseDeliveryHash,
+} from './cloudflare-images-list.mjs'
 import { isRasterImageFile } from './raster-image.mjs'
 
 /** Public Cloudflare account id (Images) shared across Dr. Jan Duffy sites. */
@@ -53,6 +53,12 @@ const EMAIL =
 
 let authHeaders = null
 
+async function writeGithubEnv(line) {
+  if (process.env.GITHUB_ENV) {
+    await appendFile(process.env.GITHUB_ENV, `${line}\n`)
+  }
+}
+
 async function resolveAuth() {
   const tokens = uniqueTokens()
   if (tokens.length === 0) {
@@ -64,8 +70,16 @@ async function resolveAuth() {
 
   const emails = uniqueAuthEmails([EMAIL])
   console.log(`Cloudflare auth emails: ${emails.join(', ')}`)
+  let locationRestricted = null
   for (const token of tokens) {
     const probe = await cloudflareImagesCredentialWorks(token, emails)
+    if (probe.locationRestricted && probe.token) {
+      locationRestricted = probe
+      console.log(
+        'Cloudflare token is IP-allowlisted on this runner (9109 from location). Looking for an unrestricted token before skipping upload.',
+      )
+      continue
+    }
     if (!probe.ok) {
       console.log(`Cloudflare Images token probe HTTP ${probe.status}`)
       continue
@@ -86,12 +100,19 @@ async function resolveAuth() {
     return
   }
 
+  if (locationRestricted) {
+    process.env.CLOUDFLARE_API_TOKEN = locationRestricted.token
+    await writeGithubEnv('CLOUDFLARE_IMAGES_AUTH_OK=location-restricted')
+    console.warn(
+      'GitHub runner IP cannot use this Images token (9109 from location). Skipping upload here. CLOUDFLARE_API_TOKEN stays set so Vercel env upsert and the production build can retry.',
+    )
+    process.exit(0)
+  }
+
   console.warn(
     'No working Cloudflare Images credential (need Account · Cloudflare Images · Edit). Skipping upload.',
   )
-  if (process.env.GITHUB_ENV) {
-    await appendFile(process.env.GITHUB_ENV, 'CLOUDFLARE_IMAGES_AUTH_OK=0\n')
-  }
+  await writeGithubEnv('CLOUDFLARE_IMAGES_AUTH_OK=0')
   process.exit(0)
 }
 
@@ -125,6 +146,18 @@ function mimeType(filePath) {
   return 'application/octet-stream'
 }
 
+/** User-modifiable key-value store on the image. Must stay ≤1024 bytes. */
+function imageMetadata(id) {
+  const meta = JSON.stringify({
+    git: id,
+    site: IMAGES_CREATOR,
+  })
+  if (Buffer.byteLength(meta, 'utf8') <= 1024) {
+    return meta
+  }
+  return JSON.stringify({ git: id.slice(0, 200) })
+}
+
 const FROM_ORIGIN = process.argv.includes('--from-origin')
 const WRITE_HASH = process.argv.includes('--write-hash')
 const HASH_FILE = path.join(
@@ -150,6 +183,8 @@ async function upload(filePath) {
   }
   form.append('id', id)
   form.append('requireSignedURLs', 'false')
+  form.append('creator', IMAGES_CREATOR)
+  form.append('metadata', imageMetadata(id))
 
   const res = await fetch(
     `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/v1`,
@@ -164,24 +199,13 @@ async function upload(filePath) {
 }
 
 async function fetchAccountHash() {
-  const res = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/v1?per_page=1`,
-    { headers: authHeaders },
-  )
-  const json = await res.json()
-  const variant = json?.result?.images?.[0]?.variants?.[0]
-  if (typeof variant === 'string') {
-    const match = variant.match(/imagedelivery\.net\/([^/]+)\//)
-    return match?.[1]
-  }
-  return undefined
+  const listed = await listImages(authHeaders, ACCOUNT_ID, { perPage: 10 })
+  return listed.hash
 }
 
 async function main() {
   await resolveAuth()
-  if (process.env.GITHUB_ENV) {
-    await appendFile(process.env.GITHUB_ENV, 'CLOUDFLARE_IMAGES_AUTH_OK=1\n')
-  }
+  await writeGithubEnv('CLOUDFLARE_IMAGES_AUTH_OK=1')
   const candidates = await walk(ROOT)
   const files = []
   for (const file of candidates) {
@@ -216,17 +240,13 @@ async function main() {
       )
       if (result.status === 401 || result.status === 403) {
         console.warn('Cloudflare Images rejected the token; stopping further uploads.')
-        if (process.env.GITHUB_ENV) {
-          await appendFile(process.env.GITHUB_ENV, 'CLOUDFLARE_IMAGES_AUTH_OK=0\n')
-        }
+        await writeGithubEnv('CLOUDFLARE_IMAGES_AUTH_OK=0')
         process.exit(0)
       }
       continue
     }
-    const variant = result.json.result?.variants?.[0]
-    if (!hash && typeof variant === 'string') {
-      const match = variant.match(/imagedelivery\.net\/([^/]+)\//)
-      hash = match?.[1]
+    if (!hash) {
+      hash = parseDeliveryHash(result.json.result?.variants?.[0])
     }
     console.log(`OK ${result.id}`)
   }

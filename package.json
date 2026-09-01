@@ -14,6 +14,7 @@
     "attach:domains": "node scripts/attach-vercel-domains.mjs",
     "images:upload": "node scripts/upload-cloudflare-images.mjs",
     "images:upload:origin": "node scripts/upload-cloudflare-images.mjs --from-origin",
+    "images:list": "node scripts/list-cloudflare-images.mjs",
     "images:probe": "node scripts/probe-cloudflare-images.mjs",
     "env:sync": "node scripts/sync-vercel-go-live-env.mjs",
     "env:names": "node scripts/list-arroyo-vercel-env-names.mjs",
