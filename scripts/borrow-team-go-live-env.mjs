@@ -256,14 +256,33 @@ async function probeImages(headers, accountId = IMAGES_ACCOUNT_ID) {
     `https://api.cloudflare.com/client/v4/accounts/${accountId}/images/v1?per_page=1`,
     { headers },
   )
-  return { ok: res.ok, status: res.status }
+  const json = await res.json().catch(() => null)
+  const error = json?.errors?.[0]
+  return {
+    ok: res.ok,
+    status: res.status,
+    code: error?.code,
+    message: typeof error?.message === 'string' ? error.message.slice(0, 120) : '',
+  }
+}
+
+function probeSummary(probe) {
+  const detail = [probe.code && `code ${probe.code}`, probe.message].filter(Boolean).join(' ')
+  return detail ? `${probe.status} ${detail}`.trim() : String(probe.status)
 }
 
 async function listCloudflareAccounts(headers) {
   const res = await fetch('https://api.cloudflare.com/client/v4/accounts?per_page=50', { headers })
   const json = await res.json().catch(() => null)
   const accounts = Array.isArray(json?.result) ? json.result : []
-  return { ok: res.ok, status: res.status, accounts }
+  const error = json?.errors?.[0]
+  return {
+    ok: res.ok,
+    status: res.status,
+    accounts,
+    code: error?.code,
+    message: typeof error?.message === 'string' ? error.message.slice(0, 120) : '',
+  }
 }
 
 async function cloudflareImagesCredentialWorks(token, emails) {
@@ -272,11 +291,11 @@ async function cloudflareImagesCredentialWorks(token, emails) {
     return { ok: true, mode: 'bearer', status: bearer.status }
   }
   const uniqueEmails = [...new Set((Array.isArray(emails) ? emails : [emails]).filter(Boolean))]
-  let lastStatus = bearer.status
+  let lastProbe = bearer
   for (const email of uniqueEmails) {
     const headers = { 'X-Auth-Email': email, 'X-Auth-Key': token }
     const onDefault = await probeImages(headers)
-    lastStatus = onDefault.status
+    lastProbe = onDefault
     if (onDefault.ok) {
       return {
         ok: true,
@@ -291,7 +310,7 @@ async function cloudflareImagesCredentialWorks(token, emails) {
     }
     const listed = await listCloudflareAccounts(headers)
     console.log(
-      `Cloudflare Global key authenticated (Images 403 on default account). Accounts: HTTP ${listed.status}, ${listed.accounts.length}`,
+      `Cloudflare Images HTTP ${probeSummary(onDefault)} on default account. Accounts: HTTP ${probeSummary(listed)}, ${listed.accounts.length}`,
     )
     for (const account of listed.accounts.slice(0, 20)) {
       const id = account?.id
@@ -299,16 +318,17 @@ async function cloudflareImagesCredentialWorks(token, emails) {
         continue
       }
       const probed = await probeImages(headers, id)
-      console.log(`Images on account ${id.slice(0, 8)}…: HTTP ${probed.status}`)
+      lastProbe = probed
+      console.log(`Images on account ${id.slice(0, 8)}…: HTTP ${probeSummary(probed)}`)
       if (probed.ok) {
         return { ok: true, mode: 'global', status: probed.status, email, accountId: id }
       }
     }
   }
   if (uniqueEmails.length > 0) {
-    return { ok: false, mode: 'global', status: lastStatus }
+    return { ok: false, mode: 'global', status: lastProbe.status, code: lastProbe.code, message: lastProbe.message }
   }
-  return { ok: false, mode: 'bearer', status: bearer.status }
+  return { ok: false, mode: 'bearer', status: bearer.status, code: bearer.code, message: bearer.message }
 }
 
 function rememberCloudflareAccount(found, probe) {
@@ -419,11 +439,26 @@ function walkJsonForSecrets(node, found, source, depth = 0) {
 }
 
 function harvestFromBlob(value, found, source) {
+  const trimmed = value.trimStart()
+  const kind = trimmed.startsWith('{')
+    ? 'json-object'
+    : trimmed.startsWith('[')
+      ? 'json-array'
+      : 'text'
+  console.log(`Blob from ${source}: ${value.length} chars (${kind})`)
   harvestLabeledSecrets([value], found)
   try {
-    walkJsonForSecrets(JSON.parse(value), found, source)
+    const parsed = JSON.parse(value)
+    if (parsed && typeof parsed === 'object') {
+      const keys = Object.keys(parsed)
+      console.log(`Blob JSON keys (${keys.length}): ${keys.slice(0, 40).join(', ')}`)
+    }
+    walkJsonForSecrets(parsed, found, source)
   } catch {
-    // Not JSON — labeled KEY=value lines are enough.
+    const labels = [...value.matchAll(/([A-Z][A-Z0-9_]{3,})\s*=/g)].map((match) => match[1])
+    if (labels.length > 0) {
+      console.log(`Blob assignment labels: ${[...new Set(labels)].slice(0, 40).join(', ')}`)
+    }
   }
 }
 
@@ -718,7 +753,7 @@ for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_GLOBAL_API_TOKEN']) {
   }
   const probe = await cloudflareImagesCredentialWorks(harvested.value, emailCandidates)
   if (!probe.ok) {
-    console.log(`Skip ${key} from Notion/Linear: Images HTTP ${probe.status} (${probe.mode})`)
+    console.log(`Skip ${key} from Notion/Linear: Images HTTP ${probeSummary(probe)} (${probe.mode})`)
     delete found[key]
   } else {
     console.log(`Cloudflare Images ${key} from harvest accepted via ${probe.mode}`)
@@ -744,7 +779,7 @@ for (const [canonical, bucket] of Object.entries(candidates)) {
       const probe = await cloudflareImagesCredentialWorks(candidate.value, emailCandidates)
       if (!probe.ok) {
         console.log(
-          `Skip ${canonical} from ${candidate.source}: Images HTTP ${probe.status} (${probe.mode})`,
+          `Skip ${canonical} from ${candidate.source}: Images HTTP ${probeSummary(probe)} (${probe.mode})`,
         )
         if (
           canonical === 'CLOUDFLARE_API_TOKEN' &&
