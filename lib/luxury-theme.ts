@@ -1,3 +1,5 @@
+import { siteImage } from '@/lib/cloudflare-images'
+
 /** Desert Luxe brand palette — navy anchor, champagne gold accents, warm neutrals. */
 export const LUXURY_COLORS = {
   navy: '#1B2838',
@@ -9,5 +11,11 @@ export const LUXURY_COLORS = {
   charcoal: '#3C3C3C',
 } as const
 
-export const LUXURY_HERO_IMAGE = '/images/hero/luxury-hero-skye-canyon.png'
-export const LUXURY_HERO_FALLBACK = '/images/hero/hero-5.jpg'
+export const LUXURY_HERO_IMAGE = siteImage(
+  '/images/hero/luxury-hero-skye-canyon.png',
+  'images/hero/luxury-hero-skye-canyon',
+)
+export const LUXURY_HERO_FALLBACK = siteImage(
+  '/images/hero/hero-5.jpg',
+  'images/hero/hero-5',
+)

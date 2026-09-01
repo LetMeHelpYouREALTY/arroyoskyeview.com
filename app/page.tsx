@@ -1,31 +1,20 @@
-import Link from 'next/link'
-import PurpleSaleBanner from './components/purple-sale-banner'
 import Header from './components/header'
-import DrJanHero from './components/dr-jan-hero'
 import LuxuryHero from './components/luxury-hero'
-import HyperlocalHighlights from './components/hyperlocal-highlights'
-import ArroyoHubLinks from './components/arroyo-hub-links'
-import WhyChooseDrJan from './components/why-choose-dr-jan'
-import BuyerJourney from './components/buyer-journey'
-import DrJanTestimonials from './components/dr-jan-testimonials'
-import BestOpportunities from './components/best-opportunities'
-import DrJanFAQ from './components/dr-jan-faq'
 import RealScoutOfficePriceBands from './components/realscout-office-price-bands'
-import SimilarCommunities from './components/similar-communities'
-import HomeownerReviews from './components/homeowner-reviews'
+import CommunityAtAGlance from './components/community-at-a-glance'
+import LifeAtArroyo from './components/life-at-arroyo'
+import ArroyoHubLinks from './components/arroyo-hub-links'
+import AgentIntro from './components/agent-intro'
+import WhyChooseUs from './components/why-choose-us'
+import HyperlocalHighlights from './components/hyperlocal-highlights'
+import DrJanTestimonials from './components/dr-jan-testimonials'
+import DrJanFAQ from './components/dr-jan-faq'
+import VisitOurOffice from './components/visit-our-office'
 import RequestInfo from './components/request-info'
-import PeopleAlsoSearch from './components/people-also-search'
-import HomepageFAQPreview from './components/homepage-faq-preview'
 import PageSchemas from './components/page-schemas'
 import Footer from './components/footer'
-import StickyPhoneCTA from './components/sticky-phone-cta'
-import TrustBadges from './components/trust-badges'
-import SocialProofBanner from './components/social-proof-banner'
 import AnalyticsTracker from './components/analytics-tracker'
 import ReviewSchema from './components/review-schema'
-import UrgencyBanner from './components/urgency-banner'
-import ConversionFunnel from './components/conversion-funnel'
-import ExitIntentPopup from './components/exit-intent-popup'
 import { ARROYO_PRICE_RANGE } from '@/lib/arroyo-inventory'
 
 export default function HomePage() {
@@ -54,55 +43,28 @@ export default function HomePage() {
         priceRange={ARROYO_PRICE_RANGE}
         rating={{ value: '4.5', count: '8866' }}
       />
-      <PurpleSaleBanner />
-      <UrgencyBanner />
       <Header />
-      <TrustBadges />
-      <SocialProofBanner />
-      <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+      >
         <LuxuryHero />
-        <HyperlocalHighlights />
-        <DrJanHero />
-        <RealScoutOfficePriceBands intro="See live MLS listings below the hero to compare options quickly with Dr. Jan Duffy." />
-        <ConversionFunnel />
+        <RealScoutOfficePriceBands intro="Live MLS listings for Skye Canyon and northwest Las Vegas—compare options with Dr. Jan Duffy." />
+        <CommunityAtAGlance />
+        <LifeAtArroyo />
         <ArroyoHubLinks />
-        <section className="border-y border-border bg-card/40 py-10">
-          <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-            <p className="text-sm text-muted-foreground">
-              Ready to tour inventory?{' '}
-              <Link
-                href="/arroyo-at-skyeview/available-homes"
-                className="font-medium text-primary underline underline-offset-2 hover:text-luxury-champagne"
-              >
-                View available homes at Arroyo at Skyeview
-              </Link>
-              {' '}or{' '}
-              <Link
-                href="/arroyo-at-skyeview/floor-plans"
-                className="font-medium text-primary underline underline-offset-2 hover:text-luxury-champagne"
-              >
-                compare Beverly, Captiva &amp; Delray floor plans
-              </Link>
-              .
-            </p>
-          </div>
-        </section>
-        <WhyChooseDrJan />
-        <BuyerJourney />
+        <AgentIntro />
+        <WhyChooseUs />
+        <HyperlocalHighlights />
         <DrJanTestimonials />
-        <BestOpportunities />
         <DrJanFAQ />
-        <HomepageFAQPreview />
-        <SimilarCommunities />
-        <PeopleAlsoSearch />
-        <HomeownerReviews />
+        <VisitOurOffice />
         <RequestInfo />
       </main>
       <Footer suppressRealScout />
-      <StickyPhoneCTA />
       <AnalyticsTracker />
       <ReviewSchema />
-      <ExitIntentPopup />
     </div>
   )
 }

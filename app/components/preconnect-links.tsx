@@ -40,6 +40,12 @@ export default function PreconnectLinks() {
           calendlyApp.rel = 'preconnect';
           calendlyApp.href = 'https://calendly.com';
           document.head.appendChild(calendlyApp);
+
+          const cfImages = document.createElement('link');
+          cfImages.rel = 'preconnect';
+          cfImages.href = 'https://imagedelivery.net';
+          cfImages.crossOrigin = 'anonymous';
+          document.head.appendChild(cfImages);
         `,
       }}
     />

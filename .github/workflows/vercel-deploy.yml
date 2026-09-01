@@ -1,7 +1,9 @@
 name: Vercel Deploy
 
-# Production domain (www.arroyoskyeview.com) is on project arroyoskyeview.com-2
-# — see .vercel/project.json. Build job validates every PR; deploy needs Vercel secrets.
+# Production domain (www.arroyoskyeview.com) belongs on Vercel project
+# arroyoskyeview.com (prj_4cKj3PWQYacJOBsrmSeWfkONU6Wm) — see .vercel/project.json.
+# The previous arroyoskyeview.com-2 project was deleted and orphaned the domain.
+# Build job validates every PR; deploy needs Vercel secrets matching that project.
 
 on:
   push:

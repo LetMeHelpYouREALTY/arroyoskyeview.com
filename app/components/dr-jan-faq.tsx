@@ -32,8 +32,8 @@ export default function DrJanFAQ() {
   return (
     <section className="py-16 bg-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-center">
-          Frequently Asked Questions About Buyer Representation
+        <h2 className="mb-4 text-center font-serif text-3xl font-light tracking-tight text-foreground md:text-4xl">
+          Frequently Asked Questions
         </h2>
         <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
           Get answers about working with Dr. Jan Duffy, your buyer's agent for Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada

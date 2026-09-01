@@ -40,6 +40,26 @@ const nextConfig: NextConfig = {
         hostname: 'em.realscout.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'imagedelivery.net',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.arroyoskyeview.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.r2.dev',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.r2.cloudflarestorage.com',
+        pathname: '/**',
+      },
     ],
   },
   // Optimize for modern browsers - reduce legacy JavaScript polyfills
@@ -84,7 +104,23 @@ const nextConfig: NextConfig = {
       },
     ]
   },
-  // Note: Redirects (HTTP→HTTPS, non-www→www) are handled by middleware.ts
+  // Apex→www and HTTP→HTTPS live in middleware.ts (skips *.vercel.app).
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            // img-src must allow Cloudflare Images / R2. Other fetch types
+            // stay unrestricted because default-src is omitted.
+            key: 'Content-Security-Policy',
+            value:
+              "img-src 'self' data: blob: https: http://drjanduffy.realscout.com",
+          },
+        ],
+      },
+    ]
+  },
 }
 
 export default withWorkflow(nextConfig)

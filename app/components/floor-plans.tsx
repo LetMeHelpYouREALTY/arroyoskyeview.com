@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
+import { siteImage } from '@/lib/cloudflare-images'
 import { cn } from '@/lib/utils'
 
 interface FloorPlan {
@@ -30,8 +31,8 @@ const floorPlans: FloorPlan[] = [
     parking: 2,
     description: 'Interior Unit',
     status: 'Model Open',
-    image: '/images/floor-plans/beverly-model.jpg',
-    floorPlanImage: '/images/floor-plans/beverly-floorplan.jpg',
+    image: siteImage('/images/floor-plans/beverly-model.jpg'),
+    floorPlanImage: siteImage('/images/floor-plans/beverly-floorplan.jpg'),
   },
   {
     id: '2',
@@ -43,8 +44,8 @@ const floorPlans: FloorPlan[] = [
     parking: 2,
     description: '3 Bed + Loft',
     status: 'Modeled',
-    image: '/images/floor-plans/captiva-model.jpg',
-    floorPlanImage: '/images/floor-plans/captiva-floorplan.jpg',
+    image: siteImage('/images/floor-plans/captiva-model.jpg'),
+    floorPlanImage: siteImage('/images/floor-plans/captiva-floorplan.jpg'),
   },
   {
     id: '3',
@@ -56,8 +57,8 @@ const floorPlans: FloorPlan[] = [
     parking: 2,
     description: 'End Unit',
     status: 'Stunning Model',
-    image: '/images/floor-plans/delray-model.jpg',
-    floorPlanImage: '/images/floor-plans/delray-floorplan.jpg',
+    image: siteImage('/images/floor-plans/delray-model.jpg'),
+    floorPlanImage: siteImage('/images/floor-plans/delray-floorplan.jpg'),
   },
 ]
 

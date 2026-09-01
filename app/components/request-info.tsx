@@ -8,7 +8,9 @@ export default function RequestInfo() {
   return (
     <section className="bg-muted py-16">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <h2 className="mb-8 text-center text-3xl font-bold text-foreground">Schedule a Consultation</h2>
+        <h2 className="mb-8 text-center font-serif text-3xl font-light tracking-tight text-foreground md:text-4xl">
+          Schedule an appointment
+        </h2>
         <div className="rounded-lg bg-white p-8 shadow-md">
           <CalendlyInlineWidget className="mb-6 h-[700px]" />
           <div className="space-y-4 text-center">

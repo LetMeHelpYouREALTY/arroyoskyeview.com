@@ -1,10 +1,11 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { Phone, MessageSquare, MapPin, Dumbbell, Mountain, Map } from 'lucide-react'
+import { Phone, MapPin, Dumbbell, Mountain, Map } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { LUXURY_HERO_IMAGE } from '@/lib/luxury-theme'
 import CalendlyScheduleButton from './calendly-schedule-button'
-import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
+import { trackPhoneClick } from './analytics-tracker'
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
@@ -43,15 +44,10 @@ function GoldDivider() {
 
 export default function LuxuryHero() {
   const phoneNumber = 'tel:+17029034687'
-  const smsNumber = 'sms:+17029034687'
   const displayPhone = '(702) 903-4687'
 
   function handlePhoneClick() {
     trackPhoneClick('702-903-4687', 'luxury_hero_call_cta')
-  }
-
-  function handleSmsClick() {
-    trackSmsClick('luxury_hero_text_cta')
   }
 
   return (
@@ -62,7 +58,7 @@ export default function LuxuryHero() {
       {/* ── Background image layer ─────────────────────────────────────── */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/images/hero/luxury-hero-skye-canyon.png')" }}
+        style={{ backgroundImage: `url('${LUXURY_HERO_IMAGE}')` }}
         role="img"
         aria-label="Aerial view of Arroyo at Skyeview townhomes with Red Rock Canyon in the background"
       />
@@ -139,7 +135,7 @@ export default function LuxuryHero() {
           {/* CTA buttons */}
           <div className="flex w-full flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4">
             <CalendlyScheduleButton
-              text="Schedule time with me"
+              text="Schedule a tour"
               variant="champagne"
               className="w-full px-8 py-6 text-sm uppercase tracking-[0.14em] sm:w-auto"
             />
@@ -158,25 +154,6 @@ export default function LuxuryHero() {
                   aria-hidden="true"
                 />
                 Call {displayPhone}
-              </a>
-            </Button>
-
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="group w-full cursor-pointer rounded-full border-[#C5A880]/60 bg-transparent px-8 py-6 font-sans text-sm font-semibold uppercase tracking-[0.14em] text-[#C5A880] shadow-md transition-all duration-300 hover:border-[#C5A880] hover:bg-[#C5A880]/10 hover:text-[#D8C3A5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C5A880] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1B2838] sm:w-auto"
-            >
-              <a
-                href={smsNumber}
-                aria-label={`Text Dr. Jan Duffy at ${displayPhone}`}
-                onClick={handleSmsClick}
-              >
-                <MessageSquare
-                  className="mr-2.5 h-4 w-4 transition-transform duration-300 group-hover:scale-110"
-                  aria-hidden="true"
-                />
-                Text Us Now
               </a>
             </Button>
           </div>
