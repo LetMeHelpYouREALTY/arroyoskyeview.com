@@ -5,9 +5,10 @@
  * Image binaries belong on Cloudflare Images (imagedelivery.net) or a
  * custom Images host — never orange-cloud the Vercel apex.
  *
- * Set CLOUDFLARE_IMAGES_HASH (server) or NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH
- * to the account hash from Cloudflare → Images → Developer Resources.
- * Optional custom host: NEXT_PUBLIC_CLOUDFLARE_IMAGES_HOST (no trailing slash).
+ * Set CLOUDFLARE_IMAGES_HASH (server), NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH,
+ * or let `npm run build` write lib/cloudflare-images-hash.generated.ts after
+ * CLOUDFLARE_API_TOKEN uploads. Optional custom host:
+ * NEXT_PUBLIC_CLOUDFLARE_IMAGES_HOST (no trailing slash).
  *
  * Team Images account (public): 2cc579c1ec9e426ed585e933ebf4753b
  * Team hash on sienalasvegas.com: byE6BTe9lNqo21V57n4aPQ
@@ -20,6 +21,8 @@
  * Flexible variants (Cloudflare Images, 2026):
  * https://imagedelivery.net/<HASH>/<IMAGE_ID>/w=<WIDTH>,q=<QUALITY>
  */
+
+import { GENERATED_CLOUDFLARE_IMAGES_HASH } from '@/lib/cloudflare-images-hash.generated'
 
 const DEFAULT_VARIANT = 'public'
 const DEFAULT_HOST = 'https://imagedelivery.net'
@@ -43,7 +46,11 @@ export function isCloudflareImagesHashConfigured(): boolean {
 }
 
 function accountHash(): string | undefined {
-  return readEnv('CLOUDFLARE_IMAGES_HASH') || readEnv('NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH')
+  return (
+    readEnv('CLOUDFLARE_IMAGES_HASH') ||
+    readEnv('NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH') ||
+    GENERATED_CLOUDFLARE_IMAGES_HASH
+  )
 }
 
 /** Public/runtime hash — middleware reads this on each request (no rebuild). */

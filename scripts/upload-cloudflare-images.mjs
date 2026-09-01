@@ -10,13 +10,15 @@
  * Requires CLOUDFLARE_API_TOKEN (Account · Cloudflare Images · Edit).
  * CLOUDFLARE_ACCOUNT_ID defaults to the team Images account used by
  * sienalasvegas.com / villagestulesprings (public account id).
- * After a successful run, set NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH on Vercel
- * to the printed hash (or run scripts/sync-vercel-go-live-env.mjs).
+ * After a successful run, `npm run build` writes the hash into
+ * lib/cloudflare-images-hash.generated.ts (--write-hash) so delivery
+ * works without a separate NEXT_PUBLIC env var. You can still set
+ * CLOUDFLARE_IMAGES_HASH on Vercel for runtime middleware rewrites.
  *
  * Do not orange-cloud the Vercel apex. Images belong on imagedelivery.net
  * (or a gray-cloud images.arroyoskyeview.com custom host).
  */
-import { readdir, readFile } from 'node:fs/promises'
+import { readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isRasterImageFile } from './raster-image.mjs'
@@ -66,6 +68,13 @@ function mimeType(filePath) {
 }
 
 const FROM_ORIGIN = process.argv.includes('--from-origin')
+const WRITE_HASH = process.argv.includes('--write-hash')
+const HASH_FILE = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '..',
+  'lib',
+  'cloudflare-images-hash.generated.ts',
+)
 const ORIGIN = (process.env.CLOUDFLARE_IMAGES_ORIGIN || 'https://www.arroyoskyeview.com').replace(
   /\/$/,
   '',
@@ -160,6 +169,18 @@ async function main() {
   if (hash) {
     console.log(`\nNEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH=${hash}`)
     console.log(`CLOUDFLARE_IMAGES_HASH=${hash}`)
+    if (WRITE_HASH) {
+      await writeFile(
+        HASH_FILE,
+        `/**
+ * Written by scripts/upload-cloudflare-images.mjs --write-hash.
+ * Do not default the Siena team hash — Arroyo custom IDs 404 until uploaded.
+ */
+export const GENERATED_CLOUDFLARE_IMAGES_HASH: string | undefined = ${JSON.stringify(hash)}
+`,
+      )
+      console.log(`Wrote ${path.relative(path.join(ROOT, '..', '..'), HASH_FILE)}`)
+    }
   } else {
     console.log(
       '\nCould not parse account hash from variants. Copy it from Cloudflare → Images → Developer Resources.',

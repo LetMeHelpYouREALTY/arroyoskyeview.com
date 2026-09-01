@@ -41,7 +41,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          node scripts/upload-cloudflare-images.mjs | tee /tmp/cf-upload.log
+          node scripts/upload-cloudflare-images.mjs --write-hash | tee /tmp/cf-upload.log
           HASH=$(grep '^NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH=' /tmp/cf-upload.log | cut -d= -f2)
           if [ -n "$HASH" ]; then
             echo "NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH=$HASH" >> "$GITHUB_ENV"

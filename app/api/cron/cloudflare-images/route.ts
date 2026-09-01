@@ -6,6 +6,7 @@ import {
   uploadCloudflareImageFromUrl,
 } from '@/lib/cloudflare-images-upload'
 import { absoluteUrl } from '@/lib/site-url'
+import { upsertCloudflareImagesHash } from '@/lib/upsert-cloudflare-images-hash'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
@@ -91,6 +92,13 @@ export async function GET(request: Request) {
   }
 
   const summary = await syncImages()
+  if (summary.hash) {
+    try {
+      await upsertCloudflareImagesHash(summary.hash)
+    } catch {
+      // Hash is public; delivery still works from the generated build file.
+    }
+  }
   const status = summary.failed > 0 ? 500 : 200
   return NextResponse.json({ ...publicStatus(), ...summary }, { status })
 }

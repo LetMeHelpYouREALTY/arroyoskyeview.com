@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "node scripts/ensure-cloudflare-images.mjs && next build",
     "start": "next start",
     "lint": "next lint",
     "validate:sitemap": "node scripts/validate-sitemap-routes.mjs",
