@@ -1064,15 +1064,49 @@ async function harvestFromN8nPostgres(databaseUrl, encryptionKey, found) {
     )
     const tableNames = (tables.rows || []).map((row) => row.tablename).filter(Boolean)
     console.log(`n8n postgres tables: ${tableNames.length} (${tableNames.join(', ')})`)
+    const counts = await client.query(
+      `SELECT schemaname, relname, n_live_tup::bigint AS rows
+       FROM pg_stat_user_tables
+       WHERE relname ILIKE '%credential%' OR relname ILIKE '%workflow%' OR relname ILIKE '%settings%'
+       ORDER BY n_live_tup DESC
+       LIMIT 30`,
+    )
+    const countSummary = (counts.rows || [])
+      .map((row) => `${row.schemaname}.${row.relname}:${row.rows}`)
+      .join(', ')
+    console.log(`n8n postgres row counts: ${countSummary || 'none'}`)
+    const dbs = await client.query(
+      `SELECT datname FROM pg_database WHERE datistemplate = false ORDER BY datname`,
+    )
+    console.log(
+      `n8n postgres databases: ${(dbs.rows || []).map((row) => row.datname).join(', ')}`,
+    )
+    const ranked = (counts.rows || []).filter(
+      (row) => /credential/i.test(row.relname) && Number(row.rows) > 0,
+    )
     const credentialTable =
+      ranked[0]?.relname ||
       tableNames.find((name) => name === 'credentials_entity') ||
       tableNames.find((name) => /credential/i.test(name))
     if (!credentialTable || !/^[A-Za-z0-9_]+$/.test(credentialTable)) {
       console.log('n8n postgres: no credentials table found.')
       return
     }
+    const cols = await client.query(
+      `SELECT column_name FROM information_schema.columns
+       WHERE table_name = $1
+       ORDER BY ordinal_position`,
+      [credentialTable],
+    )
+    const colNames = (cols.rows || []).map((row) => row.column_name).filter(Boolean)
+    console.log(`n8n ${credentialTable} columns: ${colNames.join(', ')}`)
+    const selectCols = ['name', 'type', 'data', 'id'].filter((name) => colNames.includes(name))
+    if (selectCols.length === 0) {
+      console.log(`n8n ${credentialTable}: no name/type/data columns.`)
+      return
+    }
     const result = await client.query(
-      `SELECT name, type, data FROM ${credentialTable} LIMIT 80`,
+      `SELECT ${selectCols.join(', ')} FROM ${credentialTable} LIMIT 80`,
     )
     const rows = Array.isArray(result?.rows) ? result.rows : []
     const types = rows.map((row) => row?.type || row?.name || '').filter(Boolean)
@@ -1080,7 +1114,12 @@ async function harvestFromN8nPostgres(databaseUrl, encryptionKey, found) {
       `n8n postgres credentials: ${rows.length}${types.length ? ` (${types.slice(0, 25).join(', ')})` : ''}`,
     )
     for (const row of rows) {
-      const raw = typeof row.data === 'string' ? row.data : ''
+      const raw =
+        typeof row.data === 'string'
+          ? row.data
+          : row.data && typeof row.data === 'object'
+            ? JSON.stringify(row.data)
+            : ''
       if (!raw) {
         continue
       }
