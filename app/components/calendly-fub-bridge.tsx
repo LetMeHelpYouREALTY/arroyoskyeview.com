@@ -16,7 +16,9 @@ type CalendlyMessageData = {
   payload?: CalendlyScheduledPayload
 }
 
-function isCalendlyMessage(event: MessageEvent): event is MessageEvent<CalendlyMessageData> {
+function isCalendlyMessage(
+  event: MessageEvent,
+): event is MessageEvent<CalendlyMessageData> {
   if (event.origin !== 'https://calendly.com') {
     return false
   }
@@ -32,7 +34,10 @@ function postInviteeUris(inviteeUri: string, eventUri?: string): void {
   })
 }
 
-function redirectToScheduleConfirmed(inviteeUri: string, eventUri?: string): void {
+function redirectToScheduleConfirmed(
+  inviteeUri: string,
+  eventUri?: string,
+): void {
   if (window.location.pathname === '/schedule-confirmed') {
     return
   }
@@ -44,7 +49,9 @@ function redirectToScheduleConfirmed(inviteeUri: string, eventUri?: string): voi
   } catch {
     // Private mode — still redirect once from this handler.
   }
-  const confirmed = new URL(scheduleConfirmedUrlFromCalendlyUris(inviteeUri, eventUri))
+  const confirmed = new URL(
+    scheduleConfirmedUrlFromCalendlyUris(inviteeUri, eventUri),
+  )
   window.location.assign(`${confirmed.pathname}${confirmed.search}`)
 }
 
@@ -53,7 +60,8 @@ function redirectToScheduleConfirmed(inviteeUri: string, eventUri?: string): voi
  * booking form. This listener records the schedule event in GA, posts
  * invitee URIs to `/api/calendly/scheduled` (Calendly PAT + FUB key), and
  * sends the parent page to `/schedule-confirmed` for pixel form-capture.
- * Durable fallback: `/api/calendly/webhook` and Calendly dashboard redirect.
+ * Durable fallback: `/api/calendly/webhook`, `/api/calendly/confirmed`
+ * details form, and Calendly dashboard redirect.
  */
 export default function CalendlyFubBridge() {
   useEffect(() => {

@@ -8,7 +8,14 @@ export type FollowUpBossSyncResult =
   | { ok: true }
   | { ok: false; reason: 'not-configured' | 'upstream'; status?: number }
 
-function firstEnv(...names: Array<'FOLLOW_UP_BOSS_API_KEY' | 'FUB_API_KEY' | 'FUB_X_SYSTEM_KEY' | 'FUB_SYSTEM_KEY'>): string | undefined {
+function firstEnv(
+  ...names: Array<
+    | 'FOLLOW_UP_BOSS_API_KEY'
+    | 'FUB_API_KEY'
+    | 'FUB_X_SYSTEM_KEY'
+    | 'FUB_SYSTEM_KEY'
+  >
+): string | undefined {
   for (const name of names) {
     let value: string | undefined
     switch (name) {
@@ -147,7 +154,7 @@ function isFubPersonRecord(value: unknown): value is FubPersonRecord {
   return Boolean(value) && typeof value === 'object'
 }
 
-function personMentionsArroyo(person: FubPersonRecord): boolean {
+function personStringParts(person: FubPersonRecord): string[] {
   const parts: string[] = []
   if (typeof person.source === 'string') {
     parts.push(person.source)
@@ -162,7 +169,23 @@ function personMentionsArroyo(person: FubPersonRecord): boolean {
       }
     }
   }
-  return parts.join(' ').toLowerCase().includes('arroyoskyeview')
+  return parts
+}
+
+function personMentionsArroyo(person: FubPersonRecord): boolean {
+  return personStringParts(person)
+    .join(' ')
+    .toLowerCase()
+    .includes('arroyoskyeview')
+}
+
+function personHasCalendlySignal(person: FubPersonRecord): boolean {
+  return personStringParts(person).join(' ').toLowerCase().includes('calendly')
+}
+
+/** Events API writes source arroyoskyeview.com + Calendly tags, not “Calendly - …”. */
+function personIsArroyoCalendly(person: FubPersonRecord): boolean {
+  return personMentionsArroyo(person) && personHasCalendlySignal(person)
 }
 
 async function fetchRecentCalendlyPeople(
@@ -195,7 +218,8 @@ async function fetchRecentCalendlyPeople(
  * Public go-live evidence only — created timestamp, never names or emails.
  * Native FUB↔Calendly can create people even when this site has no PAT.
  * Sister sites often source as “Calendly - drjanetduffy.com”; embed utm
- * should source this site as “Calendly - arroyoskyeview.com”.
+ * may source this site as “Calendly - arroyoskyeview.com”. Events API
+ * registrations use source arroyoskyeview.com plus a Calendly tag.
  */
 export async function probeFollowUpBossCalendlySource(): Promise<FollowUpBossCalendlySourceProbe | null> {
   const apiKey = followUpBossApiKey()
@@ -204,16 +228,23 @@ export async function probeFollowUpBossCalendlySource(): Promise<FollowUpBossCal
   }
 
   try {
-    const [generic, fromSiteSource] = await Promise.all([
+    const [generic, fromSiteSource, fromSiteWebsite] = await Promise.all([
       fetchRecentCalendlyPeople(apiKey, 'Calendly'),
       fetchRecentCalendlyPeople(apiKey, 'Calendly - arroyoskyeview.com'),
+      fetchRecentCalendlyPeople(apiKey, 'arroyoskyeview.com'),
     ])
-    const people = [...fromSiteSource, ...generic]
+    const people = [...fromSiteSource, ...fromSiteWebsite, ...generic]
     const created = people[0]?.created
-    const fromSite = people.find(personMentionsArroyo) ?? fromSiteSource[0]
+    const fromSite =
+      people.find(personIsArroyoCalendly) ??
+      fromSiteSource[0] ??
+      fromSiteWebsite.find(personHasCalendlySignal)
     const fromSiteCreated = fromSite?.created
     return {
-      ok: generic.length > 0 || fromSiteSource.length > 0,
+      ok:
+        generic.length > 0 ||
+        fromSiteSource.length > 0 ||
+        fromSiteWebsite.length > 0,
       latestCreated: typeof created === 'string' ? created : null,
       fromThisSite: Boolean(fromSite),
       fromThisSiteCreated:

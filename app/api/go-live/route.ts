@@ -89,17 +89,23 @@ export async function GET() {
   const cronSecret = hasEnv('CRON_SECRET')
   const deliveryHash = isCloudflareImagesHashConfigured()
   const imagesToken = process.env.CLOUDFLARE_API_TOKEN?.trim()
-  const [hostedConfirmation, imagesApi, customIds, manifestIds, fubCalendlySource, hostedWorker] =
-    await Promise.all([
-      fetchCalendlyHostedConfirmation(),
-      imagesToken
-        ? probeCloudflareImagesToken(imagesToken, CLOUDFLARE_IMAGES_ACCOUNT_ID)
-        : Promise.resolve(null),
-      probeArroyoCustomIds(),
-      probeManifestCustomIds(),
-      probeFollowUpBossCalendlySource(),
-      probeHostedImagesWorker(),
-    ])
+  const [
+    hostedConfirmation,
+    imagesApi,
+    customIds,
+    manifestIds,
+    fubCalendlySource,
+    hostedWorker,
+  ] = await Promise.all([
+    fetchCalendlyHostedConfirmation(),
+    imagesToken
+      ? probeCloudflareImagesToken(imagesToken, CLOUDFLARE_IMAGES_ACCOUNT_ID)
+      : Promise.resolve(null),
+    probeArroyoCustomIds(),
+    probeManifestCustomIds(),
+    probeFollowUpBossCalendlySource(),
+    probeHostedImagesWorker(),
+  ])
   const hostedRedirectReady =
     followUpBoss &&
     hostedConfirmation?.pointsAtSite === true &&
@@ -133,7 +139,7 @@ export async function GET() {
   }
   if (!calendlyConfigured) {
     nextHumanActions.push(
-      'In Calendly, open Buyer Consultation 30 min → Confirmation page → Redirect to https://www.arroyoskyeview.com/schedule-confirmed and enable Pass event details. Or add CALENDLY_API_TOKEN or CALENDLY_WEBHOOK_SIGNING_KEY on the Vercel project. Follow Up Boss action plan 4 (Buyer New Lead Website Registration) is already Active.',
+      'Embed bookings already send the parent page to /schedule-confirmed (URIs only). The details form there POSTs to Follow Up Boss as source arroyoskyeview.com without a Calendly PAT. Hosted Calendly (calendly.com) still needs Buyer Consultation 30 min → Confirmation → Redirect to https://www.arroyoskyeview.com/schedule-confirmed with Pass event details, or CALENDLY_API_TOKEN / CALENDLY_WEBHOOK_SIGNING_KEY on Vercel. Action plan 4 (Buyer New Lead Website Registration) is already Active.',
     )
   }
 
@@ -151,6 +157,8 @@ export async function GET() {
       nativeFromThisSite,
       webhookUrl: `${SITE_URL}/api/calendly/webhook`,
       scheduledUrl: `${SITE_URL}/api/calendly/scheduled`,
+      confirmedUrl: `${SITE_URL}/api/calendly/confirmed`,
+      embedFormCaptureReady: followUpBoss,
       confirmationUrl: CALENDLY_CONFIRMATION_URL,
       eventTypeUrl: CALENDLY_URL,
     },

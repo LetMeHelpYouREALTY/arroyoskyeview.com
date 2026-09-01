@@ -13,6 +13,7 @@ import PageSchemas from '../components/page-schemas'
 import MarketingPageShell from '../components/marketing-page-shell'
 import { PageContent } from '../components/page-section'
 import FubPixelIdentify from '../components/fub-pixel-identify'
+import CalendlyBookingDetailsForm from '../components/calendly-booking-details-form'
 
 export const metadata: Metadata = {
   title: 'Tour booked | Arroyo at Skyeview | Dr. Jan Duffy',
@@ -30,7 +31,9 @@ type ScheduleConfirmedPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
-function firstQueryValue(value: string | string[] | undefined): string | undefined {
+function firstQueryValue(
+  value: string | string[] | undefined,
+): string | undefined {
   if (Array.isArray(value)) {
     return value[0]
   }
@@ -101,8 +104,9 @@ export default async function ScheduleConfirmedPage({
           You are on the calendar
         </h1>
         <p className="mt-4 text-muted-foreground text-pretty">
-          Check email for the Calendly invite. Dr. Jan Duffy will walk Arroyo at Skyeview
-          townhomes in Skye Canyon as your buyer&apos;s agent—not the builder&apos;s.
+          Check email for the Calendly invite. Dr. Jan Duffy will walk Arroyo at
+          Skyeview townhomes in Skye Canyon as your buyer&apos;s agent—not the
+          builder&apos;s.
         </p>
         <p className="mt-3 text-muted-foreground">
           Need to change the time? Call{' '}
@@ -114,6 +118,12 @@ export default async function ScheduleConfirmedPage({
           </a>
           .
         </p>
+        {!lead && inviteeUri ? (
+          <CalendlyBookingDetailsForm
+            inviteeUri={inviteeUri}
+            eventUri={eventUri}
+          />
+        ) : null}
         <div className="mt-8">
           <NapContactCard />
         </div>
