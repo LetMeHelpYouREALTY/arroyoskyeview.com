@@ -46,6 +46,12 @@ export default function PreconnectLinks() {
           cfImages.href = 'https://imagedelivery.net';
           cfImages.crossOrigin = 'anonymous';
           document.head.appendChild(cfImages);
+
+          const fub = document.createElement('link');
+          fub.rel = 'preconnect';
+          fub.href = 'https://widget.followupboss.com';
+          fub.crossOrigin = 'anonymous';
+          document.head.appendChild(fub);
         `,
       }}
     />
