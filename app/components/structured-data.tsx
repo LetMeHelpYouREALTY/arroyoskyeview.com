@@ -44,7 +44,7 @@ export default function StructuredData() {
       '@type': 'QuantitativeValue',
       minValue: 1531,
       maxValue: 1729,
-      unitCode: 'SQM',
+      unitCode: 'FTK',
     },
     amenityFeature: [
       {
