@@ -9,7 +9,9 @@
  * Only keys present in the environment are sent. Values are never printed.
  */
 const TEAM_ID = process.env.VERCEL_ORG_ID || 'team_EIbjFXaDDtGMTweb5Hvo3CG3'
-const PROJECT_ID = process.env.VERCEL_PROJECT_ID || 'prj_4cKj3PWQYacJOBsrmSeWfkONU6Wm'
+// Do not trust a shared GitHub VERCEL_PROJECT_ID secret — team workflows
+// often point at a different Vercel project.
+const PROJECT_ID = 'prj_4cKj3PWQYacJOBsrmSeWfkONU6Wm'
 const TOKEN = process.env.VERCEL_TOKEN
 
 const TARGETS = ['production', 'preview']
@@ -170,7 +172,12 @@ const listed = await fetch(
 if (listed.ok) {
   const listedJson = await listed.json()
   const names = Array.isArray(listedJson?.envs)
-    ? listedJson.envs.map((entry) => entry?.key).filter(Boolean)
+    ? listedJson.envs.map((entry) => {
+        const key = entry?.key || '?'
+        const target = Array.isArray(entry?.target) ? entry.target.join('+') : 'unknown'
+        const type = entry?.type || 'unknown'
+        return `${key}@${target}/${type}`
+      })
     : []
   console.log(`Project now has ${names.length} env name(s): ${names.join(', ')}`)
 }
