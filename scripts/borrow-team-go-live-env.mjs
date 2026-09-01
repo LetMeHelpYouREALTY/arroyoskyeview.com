@@ -593,12 +593,17 @@ for (const project of projects) {
       }
     }
     if (!n8nDatabaseUrl) {
-      n8nDatabaseUrl = await decryptNamed(project.id, [
-        'DATABASE_PUBLIC_URL',
-        'DATABASE_URL',
-      ])
+      n8nDatabaseUrl =
+        (await decryptNamed(project.id, ['DATABASE_PUBLIC_URL'])) ||
+        (await decryptNamed(project.id, ['DATABASE_URL']))
       if (n8nDatabaseUrl) {
-        console.log(`Found n8n database URL on ${project.name} (not printed).`)
+        let host = ''
+        try {
+          host = new URL(n8nDatabaseUrl).hostname
+        } catch {
+          host = 'invalid'
+        }
+        console.log(`Found n8n database host on ${project.name}: ${host}`)
       }
     }
     const hostValue = await decryptNamed(project.id, [
@@ -996,6 +1001,17 @@ async function loadPg() {
 }
 
 async function harvestFromN8nPostgres(databaseUrl, encryptionKey, found) {
+  let host = ''
+  try {
+    host = new URL(databaseUrl).hostname
+  } catch {
+    console.log('n8n postgres URL was not parseable.')
+    return
+  }
+  if (host && !host.includes('.') && host !== 'localhost') {
+    console.log(`Skip n8n postgres host ${host}: internal hostname is not reachable from CI.`)
+    return
+  }
   let Client
   try {
     const pg = await loadPg()
