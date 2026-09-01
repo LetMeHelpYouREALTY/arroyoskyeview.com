@@ -122,7 +122,7 @@ export async function GET() {
   const nextHumanActions: string[] = []
   if (!deliveryHash) {
     nextHumanActions.push(
-      'Deploy workers/hosted-images on Cloudflare account 2cc579c1ec9e426ed585e933ebf4753b. Laptop: checkout this branch and run `npx wrangler deploy --config workers/hosted-images/wrangler.jsonc`. Dashboard: Workers & Pages → Create → Import LetMeHelpYouREALTY/arroyoskyeview.com → root directory workers/hosted-images → deploy. Cron ingest runs every 5 minutes via the Images binding (no IP-allowlisted REST token). After every custom ID returns 200 on imagedelivery.net, the next production build inlines homepage <img src>. Alternatively mint Account.Cloudflare Images.Edit with no IP allowlist as CLOUDFLARE_API_TOKEN. Do not default the Siena hash until Arroyo IDs return 200.',
+      'Deploy workers/hosted-images on Cloudflare account 2cc579c1ec9e426ed585e933ebf4753b. One click: https://deploy.workers.cloudflare.com/?url=https://github.com/LetMeHelpYouREALTY/arroyoskyeview.com/tree/cursor/go-live-stack-f7eb/workers/hosted-images (sign in as Duffy). Laptop: `npx wrangler deploy --config workers/hosted-images/wrangler.jsonc`. Dashboard: Workers & Pages → Create → Import this repo → root workers/hosted-images. Cron ingest runs every 5 minutes via the Images binding. After every custom ID returns 200, Production CI inlines homepage <img src>. Alternatively mint Account.Cloudflare Images.Edit with no IP allowlist as CLOUDFLARE_API_TOKEN. Do not default the Siena hash until Arroyo IDs return 200.',
     )
   }
   if (!calendlyConfigured) {
