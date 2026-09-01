@@ -398,19 +398,15 @@ function walkJsonForSecrets(node, found, source, depth = 0) {
 
 function looksLikeSecretDump(value) {
   const trimmed = typeof value === 'string' ? value.trim() : ''
-  if (trimmed.length > 4096) {
+  // Cloudflare API tokens are ~40–60 chars. Anything this long is a dump,
+  // PEM, or JSON — not a Bearer token.
+  if (trimmed.length > 200) {
     return true
   }
   if (trimmed.includes('-----BEGIN')) {
     return true
   }
   if (/\n/.test(trimmed) && /[A-Z][A-Z0-9_]{3,}\s*=/.test(trimmed)) {
-    return true
-  }
-  if (
-    trimmed.length > 120 &&
-    /(?:CLOUDFLARE_API_TOKEN|CLOUDFLARE_EMAIL|CALENDLY_|FOLLOW_UP_BOSS)\s*[=:]/.test(trimmed)
-  ) {
     return true
   }
   return false
