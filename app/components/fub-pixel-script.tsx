@@ -9,7 +9,7 @@ type FubPixelScriptProps = {
   strategy?: 'afterInteractive' | 'lazyOnload'
 }
 
-/** Official FUB Widget Tracker. One pixel per team account. */
+/** Official FUB Widget Tracker (widgetbe.com). One pixel per team account. */
 export default function FubPixelScript({
   strategy = 'afterInteractive',
 }: FubPixelScriptProps) {
@@ -22,13 +22,19 @@ export default function FubPixelScript({
     return null
   }
 
-  const scriptUrl = getFubPixelScriptUrl(pixelId)
+  const scriptUrl = getFubPixelScriptUrl()
 
   return (
     <Script id="fub-pixel" strategy={strategy}>
-      {`(function(w,t,f){w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);};
-      var s=t.createElement('script');s.src='${scriptUrl}';
-      s.async=1;t.head.appendChild(s);})(window,document,'fubTracker');`}
+      {`(function(w,i,d,g){
+  w[g]=w[g]||function(){(w[g].q=w[g].q||[]).push(arguments);};
+  w[g].ds=1*new Date();
+  var t=d.createElement('script');
+  var f=d.getElementsByTagName('script')[0];
+  t.async=1;t.src=i;f.parentNode.insertBefore(t,f);
+})(window,'${scriptUrl}',document,'widgetTracker');
+window.widgetTracker('create','${pixelId}');
+window.widgetTracker('send','pageview');`}
     </Script>
   )
 }

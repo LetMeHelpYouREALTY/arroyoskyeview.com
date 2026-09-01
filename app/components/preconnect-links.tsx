@@ -49,7 +49,7 @@ export default function PreconnectLinks() {
 
           const fub = document.createElement('link');
           fub.rel = 'preconnect';
-          fub.href = 'https://widget.followupboss.com';
+          fub.href = 'https://widgetbe.com';
           fub.crossOrigin = 'anonymous';
           document.head.appendChild(fub);
         `,
