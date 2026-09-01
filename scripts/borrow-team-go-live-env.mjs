@@ -396,15 +396,37 @@ function walkJsonForSecrets(node, found, source, depth = 0) {
   }
 }
 
+function looksLikeSecretDump(value) {
+  const trimmed = typeof value === 'string' ? value.trim() : ''
+  if (trimmed.length > 4096) {
+    return true
+  }
+  if (trimmed.includes('-----BEGIN')) {
+    return true
+  }
+  if (/\n/.test(trimmed) && /[A-Z][A-Z0-9_]{3,}\s*=/.test(trimmed)) {
+    return true
+  }
+  if (
+    trimmed.length > 120 &&
+    /(?:CLOUDFLARE_API_TOKEN|CLOUDFLARE_EMAIL|CALENDLY_|FOLLOW_UP_BOSS)\s*[=:]/.test(trimmed)
+  ) {
+    return true
+  }
+  return false
+}
+
 function harvestFromBlob(value, found, source) {
   const trimmed = value.trimStart()
   const kind = trimmed.startsWith('{')
     ? 'json-object'
     : trimmed.startsWith('[')
       ? 'json-array'
-      : 'text'
+      : trimmed.includes('-----BEGIN')
+        ? 'pem'
+        : 'text'
   console.log(`Blob from ${source}: ${value.length} chars (${kind})`)
-  harvestLabeledSecrets([value], found)
+  harvestLabeledSecrets([value], found, `${source} labeled secret`)
   try {
     const parsed = JSON.parse(value)
     if (parsed && typeof parsed === 'object') {
@@ -420,7 +442,7 @@ function harvestFromBlob(value, found, source) {
   }
 }
 
-function harvestLabeledSecrets(texts, found) {
+function harvestLabeledSecrets(texts, found, source = 'Notion labeled secret') {
   let harvested = 0
   for (const text of texts) {
     NOTION_LABEL.lastIndex = 0
@@ -439,7 +461,7 @@ function harvestLabeledSecrets(texts, found) {
                 ? 'CALENDLY_WEBHOOK_SIGNING_KEY'
                 : label
       if (value && !alreadyHave(canonical) && !found[canonical]) {
-        found[canonical] = { value, source: 'Notion labeled secret' }
+        found[canonical] = { value, source }
         harvested += 1
       }
       match = NOTION_LABEL.exec(text)
@@ -625,7 +647,7 @@ for (const project of projects) {
     if (!value) {
       continue
     }
-    if (value.length > 4096) {
+    if (looksLikeSecretDump(value)) {
       console.log(
         `${canonical} on ${project.name} is ${value.length} chars; scanning blob, not copying`,
       )
