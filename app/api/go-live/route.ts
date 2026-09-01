@@ -8,6 +8,7 @@ import { isCalendlyApiConfigured } from '@/lib/calendly-invitee'
 import { isCloudflareImagesHashConfigured } from '@/lib/cloudflare-images'
 import { CLOUDFLARE_IMAGES_ACCOUNT_ID } from '@/lib/cloudflare-images-upload'
 import {
+  HERO_CUSTOM_ID,
   probeArroyoCustomIds,
   probeCloudflareImagesToken,
   probeManifestCustomIds,
@@ -46,6 +47,24 @@ function hasEnv(
 
 const HOSTED_IMAGES_WORKER_URL =
   'https://arroyoskyeview-hosted-images.drduffy.workers.dev/'
+
+async function probeOriginHero(): Promise<{
+  url: string
+  status: number
+  ok: boolean
+}> {
+  const url = `${SITE_URL}/${HERO_CUSTOM_ID}.jpg`
+  try {
+    const res = await fetch(url, {
+      method: 'HEAD',
+      signal: AbortSignal.timeout(4000),
+      cache: 'no-store',
+    })
+    return { url, status: res.status, ok: res.ok }
+  } catch {
+    return { url, status: 0, ok: false }
+  }
+}
 
 async function probeHostedImagesWorker(): Promise<{
   url: string
@@ -96,6 +115,7 @@ export async function GET() {
     manifestIds,
     fubCalendlySource,
     hostedWorker,
+    originHero,
   ] = await Promise.all([
     fetchCalendlyHostedConfirmation(),
     imagesToken
@@ -105,6 +125,7 @@ export async function GET() {
     probeManifestCustomIds(),
     probeFollowUpBossCalendlySource(),
     probeHostedImagesWorker(),
+    probeOriginHero(),
   ])
   const hostedRedirectReady =
     followUpBoss &&
@@ -172,6 +193,7 @@ export async function GET() {
       manifestCustomIds: manifestIds,
       runtimeSrcReady: customIds.hero === 200 || manifestIds.heroReady,
       hostedWorker,
+      originHero,
       edgeProbeUrl: `${SITE_URL}/api/go-live/images-edge`,
       sfoProbeUrl: `${SITE_URL}/api/go-live/images-sfo`,
     },

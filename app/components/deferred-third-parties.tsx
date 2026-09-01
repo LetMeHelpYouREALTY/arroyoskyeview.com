@@ -14,7 +14,14 @@ import {
   onFirstUserIntent,
   whenVisible,
 } from '@/lib/third-party-loaders'
-import { CALENDLY_BADGE, CALENDLY_URL, CALENDLY_UTM } from '@/lib/calendly'
+import {
+  CALENDLY_BADGE,
+  CALENDLY_URL,
+  CALENDLY_UTM,
+  calendlyWidgetUrl,
+} from '@/lib/calendly'
+
+const EAGER_PIXEL_PATHS = new Set(['/schedule', '/schedule-confirmed'])
 
 const GA_MEASUREMENT_ID = 'G-6HBW87EGMR'
 const REALSCOUT_SELECTOR =
@@ -28,10 +35,20 @@ function initCalendlyBadge(): void {
     return
   }
   window.Calendly.initBadgeWidget({
-    url: CALENDLY_URL,
+    url: calendlyWidgetUrl(CALENDLY_URL, 'Badge'),
     utm: CALENDLY_UTM,
     ...CALENDLY_BADGE,
   })
+}
+
+function loadFubAndAnalytics(): void {
+  void loadGoogleAnalytics(GA_MEASUREMENT_ID)
+  if (isFubPixelEnabled()) {
+    const pixelId = getFubPixelId()
+    if (pixelId) {
+      void loadFubPixel(getFubPixelScriptUrl(), pixelId)
+    }
+  }
 }
 
 /**
@@ -40,15 +57,20 @@ function initCalendlyBadge(): void {
  */
 export default function DeferredThirdParties() {
   useEffect(() => {
-    const stopIntent = onFirstUserIntent(() => {
-      void loadGoogleAnalytics(GA_MEASUREMENT_ID)
-      if (isFubPixelEnabled()) {
-        const pixelId = getFubPixelId()
-        if (pixelId) {
-          void loadFubPixel(getFubPixelScriptUrl(), pixelId)
-        }
-      }
+    const eagerPixel = EAGER_PIXEL_PATHS.has(window.location.pathname)
+    if (eagerPixel) {
+      loadFubAndAnalytics()
+    }
+    if (window.location.pathname === '/schedule') {
       void loadCalendlyWidget().then(initCalendlyBadge)
+    }
+    const stopIntent = onFirstUserIntent(() => {
+      if (!eagerPixel) {
+        loadFubAndAnalytics()
+      }
+      if (window.location.pathname !== '/schedule') {
+        void loadCalendlyWidget().then(initCalendlyBadge)
+      }
     })
 
     const nodes = document.querySelectorAll(REALSCOUT_SELECTOR)

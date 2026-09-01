@@ -172,15 +172,24 @@ function personStringParts(person: FubPersonRecord): string[] {
   return parts
 }
 
+/**
+ * In-memory only — never logged or returned. Native Calendly→FUB may cite
+ * this site in campaign/UTM/notes instead of source/tags.
+ */
+function personAttributionBlob(person: FubPersonRecord): string {
+  try {
+    return JSON.stringify(person).toLowerCase()
+  } catch {
+    return personStringParts(person).join(' ').toLowerCase()
+  }
+}
+
 function personMentionsArroyo(person: FubPersonRecord): boolean {
-  return personStringParts(person)
-    .join(' ')
-    .toLowerCase()
-    .includes('arroyoskyeview')
+  return personAttributionBlob(person).includes('arroyoskyeview')
 }
 
 function personHasCalendlySignal(person: FubPersonRecord): boolean {
-  return personStringParts(person).join(' ').toLowerCase().includes('calendly')
+  return personAttributionBlob(person).includes('calendly')
 }
 
 /** Events API writes source arroyoskyeview.com + Calendly tags, not “Calendly - …”. */

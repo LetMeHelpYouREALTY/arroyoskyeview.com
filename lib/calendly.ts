@@ -11,6 +11,9 @@ function withArroyoCampaign(url: string): string {
     parsed.searchParams.set('utm_medium', 'website')
     parsed.searchParams.set('utm_campaign', 'buyer-consultation')
   }
+  if (!parsed.searchParams.has('utm_content')) {
+    parsed.searchParams.set('utm_content', new URL(SITE_URL).hostname)
+  }
   return parsed.toString()
 }
 
@@ -18,16 +21,32 @@ export const CALENDLY_URL = withArroyoCampaign(
   process.env.NEXT_PUBLIC_CALENDLY_URL || DEFAULT_CALENDLY_URL,
 )
 
+export const CALENDLY_EMBED_DOMAIN = new URL(SITE_URL).hostname
+
+export type CalendlyEmbedType = 'Inline' | 'Popup' | 'Badge'
+
 /**
  * Calendly embed `utm` object (in addition to query params on CALENDLY_URL).
  * Native FUB↔Calendly otherwise sources people as “Calendly - drjanetduffy.com”
- * and never cites this site.
+ * and never cites this site. `embed_domain` on the widget URL is what Calendly
+ * stores as the parent site for FUB’s native integration.
  */
 export const CALENDLY_UTM = {
   utmSource: 'arroyoskyeview.com',
   utmMedium: 'website',
   utmCampaign: 'buyer-consultation',
+  utmContent: CALENDLY_EMBED_DOMAIN,
 } as const
+
+export function calendlyWidgetUrl(
+  url: string,
+  embedType: CalendlyEmbedType,
+): string {
+  const parsed = new URL(url)
+  parsed.searchParams.set('embed_domain', CALENDLY_EMBED_DOMAIN)
+  parsed.searchParams.set('embed_type', embedType)
+  return parsed.toString()
+}
 
 /** Calendly event Confirmation page → Redirect here, pass event details. */
 export const CALENDLY_CONFIRMATION_URL = `${SITE_URL}/schedule-confirmed`
