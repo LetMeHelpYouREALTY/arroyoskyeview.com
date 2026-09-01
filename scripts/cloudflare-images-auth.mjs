@@ -327,6 +327,44 @@ function zoneSummary(zones) {
     .join(', ')
 }
 
+function zonePermissionSummary(zones) {
+  const arroyo = zones.find((zone) => zone?.name === 'arroyoskyeview.com')
+  const sample = arroyo || zones[0]
+  const perms = Array.isArray(sample?.permissions)
+    ? sample.permissions.filter((item) => typeof item === 'string').slice(0, 20)
+    : []
+  const name = typeof sample?.name === 'string' ? sample.name : '?'
+  return perms.length > 0
+    ? `${name} permissions: ${perms.join(', ')}`
+    : `${name} permissions: (none in zone payload)`
+}
+
+async function probeAccountSurface(headers, accountId) {
+  const paths = [
+    ['workers', `/accounts/${accountId}/workers/scripts?per_page=1`],
+    ['r2', `/accounts/${accountId}/r2/buckets`],
+    ['pages', `/accounts/${accountId}/pages/projects?per_page=1`],
+  ]
+  const parts = []
+  for (const [label, path] of paths) {
+    const res = await fetch(`https://api.cloudflare.com/client/v4${path}`, { headers })
+    const json = await res.json().catch(() => null)
+    const extra = apiError(json)
+    parts.push(`${label} HTTP ${probeSummary({ status: res.status, ...extra })}`)
+    if (label === 'workers' && res.ok) {
+      const scripts = Array.isArray(json?.result) ? json.result : []
+      const names = scripts
+        .map((script) => (typeof script?.id === 'string' ? script.id : script?.name))
+        .filter(Boolean)
+        .slice(0, 8)
+      if (names.length) {
+        parts.push(`workers scripts: ${names.join(', ')}`)
+      }
+    }
+  }
+  console.log(`Account ${accountId.slice(0, 8)}… surface: ${parts.join('; ')}`)
+}
+
 /**
  * Active Bearer tokens often lack Images:Edit and User API Tokens Write.
  * CI 2026-09-01: summerlinwestrealestate / pewtervalleyestates.com tokens
@@ -360,6 +398,9 @@ async function recoverBearerImagesAccess(headers, token, email) {
   console.log(
     `Bearer accounts: HTTP ${probeSummary(listed)}, ${listed.accounts.length}; zones HTTP ${probeSummary(zones)}, ${zones.zones.length}${zones.zones.length ? ` (${zoneSummary(zones.zones)})` : ''}`,
   )
+  if (zones.zones.length > 0) {
+    console.log(zonePermissionSummary(zones.zones))
+  }
   for (const accountId of uniqueAccountIds(listed.accounts, zones.zones)) {
     const probed = await probeImages(headers, accountId)
     console.log(`Images on account ${accountId.slice(0, 8)}…: HTTP ${probeSummary(probed)}`)
@@ -373,6 +414,7 @@ async function recoverBearerImagesAccess(headers, token, email) {
         token,
       })
     }
+    await probeAccountSurface(headers, accountId)
     const minted = await tryMintedImagesToken(
       headers,
       user.email || email,
