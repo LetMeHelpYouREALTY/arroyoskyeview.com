@@ -6,6 +6,9 @@ import { isFollowUpBossConfigured } from '@/lib/fub-client'
 import { getFubPixelId } from '@/lib/fub-pixel-config'
 import { SITE_URL } from '@/lib/site-url'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 function hasEnv(name: string): boolean {
   const value = process.env[name]
   return typeof value === 'string' && value.trim().length > 0
