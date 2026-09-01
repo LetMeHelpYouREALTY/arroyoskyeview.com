@@ -316,6 +316,20 @@ function acceptCloudflareProbe(canonical, candidate, probe, found) {
   return key
 }
 
+function copyLocationRestrictedToken(canonical, candidate, probe, found) {
+  if (!probe.locationRestricted || canonical !== 'CLOUDFLARE_API_TOKEN') {
+    return false
+  }
+  if (found.CLOUDFLARE_API_TOKEN || alreadyHave('CLOUDFLARE_API_TOKEN')) {
+    return false
+  }
+  console.log(
+    `Copy IP-allowlisted CLOUDFLARE_API_TOKEN from ${candidate.source} (GitHub 9109 from location). Vercel production build will retry Images upload.`,
+  )
+  found.CLOUDFLARE_API_TOKEN = candidate
+  return true
+}
+
 function rememberCloudflareAccount(found, probe) {
   if (probe?.accountId && !found.CLOUDFLARE_ACCOUNT_ID && !alreadyHave('CLOUDFLARE_ACCOUNT_ID')) {
     found.CLOUDFLARE_ACCOUNT_ID = {
@@ -1172,6 +1186,9 @@ for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ORIGIN_CA_KEY', 'CLOUDFLA
   }
   const probe = await cloudflareImagesCredentialWorks(harvested.value, emailCandidates)
   if (!probe.ok) {
+    if (copyLocationRestrictedToken(key, harvested, probe, found)) {
+      continue
+    }
     console.log(`Skip ${key} from Notion/Linear: Images HTTP ${probeSummary(probe)} (${probe.mode})`)
     delete found[key]
   } else {
@@ -1199,6 +1216,9 @@ for (const [canonical, bucket] of Object.entries(candidates)) {
     for (const candidate of bucket) {
       const probe = await cloudflareImagesCredentialWorks(candidate.value, emailCandidates)
       if (!probe.ok) {
+        if (copyLocationRestrictedToken(canonical, candidate, probe, found)) {
+          break
+        }
         console.log(
           `Skip ${canonical} from ${candidate.source}: Images HTTP ${probeSummary(probe)} (${probe.mode})`,
         )

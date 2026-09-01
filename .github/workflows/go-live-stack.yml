@@ -178,7 +178,7 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         run: node scripts/sync-vercel-go-live-env.mjs
 
-      - name: Production deploy when Images hash or Calendly PAT landed
+      - name: Production deploy when Images hash, Images token, or Calendly PAT landed
         if: matrix.environment == 'Production' && steps.vercel.outputs.skip != 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}

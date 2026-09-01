@@ -1,6 +1,9 @@
 /**
  * Production-deploy this SHA on the Arroyo Vercel project after go-live
- * secrets actually land (Images hash and/or Calendly PAT).
+ * secrets actually land (Images hash, Images token, and/or Calendly PAT).
+ * An Images token alone is enough: `npm run build` runs
+ * ensure-cloudflare-images.mjs on Vercel (needed when GitHub runners are
+ * IP-blocked with Cloudflare 9109).
  *
  * Vercel Git is still linked to DrJanDuffy/arroyoskyeview.com, so GitHub
  * Vercel Deploy is main-only. Zapier create-deployment worked with
@@ -23,12 +26,14 @@ function hasGoLivePayload() {
   const imagesHash =
     process.env.CLOUDFLARE_IMAGES_HASH?.trim() ||
     process.env.NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH?.trim()
+  const imagesToken = process.env.CLOUDFLARE_API_TOKEN?.trim()
   const calendly =
     process.env.CALENDLY_API_TOKEN?.trim() ||
     process.env.CALENDLY_PERSONAL_ACCESS_TOKEN?.trim() ||
     process.env.CALENDLY_PAT?.trim()
   return {
     imagesHash: Boolean(imagesHash),
+    imagesToken: Boolean(imagesToken),
     calendly: Boolean(calendly),
   }
 }
@@ -40,9 +45,9 @@ async function main() {
   }
 
   const landed = hasGoLivePayload()
-  if (!landed.imagesHash && !landed.calendly) {
+  if (!landed.imagesHash && !landed.imagesToken && !landed.calendly) {
     console.log(
-      'Skip production deploy: no CLOUDFLARE_IMAGES_HASH and no CALENDLY_API_TOKEN.',
+      'Skip production deploy: no CLOUDFLARE_IMAGES_HASH, CLOUDFLARE_API_TOKEN, or CALENDLY_API_TOKEN.',
     )
     return
   }
@@ -81,7 +86,7 @@ async function main() {
   const readyState = typeof json?.readyState === 'string' ? json.readyState : ''
   const error = json?.error?.message || json?.errorCode || ''
   console.log(
-    `Vercel production deploy HTTP ${res.status} id=${id || 'none'} state=${readyState || 'n/a'} images=${landed.imagesHash} calendly=${landed.calendly}${error ? ` error=${String(error).slice(0, 160)}` : ''}`,
+    `Vercel production deploy HTTP ${res.status} id=${id || 'none'} state=${readyState || 'n/a'} imagesHash=${landed.imagesHash} imagesToken=${landed.imagesToken} calendly=${landed.calendly}${error ? ` error=${String(error).slice(0, 160)}` : ''}`,
   )
 }
 

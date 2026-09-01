@@ -263,6 +263,15 @@ function success({ mode, status, headers, email, accountId, token, minted = fals
   return { ok: true, mode, status, headers, email, accountId, token, minted }
 }
 
+/** 9109 "Cannot use the access token from location" — token may work on Vercel build IPs. */
+export function isTokenBlockedByCallerIp(probe) {
+  if (!probe || probe.code !== 9109) {
+    return false
+  }
+  const message = typeof probe.message === 'string' ? probe.message : ''
+  return /from location/i.test(message)
+}
+
 async function tryMintedImagesToken(headers, email, accountId = IMAGES_ACCOUNT_ID, owner = 'user') {
   const minted = await mintImagesEditToken(headers, accountId, owner)
   if (!minted.ok) {
@@ -378,6 +387,23 @@ async function recoverBearerImagesAccess(headers, token, email) {
   console.log(
     `Bearer token verify HTTP ${probeSummary(verify)}${verify.statusText ? ` (${verify.statusText})` : ''} /user HTTP ${probeSummary(user)}`,
   )
+
+  if (isTokenBlockedByCallerIp(user) || isTokenBlockedByCallerIp(verify)) {
+    console.log(
+      'Bearer token is IP-allowlisted (9109 from location). GitHub runner cannot upload; copy it to Vercel so production build can.',
+    )
+    return {
+      ok: false,
+      locationRestricted: true,
+      mode: 'bearer',
+      status: user.status || verify.status,
+      code: 9109,
+      message: user.message || verify.message,
+      token,
+      headers,
+      accountId: IMAGES_ACCOUNT_ID,
+    }
+  }
 
   if (!verify.ok && !user.ok) {
     return null
