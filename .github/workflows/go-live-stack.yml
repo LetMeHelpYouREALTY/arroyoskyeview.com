@@ -1,11 +1,17 @@
 name: Go-live stack
 
-# Uploads Cloudflare Images and upserts Vercel env when the matching
-# GitHub secrets exist. Workflow file must be on main to run from the UI.
-# Do not orange-cloud the Vercel apex.
+# Uploads Cloudflare Images and upserts Vercel env when repo secrets exist.
+# Heritage's Images Sync uses this same skip-if-empty pattern. Do not
+# orange-cloud the Vercel apex.
+#
+# Push/PR must actually start jobs — a workflow_dispatch-only file was
+# creating 0s failed runs with jobs: [] on cursor[bot] pushes, so an
+# existing CLOUDFLARE_API_TOKEN would never upload.
 
 on:
   workflow_dispatch:
+  pull_request:
+  push:
 
 concurrency:
   group: go-live-stack
@@ -13,7 +19,10 @@ concurrency:
 
 jobs:
   sync:
+    name: Upload Cloudflare Images and sync Vercel env
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -35,8 +44,21 @@ jobs:
             echo "CLOUDFLARE_IMAGES_HASH=$NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH" >> "$GITHUB_ENV"
           fi
 
+      - name: Check Cloudflare secrets
+        id: cf
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::CLOUDFLARE_API_TOKEN is not set. Skipping Images upload."
+            exit 0
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
       - name: Upload Cloudflare Images
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+        if: steps.cf.outputs.skip != 'true'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -48,14 +70,38 @@ jobs:
             echo "CLOUDFLARE_IMAGES_HASH=$HASH" >> "$GITHUB_ENV"
           fi
 
+      - name: Check Calendly PAT
+        id: calendly
+        env:
+          CALENDLY_API_TOKEN: ${{ secrets.CALENDLY_API_TOKEN }}
+        run: |
+          if [ -z "$CALENDLY_API_TOKEN" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::CALENDLY_API_TOKEN is not set. Skipping webhook register."
+            exit 0
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
       - name: Register Calendly webhook
-        if: ${{ secrets.CALENDLY_API_TOKEN != '' }}
+        if: steps.calendly.outputs.skip != 'true'
         env:
           CALENDLY_API_TOKEN: ${{ secrets.CALENDLY_API_TOKEN }}
         run: node scripts/register-calendly-webhook.mjs
 
+      - name: Check Vercel token
+        id: vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::VERCEL_TOKEN is not set. Skipping Vercel env upsert."
+            exit 0
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
       - name: Upsert Vercel env
-        if: ${{ secrets.VERCEL_TOKEN != '' }}
+        if: steps.vercel.outputs.skip != 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
