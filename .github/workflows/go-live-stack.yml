@@ -49,6 +49,7 @@ jobs:
       - name: Seed native GitHub secrets into GITHUB_ENV
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ORIGIN_CA_KEY: ${{ secrets.CLOUDFLARE_ORIGIN_CA_KEY }}
           CLOUDFLARE_GLOBAL_API_TOKEN: ${{ secrets.CLOUDFLARE_GLOBAL_API_TOKEN }}
           CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
           CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
@@ -77,6 +78,7 @@ jobs:
             } >> "$GITHUB_ENV"
           }
           seed CLOUDFLARE_API_TOKEN
+          seed CLOUDFLARE_ORIGIN_CA_KEY
           seed CLOUDFLARE_GLOBAL_API_TOKEN
           seed CLOUDFLARE_API_KEY
           seed CLOUDFLARE_EMAIL
@@ -93,7 +95,7 @@ jobs:
           if [ -n "$NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH" ] && [ -z "$CLOUDFLARE_IMAGES_HASH" ]; then
             echo "CLOUDFLARE_IMAGES_HASH=$NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH" >> "$GITHUB_ENV"
           fi
-          echo "Seeded from GitHub environment ${{ matrix.environment }} (token present: CF=$([ -n "$CLOUDFLARE_API_TOKEN" ] && echo yes || echo no) CAL=$([ -n "$CALENDLY_API_TOKEN" ] && echo yes || echo no))"
+          echo "Seeded from GitHub environment ${{ matrix.environment }} (token present: CF=$([ -n "$CLOUDFLARE_API_TOKEN$CLOUDFLARE_ORIGIN_CA_KEY$CLOUDFLARE_GLOBAL_API_TOKEN$CLOUDFLARE_API_KEY" ] && echo yes || echo no) CAL=$([ -n "$CALENDLY_API_TOKEN" ] && echo yes || echo no))"
 
       - name: Borrow go-live env from sister Vercel projects
         if: matrix.environment == 'Production'
@@ -105,7 +107,7 @@ jobs:
       - name: Check Cloudflare token
         id: cf
         run: |
-          if [ -n "$CLOUDFLARE_API_TOKEN" ] || [ -n "$CLOUDFLARE_GLOBAL_API_TOKEN" ] || [ -n "$CLOUDFLARE_API_KEY" ]; then
+          if [ -n "$CLOUDFLARE_API_TOKEN" ] || [ -n "$CLOUDFLARE_ORIGIN_CA_KEY" ] || [ -n "$CLOUDFLARE_GLOBAL_API_TOKEN" ] || [ -n "$CLOUDFLARE_API_KEY" ]; then
             echo "skip=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi

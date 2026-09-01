@@ -16,6 +16,7 @@ import { appendFile } from 'node:fs/promises'
 import {
   cloudflareImagesCredentialWorks,
   looksLikeGlobalApiKey,
+  looksLikeOriginCaKey,
   probeSummary,
   uniqueAuthEmails,
 } from './cloudflare-images-auth.mjs'
@@ -25,6 +26,7 @@ const TOKEN = process.env.VERCEL_TOKEN?.trim()
 
 const KEYS = [
   'CLOUDFLARE_API_TOKEN',
+  'CLOUDFLARE_ORIGIN_CA_KEY',
   'CLOUDFLARE_GLOBAL_API_TOKEN',
   'CLOUDFLARE_EMAIL',
   'CLOUDFLARE_ACCOUNT_ID',
@@ -47,6 +49,11 @@ const ALIASES = {
     'CF_IMAGES_TOKEN',
     'CLOUDFLARE_IMAGES_TOKEN',
     'CLOUDFLARE_IMAGES_API_TOKEN',
+  ],
+  CLOUDFLARE_ORIGIN_CA_KEY: [
+    'CLOUDFLARE_ORIGIN_CA_KEY',
+    'CF_ORIGIN_CA_KEY',
+    'CLOUDFLARE_ORIGIN_CA',
   ],
   CLOUDFLARE_GLOBAL_API_TOKEN: [
     'CLOUDFLARE_GLOBAL_API_TOKEN',
@@ -270,6 +277,11 @@ function acceptCloudflareProbe(canonical, candidate, probe, found) {
     }
     return 'CLOUDFLARE_API_TOKEN'
   }
+  if (probe.mode === 'service') {
+    found.CLOUDFLARE_ORIGIN_CA_KEY = candidate
+    rememberCloudflareAccount(found, probe)
+    return 'CLOUDFLARE_ORIGIN_CA_KEY'
+  }
   // Never copy a Global API Key onto CLOUDFLARE_API_TOKEN — sync would
   // upsert it to Arroyo Vercel. Keep it in GITHUB_ENV as GLOBAL for upload.
   const key = probe.mode === 'global' ? 'CLOUDFLARE_GLOBAL_API_TOKEN' : canonical
@@ -307,7 +319,7 @@ function interestingKeyNames(names) {
 }
 
 const NOTION_LABEL =
-  /(?:CLOUDFLARE_API_TOKEN|CLOUDFLARE_GLOBAL_API_TOKEN|CLOUDFLARE_API_KEY|CLOUDFLARE_EMAIL|CF_EMAIL|CALENDLY_API_TOKEN|CALENDLY_PERSONAL_ACCESS_TOKEN|CALENDLY_PAT|CALENDLY_WEBHOOK_SIGNING_KEY|CALENDLY_SIGNING_KEY)\s*[:=]\s*(\S+)/gi
+  /(?:CLOUDFLARE_API_TOKEN|CLOUDFLARE_GLOBAL_API_TOKEN|CLOUDFLARE_API_KEY|CLOUDFLARE_ORIGIN_CA_KEY|CLOUDFLARE_EMAIL|CF_EMAIL|CALENDLY_API_TOKEN|CALENDLY_PERSONAL_ACCESS_TOKEN|CALENDLY_PAT|CALENDLY_WEBHOOK_SIGNING_KEY|CALENDLY_SIGNING_KEY)\s*[:=]\s*(\S+)/gi
 
 function notionPlainText(block) {
   const rich =
@@ -398,6 +410,9 @@ function walkJsonForSecrets(node, found, source, depth = 0) {
 
 function looksLikeSecretDump(value) {
   const trimmed = typeof value === 'string' ? value.trim() : ''
+  if (looksLikeOriginCaKey(trimmed) || looksLikeGlobalApiKey(trimmed)) {
+    return false
+  }
   // Cloudflare API tokens are ~40–60 chars. Anything this long is a dump,
   // PEM, or JSON — not a Bearer token.
   if (trimmed.length > 200) {
@@ -423,6 +438,13 @@ function harvestFromBlob(value, found, source) {
         : 'text'
   console.log(`Blob from ${source}: ${value.length} chars (${kind})`)
   harvestLabeledSecrets([value], found, `${source} labeled secret`)
+  const originCa = value.match(/v1\.0-[A-Za-z0-9-]+/)
+  if (originCa && !alreadyHave('CLOUDFLARE_ORIGIN_CA_KEY') && !found.CLOUDFLARE_ORIGIN_CA_KEY) {
+    found.CLOUDFLARE_ORIGIN_CA_KEY = {
+      value: originCa[0],
+      source: `${source} Origin CA key in blob`,
+    }
+  }
   try {
     const parsed = JSON.parse(value)
     if (parsed && typeof parsed === 'object') {
@@ -829,7 +851,7 @@ const emailCandidates = uniqueAuthEmails([
 ])
 console.log(`Cloudflare auth emails: ${emailCandidates.join(', ')}`)
 
-for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_GLOBAL_API_TOKEN']) {
+for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ORIGIN_CA_KEY', 'CLOUDFLARE_GLOBAL_API_TOKEN']) {
   const harvested = found[key]
   if (!harvested) {
     continue
@@ -855,7 +877,11 @@ for (const [canonical, bucket] of Object.entries(candidates)) {
   if (alreadyHave(canonical) || found[canonical]) {
     continue
   }
-  if (canonical === 'CLOUDFLARE_API_TOKEN' || canonical === 'CLOUDFLARE_GLOBAL_API_TOKEN') {
+  if (
+    canonical === 'CLOUDFLARE_API_TOKEN' ||
+    canonical === 'CLOUDFLARE_ORIGIN_CA_KEY' ||
+    canonical === 'CLOUDFLARE_GLOBAL_API_TOKEN'
+  ) {
     for (const candidate of bucket) {
       const probe = await cloudflareImagesCredentialWorks(candidate.value, emailCandidates)
       if (!probe.ok) {
@@ -889,7 +915,11 @@ for (const [canonical, bucket] of Object.entries(candidates)) {
     continue
   }
   if (canonical === 'CLOUDFLARE_IMAGES_HASH') {
-    if (!found.CLOUDFLARE_API_TOKEN && !found.CLOUDFLARE_GLOBAL_API_TOKEN) {
+    if (
+      !found.CLOUDFLARE_API_TOKEN &&
+      !found.CLOUDFLARE_GLOBAL_API_TOKEN &&
+      !found.CLOUDFLARE_ORIGIN_CA_KEY
+    ) {
       console.log(
         `Skip CLOUDFLARE_IMAGES_HASH from ${bucket[0].source}: no working Images credential`,
       )

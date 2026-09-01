@@ -38,6 +38,7 @@ function uniqueTokens() {
     ...new Set(
       [
         process.env.CLOUDFLARE_API_TOKEN,
+        process.env.CLOUDFLARE_ORIGIN_CA_KEY,
         process.env.CLOUDFLARE_GLOBAL_API_TOKEN,
         process.env.CLOUDFLARE_API_KEY,
       ]
@@ -72,6 +73,9 @@ async function resolveAuth() {
     authHeaders = probe.headers
     if (probe.token && (probe.mode === 'bearer' || probe.minted)) {
       process.env.CLOUDFLARE_API_TOKEN = probe.token
+    }
+    if (probe.mode === 'service' && probe.token) {
+      process.env.CLOUDFLARE_ORIGIN_CA_KEY = probe.token
     }
     if (probe.email) {
       process.env.CLOUDFLARE_EMAIL = probe.email

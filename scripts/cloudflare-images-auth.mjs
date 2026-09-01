@@ -25,6 +25,11 @@ export function looksLikeGlobalApiKey(token) {
   return typeof token === 'string' && /^[0-9a-f]{37}$/i.test(token.trim())
 }
 
+/** Origin CA / service keys (valid through 2026-09-30). Header: X-Auth-User-Service-Key. */
+export function looksLikeOriginCaKey(token) {
+  return typeof token === 'string' && /^v1\.0-[A-Za-z0-9-]+$/.test(token.trim())
+}
+
 export function uniqueAuthEmails(extra = []) {
   const seen = new Set()
   const out = []
@@ -66,6 +71,22 @@ export async function probeImages(headers, accountId = IMAGES_ACCOUNT_ID) {
     json,
     ...apiError(json),
   }
+}
+
+async function probeTokenVerify(headers) {
+  const res = await fetch('https://api.cloudflare.com/client/v4/user/tokens/verify', { headers })
+  const json = await res.json().catch(() => null)
+  return {
+    ok: res.ok,
+    status: res.status,
+    statusText: json?.result?.status || '',
+    ...apiError(json),
+  }
+}
+
+function looksLikeApiToken(token) {
+  const trimmed = typeof token === 'string' ? token.trim() : ''
+  return trimmed.length >= 40 && trimmed.length <= 80 && !looksLikeGlobalApiKey(trimmed)
 }
 
 async function probeUser(headers) {
@@ -174,9 +195,10 @@ function success({ mode, status, headers, email, accountId, token, minted = fals
 }
 
 /**
- * Accept a Cloudflare API token (Bearer) or Global API Key (email + key).
- * When the Global key authenticates as a user but Images:Edit is denied,
- * mint a scoped Images token (once) for upload/CI.
+ * Accept a Cloudflare API token (Bearer), Origin CA service key, or Global
+ * API Key. When a credential authenticates as a user but Images:Edit is
+ * denied, mint a scoped Images token (once) for upload/CI. Never treat an
+ * Origin CA key as CLOUDFLARE_API_TOKEN on Vercel.
  */
 export async function cloudflareImagesCredentialWorks(token, emails) {
   const bearerHeaders = { Authorization: `Bearer ${token}` }
@@ -189,6 +211,71 @@ export async function cloudflareImagesCredentialWorks(token, emails) {
       accountId: IMAGES_ACCOUNT_ID,
       token,
     })
+  }
+
+  if (looksLikeOriginCaKey(token)) {
+    const serviceHeaders = { 'X-Auth-User-Service-Key': token.trim() }
+    const images = await probeImages(serviceHeaders)
+    console.log(`Origin CA service key Images HTTP ${probeSummary(images)}`)
+    if (images.ok) {
+      const minted = await mintImagesEditToken(serviceHeaders)
+      if (minted.ok) {
+        const mintedHeaders = { Authorization: `Bearer ${minted.token}` }
+        const mintedProbe = await probeImages(mintedHeaders)
+        console.log(`Minted Images token probe HTTP ${probeSummary(mintedProbe)}`)
+        if (mintedProbe.ok) {
+          return success({
+            mode: 'bearer',
+            status: mintedProbe.status,
+            headers: mintedHeaders,
+            accountId: IMAGES_ACCOUNT_ID,
+            token: minted.token,
+            minted: true,
+          })
+        }
+      }
+      return success({
+        mode: 'service',
+        status: images.status,
+        headers: serviceHeaders,
+        accountId: IMAGES_ACCOUNT_ID,
+        token: token.trim(),
+      })
+    }
+    return {
+      ok: false,
+      mode: 'service',
+      status: images.status,
+      code: images.code,
+      message: images.message,
+    }
+  }
+
+  if (looksLikeApiToken(token)) {
+    const verify = await probeTokenVerify(bearerHeaders)
+    const user = await probeUser(bearerHeaders)
+    console.log(
+      `Bearer token verify HTTP ${probeSummary(verify)}${verify.statusText ? ` (${verify.statusText})` : ''} /user HTTP ${probeSummary(user)}`,
+    )
+    if (user.ok || verify.ok) {
+      const minted = await mintImagesEditToken(bearerHeaders)
+      if (minted.ok) {
+        const mintedHeaders = { Authorization: `Bearer ${minted.token}` }
+        const mintedProbe = await probeImages(mintedHeaders)
+        console.log(`Minted Images token probe HTTP ${probeSummary(mintedProbe)}`)
+        if (mintedProbe.ok) {
+          return success({
+            mode: 'bearer',
+            status: mintedProbe.status,
+            headers: mintedHeaders,
+            email: user.email,
+            accountId: IMAGES_ACCOUNT_ID,
+            token: minted.token,
+            minted: true,
+          })
+        }
+      }
+    }
   }
 
   if (!looksLikeGlobalApiKey(token)) {
@@ -248,6 +335,12 @@ export async function cloudflareImagesCredentialWorks(token, emails) {
 
     if (user.status === 429 || onDefault.status === 429) {
       console.log('Cloudflare auth rate-limited; stopping further email probes for this key.')
+      break
+    }
+    if (user.code === 9103) {
+      console.log(
+        'Global API Key unknown (9103); not retrying other emails for this key.',
+      )
       break
     }
     if (onDefault.status !== 403) {
