@@ -90,7 +90,7 @@ export async function GET() {
   const nextHumanActions: string[] = []
   if (!deliveryHash) {
     nextHumanActions.push(
-      'On Cloudflare account 2cc579c1ec9e426ed585e933ebf4753b run `npx wrangler login --device`, then `npx wrangler deploy --config workers/hosted-images/wrangler.jsonc` and `npm run images:ingest-dev`. The Worker uploads via the Images binding, so the geneboyle IP-allowlisted REST token is not required. After every custom ID returns 200 on imagedelivery.net, the next production build inlines the hash into homepage <img src>. Alternatively mint Account.Cloudflare Images.Edit with no IP allowlist as CLOUDFLARE_API_TOKEN. Do not default the Siena hash until Arroyo custom IDs return 200.',
+      'On Cloudflare account 2cc579c1ec9e426ed585e933ebf4753b run `npx wrangler login --device` (https://dash.cloudflare.com/oauth2/device/verify), then `npm run images:go-live`. That deploys workers/hosted-images and POSTs /sync on arroyoskyeview-hosted-images.drduffy.workers.dev (Images binding, no IP-allowlisted REST token). After every custom ID returns 200 on imagedelivery.net, the next production build inlines the hash into homepage <img src>. Alternatively mint Account.Cloudflare Images.Edit with no IP allowlist as CLOUDFLARE_API_TOKEN. Do not default the Siena hash until Arroyo custom IDs return 200.',
     )
   }
   if (!calendlyConfigured) {
@@ -122,8 +122,7 @@ export async function GET() {
       deliveryHash,
       api: imagesApi,
       teamCustomIds: customIds,
-      hostedWorker:
-        'npx wrangler deploy --config workers/hosted-images/wrangler.jsonc',
+      hostedWorker: 'npm run images:go-live',
       edgeProbeUrl: `${SITE_URL}/api/go-live/images-edge`,
       sfoProbeUrl: `${SITE_URL}/api/go-live/images-sfo`,
     },

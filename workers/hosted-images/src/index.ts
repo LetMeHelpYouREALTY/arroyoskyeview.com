@@ -3,7 +3,7 @@
  *
  * Uses env.IMAGES.hosted (no REST API token, so Vercel/GitHub IP
  * allowlists on CLOUDFLARE_API_TOKEN do not apply). Deploy with:
- *   npx wrangler deploy --config workers/hosted-images/wrangler.jsonc
+ *   npm run images:go-live
  *
  * Keep IMAGE_PATHS in sync with lib/cloudflare-image-manifest.ts.
  */
