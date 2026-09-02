@@ -160,7 +160,7 @@ export async function GET() {
   }
   if (!calendlyConfigured) {
     nextHumanActions.push(
-      'Embed bookings already send the parent page to /schedule-confirmed (URIs only). The details form there POSTs to Follow Up Boss as source arroyoskyeview.com without a Calendly PAT. Hosted Calendly (calendly.com) still needs Buyer Consultation 30 min → Confirmation → Redirect to https://www.arroyoskyeview.com/schedule-confirmed with Pass event details, or CALENDLY_API_TOKEN / CALENDLY_WEBHOOK_SIGNING_KEY on Vercel. Action plan 4 (Buyer New Lead Website Registration) is already Active.',
+      'Embed bookings redirect to /schedule-confirmed. If the widget includes invitee email, that plus the Calendly invitee URI posts Follow Up Boss as source arroyoskyeview.com with no PAT. Otherwise the details form on that page does. Hosted Calendly (calendly.com) still needs Buyer Consultation 30 min → Confirmation → Redirect to https://www.arroyoskyeview.com/schedule-confirmed with Pass event details, or CALENDLY_API_TOKEN / CALENDLY_WEBHOOK_SIGNING_KEY on Vercel. Action plan 4 (Buyer New Lead Website Registration) is already Active.',
     )
   }
 

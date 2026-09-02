@@ -122,6 +122,9 @@ export default async function ScheduleConfirmedPage({
           <CalendlyBookingDetailsForm
             inviteeUri={inviteeUri}
             eventUri={eventUri}
+            defaultName={firstQueryValue(params.invitee_full_name)?.trim()}
+            defaultEmail={pixelEmail}
+            defaultPhone={firstQueryValue(params.text_reminder_number)?.trim()}
           />
         ) : null}
         <div className="mt-8">

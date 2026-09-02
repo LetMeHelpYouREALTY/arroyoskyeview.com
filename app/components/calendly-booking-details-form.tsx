@@ -7,6 +7,9 @@ import { SITE_CONTACT } from '@/lib/site-contact'
 type CalendlyBookingDetailsFormProps = {
   inviteeUri: string
   eventUri?: string
+  defaultName?: string
+  defaultEmail?: string
+  defaultPhone?: string
 }
 
 type FormStatus = 'idle' | 'submitting' | 'ok' | 'error'
@@ -18,10 +21,13 @@ type FormStatus = 'idle' | 'submitting' | 'ok' | 'error'
 export default function CalendlyBookingDetailsForm({
   inviteeUri,
   eventUri,
+  defaultName = '',
+  defaultEmail = '',
+  defaultPhone = '',
 }: CalendlyBookingDetailsFormProps) {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
+  const [name, setName] = useState(defaultName)
+  const [email, setEmail] = useState(defaultEmail)
+  const [phone, setPhone] = useState(defaultPhone)
   const [company, setCompany] = useState('')
   const [status, setStatus] = useState<FormStatus>('idle')
   const [message, setMessage] = useState<string | null>(null)

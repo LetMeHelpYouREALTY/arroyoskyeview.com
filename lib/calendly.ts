@@ -1,5 +1,14 @@
+import { isCalendlyInviteeUri } from '@/lib/calendly-invitee'
 import { SITE_URL } from '@/lib/site-url'
 import type { CalendlyLeadInput } from '@/lib/fub-events'
+
+export type CalendlyRedirectDetails = {
+  email?: string
+  name?: string
+  phone?: string
+  eventStartTime?: string
+  eventTypeName?: string
+}
 
 const DEFAULT_CALENDLY_URL =
   'https://calendly.com/drjanduffy/buyer-consultation-30-min'
@@ -141,17 +150,34 @@ export async function fetchCalendlyHostedConfirmation(): Promise<CalendlyHostedC
 
 /**
  * Parent-page confirmation URL after an embed `calendly.event_scheduled`
- * postMessage. URIs only — email still requires PAT lookup or dashboard
- * “Pass event details”.
+ * postMessage. Always includes invitee/event URIs. When the widget also
+ * exposes email (some embed builds do), pass it so /schedule-confirmed can
+ * POST Follow Up Boss without a Calendly PAT or dashboard redirect.
  */
 export function scheduleConfirmedUrlFromCalendlyUris(
   inviteeUri: string,
   eventUri?: string,
+  details?: CalendlyRedirectDetails,
 ): string {
   const next = new URL('/schedule-confirmed', SITE_URL)
   next.searchParams.set('invitee_uri', inviteeUri)
   if (eventUri) {
     next.searchParams.set('event_uri', eventUri)
+  }
+  if (details?.email) {
+    next.searchParams.set('invitee_email', details.email)
+  }
+  if (details?.name) {
+    next.searchParams.set('invitee_full_name', details.name)
+  }
+  if (details?.phone) {
+    next.searchParams.set('text_reminder_number', details.phone)
+  }
+  if (details?.eventStartTime) {
+    next.searchParams.set('event_start_time', details.eventStartTime)
+  }
+  if (details?.eventTypeName) {
+    next.searchParams.set('event_type_name', details.eventTypeName)
   }
   return next.toString()
 }
@@ -173,8 +199,11 @@ function firstQueryValue(
 }
 
 /**
- * Calendly “Pass event details to the redirect URL” query params.
- * Requires email + start time so a bare ?email= cannot create FUB contacts.
+ * Calendly “Pass event details to the redirect URL” query params, or embed
+ * postMessage fields copied onto the confirmation URL.
+ * Email alone is not enough — require event start time (hosted redirect) or
+ * a real Calendly invitee URI (embed booking) so `?email=` cannot create
+ * Follow Up Boss contacts.
  */
 export function calendlyLeadFromConfirmationParams(
   params: Record<string, string | string[] | undefined>,
@@ -183,7 +212,11 @@ export function calendlyLeadFromConfirmationParams(
   const email = firstQueryValue(params.email)?.trim()
   const resolvedEmail = inviteeEmail || email
   const scheduledAt = firstQueryValue(params.event_start_time)?.trim()
-  if (!resolvedEmail || !scheduledAt) {
+  const inviteeUri = firstQueryValue(params.invitee_uri)?.trim()
+  const hasBookingProof = Boolean(
+    scheduledAt || (inviteeUri && isCalendlyInviteeUri(inviteeUri)),
+  )
+  if (!resolvedEmail || !hasBookingProof) {
     return null
   }
 
