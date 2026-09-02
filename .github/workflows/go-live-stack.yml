@@ -1,0 +1,218 @@
+name: Go-live stack
+
+# Uploads Cloudflare Images and upserts Vercel env when repo secrets exist
+# or when VERCEL_TOKEN can decrypt the same keys from a sister project.
+# Heritage's Images Sync uses this same skip-if-empty pattern. Do not
+# orange-cloud the Vercel apex.
+#
+# Push/PR must actually start jobs — a workflow_dispatch-only file was
+# creating 0s failed runs with jobs: [] on cursor[bot] pushes, so an
+# existing CLOUDFLARE_API_TOKEN would never upload.
+#
+# Later steps must NOT re-bind go-live keys from empty GitHub secrets.
+# An empty `env: KEY: ${{ secrets.KEY }}` overwrites GITHUB_ENV.
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+
+concurrency:
+  group: go-live-stack-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Upload Cloudflare Images (${{ matrix.environment }})
+    runs-on: ubuntu-latest
+    # Vercel GitHub integration created these environments with no
+    # protection rules. Environment secrets only inject when `environment`
+    # is set. Probe each one — repo-level CLOUDFLARE_API_TOKEN is empty.
+    strategy:
+      fail-fast: false
+      matrix:
+        environment:
+          - Production
+          - Preview
+          - Production – arroyoskyeview.com-2
+          - Preview – arroyoskyeview.com-2
+    environment: ${{ matrix.environment }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Seed native GitHub secrets into GITHUB_ENV
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ORIGIN_CA_KEY: ${{ secrets.CLOUDFLARE_ORIGIN_CA_KEY }}
+          CLOUDFLARE_GLOBAL_API_TOKEN: ${{ secrets.CLOUDFLARE_GLOBAL_API_TOKEN }}
+          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_IMAGES_HASH: ${{ secrets.CLOUDFLARE_IMAGES_HASH }}
+          NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH: ${{ secrets.NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH }}
+          CLOUDFLARE_WORKERS_SCRIPTS_EDIT: ${{ secrets.CLOUDFLARE_WORKERS_SCRIPTS_EDIT }}
+          FOLLOW_UP_BOSS_API_KEY: ${{ secrets.FOLLOW_UP_BOSS_API_KEY }}
+          FUB_API_KEY: ${{ secrets.FUB_API_KEY }}
+          CALENDLY_API_TOKEN: ${{ secrets.CALENDLY_API_TOKEN }}
+          CALENDLY_PERSONAL_ACCESS_TOKEN: ${{ secrets.CALENDLY_PERSONAL_ACCESS_TOKEN }}
+          CALENDLY_PAT: ${{ secrets.CALENDLY_PAT }}
+          CALENDLY_WEBHOOK_SIGNING_KEY: ${{ secrets.CALENDLY_WEBHOOK_SIGNING_KEY }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          seed() {
+            local key="$1"
+            local val="${!key}"
+            if [ -z "$val" ]; then
+              return 0
+            fi
+            echo "::add-mask::$val"
+            {
+              echo "${key}<<EOF_${key}"
+              printf '%s\n' "$val"
+              echo "EOF_${key}"
+            } >> "$GITHUB_ENV"
+          }
+          seed CLOUDFLARE_API_TOKEN
+          seed CLOUDFLARE_ORIGIN_CA_KEY
+          seed CLOUDFLARE_GLOBAL_API_TOKEN
+          seed CLOUDFLARE_API_KEY
+          seed CLOUDFLARE_EMAIL
+          seed CLOUDFLARE_ACCOUNT_ID
+          seed CLOUDFLARE_IMAGES_HASH
+          seed NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH
+          seed CLOUDFLARE_WORKERS_SCRIPTS_EDIT
+          seed FOLLOW_UP_BOSS_API_KEY
+          seed FUB_API_KEY
+          seed CALENDLY_API_TOKEN
+          seed CALENDLY_PERSONAL_ACCESS_TOKEN
+          seed CALENDLY_PAT
+          seed CALENDLY_WEBHOOK_SIGNING_KEY
+          seed CRON_SECRET
+          if [ -n "$NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH" ] && [ -z "$CLOUDFLARE_IMAGES_HASH" ]; then
+            echo "CLOUDFLARE_IMAGES_HASH=$NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH" >> "$GITHUB_ENV"
+          fi
+          echo "Seeded from GitHub environment ${{ matrix.environment }} (token present: CF=$([ -n "$CLOUDFLARE_API_TOKEN$CLOUDFLARE_ORIGIN_CA_KEY$CLOUDFLARE_GLOBAL_API_TOKEN$CLOUDFLARE_API_KEY" ] && echo yes || echo no) CAL=$([ -n "$CALENDLY_API_TOKEN" ] && echo yes || echo no))"
+
+      - name: Borrow go-live env from sister Vercel projects
+        if: matrix.environment == 'Production'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        run: node scripts/borrow-team-go-live-env.mjs
+
+      - name: Check Cloudflare token
+        id: cf
+        run: |
+          if [ -n "$CLOUDFLARE_API_TOKEN" ] || [ -n "$CLOUDFLARE_ORIGIN_CA_KEY" ] || [ -n "$CLOUDFLARE_GLOBAL_API_TOKEN" ] || [ -n "$CLOUDFLARE_API_KEY" ]; then
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "skip=true" >> "$GITHUB_OUTPUT"
+          echo "::warning::CLOUDFLARE_API_TOKEN is not set. Skipping Images upload."
+
+      - name: Upload Cloudflare Images
+        if: steps.cf.outputs.skip != 'true'
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          node scripts/upload-cloudflare-images.mjs --write-hash | tee /tmp/cf-upload.log
+          HASH=$(grep '^NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH=' /tmp/cf-upload.log | cut -d= -f2 || true)
+          if [ -n "$HASH" ]; then
+            echo "NEXT_PUBLIC_CLOUDFLARE_IMAGES_HASH=$HASH" >> "$GITHUB_ENV"
+            echo "CLOUDFLARE_IMAGES_HASH=$HASH" >> "$GITHUB_ENV"
+          fi
+
+      # Wrangler uses the same token as REST; skip when GitHub 9109 unless a
+      # dedicated Workers Edit token is seeded. Sister Zone.Read Bearers
+      # (summerlinwest, pewtervalley) verify 200 but Workers Scripts 403/10000
+      # — do not treat them as deploy tokens. When an unrestricted Images:Edit
+      # + Workers Scripts:Edit token lands, this deploys hosted-images so cron
+      # ingest keeps custom IDs fresh. Do not re-bind CLOUDFLARE_API_TOKEN from
+      # secrets here — empty GitHub secrets overwrite GITHUB_ENV.
+      - name: Deploy hosted-images Worker
+        if: matrix.environment == 'Production'
+        continue-on-error: true
+        run: |
+          if [ -n "$CLOUDFLARE_WORKERS_SCRIPTS_EDIT" ]; then
+            export CLOUDFLARE_API_TOKEN="$CLOUDFLARE_WORKERS_SCRIPTS_EDIT"
+          elif [ "$CLOUDFLARE_IMAGES_AUTH_OK" != "1" ]; then
+            echo "Skip wrangler deploy: CLOUDFLARE_IMAGES_AUTH_OK=${CLOUDFLARE_IMAGES_AUTH_OK:-unset}"
+            exit 0
+          fi
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "Skip wrangler deploy: no Cloudflare token"
+            exit 0
+          fi
+          npx wrangler deploy --config workers/hosted-images/wrangler.jsonc
+
+      # Public imagedelivery.net probe — no token. After a laptop/dashboard
+      # Worker deploy, cron ingest makes custom IDs 200; this writes the hash
+      # into GITHUB_ENV so the production-deploy step below can ship it.
+      - name: Probe hosted Images IDs and write hash
+        if: matrix.environment == 'Production'
+        run: node scripts/ensure-cloudflare-images.mjs
+
+      - name: Probe Calendly confirmation redirect (public, no PAT)
+        run: node scripts/probe-calendly-confirmation.mjs
+
+      - name: Check Calendly PAT
+        id: calendly
+        run: |
+          TOKEN="${CALENDLY_API_TOKEN:-${CALENDLY_PERSONAL_ACCESS_TOKEN:-$CALENDLY_PAT}}"
+          if [ -z "$TOKEN" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::CALENDLY_API_TOKEN is not set. Skipping webhook register."
+            exit 0
+          fi
+          echo "::add-mask::$TOKEN"
+          if [ -z "$CALENDLY_API_TOKEN" ]; then
+            {
+              echo "CALENDLY_API_TOKEN<<EOF_CALENDLY"
+              printf '%s\n' "$TOKEN"
+              echo "EOF_CALENDLY"
+            } >> "$GITHUB_ENV"
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
+      - name: Register Calendly webhook
+        if: steps.calendly.outputs.skip != 'true'
+        run: node scripts/register-calendly-webhook.mjs
+
+      - name: Check Vercel token
+        id: vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::VERCEL_TOKEN is not set. Skipping Vercel env upsert."
+            exit 0
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
+      - name: List Arroyo Vercel go-live env names
+        if: matrix.environment == 'Production' && steps.vercel.outputs.skip != 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        run: node scripts/list-arroyo-vercel-env-names.mjs
+
+      - name: Upsert Vercel env
+        if: steps.vercel.outputs.skip != 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        run: node scripts/sync-vercel-go-live-env.mjs
+
+      - name: Production deploy when Images hash, Images token, or Calendly PAT landed
+        if: matrix.environment == 'Production' && steps.vercel.outputs.skip != 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        run: node scripts/deploy-vercel-production.mjs

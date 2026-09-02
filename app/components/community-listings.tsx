@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
+import SiteImage from './site-image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
@@ -29,7 +29,7 @@ const communities: Community[] = [
     phone: '(702) 903-4687',
     price: 392640,
     homeTypes: ['Townhomes'],
-    image: '/images/hero/hero-5.jpg',
+    image: '/images/hero/luxury-hero-skye-canyon.jpg',
     url: '/',
     features: ['New Construction', 'Quick Move-In Available'],
   },
@@ -55,7 +55,7 @@ const communities: Community[] = [
     phone: '(702) 903-4687',
     price: 366990,
     homeTypes: ['Townhomes'],
-    image: '/images/hero/hero-7.jpg',
+    image: '/images/homes/homes-2.jpg',
     url: '/',
     features: ['Special Incentives', 'Tour Models Today!'],
   },
@@ -75,9 +75,18 @@ export default function CommunityListings() {
   }
 
   const sortedCommunities = [...communities].sort((a, b) => {
-    if (sortBy === 'price-low') return a.price - b.price
-    if (sortBy === 'price-high') return b.price - a.price
-    return a.name.localeCompare(b.name)
+    switch (sortBy) {
+      case 'price-low':
+        return a.price - b.price
+      case 'price-high':
+        return b.price - a.price
+      case 'name':
+        return a.name.localeCompare(b.name)
+      default: {
+        const _exhaustive: never = sortBy
+        return _exhaustive
+      }
+    }
   })
 
   return (
@@ -155,7 +164,7 @@ export default function CommunityListings() {
             >
               <div className={`${viewMode === 'list' ? 'w-1/3' : 'w-full'} h-48 bg-gray-200 relative overflow-hidden`}>
                 {community.image ? (
-                  <Image
+                  <SiteImage
                     src={community.image}
                     alt={community.name}
                     fill

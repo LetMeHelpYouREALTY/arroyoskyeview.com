@@ -65,7 +65,7 @@ export default function CentennialHillsPage() {
           },
           {
             question: 'What are the benefits of living in Centennial Hills?',
-            answer: 'Centennial Hills offers family-friendly neighborhoods, good schools, convenient access to major employers, and proximity to outdoor recreation including Red Rock Canyon. The area is growing with new construction developments and amenities.',
+            answer: 'Centennial Hills offers residential neighborhoods with parks and trails, Clark County School District campuses, convenient access to major employers, and proximity to outdoor recreation including Red Rock Canyon. The area is growing with new construction developments and amenities.',
           },
         ]}
       />
@@ -92,10 +92,10 @@ export default function CentennialHillsPage() {
               <section className="mb-12">
                 <h2 className="text-3xl font-bold text-foreground mb-6">About Centennial Hills, Las Vegas</h2>
                 <p className="text-lg text-muted-foreground mb-4">
-                  Centennial Hills is a master-planned community in northwest Las Vegas, Nevada, offering family-friendly neighborhoods, excellent schools, and convenient access to major employment centers. Located in northwest Las Vegas, Centennial Hills provides residents with:
+                  Centennial Hills is a master-planned community in northwest Las Vegas, Nevada, offering residential neighborhoods with parks and trails, Clark County School District campuses, and convenient access to major employment centers. Located in northwest Las Vegas, Centennial Hills provides residents with:
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
-                  <li>Family-friendly neighborhoods with parks and trails</li>
+                  <li>Neighborhoods with parks and trails</li>
                   <li>Top-rated schools in the Clark County School District</li>
                   <li>Convenient access to major employers and shopping</li>
                   <li>Proximity to Red Rock Canyon National Conservation Area (15 minutes)</li>
@@ -111,9 +111,9 @@ export default function CentennialHillsPage() {
                 <h2 className="text-3xl font-bold text-foreground mb-6">Why Choose New Construction in Centennial Hills?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="bg-blue-50 rounded-lg p-6">
-                    <h3 className="text-xl font-bold text-foreground mb-3">Family-Friendly</h3>
+                    <h3 className="text-xl font-bold text-foreground mb-3">Parks and commute access</h3>
                     <p className="text-muted-foreground">
-                      Centennial Hills offers safe, family-friendly neighborhoods with parks, trails, and excellent schools perfect for families.
+                      Centennial Hills offers parks, trails, Clark County School District campuses, and Red Rock Canyon about 15 minutes west.
                     </p>
                   </div>
                   <div className="bg-blue-50 rounded-lg p-6">

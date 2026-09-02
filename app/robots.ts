@@ -1,7 +1,13 @@
 import type { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/site-url'
 
-const DISALLOW = ['/api/', '/admin/', '/projects/']
+const DISALLOW = [
+  '/api/',
+  '/admin/',
+  '/projects/',
+  '/_next/static/',
+  '/manifest.webmanifest',
+]
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -10,6 +16,30 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
         allow: '/',
         disallow: DISALLOW,
+      },
+      {
+        userAgent: 'GPTBot',
+        allow: '/',
+      },
+      {
+        userAgent: 'OAI-SearchBot',
+        allow: '/',
+      },
+      {
+        userAgent: 'ChatGPT-User',
+        allow: '/',
+      },
+      {
+        userAgent: 'PerplexityBot',
+        allow: '/',
+      },
+      {
+        userAgent: 'ClaudeBot',
+        allow: '/',
+      },
+      {
+        userAgent: 'Google-Extended',
+        allow: '/',
       },
       {
         userAgent: 'Googlebot',

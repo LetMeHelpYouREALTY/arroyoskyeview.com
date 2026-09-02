@@ -3,10 +3,11 @@
 import { SITE_CONTACT } from '@/lib/site-contact'
 import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
 import CalendlyScheduleButton from './calendly-schedule-button'
+import DrJanPortrait from './dr-jan-portrait'
 
 export default function ContactHero() {
   return (
-    <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white py-20 relative overflow-hidden">
+    <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white py-20 relative overflow-hidden" data-has-agent-portrait>
       <div className="absolute inset-0 opacity-10" aria-hidden>
         <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl" />
@@ -14,6 +15,9 @@ export default function ContactHero() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-12">
+          <div className="mb-6 flex justify-center">
+            <DrJanPortrait size="xl" priority />
+          </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Contact Buyer&apos;s Agent: Skye Canyon, Northwest Las Vegas | Dr. Jan Duffy
           </h1>

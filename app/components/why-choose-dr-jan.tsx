@@ -1,3 +1,5 @@
+import SectionPortraitMark from './section-portrait-mark'
+
 export default function WhyChooseDrJan() {
   const benefits = [
     {
@@ -43,8 +45,9 @@ export default function WhyChooseDrJan() {
   ]
 
   return (
-    <section className="bg-background py-16 sm:py-20">
+    <section className="bg-background py-16 sm:py-20" data-has-agent-portrait>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionPortraitMark size="md" />
         <h2 className="mb-12 text-balance text-center text-3xl font-bold tracking-tight text-foreground md:text-4xl">
           Your Buyer&apos;s Agent Advantage in Las Vegas, Nevada
         </h2>

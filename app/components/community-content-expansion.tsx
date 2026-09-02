@@ -1,5 +1,6 @@
 import PageQASection from './page-qa-section'
 import Link from 'next/link'
+import SectionPortraitMark from './section-portrait-mark'
 
 interface CommunityContentExpansionProps {
   communityName: string
@@ -20,6 +21,7 @@ export default function CommunityContentExpansion({
 }: CommunityContentExpansionProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <SectionPortraitMark size="lg" decorative={false} align="start" />
       {/* H1 - Main Title */}
       <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-8">
         {communityName}: New {homeType} in {location}, Las Vegas | Buyer's Agent
@@ -110,21 +112,21 @@ export default function CommunityContentExpansion({
           {location} Neighborhood Information
         </h3>
         <p className="text-lg text-muted-foreground mb-4">
-          {location} is one of Las Vegas's most desirable areas, offering residents a perfect blend of suburban living and urban convenience. The neighborhood features excellent schools, convenient shopping and dining, and easy access to major employment centers throughout the Las Vegas valley.
+          {location} is one of Las Vegas's most desirable areas, offering residents a perfect blend of suburban living and urban convenience. The neighborhood features Clark County School District campuses, convenient shopping and dining, and easy access to major employment centers throughout the Las Vegas valley.
         </p>
 
         <h3 className="text-2xl font-bold text-foreground mt-6 mb-4">
           Schools in Zip Code {zipCode}
         </h3>
         <p className="text-lg text-muted-foreground mb-4">
-          {location} is served by excellent schools in the Clark County School District. The area is known for quality education, with many families choosing {location} specifically for the school quality and proximity to educational facilities. Contact Dr. Jan Duffy for detailed information about specific schools serving {communityName}.
+          {location} is served by Clark County School District campuses. Contact Dr. Jan Duffy for the campuses that serve {communityName}.
         </p>
 
         <h3 className="text-2xl font-bold text-foreground mt-6 mb-4">
           Local Shopping and Dining
         </h3>
         <p className="text-lg text-muted-foreground mb-4">
-          {location} offers convenient access to shopping and dining options. The area features grocery stores, restaurants, and retail services nearby, with additional shopping available in nearby areas. Las Vegas's diverse dining scene is easily accessible from {location}, offering everything from casual family restaurants to fine dining.
+          {location} offers convenient access to shopping and dining options. The area features grocery stores, restaurants, and retail services nearby, with additional shopping available in nearby areas. Las Vegas's diverse dining scene is easily accessible from {location}, from casual restaurants to fine dining.
         </p>
 
         <h3 className="text-2xl font-bold text-foreground mt-6 mb-4">

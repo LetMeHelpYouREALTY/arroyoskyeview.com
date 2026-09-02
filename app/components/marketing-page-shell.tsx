@@ -22,7 +22,7 @@ type MarketingPageShellProps = {
 export default function MarketingPageShell({
   children,
   schema,
-  showBanner = true,
+  showBanner = false,
   showContactCta = false,
   footerSuppressRealScout = false,
   contactCtaClassName,

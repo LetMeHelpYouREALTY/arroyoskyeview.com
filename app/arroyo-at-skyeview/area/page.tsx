@@ -47,7 +47,7 @@ export default function ArroyoAreaPage() {
             {
               question: 'What schools serve Arroyo at Skyeview in zip code 89166?',
               answer:
-                'Arroyo at Skyeview is served by Clark County School District schools including Roger Bryan Elementary, Sig Rogich Middle School, and Shadow Ridge High School. The area is popular with families prioritizing education quality.',
+                'Arroyo at Skyeview is served by Clark County School District campuses including Roger Bryan Elementary, Sig Rogich Middle School, and Shadow Ridge High School.',
             },
             {
               question: 'What amenities are available in Skye Canyon near Arroyo at Skyeview?',

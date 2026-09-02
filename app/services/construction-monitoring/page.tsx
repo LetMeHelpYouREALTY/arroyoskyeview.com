@@ -229,12 +229,12 @@ export default function ConstructionMonitoringPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
               <Link
-                href="/services/building-standards-inspection"
+                href="/buyers/inspections-new-construction"
                 className="bg-white border-2 border-border rounded-lg p-6 hover:border-luxury-champagne hover:shadow-lg transition"
               >
-                <h3 className="text-xl font-bold text-foreground mb-2">New Construction Inspections Guide</h3>
+                <h3 className="text-xl font-bold text-foreground mb-2">New construction inspections guide</h3>
                 <p className="text-muted-foreground">
-                  Complete guide to inspections for new construction homes, including what to look for and when.
+                  Timeline of monitoring, pre-drywall, building standards inspection, and final walkthrough.
                 </p>
               </Link>
               <Link

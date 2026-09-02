@@ -112,7 +112,7 @@ export default function HomesteadWestPage() {
             },
             {
               question: 'What schools serve the Homestead West community?',
-              answer: 'Homestead West is served by schools in the Clark County School District. The specific schools depend on the exact location. Contact Dr. Jan Duffy for detailed information about schools serving the Homestead West community and school quality ratings.',
+              answer: 'Homestead West is served by Clark County School District campuses. The assigned campuses depend on the exact address. Contact Dr. Jan Duffy for the campuses serving Homestead West.',
             },
             {
               question: 'How long does it take to build a home at Homestead West?',

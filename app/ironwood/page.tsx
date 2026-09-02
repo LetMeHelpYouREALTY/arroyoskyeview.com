@@ -112,7 +112,7 @@ export default function IronwoodPage() {
             },
             {
               question: 'What schools serve the Ironwood community?',
-              answer: 'Ironwood is served by schools in the Clark County School District. The specific schools depend on the exact location. Contact Dr. Jan Duffy for detailed information about schools serving the Ironwood community and school quality ratings.',
+              answer: 'Ironwood is served by Clark County School District campuses. The assigned campuses depend on the exact address. Contact Dr. Jan Duffy for the campuses serving Ironwood.',
             },
             {
               question: 'What amenities are available near Ironwood?',

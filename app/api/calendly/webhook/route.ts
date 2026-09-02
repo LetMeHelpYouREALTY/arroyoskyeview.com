@@ -1,11 +1,28 @@
 import { start } from 'workflow/api'
 import { NextResponse } from 'next/server'
 import { parseCalendlyLeadInput, verifyCalendlyWebhookSignature } from '@/lib/calendly-webhook'
+import { followUpBossApiKey, isFollowUpBossConfigured } from '@/lib/fub-client'
 import { processCalendlyLead } from '@/workflows/calendly-lead'
+
+function calendlySigningKeyConfigured(): boolean {
+  return Boolean(process.env.CALENDLY_WEBHOOK_SIGNING_KEY?.trim())
+}
+
+export async function GET() {
+  const signingKey = calendlySigningKeyConfigured()
+  const fubKey = isFollowUpBossConfigured()
+  return NextResponse.json({
+    ok: true,
+    configured: signingKey && fubKey,
+    calendlySigningKey: signingKey,
+    followUpBoss: fubKey,
+  })
+}
 
 export async function POST(request: Request) {
   const signingKey = process.env.CALENDLY_WEBHOOK_SIGNING_KEY?.trim()
-  if (!signingKey) {
+  const fubKey = followUpBossApiKey()
+  if (!signingKey || !fubKey) {
     return NextResponse.json({ error: 'Webhook not configured' }, { status: 503 })
   }
 

@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
 import { PageSection } from './page-section'
+import DrJanPortrait from './dr-jan-portrait'
 
 type StandardPageHeroProps = {
   title: string
@@ -18,8 +19,11 @@ export default function StandardPageHero({
   className,
 }: StandardPageHeroProps) {
   return (
-    <section className={cn('luxury-page-hero', className)}>
+    <section className={cn('luxury-page-hero', className)} data-has-agent-portrait>
       <PageSection variant="default" className="py-0">
+        <div className="mb-6">
+          <DrJanPortrait size="lg" priority />
+        </div>
         {eyebrow ? (
           <p className="mb-3 font-sans text-xs font-semibold uppercase tracking-[0.2em] text-luxury-champagne">
             {eyebrow}

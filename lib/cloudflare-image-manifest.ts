@@ -1,0 +1,42 @@
+/** Public /images paths uploaded to Cloudflare Images (custom IDs). Raster files only.
+ * Keep workers/hosted-images/src/index.ts IMAGE_PATHS in sync with this list.
+ */
+export const CLOUDFLARE_IMAGE_PUBLIC_PATHS = [
+  '/images/brand/dr-jan-duffy.png',
+  '/images/floor-plans/beverly-floorplan.jpg',
+  '/images/floor-plans/beverly-model.jpg',
+  '/images/floor-plans/captiva-floorplan.jpg',
+  '/images/floor-plans/captiva-model.jpg',
+  '/images/floor-plans/delray-floorplan.jpg',
+  '/images/floor-plans/delray-model.jpg',
+  '/images/floor-plans/floor-plans-1.jpg',
+  '/images/hero/hero-1.jpg',
+  '/images/hero/hero-5.jpg',
+  '/images/hero/hero-6.jpg',
+  '/images/hero/hero-7.jpg',
+  '/images/hero/hero-8.jpg',
+  '/images/hero/hero-9.jpg',
+  '/images/hero/luxury-hero-skye-canyon.jpg',
+  '/images/homes/homes-1.jpg',
+  '/images/homes/homes-2.jpg',
+  '/images/homes/homes-3.jpg',
+  '/images/homes/homes-4.jpg',
+  '/images/homes/homes-5.jpg',
+  '/images/homes/homes-6.jpg',
+  '/images/homes/homes-7.jpg',
+  '/images/homes/homes-8.jpg',
+  '/images/homes/homes-9.jpg',
+  '/images/homes/homes-10.jpg',
+  '/images/homes/homes-11.jpg',
+  '/images/homes/homes-12.jpg',
+  '/images/homes/homes-13.jpg',
+  '/images/homes/homes-14.jpg',
+  '/images/homes/homes-15.jpg',
+  '/images/homes/homes-16.jpg',
+  '/images/homes/homes-17.jpg',
+  '/images/homes/homes-18.jpg',
+  '/images/homes/homes-19.jpg',
+  '/images/homes/homes-20.jpg',
+] as const
+
+export type CloudflareImagePublicPath = (typeof CLOUDFLARE_IMAGE_PUBLIC_PATHS)[number]

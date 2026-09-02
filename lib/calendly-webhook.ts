@@ -1,5 +1,5 @@
 import { createHmac, timingSafeEqual } from 'crypto'
-import type { CalendlyLeadInput } from '@/workflows/calendly-lead'
+import type { CalendlyLeadInput } from '@/lib/fub-events'
 
 type CalendlyWebhookBody = {
   event?: string

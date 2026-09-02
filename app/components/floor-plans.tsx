@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
+import SiteImage from './site-image'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import CalendlyScheduleButton from './calendly-schedule-button'
 
 interface FloorPlan {
   id: string
@@ -79,8 +79,10 @@ export default function FloorPlans() {
           return a.sqft - b.sqft
         case 'sqft-high':
           return b.sqft - a.sqft
-        default:
-          return 0
+        default: {
+          const _exhaustive: never = option
+          return _exhaustive
+        }
       }
     })
     setSortedPlans(sorted)
@@ -122,11 +124,12 @@ export default function FloorPlans() {
         {sortedPlans.map((plan) => (
           <div
             key={plan.id}
-            className="surface-elevated overflow-hidden transition hover:shadow-md"
+            id={plan.name.toLowerCase()}
+            className="surface-elevated scroll-mt-28 overflow-hidden transition hover:shadow-md"
           >
             <div className="relative h-64 overflow-hidden bg-muted">
               {plan.image ? (
-                <Image
+                <SiteImage
                   src={plan.image}
                   alt={`${plan.name} floor plan model home at Arroyo at Skyeview Homes in Skye Canyon, Las Vegas. ${plan.sqft} square feet, ${plan.bedrooms} bedrooms, ${plan.bathrooms} bathrooms.`}
                   fill
@@ -176,10 +179,23 @@ export default function FloorPlans() {
               </div>
 
               <div className="flex gap-2">
-                <Button variant="outline" className="min-h-10 flex-1">
-                  Request Info
-                </Button>
-                <Button className={cn('min-h-10 flex-1 font-semibold')}>View Details</Button>
+                <CalendlyScheduleButton
+                  text="Request Info"
+                  variant="outline"
+                  className="min-h-10 flex-1 rounded-md px-4 py-2 text-sm"
+                />
+                {plan.floorPlanImage ? (
+                  <Button asChild className="min-h-10 flex-1 font-semibold">
+                    <a href={plan.floorPlanImage} target="_blank" rel="noopener noreferrer">
+                      View floor plan
+                    </a>
+                  </Button>
+                ) : (
+                  <CalendlyScheduleButton
+                    text="View Details"
+                    className="min-h-10 flex-1 rounded-md px-4 py-2 text-sm"
+                  />
+                )}
               </div>
             </div>
           </div>

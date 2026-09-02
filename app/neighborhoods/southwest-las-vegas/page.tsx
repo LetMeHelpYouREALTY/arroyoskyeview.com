@@ -65,7 +65,7 @@ export default function SouthwestLasVegasPage() {
           },
           {
             question: 'What are the benefits of living in Southwest Las Vegas?',
-            answer: 'Southwest Las Vegas offers affordable housing, convenient access to the Las Vegas Strip and major employers, good schools, and proximity to outdoor recreation. The area is growing with new construction developments and amenities.',
+            answer: 'Southwest Las Vegas offers affordable housing, convenient access to the Las Vegas Strip and major employers, Clark County School District campuses, and proximity to outdoor recreation. The area is growing with new construction developments and amenities.',
           },
         ]}
       />
@@ -98,7 +98,7 @@ export default function SouthwestLasVegasPage() {
                   <li>Affordable housing options with new construction developments</li>
                   <li>Convenient access to the Las Vegas Strip (10-15 minutes)</li>
                   <li>Proximity to major employers and employment centers</li>
-                  <li>Good schools in the Clark County School District</li>
+                  <li>Clark County School District campuses</li>
                   <li>Growing retail and dining options</li>
                   <li>Easy access to I-15 and major highways</li>
                 </ul>

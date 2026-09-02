@@ -3,12 +3,16 @@
 import { Button } from '@/components/ui/button'
 import CalendlyInlineWidget from './calendly-inline-widget'
 import CalendlyLinkWidget from './calendly-link-widget'
+import SectionPortraitMark from './section-portrait-mark'
 
 export default function RequestInfo() {
   return (
-    <section className="bg-muted py-16">
+    <section id="request-info" className="scroll-mt-28 bg-muted py-16" data-has-agent-portrait>
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <h2 className="mb-8 text-center text-3xl font-bold text-foreground">Schedule a Consultation</h2>
+        <SectionPortraitMark size="md" />
+        <h2 className="mb-8 text-center font-serif text-3xl font-light tracking-tight text-foreground md:text-4xl">
+          Schedule an appointment
+        </h2>
         <div className="rounded-lg bg-white p-8 shadow-md">
           <CalendlyInlineWidget className="mb-6 h-[700px]" />
           <div className="space-y-4 text-center">

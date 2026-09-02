@@ -1,4 +1,13 @@
 import Script from 'next/script'
+import { DR_JAN_PORTRAIT_SRC } from '@/lib/brand-images'
+import {
+  AEO_SPEAKABLE_SELECTORS,
+  ENTITY_IDS,
+  howToBuyWithDrJanJsonLd,
+  personEntityJsonLd,
+} from '@/lib/entity-graph'
+import { localBusinessJsonLd, postalAddressJsonLd } from '@/lib/local-business-schema'
+import { OFFICE_OPENING_HOURS, SITE_CONTACT } from '@/lib/site-contact'
 
 interface PageSchemasProps {
   pageType: 'homepage' | 'community' | 'blog' | 'about' | 'contact' | 'process' | 'neighborhood' | 'zip' | 'faq' | 'buyer-guide' | 'property-type'
@@ -54,15 +63,25 @@ export default function PageSchemas({
     datePublished: currentDatePublished,
     dateModified: currentDateModified,
     isPartOf: {
-      '@type': 'WebSite',
-      name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
-      url: baseUrl,
+      '@id': ENTITY_IDS.website,
     },
+    about: [{ '@id': ENTITY_IDS.arroyo }, { '@id': ENTITY_IDS.person }],
+    author: { '@id': ENTITY_IDS.person },
     publisher: {
-      '@type': 'Organization',
-      name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
-      url: baseUrl,
+      '@id': ENTITY_IDS.organization,
     },
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: `${baseUrl}${DR_JAN_PORTRAIT_SRC}`,
+    },
+    ...(pageType === 'homepage' || pageType === 'about'
+      ? {
+          speakable: {
+            '@type': 'SpeakableSpecification',
+            cssSelector: [...AEO_SPEAKABLE_SELECTORS],
+          },
+        }
+      : {}),
     ...(image && {
       image: {
         '@type': 'ImageObject',
@@ -107,14 +126,7 @@ export default function PageSchemas({
       url: `${baseUrl}/og-image.png`,
     },
     image: `${baseUrl}/og-image.png`,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '8912 Vanhoy Crk St',
-      addressLocality: 'Las Vegas',
-      addressRegion: 'NV',
-      postalCode: '89161',
-      addressCountry: 'US',
-    },
+    address: postalAddressJsonLd(),
     geo: {
       '@type': 'GeoCoordinates',
       latitude: '36.2765',
@@ -163,20 +175,7 @@ export default function PageSchemas({
         contactType: 'Customer Service',
         areaServed: 'US',
         availableLanguage: 'English',
-        hoursAvailable: {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: [
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-            'Sunday',
-          ],
-          opens: '09:00',
-          closes: '18:00',
-        },
+        hoursAvailable: OFFICE_OPENING_HOURS[0],
       },
       {
         '@type': 'ContactPoint',
@@ -197,16 +196,10 @@ export default function PageSchemas({
     alternateName: 'Dr. Jan Duffy Real Estate',
     description: 'New Construction Home Preferred Buyer\'s Agent specializing in new construction homes in Las Vegas, Nevada. Expert in construction monitoring, building standards inspection, and buyer representation.',
     url: `${baseUrl}/work-with-dr-jan`,
+    image: `${baseUrl}${DR_JAN_PORTRAIT_SRC}`,
     telephone: '+1-702-903-4687',
     email: 'info@arroyoskyeview.com',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '8912 Vanhoy Crk St',
-      addressLocality: 'Las Vegas',
-      addressRegion: 'NV',
-      postalCode: '89161',
-      addressCountry: 'US',
-    },
+    address: postalAddressJsonLd(),
     areaServed: [
       {
         '@type': 'City',
@@ -223,78 +216,11 @@ export default function PageSchemas({
       'Skye Canyon Real Estate',
     ],
     priceRange: 'No Cost to Buyer',
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: 5,
-      reviewCount: 50,
-      bestRating: 5,
-      worstRating: 1,
-    },
   }
 
-  // LocalBusiness Schema (Enhanced for Google My Business)
   const localBusinessSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'RealEstateAgent',
-    '@id': `${baseUrl}#localbusiness`,
-    name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
-    alternateName: 'Dr. Jan Duffy Real Estate',
-    description: 'Expert buyer representation for Arroyo at Skyeview Homes and new construction homes in Las Vegas, Nevada. Specializing in construction monitoring, building standards inspection, and insider knowledge of Las Vegas communities.',
-    url: baseUrl,
-    telephone: '+1-702-903-4687',
-    email: 'info@arroyoskyeview.com',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '8912 Vanhoy Crk St',
-      addressLocality: 'Las Vegas',
-      addressRegion: 'NV',
-      postalCode: '89161',
-      addressCountry: 'US',
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: '36.2765',
-      longitude: '-115.2832',
-    },
-    openingHoursSpecification: [
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: [
-          'Monday',
-          'Tuesday',
-          'Wednesday',
-          'Thursday',
-          'Friday',
-          'Saturday',
-          'Sunday',
-        ],
-        opens: '09:00',
-        closes: '18:00',
-      },
-    ],
-    priceRange: 'No Cost to Buyer',
-    image: `${baseUrl}/og-image.png`,
-    logo: {
-      '@type': 'ImageObject',
-      url: `${baseUrl}/og-image.png`,
-    },
-    areaServed: [
-      {
-        '@type': 'City',
-        name: 'Las Vegas',
-        addressRegion: 'NV',
-      },
-      {
-        '@type': 'City',
-        name: 'Henderson',
-        addressRegion: 'NV',
-      },
-      {
-        '@type': 'City',
-        name: 'Summerlin',
-        addressRegion: 'NV',
-      },
-    ],
+    ...localBusinessJsonLd(),
+    telephone: `+1-${SITE_CONTACT.phoneAnalytics}`,
     serviceType: [
       'Buyer Representation',
       'Construction Monitoring',
@@ -303,38 +229,18 @@ export default function PageSchemas({
       'Arroyo at Skyeview Homes Expert',
       'Skye Canyon Real Estate',
     ],
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: 5,
-      reviewCount: 50,
-      bestRating: 5,
-      worstRating: 1,
-    },
     contactPoint: [
       {
         '@type': 'ContactPoint',
-        telephone: '+1-702-903-4687',
+        telephone: `+1-${SITE_CONTACT.phoneAnalytics}`,
         contactType: 'Customer Service',
         areaServed: 'US',
         availableLanguage: 'English',
-        hoursAvailable: {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: [
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-            'Sunday',
-          ],
-          opens: '09:00',
-          closes: '18:00',
-        },
+        hoursAvailable: OFFICE_OPENING_HOURS[0],
       },
       {
         '@type': 'ContactPoint',
-        email: 'info@arroyoskyeview.com',
+        email: SITE_CONTACT.email,
         contactType: 'Customer Service',
         areaServed: 'US',
         availableLanguage: 'English',
@@ -380,51 +286,10 @@ export default function PageSchemas({
     },
   }
 
-  // Person Schema (Dr. Jan Duffy)
+  // Person Schema (Dr. Jan Duffy) — linked entity for E-E-A-T / GEO
   const personSchema = {
     '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: 'Dr. Jan Duffy',
-    alternateName: 'Dr. Jan',
-    jobTitle: 'Real Estate Agent',
-    worksFor: {
-      '@type': 'Organization',
-      name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
-    },
-    telephone: '+1-702-903-4687',
-    email: 'info@arroyoskyeview.com',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '8912 Vanhoy Crk St',
-      addressLocality: 'Las Vegas',
-      addressRegion: 'NV',
-      postalCode: '89161',
-      addressCountry: 'US',
-    },
-    knowsAbout: [
-      'Arroyo at Skyeview',
-      'New Construction Homes',
-      'Las Vegas Real Estate',
-      'Construction Monitoring',
-      'Building Standards Inspection',
-    ],
-    url: `${baseUrl}/work-with-dr-jan`,
-    contactPoint: [
-      {
-        '@type': 'ContactPoint',
-        telephone: '+1-702-903-4687',
-        contactType: 'Customer Service',
-        areaServed: 'US',
-        availableLanguage: 'English',
-      },
-      {
-        '@type': 'ContactPoint',
-        email: 'info@arroyoskyeview.com',
-        contactType: 'Customer Service',
-        areaServed: 'US',
-        availableLanguage: 'English',
-      },
-    ],
+    ...personEntityJsonLd(),
   }
 
   // ContactPoint Schema (for contact methods)
@@ -441,20 +306,7 @@ export default function PageSchemas({
       },
     ],
     availableLanguage: ['English'],
-    hoursAvailable: {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday',
-      ],
-      opens: '09:00',
-      closes: '18:00',
-    },
+    hoursAvailable: OFFICE_OPENING_HOURS[0],
   }
 
   // ImageObject Schema (for page images)
@@ -629,36 +481,11 @@ export default function PageSchemas({
     }
   }
 
-  // HowTo Schema (for process pages)
-  let howToSchema: any = null
-  if (pageType === 'process') {
+  let howToSchema: Record<string, unknown> | null = null
+  if (pageType === 'process' || pageType === 'homepage' || pageType === 'about') {
     howToSchema = {
       '@context': 'https://schema.org',
-      '@type': 'HowTo',
-      name: title,
-      description: description,
-      step: [
-        {
-          '@type': 'HowToStep',
-          name: 'Prequalify',
-          text: 'Get prequalified for your new home purchase',
-        },
-        {
-          '@type': 'HowToStep',
-          name: 'House Hunt',
-          text: 'Explore available homes and floor plans',
-        },
-        {
-          '@type': 'HowToStep',
-          name: 'Contract',
-          text: 'Sign contract and begin construction',
-        },
-        {
-          '@type': 'HowToStep',
-          name: 'Close',
-          text: 'Complete closing and move into your new home',
-        },
-      ],
+      ...howToBuyWithDrJanJsonLd(),
     }
   }
 
@@ -668,9 +495,13 @@ export default function PageSchemas({
     websiteSchema = {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
+      '@id': ENTITY_IDS.website,
       name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
       alternateName: ['Arroyo at Skyeview', 'Dr. Jan Duffy Real Estate', 'arroyoskyeview.com'],
       url: baseUrl,
+      publisher: {
+        '@id': ENTITY_IDS.organization,
+      },
       potentialAction: {
         '@type': 'SearchAction',
         target: {
@@ -678,11 +509,6 @@ export default function PageSchemas({
           urlTemplate: `${baseUrl}/search?q={search_term_string}`,
         },
         'query-input': 'required name=search_term_string',
-      },
-      publisher: {
-        '@type': 'Organization',
-        name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
-        url: baseUrl,
       },
     }
   }

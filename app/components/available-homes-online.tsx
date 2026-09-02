@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
+import SiteImage from './site-image'
 import { Button } from '@/components/ui/button'
+import CalendlyScheduleButton from './calendly-schedule-button'
 
 const homes = [
   {
@@ -10,8 +11,8 @@ const homes = [
     name: 'Arroyo at Skyeview',
     location: 'Las Vegas, NV',
     price: 392640,
-    image: '/images/hero/hero-5.jpg',
-    url: '/',
+    image: '/images/hero/luxury-hero-skye-canyon.jpg',
+    url: '/arroyo-at-skyeview/available-homes',
     available: true,
   },
   {
@@ -19,8 +20,8 @@ const homes = [
     name: 'The Townes at Union Village',
     location: 'Henderson, NV',
     price: 366990,
-    image: '/images/hero/hero-7.jpg',
-    url: '/',
+    image: '/images/homes/homes-2.jpg',
+    url: '/find-your-new-home/nevada/las-vegas-metro',
     available: true,
   },
 ]
@@ -51,7 +52,7 @@ export default function AvailableHomesOnline() {
             <div key={home.id} className="bg-white border border-border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
               <div className="h-64 bg-gray-200 relative overflow-hidden">
                 {home.image ? (
-                  <Image
+                  <SiteImage
                     src={home.image}
                     alt={home.name}
                     fill
@@ -89,17 +90,13 @@ export default function AvailableHomesOnline() {
                   From {formatPrice(home.price)}
                 </p>
                 
-                <Link href={home.url}>
-                  <Button className="w-full bg-primary hover:bg-primary text-white mb-2">
-                    View Details
-                  </Button>
-                </Link>
-                <Button 
-                  className="w-full bg-green-600 hover:bg-green-700 text-white"
-                  variant="default"
-                >
-                  Buy Now
+                <Button asChild className="mb-2 w-full bg-primary text-white hover:bg-primary">
+                  <Link href={home.url}>View Details</Link>
                 </Button>
+                <CalendlyScheduleButton
+                  text="Buy Now"
+                  className="w-full min-h-10 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
+                />
               </div>
             </div>
           ))}

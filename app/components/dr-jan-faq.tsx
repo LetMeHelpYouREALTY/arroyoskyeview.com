@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { trackFAQExpand } from './analytics-tracker'
+import SectionPortraitMark from './section-portrait-mark'
 
 const faqs = [
   {
@@ -15,6 +16,10 @@ const faqs = [
   {
     question: 'Why should I work with Dr. Jan Duffy when buying Arroyo at Skyeview Homes in Skye Canyon?',
     answer: 'Dr. Jan Duffy is a New Construction Home Expert and buyer\'s agent who specializes in Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada. She represents HOME BUYERS, not the builder. She offers construction monitoring every 7-10 days, building standards inspection at closing, and insider knowledge of available inventory, pricing, and lot selection. Best of all, builders pay for buyer representation—so there\'s no extra cost to you. Call/text (702) 903-4687 to get started.',
+  },
+  {
+    question: 'Where is the Arroyo at Skyeview office and what are the hours?',
+    answer: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy is at 8912 Vanhoy Creek St, Las Vegas, NV 89166. Office hours are Monday through Sunday, 9:00 AM to 6:00 PM. Call or text (702) 903-4687 for directions or to schedule a showing.',
   },
 ]
 
@@ -30,10 +35,11 @@ export default function DrJanFAQ() {
   }
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-white" data-has-agent-portrait>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-center">
-          Frequently Asked Questions About Buyer Representation
+        <SectionPortraitMark size="md" />
+        <h2 className="mb-4 text-center font-serif text-3xl font-light tracking-tight text-foreground md:text-4xl">
+          Frequently Asked Questions
         </h2>
         <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
           Get answers about working with Dr. Jan Duffy, your buyer's agent for Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada

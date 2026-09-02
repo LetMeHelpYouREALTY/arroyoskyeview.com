@@ -61,6 +61,7 @@ const SEGMENT_LABELS: Record<string, string> = {
   'work-with-dr-jan': 'Work with Dr. Jan',
   testimonials: 'Testimonials',
   resources: 'Resources',
+  search: 'Search',
   'homebuying-process': 'Homebuying Process',
   'online-homebuying': 'Online Homebuying',
   'privacy-policy': 'Privacy Policy',

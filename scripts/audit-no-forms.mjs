@@ -14,6 +14,9 @@ const EXCLUDED_PATH_FRAGMENTS = [
   'app/projects/',
   'app/components/prompt-component.tsx',
   'app/components/rename-chat-dialog.tsx',
+  // Noindex /schedule-confirmed only — FUB Pixel + post-book details, not marketing lead forms.
+  'app/components/fub-pixel-identify.tsx',
+  'app/components/calendly-booking-details-form.tsx',
 ]
 
 const FORM_PATTERN = /<form[\s>]/i
@@ -39,7 +42,9 @@ function walk(dir, files = []) {
 
 function isExcluded(relPath) {
   const normalized = relPath.replaceAll('\\', '/')
-  return EXCLUDED_PATH_FRAGMENTS.some((fragment) => normalized.includes(fragment))
+  return EXCLUDED_PATH_FRAGMENTS.some((fragment) =>
+    normalized.includes(fragment),
+  )
 }
 
 const violations = []
@@ -64,11 +69,15 @@ for (const file of walk(APP_DIR)) {
 }
 
 if (violations.length > 0) {
-  console.error('Form audit failed — marketing pages must use Calendly, not HTML forms:\n')
+  console.error(
+    'Form audit failed — marketing pages must use Calendly, not HTML forms:\n',
+  )
   for (const violation of violations) {
     console.error(`  - ${violation}`)
   }
-  console.error(`\n${violations.length} violation(s). Excluded: ${EXCLUDED_PATH_FRAGMENTS.join(', ')}`)
+  console.error(
+    `\n${violations.length} violation(s). Excluded: ${EXCLUDED_PATH_FRAGMENTS.join(', ')}`,
+  )
   process.exit(1)
 }
 

@@ -160,12 +160,12 @@ export default function InspectionsFAQPage() {
                 <h2 className="text-3xl font-bold text-foreground mb-6">Related Resources</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Link
-                    href="/services/building-standards-inspection"
+                    href="/buyers/inspections-new-construction"
                     className="bg-white border-2 border-border rounded-lg p-6 hover:border-luxury-champagne hover:shadow-lg transition"
                   >
-                    <h3 className="text-xl font-bold text-foreground mb-2">Complete Inspections Guide</h3>
+                    <h3 className="text-xl font-bold text-foreground mb-2">Inspections timeline guide</h3>
                     <p className="text-muted-foreground">
-                      Comprehensive guide to inspections for new construction homes.
+                      Pre-drywall, 7–10 day construction checks, closing inspection, and walkthrough at Arroyo at Skyeview.
                     </p>
                   </Link>
                   <Link

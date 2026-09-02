@@ -31,7 +31,7 @@ export const ARROYO_FLOOR_PLANS = [
     description: 'End Unit',
     image: '/images/floor-plans/delray-model.jpg',
   },
-] 
+]
 
 export const ARROYO_AVAILABLE_HOMES = [
   {

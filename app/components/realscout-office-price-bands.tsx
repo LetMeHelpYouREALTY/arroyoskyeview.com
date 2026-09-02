@@ -3,6 +3,7 @@
 import { useId } from 'react'
 import { REALSCOUT_OFFICE_PRICE_BANDS } from '@/lib/realscout-config'
 import { buildRealScoutOfficeListingsMarkup } from '@/lib/realscout-markup'
+import SectionPortraitMark from './section-portrait-mark'
 
 type RealScoutOfficePriceBandsProps = {
   /** Optional intro line under the main heading */
@@ -24,8 +25,10 @@ export default function RealScoutOfficePriceBands({
       className={`bg-muted py-10 sm:py-14 ${className}`.trim()}
       aria-labelledby={sectionHeadingId}
       data-realscout-office-price-bands
+      data-has-agent-portrait
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionPortraitMark size="md" />
         <h2
           id={sectionHeadingId}
           className="mb-2 text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl"

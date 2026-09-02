@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import PageQASection from './page-qa-section'
+import SectionPortraitMark from './section-portrait-mark'
 
 interface InformationalPageContentProps {
   title: string
@@ -20,11 +21,15 @@ export default function InformationalPageContent({
 }: InformationalPageContentProps) {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mb-6">
+        <SectionPortraitMark size="lg" decorative={false} align="start" />
+      </div>
       <h1 className="font-serif text-4xl font-light tracking-tight text-foreground md:text-5xl">{h1}</h1>
       <div className="luxury-gold-divider mt-6 mb-10" aria-hidden />
 
       {sections.map((section, index) => (
-        <section key={index} className="mb-12">
+        <section key={index} className="mb-12" data-has-agent-portrait>
+          <SectionPortraitMark size="sm" align="start" />
           <h2 className="font-serif text-3xl font-light text-foreground">{section.h2}</h2>
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{section.content}</p>
 

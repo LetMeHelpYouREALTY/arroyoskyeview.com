@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import PageQASection from '../../components/page-qa-section'
 import PageSchemas from '../../components/page-schemas'
-import Image from 'next/image'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 export const metadata: Metadata = {
@@ -185,7 +184,7 @@ export default function NewHomeInventoryPage() {
                 Summerlin and Henderson Markets
               </h3>
               <p className="text-lg text-muted-foreground mb-4">
-                Similar opportunities exist throughout the Las Vegas valley. Summerlin (zip code 89149) and Henderson (zip code 89011) are seeing increased new construction inventory with builder incentives. These areas offer excellent schools, amenities, and quality of life, making them attractive for families and professionals.
+                Similar opportunities exist throughout the Las Vegas valley. Summerlin (zip code 89149) and Henderson (zip code 89011) are seeing increased new construction inventory with builder incentives. These areas offer Clark County School District campuses, parks, trails, and employment-center access.
               </p>
 
               <h3 className="text-2xl font-bold text-foreground mt-6 mb-4">

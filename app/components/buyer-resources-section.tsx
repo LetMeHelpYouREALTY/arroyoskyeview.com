@@ -1,9 +1,11 @@
 import Link from 'next/link'
+import SectionPortraitMark from './section-portrait-mark'
 
 export default function BuyerResourcesSection() {
   return (
-    <section className="bg-blue-50 py-12 mt-12">
+    <section className="bg-blue-50 py-12 mt-12" data-has-agent-portrait>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionPortraitMark size="md" align="start" />
         <h2 className="text-3xl font-bold text-foreground mb-6">
           Resources for New Construction Buyers
         </h2>

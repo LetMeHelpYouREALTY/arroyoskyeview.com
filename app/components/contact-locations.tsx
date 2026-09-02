@@ -1,10 +1,12 @@
-import { SITE_CONTACT } from '@/lib/site-contact'
+import { OFFICE_HOURS_DISPLAY, SITE_CONTACT } from '@/lib/site-contact'
 import GoogleMapEmbed from './google-map-embed'
+import SectionPortraitMark from './section-portrait-mark'
 
 export default function ContactLocations() {
   return (
-    <section className="py-16 bg-muted">
+    <section className="py-16 bg-muted" data-has-agent-portrait>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionPortraitMark size="md" />
         <div className="max-w-2xl mx-auto">
           <div className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition">
             <h3 className="text-xl font-bold text-foreground mb-4">
@@ -12,7 +14,7 @@ export default function ContactLocations() {
             </h3>
             <div className="mb-4">
               <GoogleMapEmbed 
-                mapUrl="https://maps.app.goo.gl/E4ySRChkkQjnYjeN7"
+                mapUrl={SITE_CONTACT.googleMapsPlaceUrl}
                 address={SITE_CONTACT.formattedAddress}
                 height="200px"
                 className="rounded-lg overflow-hidden"
@@ -26,7 +28,7 @@ export default function ContactLocations() {
                 </a>
               </p>
               <p className="text-sm text-muted-foreground mt-2">
-                Mon-Sun: 10:00 AM - 5:00 PM
+                {OFFICE_HOURS_DISPLAY}
               </p>
             </div>
           </div>

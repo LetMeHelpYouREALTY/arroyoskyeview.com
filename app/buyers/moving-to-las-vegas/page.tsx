@@ -28,16 +28,16 @@ export default function MovingToLasVegasPage() {
         ]}
         questions={[
           {
-            question: 'What are the best neighborhoods for new construction homes in Las Vegas?',
-            answer: 'Skye Canyon (zip code 89166) in northwest Las Vegas is one of the best neighborhoods for new construction homes, offering master-planned community living, top-rated schools, and modern homes. Other great areas include Summerlin and northwest Las Vegas communities. Contact Dr. Jan Duffy at (702) 903-4687 for guidance.',
+            question: 'Where is new construction available in the Las Vegas area?',
+            answer: 'Skye Canyon (zip code 89166) in northwest Las Vegas has new construction townhomes and single-family homes, including Arroyo at Skyeview, with Roger Bryan Elementary School in the master plan. Other areas with new construction include Summerlin and additional northwest Las Vegas communities. Contact Dr. Jan Duffy at (702) 903-4687 for current inventory.',
           },
           {
             question: 'What is the cost of living in Las Vegas, Nevada?',
             answer: 'Las Vegas offers a relatively affordable cost of living compared to many major cities. Nevada has no state income tax, property taxes are relatively low (0.60-0.70% of assessed value), and housing costs are competitive. The cost of living is lower than California and many other western states.',
           },
           {
-            question: 'What are the best schools in Las Vegas for families?',
-            answer: 'Skye Canyon (zip code 89166) in northwest Las Vegas features top-rated schools including Roger Bryan Elementary (9/10 rating). Summerlin also offers excellent schools. The Clark County School District serves most of Las Vegas with many highly rated schools.',
+            question: 'Which Clark County School District campuses serve Skye Canyon in zip code 89166?',
+            answer: 'Skye Canyon (zip code 89166) in northwest Las Vegas features Roger Bryan Elementary. Summerlin is also served by Clark County School District campuses. The Clark County School District serves most of Las Vegas.',
           },
         ]}
       />
@@ -102,7 +102,7 @@ export default function MovingToLasVegasPage() {
                   <div className="border-l-4 border-luxury-champagne pl-4">
                     <h3 className="text-xl font-bold text-foreground mb-2">Skye Canyon (Zip Code 89166) - Northwest Las Vegas</h3>
                     <p className="text-muted-foreground mb-2">
-                      Skye Canyon is a premier 1,700-acre master-planned community in northwest Las Vegas offering new construction homes, top-rated schools including Roger Bryan Elementary (9/10 rating), extensive amenities, and a family-friendly atmosphere. The community features Arroyo at Skyeview, Sierra at Skyeview, Terra at Skyeview, and Eaglepointe at Skye Canyon.
+                      Skye Canyon is a premier 1,700-acre master-planned community in northwest Las Vegas offering new construction homes, Roger Bryan Elementary, extensive amenities, and parks, trails, and recreation amenities. The community features Arroyo at Skyeview, Sierra at Skyeview, Terra at Skyeview, and Eaglepointe at Skye Canyon.
                     </p>
                     <Link href="/areas/zip-89166" className="text-primary hover:text-primary font-semibold">
                       Learn more about Skye Canyon →
@@ -111,7 +111,7 @@ export default function MovingToLasVegasPage() {
                   <div className="border-l-4 border-luxury-champagne pl-4">
                     <h3 className="text-xl font-bold text-foreground mb-2">Summerlin Area - West Las Vegas</h3>
                     <p className="text-muted-foreground mb-2">
-                      Summerlin is one of Las Vegas's most prestigious master-planned communities, offering luxury living, golf courses, excellent schools, and world-class amenities. The area features multiple new construction developments.
+                      Summerlin is one of Las Vegas's most prestigious master-planned communities, offering luxury living, golf courses, Clark County School District campuses, and world-class amenities. The area features multiple new construction developments.
                     </p>
                     <Link href="/neighborhoods/summerlin-las-vegas" className="text-primary hover:text-primary font-semibold">
                       Learn more about Summerlin →
@@ -146,15 +146,15 @@ export default function MovingToLasVegasPage() {
               <section className="mb-12">
                 <h2 className="text-3xl font-bold text-foreground mb-6">Schools in Las Vegas: Skye Canyon & Northwest Las Vegas</h2>
                 <p className="text-lg text-muted-foreground mb-4">
-                  Las Vegas is served by the Clark County School District, one of the largest school districts in the nation. Skye Canyon (zip code 89166) in northwest Las Vegas features top-rated schools:
+                  Las Vegas is served by the Clark County School District, one of the largest school districts in the nation. Skye Canyon (zip code 89166) in northwest Las Vegas features neighborhood schools including Roger Bryan Elementary:
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground mb-6 ml-4">
-                  <li><strong>Roger Bryan Elementary School:</strong> Rated 9/10, located in Skye Canyon</li>
+                  <li><strong>Roger Bryan Elementary School:</strong> Located in Skye Canyon</li>
                   <li><strong>Sig Rogich Middle School:</strong> Serves Skye Canyon area</li>
                   <li><strong>Shadow Ridge High School:</strong> Serves Skye Canyon area</li>
                 </ul>
                 <p className="text-lg text-muted-foreground mb-4">
-                  Many families specifically choose Skye Canyon (zip code 89166) for the exceptional school quality. Summerlin also offers excellent schools throughout the area.
+                  Skye Canyon (zip code 89166) is served by Roger Bryan Elementary, Sig Rogich Middle School, and Shadow Ridge High School. Summerlin is also served by Clark County School District campuses.
                 </p>
               </section>
 

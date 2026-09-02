@@ -1,16 +1,18 @@
 /**
- * Ensures lib/sitemap-routes.ts stays aligned with indexable app routes.
+ * Ensures lib/sitemap-routes.ts stays aligned with indexable app routes
+ * and static public files (e.g. /llms.txt).
  * Run in CI after sitemap changes: npm run validate:sitemap
  */
-import { readdirSync, readFileSync, statSync } from 'node:fs'
-import { join, relative } from 'node:path'
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
+import { join } from 'node:path'
 
 const ROOT = new URL('..', import.meta.url).pathname
 const APP_DIR = join(ROOT, 'app')
+const PUBLIC_DIR = join(ROOT, 'public')
 const ROUTES_FILE = join(ROOT, 'lib', 'sitemap-routes.ts')
 
 const EXCLUDED_PREFIXES = ['/api/', '/projects/']
-const EXCLUDED_EXACT = new Set(['/manifest.webmanifest'])
+const EXCLUDED_EXACT = new Set(['/manifest.webmanifest', '/schedule-confirmed'])
 
 function collectPagePaths(dir, segments = []) {
   const paths = []
@@ -46,6 +48,15 @@ function parseSitemapPaths(source) {
   return matches.map((match) => match[1])
 }
 
+/** Sitemap URLs that are files in public/ (not App Router pages). */
+function publicFileExists(urlPath) {
+  if (!urlPath.startsWith('/') || urlPath.includes('..') || urlPath.endsWith('/')) {
+    return false
+  }
+  const fullPath = join(PUBLIC_DIR, urlPath.slice(1))
+  return existsSync(fullPath) && statSync(fullPath).isFile()
+}
+
 const routeSource = readFileSync(ROUTES_FILE, 'utf8')
 const sitemapPaths = new Set(parseSitemapPaths(routeSource))
 const appPaths = collectPagePaths(APP_DIR)
@@ -53,7 +64,9 @@ const appPaths = collectPagePaths(APP_DIR)
   .filter((path) => !EXCLUDED_PREFIXES.some((prefix) => path.startsWith(prefix)))
 
 const missingFromSitemap = appPaths.filter((path) => !sitemapPaths.has(path))
-const extraInSitemap = [...sitemapPaths].filter((path) => !appPaths.includes(path))
+const extraInSitemap = [...sitemapPaths].filter(
+  (path) => !appPaths.includes(path) && !publicFileExists(path),
+)
 
 if (missingFromSitemap.length > 0 || extraInSitemap.length > 0) {
   console.error('Sitemap route registry is out of sync with app pages.\n')
@@ -67,7 +80,7 @@ if (missingFromSitemap.length > 0 || extraInSitemap.length > 0) {
   }
 
   if (extraInSitemap.length > 0) {
-    console.error('In sitemap but no matching page.tsx:')
+    console.error('In sitemap but no matching page.tsx or public file:')
     for (const path of extraInSitemap.sort()) {
       console.error(`  - ${path}`)
     }

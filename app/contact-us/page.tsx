@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SITE_CONTACT } from '@/lib/site-contact'
 import DrJanCTABanner from '../components/dr-jan-cta-banner'
 import DrJanContactCard from '../components/dr-jan-contact-card'
 import WhyWorkWithDrJan from '../components/why-work-with-dr-jan'
@@ -11,7 +12,7 @@ import PageSchemas from '../components/page-schemas'
 import MarketingPageShell from '../components/marketing-page-shell'
 export const metadata: Metadata = {
   title: 'Contact Dr. Jan Duffy | Buyer\'s Agent for Arroyo at Skyeview Homes | Skye Canyon, Northwest Las Vegas',
-  description: 'Contact Dr. Jan Duffy, your buyer\'s agent for Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada. She represents HOME BUYERS, not the builder. Call (702) 903-4687 or email info@arroyoskyeview.com. Located at 8912 Vanhoy Crk St, Las Vegas, NV 89166.',
+  description: `Contact Dr. Jan Duffy, your buyer's agent for Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada. She represents HOME BUYERS, not the builder. Call ${SITE_CONTACT.phoneDisplay} or email ${SITE_CONTACT.email}. Located at ${SITE_CONTACT.formattedAddress}.`,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/contact-us',
   },

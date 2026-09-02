@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Script from 'next/script'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import SectionPortraitMark from './section-portrait-mark'
 
 interface QAItem {
   question: string
@@ -44,8 +45,9 @@ export default function PageQASection({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <section className="bg-muted/40 py-12">
+      <section className="bg-muted/40 py-12" data-has-agent-portrait>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionPortraitMark size="md" align="start" />
           <h2 className="mb-8 text-3xl font-bold tracking-tight text-foreground">{title}</h2>
 
           <div className="space-y-4">

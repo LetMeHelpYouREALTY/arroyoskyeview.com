@@ -105,7 +105,7 @@ export default function TerraAtSkyeviewPage() {
             },
             {
               question: 'What schools serve Terra at Skyeview in Skye Canyon?',
-              answer: 'Terra at Skyeview is served by excellent schools in the Clark County School District, including Roger Bryan Elementary School (rated 9/10), Sig Rogich Middle School, and Shadow Ridge High School. The area is known for quality education, making it ideal for families.',
+              answer: 'Terra at Skyeview is served by Clark County School District campuses including Roger Bryan Elementary School, Sig Rogich Middle School, and Shadow Ridge High School.',
             },
             {
               question: 'Why should I work with Dr. Jan Duffy when buying at Terra at Skyeview?',

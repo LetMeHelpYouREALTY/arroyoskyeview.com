@@ -1,11 +1,13 @@
 import Link from 'next/link'
 import { ARROYO_HUB_LINKS } from '@/lib/arroyo-inventory'
+import SectionPortraitMark from './section-portrait-mark'
 
 export default function ArroyoHubLinks() {
   return (
-    <section className="bg-muted/30 py-16" aria-labelledby="arroyo-hub-heading">
+    <section className="bg-muted/30 py-16" aria-labelledby="arroyo-hub-heading" data-has-agent-portrait>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
+          <SectionPortraitMark size="md" />
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-luxury-champagne">
             Arroyo at Skyeview
           </p>

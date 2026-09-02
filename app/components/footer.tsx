@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { SITE_CONTACT } from '@/lib/site-contact'
 import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
 import RealScoutOfficeWidget from './realscout-office-widget'
+import DrJanPortrait from './dr-jan-portrait'
 
 type FooterProps = {
   /** Reserved for backwards compatibility. */
@@ -70,6 +71,8 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
   ]
 
   const resources = [
+    { name: 'Schedule a Tour', href: '/schedule', title: 'Schedule a Buyer Consultation Arroyo at Skyeview Skye Canyon Las Vegas 89166' },
+    { name: 'Contact Us', href: '/contact-us', title: 'Contact Dr. Jan Duffy Arroyo at Skyeview Las Vegas 89166' },
     { name: 'Resources', href: '/resources', title: 'Free Resources for New Construction Homebuyers' },
     { name: 'Testimonials', href: '/testimonials', title: 'Client Testimonials and Reviews Dr. Jan Duffy' },
     { name: 'FAQ', href: '/faq', title: 'Frequently Asked Questions New Construction Homes Las Vegas' },
@@ -98,7 +101,10 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-12 mb-12">
           {/* Work with Dr. Jan - Enhanced SEO Section */}
           <div className="col-span-1 md:col-span-2 lg:col-span-2">
-            <section aria-labelledby="dr-jan-heading">
+            <section aria-labelledby="dr-jan-heading" data-has-agent-portrait>
+              <div className="mb-4">
+                <DrJanPortrait size="lg" />
+              </div>
               <h2 id="dr-jan-heading" className="text-xl font-bold mb-4 text-luxury-ivory">
                 Work with Dr. Jan Duffy
               </h2>
@@ -146,7 +152,17 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
                   <span>Text</span>
                 </a>
               </div>
-              <div className="mt-4">
+              <div className="mt-4 flex flex-col gap-2">
+                <Link
+                  href="/schedule"
+                  className="inline-flex items-center text-sm text-primary hover:text-luxury-champagne/80 transition-colors duration-200 font-medium group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 rounded-sm"
+                  title="Schedule a buyer consultation for Arroyo at Skyeview townhomes in Skye Canyon, Las Vegas 89166"
+                >
+                  <span>Schedule a buyer consultation</span>
+                  <svg className="ml-2 w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
                 <Link
                   href="/work-with-dr-jan"
                   className="inline-flex items-center text-sm text-primary hover:text-luxury-champagne/80 transition-colors duration-200 font-medium group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900 rounded-sm"
@@ -332,7 +348,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-sm text-luxury-sand space-y-2">
               <p className="font-semibold text-luxury-ivory">
-                © 2025 Arroyo at Skyeview | Homes by Dr. Jan Duffy
+                © 2026 Arroyo at Skyeview | Homes by Dr. Jan Duffy
               </p>
               <p className="text-xs text-luxury-ivory0">
                 Dr. Jan Duffy, Nevada Real Estate License #S.0197614

@@ -46,7 +46,10 @@ const PUBLIC_ROUTES: SitemapRouteDef[] = [
   { path: '/', tier: 'core' },
   { path: '/about-us', tier: 'core' },
   { path: '/contact-us', tier: 'core' },
+  { path: '/schedule', tier: 'conversion', priority: 0.9 },
+  { path: '/search', tier: 'conversion', priority: 0.7 },
   { path: '/work-with-dr-jan', tier: 'core', priority: 0.95 },
+  { path: '/llms.txt', tier: 'aeo-guide', priority: 0.7 },
   { path: '/testimonials', tier: 'conversion' },
 
   // Geo — communities & Skye Canyon inventory
@@ -100,7 +103,7 @@ const PUBLIC_ROUTES: SitemapRouteDef[] = [
   { path: '/buyers/financing-new-construction', tier: 'aeo-guide' },
   { path: '/buyers/new-construction-vs-resale', tier: 'aeo-guide' },
   { path: '/buyers/closing-process-guide', tier: 'aeo-guide' },
-  { path: '/buyers/inspections-new-construction', tier: 'aeo-guide' },
+  { path: '/buyers/inspections-new-construction', tier: 'aeo-guide', priority: 0.88 },
 
   // Services
   { path: '/services/buyer-representation', tier: 'aeo-guide', priority: 0.88 },

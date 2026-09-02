@@ -9,5 +9,6 @@ export const LUXURY_COLORS = {
   charcoal: '#3C3C3C',
 } as const
 
-export const LUXURY_HERO_IMAGE = '/images/hero/luxury-hero-skye-canyon.png'
-export const LUXURY_HERO_FALLBACK = '/images/hero/hero-5.jpg'
+/** Local public path — SiteImage rewrites to imagedelivery.net when the hash is set. */
+export const LUXURY_HERO_IMAGE = '/images/hero/luxury-hero-skye-canyon.jpg'
+export const LUXURY_HERO_FALLBACK = LUXURY_HERO_IMAGE

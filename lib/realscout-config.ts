@@ -68,6 +68,7 @@ export const REALSCOUT_OFFICE_PRICE_BANDS: RealScoutPriceBand[] = [
  * embeds. Add a path when you place `<RealScoutOfficePriceBands />` on a page.
  */
 export const REALSCOUT_PRICE_BANDS_ROUTE_PATHS: ReadonlySet<string> = new Set([
+  '/',
   '/sierra-at-skyeview',
   '/terra-at-skyeview',
   '/ironwood',

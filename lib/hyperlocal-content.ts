@@ -4,7 +4,7 @@ export const SKYE_CANYON = {
   zip: '89166',
   acres: '1,700',
   region: 'Northwest Las Vegas',
-  address: '8912 Vanhoy Creek St., Las Vegas, NV 89166',
+  address: '8912 Vanhoy Creek St, Las Vegas, NV 89166',
   proximity: {
     redRock: '15 minutes to Red Rock Canyon National Conservation Area',
     mountCharleston: '30 minutes to Mount Charleston',
@@ -57,4 +57,4 @@ export const SKYE_AMENITIES = [
 ] as const
 
 export const LUXURY_AGENT_TAGLINE =
-  'Dr. Jan Duffy · Luxury Buyer\'s Agent · Skye Canyon Specialist'
+  "Dr. Jan Duffy · Luxury buyer's agent · Arroyo at Skyeview · Skye Canyon 89166"

@@ -1,5 +1,6 @@
-import Image from 'next/image'
 import { LUXURY_HERO_FALLBACK } from '@/lib/luxury-theme'
+import SiteImage from './site-image'
+import DrJanPortrait from './dr-jan-portrait'
 
 type LuxuryPageHeroProps = {
   eyebrow?: string
@@ -19,8 +20,11 @@ export default function LuxuryPageHero({
   children,
 }: LuxuryPageHeroProps) {
   return (
-    <section className="relative overflow-hidden bg-luxury-navy py-16 text-luxury-ivory md:py-20">
-      <Image
+    <section
+      className="relative overflow-hidden bg-luxury-navy py-16 text-luxury-ivory md:py-20"
+      data-has-agent-portrait
+    >
+      <SiteImage
         src={imageSrc}
         alt=""
         fill
@@ -38,6 +42,9 @@ export default function LuxuryPageHero({
         aria-hidden
       />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-6">
+          <DrJanPortrait size="lg" priority decorative={false} />
+        </div>
         {eyebrow ? (
           <p className="mb-4 font-sans text-xs font-semibold uppercase tracking-[0.2em] text-luxury-champagne">
             {eyebrow}

@@ -115,11 +115,11 @@ export default function SierraAtSkyeviewPage() {
             },
             {
               question: 'What schools serve Sierra at Skyeview in Skye Canyon?',
-              answer: 'Sierra at Skyeview is served by excellent schools in the Clark County School District, including Roger Bryan Elementary School (rated 9/10), Sig Rogich Middle School, and Shadow Ridge High School. The area is known for quality education, making it ideal for families prioritizing school quality.',
+              answer: 'Sierra at Skyeview is served by Clark County School District campuses including Roger Bryan Elementary School, Sig Rogich Middle School, and Shadow Ridge High School.',
             },
             {
               question: 'What amenities are available in Skye Canyon?',
-              answer: 'Skye Canyon features extensive amenities including a recreation center, fitness facilities, multiple parks, extensive trail systems, splash pads, sports courts and fields, and neighborhood schools. The master-planned community spans 1,700 acres and is designed for active lifestyles with family-friendly amenities.',
+              answer: 'Skye Canyon features extensive amenities including a recreation center, fitness facilities, multiple parks, extensive trail systems, splash pads, sports courts and fields, and neighborhood schools. The master-planned community spans 1,700 acres and is designed for active lifestyles with parks, splash pads, sports courts, and recreation amenities.',
             },
             {
               question: 'Why should I work with Dr. Jan Duffy when buying at Sierra at Skyeview?',
@@ -135,7 +135,7 @@ export default function SierraAtSkyeviewPage() {
             },
             {
               question: 'What shopping and dining options are near Sierra at Skyeview?',
-              answer: 'Skye Canyon is conveniently located near the Skye Canyon Marketplace with grocery stores, restaurants, and retail. The area is also close to Durango Square shopping center and approximately 15-20 minutes from the Las Vegas Strip. Local dining options include casual and family-friendly restaurants.',
+              answer: 'Skye Canyon is conveniently located near the Skye Canyon Marketplace with grocery stores, restaurants, and retail. The area is also close to Durango Square shopping center and approximately 15-20 minutes from the Las Vegas Strip. Local dining options include casual restaurants.',
             },
             {
               question: 'What outdoor recreation is available near Skye Canyon?',

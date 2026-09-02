@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Logo from './logo'
+import DrJanPortrait from './dr-jan-portrait'
 import SiteBreadcrumbs from './site-breadcrumbs'
 import HeaderMegaMenu from './header-mega-menu'
 import HeaderDropdown from './header-dropdown'
@@ -31,7 +32,14 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-luxury-champagne/20 bg-luxury-navy/95 text-luxury-ivory shadow-lg backdrop-blur-md supports-[backdrop-filter]:bg-luxury-navy/90">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Primary">
         <div className="flex h-20 items-center justify-between gap-4">
-          <div className="shrink-0">
+          <div className="flex shrink-0 items-center gap-3">
+            <Link
+              href="/work-with-dr-jan"
+              className="inline-flex"
+              aria-label="Work with Dr. Jan Duffy"
+            >
+              <DrJanPortrait size="sm" />
+            </Link>
             <Logo />
           </div>
 
@@ -129,7 +137,8 @@ export default function Header() {
             id="mobile-nav-panel"
             className="border-t border-luxury-champagne/15 py-4 lg:hidden"
           >
-            <div className="mb-4 px-2">
+            <div className="mb-4 flex items-center gap-3 px-2">
+              <DrJanPortrait size="sm" decorative />
               <CalendlyScheduleButton text="Schedule time with me" variant="champagne" className="w-full" />
             </div>
 

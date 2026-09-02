@@ -1,0 +1,136 @@
+import type { Metadata } from 'next'
+import { after } from 'next/server'
+import { redirect } from 'next/navigation'
+import { SITE_CONTACT } from '@/lib/site-contact'
+import {
+  CALENDLY_CONFIRMATION_URL,
+  calendlyLeadFromConfirmationParams,
+} from '@/lib/calendly'
+import { calendlyLeadFromInviteeUri } from '@/lib/calendly-invitee'
+import { sendCalendlyLeadToFollowUpBoss } from '@/lib/fub-client'
+import NapContactCard from '../components/nap-contact-card'
+import PageSchemas from '../components/page-schemas'
+import MarketingPageShell from '../components/marketing-page-shell'
+import { PageContent } from '../components/page-section'
+import FubPixelIdentify from '../components/fub-pixel-identify'
+import CalendlyBookingDetailsForm from '../components/calendly-booking-details-form'
+
+export const metadata: Metadata = {
+  title: 'Tour booked | Arroyo at Skyeview | Dr. Jan Duffy',
+  description: `Your buyer consultation with Dr. Jan Duffy is on the calendar. Call ${SITE_CONTACT.phoneDisplay} with questions. Office: ${SITE_CONTACT.formattedAddress}.`,
+  alternates: {
+    canonical: CALENDLY_CONFIRMATION_URL,
+  },
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
+
+type ScheduleConfirmedPageProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}
+
+function firstQueryValue(
+  value: string | string[] | undefined,
+): string | undefined {
+  if (Array.isArray(value)) {
+    return value[0]
+  }
+  return value
+}
+
+export default async function ScheduleConfirmedPage({
+  searchParams,
+}: ScheduleConfirmedPageProps) {
+  const params = await searchParams
+  const inviteeEmail = firstQueryValue(params.invitee_email)?.trim()
+  const email = firstQueryValue(params.email)?.trim()
+  const pixelEmail = inviteeEmail || email
+
+  if (inviteeEmail && inviteeEmail !== email) {
+    const next = new URLSearchParams()
+    for (const [key, value] of Object.entries(params)) {
+      const resolved = firstQueryValue(value)
+      if (resolved) {
+        next.set(key, resolved)
+      }
+    }
+    next.set('email', inviteeEmail)
+    redirect(`/schedule-confirmed?${next.toString()}`)
+  }
+
+  const fromParams = calendlyLeadFromConfirmationParams(params)
+  const inviteeUri = firstQueryValue(params.invitee_uri)?.trim()
+  const eventUri = firstQueryValue(params.event_uri)?.trim()
+  const fromUris =
+    fromParams || !inviteeUri
+      ? null
+      : await calendlyLeadFromInviteeUri(inviteeUri, eventUri)
+  const lead = fromParams ?? fromUris
+  if (lead) {
+    after(() => {
+      void sendCalendlyLeadToFollowUpBoss(lead)
+    })
+  }
+
+  return (
+    <MarketingPageShell
+      schema={
+        <PageSchemas
+          pageType="contact"
+          url="/schedule-confirmed"
+          title="Tour booked | Arroyo at Skyeview | Dr. Jan Duffy"
+          description="Buyer consultation booked with Dr. Jan Duffy for Arroyo at Skyeview in Skye Canyon, Las Vegas 89166."
+          breadcrumbs={[{ name: 'Tour booked', url: '/schedule-confirmed' }]}
+          questions={[
+            {
+              question: 'What happens after I book a tour with Dr. Jan Duffy?',
+              answer:
+                'Calendly emails a calendar invite. Dr. Jan Duffy represents home buyers—not the builder—at Arroyo at Skyeview in Skye Canyon (89166). Call (702) 903-4687 with questions before the appointment.',
+            },
+          ]}
+        />
+      }
+      footerSuppressRealScout
+    >
+      <FubPixelIdentify
+        email={lead?.inviteeEmail || pixelEmail}
+        name={lead?.inviteeName}
+        phone={lead?.inviteePhone}
+      />
+      <PageContent className="max-w-3xl">
+        <h1 className="font-serif text-3xl font-light tracking-tight text-foreground md:text-4xl">
+          You are on the calendar
+        </h1>
+        <p className="mt-4 text-muted-foreground text-pretty">
+          Check email for the Calendly invite. Dr. Jan Duffy will walk Arroyo at
+          Skyeview townhomes in Skye Canyon as your buyer&apos;s agent—not the
+          builder&apos;s.
+        </p>
+        <p className="mt-3 text-muted-foreground">
+          Need to change the time? Call{' '}
+          <a
+            href={`tel:${SITE_CONTACT.phoneTel}`}
+            className="font-semibold text-primary hover:text-primary/90"
+          >
+            {SITE_CONTACT.phoneDisplay}
+          </a>
+          .
+        </p>
+        {!lead && inviteeUri ? (
+          <CalendlyBookingDetailsForm
+            inviteeUri={inviteeUri}
+            eventUri={eventUri}
+            defaultName={firstQueryValue(params.invitee_full_name)?.trim()}
+            defaultEmail={pixelEmail}
+            defaultPhone={firstQueryValue(params.text_reminder_number)?.trim()}
+          />
+        ) : null}
+        <div className="mt-8">
+          <NapContactCard />
+        </div>
+      </PageContent>
+    </MarketingPageShell>
+  )
+}

@@ -1,6 +1,6 @@
 'use client'
 
-import { CALENDLY_URL } from '@/lib/calendly'
+import { CALENDLY_URL, CALENDLY_UTM, calendlyWidgetUrl } from '@/lib/calendly'
 
 type CalendlyLinkWidgetProps = {
   text?: string
@@ -14,16 +14,18 @@ export default function CalendlyLinkWidget({
   className = '',
 }: CalendlyLinkWidgetProps) {
   const openPopup = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault()
-    if (typeof window !== 'undefined' && window.Calendly?.initPopupWidget) {
-      window.Calendly.initPopupWidget({ url })
-    } else if (typeof window !== 'undefined') {
-      window.open(url, '_blank', 'noopener,noreferrer')
+    if (typeof window === 'undefined' || !window.Calendly?.initPopupWidget) {
+      return
     }
+    event.preventDefault()
+    window.Calendly.initPopupWidget({
+      url: calendlyWidgetUrl(url, 'Popup'),
+      utm: CALENDLY_UTM,
+    })
   }
 
   return (
-    <a href={url} onClick={openPopup} className={className}>
+    <a href="/schedule" onClick={openPopup} className={className}>
       {text}
     </a>
   )

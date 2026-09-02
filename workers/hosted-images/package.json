@@ -1,0 +1,17 @@
+{
+  "name": "arroyoskyeview-hosted-images",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.128.0"
+  },
+  "cloudflare": {
+    "bindings": {
+      "IMAGES": {
+        "description": "Keep wrangler.jsonc `images.binding` (`IMAGES`). Hosted Images is not auto-provisioned by the Deploy button. Laptop: `npx wrangler deploy` from this directory."
+      }
+    }
+  }
+}

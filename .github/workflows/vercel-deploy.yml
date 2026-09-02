@@ -1,22 +1,37 @@
 name: Vercel Deploy
 
-# Production domain (www.arroyoskyeview.com) is on project arroyoskyeview.com-2
-# — see .vercel/project.json. Build job validates every PR; deploy needs Vercel secrets.
+# Production domain (www.arroyoskyeview.com) belongs on Vercel project
+# arroyoskyeview.com (prj_4cKj3PWQYacJOBsrmSeWfkONU6Wm) — see .vercel/project.json.
+# The previous arroyoskyeview.com-2 project was deleted and orphaned the domain.
+# Build job validates every PR; deploy needs Vercel secrets matching that project.
+
+permissions:
+  contents: read
 
 on:
   push:
     branches:
-      - main
+      - '**'
   pull_request:
     branches:
-      - main
+      - '**'
+  workflow_dispatch: {}
 
 concurrency:
   group: vercel-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  # cursor[bot] feature-branch pushes created 0s jobs:[] failures while
+  # `on.push.branches` was main-only. Keep a green no-op on those pushes.
+  skip-feature-push:
+    if: github.event_name == 'push' && github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Vercel production deploy is main-only. PR build still runs on pull_request."
+
   build:
+    if: github.event_name != 'push' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -41,10 +56,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    if: >-
-      github.event_name == 'push' &&
-      github.ref == 'refs/heads/main' &&
-      secrets.VERCEL_TOKEN != ''
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
 
@@ -71,5 +83,12 @@ jobs:
       - name: Deploy
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Attach production domains
+        run: node scripts/attach-vercel-domains.mjs
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

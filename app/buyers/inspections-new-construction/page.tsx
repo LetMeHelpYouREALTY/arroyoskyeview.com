@@ -47,9 +47,10 @@ export default function InspectionsNewConstructionPage() {
         title="New Construction Home Inspections Guide | Las Vegas Buyer's Guide"
         description="Complete guide to new construction home inspections in Las Vegas, Nevada. Learn about construction monitoring, building standards inspection, pre-drywall inspection, and final walkthrough. Expert guidance from Dr. Jan Duffy, your buyer's agent."
         breadcrumbs={[
-          { name: 'Buyer Guides', url: '/find-your-new-home/nevada/las-vegas-metro' },
+          { name: 'Resources', url: '/resources' },
           { name: 'New Construction Inspections', url: '/buyers/inspections-new-construction' },
         ]}
+        dateModified="2026-09-01"
         questions={[
           {
             question: 'Do I need a home inspection for a new construction home?',
@@ -75,6 +76,17 @@ export default function InspectionsNewConstructionPage() {
             </h1>
             <p className="text-xl md:text-2xl text-blue-100 max-w-3xl">
               Complete guide to inspections for new construction homes in Las Vegas, Nevada. Learn about construction monitoring, building standards inspection, and what to look for.
+            </p>
+            <p className="mt-6 max-w-3xl text-lg text-blue-100">
+              Written for buyers at Arroyo at Skyeview (8912 Vanhoy Creek St, Skye Canyon ZIP 89166). For short answers, see the{' '}
+              <Link href="/faq/inspections" className="font-semibold text-white underline">
+                inspections FAQ
+              </Link>
+              . For the monitoring service itself, see{' '}
+              <Link href="/services/construction-monitoring" className="font-semibold text-white underline">
+                construction monitoring
+              </Link>
+              .
             </p>
           </div>
         </section>
@@ -236,12 +248,12 @@ export default function InspectionsNewConstructionPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
               <Link
-                href="/buyers/financing-new-construction"
+                href="/faq/inspections"
                 className="bg-white border-2 border-border rounded-lg p-6 hover:border-luxury-champagne hover:shadow-lg transition"
               >
-                <h3 className="text-xl font-bold text-foreground mb-2">Financing New Construction</h3>
+                <h3 className="text-xl font-bold text-foreground mb-2">Inspections FAQ</h3>
                 <p className="text-muted-foreground">
-                  Complete guide to financing your new construction home, including loan types and builder incentives.
+                  Short answers on monitoring cadence, building standards inspection, and warranties in ZIP 89166.
                 </p>
               </Link>
               <Link
