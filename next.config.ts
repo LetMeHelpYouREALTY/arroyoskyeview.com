@@ -58,6 +58,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: '/contact',
+        destination: '/contact-us',
+        permanent: true,
+      },
+      {
         source: '/faq/financing',
         destination: '/buyers/financing-new-construction',
         permanent: true,
