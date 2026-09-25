@@ -87,7 +87,7 @@ export default function ContactHero() {
           <p className="text-white font-medium mb-4">{SITE_CONTACT.formattedAddress}</p>
           <div className="pt-4 border-t border-white/20">
             <p className="text-sm text-blue-200 mb-2">Available 7 days a week</p>
-            <p className="text-lg text-white font-semibold">9:00 AM - 6:00 PM</p>
+            <p className="text-lg text-white font-semibold">8:00 AM - 8:00 PM</p>
           </div>
         </address>
       </div>

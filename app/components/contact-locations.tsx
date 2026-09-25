@@ -26,7 +26,7 @@ export default function ContactLocations() {
                 </a>
               </p>
               <p className="text-sm text-muted-foreground mt-2">
-                Mon-Sun: 10:00 AM - 5:00 PM
+                Mon-Sun: 8:00 AM - 8:00 PM
               </p>
             </div>
           </div>

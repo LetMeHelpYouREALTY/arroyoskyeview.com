@@ -174,8 +174,8 @@ export default function PageSchemas({
             'Saturday',
             'Sunday',
           ],
-          opens: '09:00',
-          closes: '18:00',
+          opens: '08:00',
+          closes: '20:00',
         },
       },
       {
@@ -268,8 +268,8 @@ export default function PageSchemas({
           'Saturday',
           'Sunday',
         ],
-        opens: '09:00',
-        closes: '18:00',
+        opens: '08:00',
+        closes: '20:00',
       },
     ],
     priceRange: 'No Cost to Buyer',
@@ -328,8 +328,8 @@ export default function PageSchemas({
             'Saturday',
             'Sunday',
           ],
-          opens: '09:00',
-          closes: '18:00',
+          opens: '08:00',
+          closes: '20:00',
         },
       },
       {
@@ -452,8 +452,8 @@ export default function PageSchemas({
         'Saturday',
         'Sunday',
       ],
-      opens: '09:00',
-      closes: '18:00',
+      opens: '08:00',
+      closes: '20:00',
     },
   }
 
