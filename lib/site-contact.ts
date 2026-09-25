@@ -10,9 +10,9 @@ export const SITE_CONTACT = {
   streetAddress: '8912 Vanhoy Crk St',
   addressLocality: 'Las Vegas',
   addressRegion: 'NV',
-  /** Business postal code per GBP */
-  postalCode: '89161',
+  /** Business postal code per GBP (8912 Vanhoy Crk St, Las Vegas, NV 89166); corrected from 89161 on 2026-09-25 */
+  postalCode: '89166',
   /** Skye Canyon / Arroyo community area */
   communityPostalCode: '89166',
-  formattedAddress: '8912 Vanhoy Crk St, Las Vegas, NV 89161',
+  formattedAddress: '8912 Vanhoy Crk St, Las Vegas, NV 89166',
 } as const

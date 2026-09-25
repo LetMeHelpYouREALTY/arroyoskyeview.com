@@ -112,7 +112,7 @@ export default function PageSchemas({
       streetAddress: '8912 Vanhoy Crk St',
       addressLocality: 'Las Vegas',
       addressRegion: 'NV',
-      postalCode: '89161',
+      postalCode: '89166',
       addressCountry: 'US',
     },
     geo: {
@@ -204,7 +204,7 @@ export default function PageSchemas({
       streetAddress: '8912 Vanhoy Crk St',
       addressLocality: 'Las Vegas',
       addressRegion: 'NV',
-      postalCode: '89161',
+      postalCode: '89166',
       addressCountry: 'US',
     },
     areaServed: [
@@ -248,7 +248,7 @@ export default function PageSchemas({
       streetAddress: '8912 Vanhoy Crk St',
       addressLocality: 'Las Vegas',
       addressRegion: 'NV',
-      postalCode: '89161',
+      postalCode: '89166',
       addressCountry: 'US',
     },
     geo: {
@@ -398,7 +398,7 @@ export default function PageSchemas({
       streetAddress: '8912 Vanhoy Crk St',
       addressLocality: 'Las Vegas',
       addressRegion: 'NV',
-      postalCode: '89161',
+      postalCode: '89166',
       addressCountry: 'US',
     },
     knowsAbout: [

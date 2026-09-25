@@ -31,7 +31,7 @@
 
 ### 2. Review NAP Consistency
 - **Verify**: Business address matches Google Business Profile
-- **Current**: 8912 Vanhoy Crk St, Las Vegas, NV 89161
+- **Current**: 8912 Vanhoy Crk St, Las Vegas, NV 89166
 - **Phone**: (702) 903-4687
 - **Check**: All schema markup uses correct NAP
 

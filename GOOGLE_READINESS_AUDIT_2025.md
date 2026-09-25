@@ -144,7 +144,7 @@
 
 ### NAP Consistency
 - **Name**: Arroyo at Skyeview | Homes by Dr. Jan Duffy
-- **Address**: 8912 Vanhoy Crk St, Las Vegas, NV 89161
+- **Address**: 8912 Vanhoy Crk St, Las Vegas, NV 89166
 - **Phone**: (702) 903-4687
 - **Status**: ✅ Matches Google Business Profile exactly
 

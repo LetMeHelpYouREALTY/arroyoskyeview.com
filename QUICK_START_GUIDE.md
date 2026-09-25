@@ -69,7 +69,7 @@ Your site is now:
 ## 📊 What Was Fixed
 
 - ✅ 23 schema markup errors resolved
-- ✅ NAP consistency (zip code 89161)
+- ✅ NAP consistency (zip code 89166)
 - ✅ Security headers (HSTS)
 - ✅ "People Also Search For" integrated
 - ✅ 2025 compliance complete

@@ -25,7 +25,7 @@ export default function ReviewSchema() {
       streetAddress: '8912 Vanhoy Crk St',
       addressLocality: 'Las Vegas',
       addressRegion: 'NV',
-      postalCode: '89161',
+      postalCode: '89166',
       addressCountry: 'US',
     },
     geo: {
