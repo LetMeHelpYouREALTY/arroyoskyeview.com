@@ -3,12 +3,15 @@
 import { Button } from '@/components/ui/button'
 import CalendlyInlineWidget from './calendly-inline-widget'
 import CalendlyLinkWidget from './calendly-link-widget'
+import LeadInquiryForm from './lead-inquiry-form'
 
 export default function ContactForm() {
   return (
     <section className="bg-gradient-to-b from-gray-50 to-white py-16">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="rounded-2xl bg-white p-8 shadow-xl md:p-12">
+          <LeadInquiryForm formName="Contact Us" />
+
           <div className="mb-8 text-center">
             <h2 className="mb-3 text-3xl font-bold text-foreground md:text-4xl">
               Schedule Your Buyer Consultation

@@ -6,7 +6,13 @@ import { processCalendlyLead } from '@/workflows/calendly-lead'
 export async function POST(request: Request) {
   const signingKey = process.env.CALENDLY_WEBHOOK_SIGNING_KEY?.trim()
   if (!signingKey) {
-    return NextResponse.json({ error: 'Webhook not configured' }, { status: 503 })
+    console.error(
+      '[calendly-webhook] CALENDLY_WEBHOOK_SIGNING_KEY not set - Calendly bookings are NOT reaching FUB',
+    )
+    return NextResponse.json(
+      { error: 'Calendly webhook signing key is not configured' },
+      { status: 503 },
+    )
   }
 
   const rawBody = await request.text()
