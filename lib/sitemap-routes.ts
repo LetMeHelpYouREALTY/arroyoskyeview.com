@@ -54,6 +54,7 @@ const PUBLIC_ROUTES: SitemapRouteDef[] = [
   { path: '/arroyo-at-skyeview/floor-plans', tier: 'geo-community', priority: 0.94 },
   { path: '/arroyo-at-skyeview/overview', tier: 'geo-community', priority: 0.93 },
   { path: '/arroyo-at-skyeview/area', tier: 'geo-community', priority: 0.92 },
+  { path: '/amenities', tier: 'geo-community', priority: 0.91 },
   { path: '/arroyo-at-skyeview/homesite-map', tier: 'geo-community', priority: 0.9 },
   { path: '/sierra-at-skyeview', tier: 'geo-community' },
   { path: '/terra-at-skyeview', tier: 'geo-community' },
