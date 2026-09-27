@@ -35,7 +35,7 @@ export type AmenityCategoryConfig = {
   ariaLabel: string
 }
 
-/** Family / master-planned community — schools included; standard discovery order. */
+/** Master-planned community — schools included; standard discovery order. */
 export const AMENITY_CATEGORIES: AmenityCategoryConfig[] = [
   {
     id: 'restaurants',

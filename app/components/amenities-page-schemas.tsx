@@ -53,21 +53,27 @@ export default function AmenitiesPageSchemas() {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: `Nearby amenities around ${COMMUNITY_MAP_LABEL}`,
-    itemListElement: places.map((place, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      item: {
+    itemListElement: places.map((place, index) => {
+      const item: Record<string, unknown> = {
         '@type': place.schemaType,
         name: place.name,
-        address: {
+        url: place.sourceUrl,
+      }
+      if (place.address) {
+        item.address = {
           '@type': 'PostalAddress',
           streetAddress: place.address,
           addressLocality: 'Las Vegas',
           addressRegion: 'NV',
           addressCountry: 'US',
-        },
-      },
-    })),
+        }
+      }
+      return {
+        '@type': 'ListItem',
+        position: index + 1,
+        item,
+      }
+    }),
   }
 
   const communityPlaceSchema = {

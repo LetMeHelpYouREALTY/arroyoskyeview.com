@@ -119,7 +119,9 @@ export default function NearbyAmenitiesPage() {
                   className="rounded-lg border border-border bg-card/50 p-4"
                 >
                   <h3 className="font-medium text-foreground">{place.name}</h3>
-                  <p className="text-sm text-muted-foreground">{place.address}</p>
+                  {place.address ? (
+                    <p className="text-sm text-muted-foreground">{place.address}</p>
+                  ) : null}
                   {place.note ? (
                     <p className="mt-1 text-xs text-muted-foreground">{place.note}</p>
                   ) : null}

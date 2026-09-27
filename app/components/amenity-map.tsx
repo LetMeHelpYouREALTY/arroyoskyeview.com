@@ -10,6 +10,11 @@ import {
   getDirectionsUrl,
   getEmbedMapUrl,
 } from '@/lib/amenity-map-config'
+import { searchCategory } from '@/lib/amenity-places-search'
+import {
+  loadGoogleMaps,
+  mapsAuthFailed,
+} from '@/lib/google-maps-loader'
 import { getCuratedPlacesForCategory } from '@/lib/nearby-amenities-content'
 import { cn } from '@/lib/utils'
 
@@ -17,7 +22,6 @@ type MapPlace = {
   id: string
   name: string
   address?: string
-  rating?: number
   lat?: number
   lng?: number
   mapsUri?: string
@@ -26,46 +30,18 @@ type MapPlace = {
 
 type AmenityMapProps = {
   className?: string
-  /** Shorter map on embedded sections */
   mapHeightClass?: string
   defaultCategory?: AmenityCategoryId
 }
 
 const MAP_HEIGHT_DEFAULT = 'min-h-[22rem] h-[22rem] sm:h-[26rem] md:h-[28rem]'
 
-let mapsScriptPromise: Promise<void> | null = null
-
-function loadGoogleMapsScript(apiKey: string): Promise<void> {
-  if (typeof window === 'undefined') {
-    return Promise.reject(new Error('No window'))
-  }
-  if (window.google?.maps) {
-    return Promise.resolve()
-  }
-  if (!mapsScriptPromise) {
-    mapsScriptPromise = new Promise((resolve, reject) => {
-      const existing = document.querySelector<HTMLScriptElement>(
-        'script[data-amenity-maps-loader]',
-      )
-      if (existing) {
-        existing.addEventListener('load', () => resolve())
-        existing.addEventListener('error', () => reject(new Error('Maps load error')))
-        return
-      }
-      const script = document.createElement('script')
-      script.dataset.amenityMapsLoader = 'true'
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}&libraries=places,marker&loading=async`
-      script.async = true
-      script.defer = true
-      script.onload = () => resolve()
-      script.onerror = () => {
-        mapsScriptPromise = null
-        reject(new Error('Maps script failed'))
-      }
-      document.head.appendChild(script)
-    })
-  }
-  return mapsScriptPromise
+function placeDisplayName(
+  displayName: google.maps.places.Place['displayName'],
+): string | undefined {
+  if (!displayName) return undefined
+  if (typeof displayName === 'string') return displayName
+  return (displayName as { text?: string }).text ?? undefined
 }
 
 function curatedToMapPlaces(categoryId: AmenityCategoryId): MapPlace[] {
@@ -74,6 +50,34 @@ function curatedToMapPlaces(categoryId: AmenityCategoryId): MapPlace[] {
     name: p.name,
     address: p.address,
   }))
+}
+
+function buildInfoWindowContent(
+  place: MapPlace,
+  doc: Document,
+): HTMLElement {
+  const wrap = doc.createElement('div')
+  wrap.style.maxWidth = '240px'
+
+  const title = doc.createElement('strong')
+  title.textContent = place.name
+  wrap.appendChild(title)
+
+  if (place.address) {
+    const addr = doc.createElement('div')
+    addr.style.fontSize = '12px'
+    addr.textContent = place.address
+    wrap.appendChild(addr)
+  }
+
+  const link = doc.createElement('a')
+  link.href = getDirectionsUrl(place.name, place.address)
+  link.target = '_blank'
+  link.rel = 'noopener noreferrer'
+  link.textContent = 'Directions'
+  wrap.appendChild(link)
+
+  return wrap
 }
 
 export default function AmenityMap({
@@ -97,11 +101,13 @@ export default function AmenityMap({
   const [places, setPlaces] = useState<MapPlace[]>(() =>
     curatedToMapPlaces(defaultCategory),
   )
-  const [loadState, setLoadState] = useState<
-    'idle' | 'loading' | 'ready' | 'fallback' | 'error'
-  >(() => (apiKey ? 'idle' : 'fallback'))
-  const [statusMessage, setStatusMessage] = useState<string | null>(
-    apiKey ? null : 'Interactive map preview — add an API key for live place search.',
+  const [useFallback, setUseFallback] = useState(
+    () => !apiKey || mapsAuthFailed,
+  )
+  const [statusMessage, setStatusMessage] = useState<string | null>(() =>
+    !apiKey
+      ? 'Map preview — configure NEXT_PUBLIC_GOOGLE_MAPS_API_KEY for live place search.'
+      : null,
   )
 
   useEffect(() => {
@@ -128,12 +134,34 @@ export default function AmenityMap({
     infoRef.current?.close()
   }, [])
 
+  const enterFallback = useCallback(
+    (message: string) => {
+      mapRef.current = null
+      clearMarkers()
+      setUseFallback(true)
+      setPlaces(curatedToMapPlaces(activeCategory))
+      setStatusMessage(message)
+    },
+    [activeCategory, clearMarkers],
+  )
+
+  useEffect(() => {
+    const onAuthFailure = () => {
+      enterFallback(
+        'Map preview — showing curated Skye Canyon highlights while the map key is unavailable.',
+      )
+    }
+    window.addEventListener('gmaps:auth-failure', onAuthFailure)
+    return () => window.removeEventListener('gmaps:auth-failure', onAuthFailure)
+  }, [enterFallback])
+
   const renderMarkers = useCallback(
     (items: MapPlace[]) => {
       const map = mapRef.current
       if (!map || !window.google?.maps) return
       clearMarkers()
       infoRef.current = new window.google.maps.InfoWindow()
+
       const bounds = new window.google.maps.LatLngBounds()
       bounds.extend(COMMUNITY_MAP_CENTER)
 
@@ -147,9 +175,15 @@ export default function AmenityMap({
       })
       communityMarkerRef.current = communityMarker
       communityMarker.addListener('click', () => {
-        infoRef.current?.setContent(
-          `<div style="max-width:220px"><strong>${COMMUNITY_MAP_LABEL}</strong><br/>Your community</div>`,
-        )
+        const content = document.createElement('div')
+        content.style.maxWidth = '220px'
+        const strong = document.createElement('strong')
+        strong.textContent = COMMUNITY_MAP_LABEL
+        content.appendChild(strong)
+        const sub = document.createElement('div')
+        sub.textContent = 'Your community'
+        content.appendChild(sub)
+        infoRef.current?.setContent(content)
         infoRef.current?.open({ map, anchor: communityMarker })
       })
 
@@ -166,18 +200,8 @@ export default function AmenityMap({
           title: place.name,
         })
         marker.addListener('click', () => {
-          const directions = getDirectionsUrl(place.name, place.address)
-          const rating =
-            place.rating != null
-              ? `<br/>Rating: ${place.rating.toFixed(1)}`
-              : ''
-          const addr = place.address
-            ? `<br/><span style="font-size:12px">${place.address}</span>`
-            : ''
-          const link = `<br/><a href="${directions}" target="_blank" rel="noopener noreferrer">Directions</a>`
-          infoRef.current?.setContent(
-            `<div style="max-width:240px"><strong>${place.name}</strong>${rating}${addr}${link}</div>`,
-          )
+          const content = buildInfoWindowContent(place, document)
+          infoRef.current?.setContent(content)
           infoRef.current?.open({ map, anchor: marker })
         })
         markersRef.current.push(marker)
@@ -192,116 +216,96 @@ export default function AmenityMap({
   const fetchNearby = useCallback(
     async (categoryId: AmenityCategoryId) => {
       const category = AMENITY_CATEGORIES.find((c) => c.id === categoryId)
-      if (!category || !mapRef.current || !window.google?.maps) {
-        setPlaces(curatedToMapPlaces(categoryId))
+      const curated = curatedToMapPlaces(categoryId)
+      if (!category || !mapRef.current || useFallback) {
+        setPlaces(curated)
         return
       }
-      setLoadState('loading')
       setStatusMessage('Loading nearby places…')
       try {
-        const { Place } = await window.google.maps.importLibrary('places')
-        const { places: results } = await Place.searchNearby({
-          fields: [
-            'displayName',
-            'formattedAddress',
-            'location',
-            'rating',
-            'googleMapsURI',
-          ],
-          locationRestriction: {
-            center: COMMUNITY_MAP_CENTER,
-            radius: AMENITY_SEARCH_RADIUS_METERS,
-          },
-          includedPrimaryTypes: category.placeTypes,
-          maxResultCount: 15,
-        })
+        const results = await searchCategory(
+          COMMUNITY_MAP_CENTER,
+          categoryId,
+          category.placeTypes,
+          AMENITY_SEARCH_RADIUS_METERS,
+        )
         const mapped = results.flatMap((r, i) => {
           const loc = r.location
-          const displayName =
-            typeof r.displayName === 'string'
-              ? r.displayName
-              : r.displayName?.text
+          const displayName = placeDisplayName(r.displayName)
           if (!loc || !displayName) return []
+          const { lat, lng } = loc.toJSON()
           const place: MapPlace = {
             id: `api-${categoryId}-${i}`,
             name: displayName,
-            address: r.formattedAddress,
-            rating: r.rating,
-            lat: loc.lat,
-            lng: loc.lng,
-            mapsUri: r.googleMapsURI,
+            address: r.formattedAddress ?? undefined,
+            lat,
+            lng,
+            mapsUri: r.googleMapsURI ?? undefined,
           }
           return [place]
         })
 
         if (mapped.length === 0) {
-          const curated = curatedToMapPlaces(categoryId)
           setPlaces(curated)
-          setStatusMessage(
-            'Showing curated Skye Canyon highlights for this category.',
-          )
+          setStatusMessage('Showing curated Skye Canyon highlights for this category.')
           renderMarkers(curated)
         } else {
           setPlaces(mapped)
           setStatusMessage(null)
           renderMarkers(mapped)
         }
-        setLoadState('ready')
       } catch {
-        const curated = curatedToMapPlaces(categoryId)
         setPlaces(curated)
-        setStatusMessage(
-          'Live search unavailable — showing curated nearby highlights.',
-        )
+        setStatusMessage('Live search unavailable — showing curated nearby highlights.')
         renderMarkers(curated)
-        setLoadState('ready')
       }
     },
-    [renderMarkers],
+    [renderMarkers, useFallback],
   )
 
   useEffect(() => {
-    if (!inView || !apiKey) return
+    if (!inView || !apiKey || useFallback || mapsAuthFailed) return
     let cancelled = false
-    ;(async () => {
-      try {
-        setLoadState('loading')
-        await loadGoogleMapsScript(apiKey)
-        if (cancelled || !mapDivRef.current) return
-        mapRef.current = new window.google.maps.Map(mapDivRef.current, {
-          center: COMMUNITY_MAP_CENTER,
-          zoom: 13,
-          mapId: mapId || undefined,
-          disableDefaultUI: false,
-          zoomControl: true,
-          mapTypeControl: false,
-          streetViewControl: false,
-          fullscreenControl: true,
-        })
-        setLoadState('ready')
-        await fetchNearby(activeCategory)
-      } catch {
+
+    const init = async () => {
+      if (!mapDivRef.current) return
+      mapRef.current = new google.maps.Map(mapDivRef.current, {
+        center: COMMUNITY_MAP_CENTER,
+        zoom: 13,
+        mapId: mapId || undefined,
+        disableDefaultUI: false,
+        zoomControl: true,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: true,
+      })
+      await fetchNearby(activeCategory)
+    }
+
+    loadGoogleMaps(apiKey)
+      .then(() => {
+        if (!cancelled) return init()
+      })
+      .catch(() => {
         if (!cancelled) {
-          setLoadState('fallback')
-          setPlaces(curatedToMapPlaces(activeCategory))
-          setStatusMessage(
-            'Map preview mode — configure NEXT_PUBLIC_GOOGLE_MAPS_API_KEY for interactive search.',
+          enterFallback(
+            'Map preview — showing curated Skye Canyon highlights while the map key is unavailable.',
           )
         }
-      }
-    })()
+      })
+
     return () => {
       cancelled = true
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- init once when in view
-  }, [inView, apiKey])
+  }, [inView, apiKey, useFallback])
 
   useEffect(() => {
-    if (loadState !== 'ready' || !apiKey) return
+    if (useFallback || !apiKey || !mapRef.current) return
     fetchNearby(activeCategory)
-  }, [activeCategory, fetchNearby, loadState, apiKey])
+  }, [activeCategory, fetchNearby, useFallback, apiKey])
 
-  const showIframe = loadState === 'fallback' || !apiKey
+  const showIframe = useFallback || !apiKey
 
   return (
     <div ref={containerRef} className={cn('space-y-4', className)}>
@@ -361,7 +365,11 @@ export default function AmenityMap({
             allowFullScreen
           />
         ) : (
-          <div ref={mapDivRef} className="h-full w-full" aria-label="Interactive amenity map" />
+          <div
+            ref={mapDivRef}
+            className="h-full w-full"
+            aria-label="Interactive amenity map"
+          />
         )}
       </div>
 
@@ -375,13 +383,10 @@ export default function AmenityMap({
             {place.address ? (
               <p className="text-muted-foreground">{place.address}</p>
             ) : null}
-            {place.rating != null ? (
-              <p className="text-xs text-muted-foreground">
-                Google rating: {place.rating.toFixed(1)}
-              </p>
-            ) : null}
             <a
-              href={getDirectionsUrl(place.name, place.address)}
+              href={
+                place.mapsUri ?? getDirectionsUrl(place.name, place.address)
+              }
               target="_blank"
               rel="noopener noreferrer"
               className="mt-1 inline-block text-xs font-medium text-primary underline underline-offset-2"

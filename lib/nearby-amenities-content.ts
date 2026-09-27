@@ -2,7 +2,10 @@ import type { AmenityCategoryId } from './amenity-map-config'
 
 export type CuratedPlace = {
   name: string
-  address: string
+  /** Verified street address; omit when only the place name is sourced */
+  address?: string
+  /** Official page used to verify name and address */
+  sourceUrl: string
   /** schema.org @type for ItemList entries */
   schemaType:
     | 'Restaurant'
@@ -26,29 +29,26 @@ export type AmenityContentSection = {
   places: CuratedPlace[]
 }
 
-/** Verified or site-documented places only — used for SSR copy, fallback list, and JSON-LD ItemList. */
+/** Verified against primary sources — SSR copy, map fallback, and JSON-LD ItemList. */
 export const AMENITY_CONTENT_SECTIONS: AmenityContentSection[] = [
   {
     id: 'grocery',
     heading: 'Grocery & everyday shopping',
     intro:
-      'Skye Canyon Marketplace sits inside the master plan, so Smith’s and other daily errands are minutes from Arroyo at Skyeview without crossing town.',
+      'Skye Canyon Marketplace sits inside the master plan, with Smith’s Marketplace anchoring daily errands minutes from Arroyo at Skyeview.',
     places: [
       {
         name: "Smith's Food and Drug",
-        address: 'Skye Canyon Marketplace, Las Vegas, NV 89166',
+        address: '9710 W Skye Canyon Park Dr, Las Vegas, NV 89166',
+        sourceUrl:
+          'https://www.smithsfoodanddrug.com/stores/grocery/nv/las-vegas/skye-canyon-marketplace/702/00141',
         schemaType: 'GroceryStore',
       },
       {
         name: 'Skye Canyon Marketplace',
-        address: 'Skye Canyon, Las Vegas, NV 89166',
+        address: '9700 W Skye Canyon Park Dr, Las Vegas, NV 89166',
+        sourceUrl: 'https://skyecanyon.com/amenities/shopping/',
         schemaType: 'ShoppingCenter',
-      },
-      {
-        name: "Lowe's Home Improvement",
-        address: 'Northwest Las Vegas, NV',
-        schemaType: 'ShoppingCenter',
-        note: 'Home improvement and project supplies for new homeowners.',
       },
     ],
   },
@@ -56,22 +56,21 @@ export const AMENITY_CONTENT_SECTIONS: AmenityContentSection[] = [
     id: 'restaurants',
     heading: 'Dining near Skye Canyon',
     intro:
-      'Casual dining clusters at Skye Canyon Marketplace; Summerlin and the Strip add more options within a short drive.',
+      'Restaurants at Skye Canyon Marketplace include national and local options listed by the master developer; Summerlin and the Strip add more choices within a short drive.',
     places: [
       {
-        name: 'Restaurants at Skye Canyon Marketplace',
-        address: 'Skye Canyon, Las Vegas, NV 89166',
-        schemaType: 'Restaurant',
-      },
-      {
-        name: 'Baby Stacks Cafe',
-        address: 'Skye Canyon, Las Vegas, NV 89166',
-        schemaType: 'Restaurant',
-      },
-      {
         name: 'Cafe Rio',
-        address: 'Skye Canyon, Las Vegas, NV 89166',
+        address: '9700 W Skye Canyon Park Dr, Las Vegas, NV 89166',
+        sourceUrl: 'https://skyecanyon.com/amenities/shopping/',
         schemaType: 'Restaurant',
+        note: 'Tenant at Skye Canyon Marketplace (developer listing).',
+      },
+      {
+        name: "Bob's Big Boy",
+        address: '9700 W Skye Canyon Park Dr, Las Vegas, NV 89166',
+        sourceUrl: 'https://skyecanyon.com/amenities/shopping/',
+        schemaType: 'Restaurant',
+        note: 'Tenant at Skye Canyon Marketplace (developer listing).',
       },
     ],
   },
@@ -79,18 +78,21 @@ export const AMENITY_CONTENT_SECTIONS: AmenityContentSection[] = [
     id: 'cafes',
     heading: 'Cafes & coffee',
     intro:
-      'Morning routines and meet-ups often start at marketplace coffee spots or the Skye Center social hub.',
+      'Marketplace coffee and the Skye Center coffee house support morning routines and meet-ups inside Skye Canyon.',
     places: [
       {
         name: 'Starbucks',
-        address: 'Skye Canyon Marketplace, Las Vegas, NV 89166',
+        address: '9710 W Skye Canyon Park Dr, Las Vegas, NV 89166',
+        sourceUrl: 'https://skyecanyon.com/amenities/shopping/',
         schemaType: 'CafeOrCoffeeShop',
+        note: 'Inside Smith’s Marketplace at Skye Canyon (developer listing).',
       },
       {
         name: 'Aspire Coffee House',
-        address: 'Skye Center, Skye Canyon, Las Vegas, NV 89166',
+        address: '10111 W Skye Canyon Park Dr, Las Vegas, NV 89166',
+        sourceUrl: 'https://skyecanyon.com/about/',
         schemaType: 'CafeOrCoffeeShop',
-        note: 'Gathering space at the Skye Canyon recreation hub.',
+        note: 'Coffee house at Skye Center (developer hours and location).',
       },
     ],
   },
@@ -98,18 +100,21 @@ export const AMENITY_CONTENT_SECTIONS: AmenityContentSection[] = [
     id: 'parks',
     heading: 'Parks & recreation',
     intro:
-      'Skye Canyon’s 1,700-acre plan centers on trails, sports courts, and the 15-acre Skye Canyon Park hub.',
+      'Skye Canyon’s master plan includes a 15-acre central park hub with trails, courts, and resident recreation amenities.',
     places: [
       {
         name: 'Skye Canyon Park',
-        address: 'Skye Canyon, Las Vegas, NV 89166',
+        address: '10111 W Skye Canyon Park Dr, Las Vegas, NV 89166',
+        sourceUrl: 'https://skyecanyon.com/amenities/parks/',
         schemaType: 'Park',
+        note: '15-acre community park (developer listing).',
       },
       {
-        name: 'Skye Fitness & recreation center',
-        address: 'Skye Canyon, Las Vegas, NV 89166',
+        name: 'Skye Fitness',
+        address: '10111 W Skye Canyon Park Dr, Las Vegas, NV 89166',
+        sourceUrl: 'https://skyecanyon.com/facts/',
         schemaType: 'ExerciseGym',
-        note: 'Community fitness center with pool and courts (Skye Canyon master plan).',
+        note: 'Resident fitness center at Skye Canyon Park (developer listing).',
       },
     ],
   },
@@ -117,13 +122,13 @@ export const AMENITY_CONTENT_SECTIONS: AmenityContentSection[] = [
     id: 'golf',
     heading: 'Golf',
     intro:
-      'Northwest Las Vegas and Summerlin put multiple public and resort courses within an easy drive of zip 89166.',
+      'Public courses in west Las Vegas and Summerlin are within a typical drive of zip 89166; times vary with traffic.',
     places: [
       {
         name: 'Angel Park Golf Club',
-        address: '1001 S Rampart Blvd, Las Vegas, NV 89145',
+        address: '100 S Rampart Blvd, Las Vegas, NV 89145',
+        sourceUrl: 'https://arcisgolf.com/clubs/angel-park-golf-club/hours-and-directions',
         schemaType: 'GolfCourse',
-        note: 'Public courses in west Las Vegas; drive time varies with traffic (approximate).',
       },
     ],
   },
@@ -131,16 +136,18 @@ export const AMENITY_CONTENT_SECTIONS: AmenityContentSection[] = [
     id: 'healthcare',
     heading: 'Healthcare & hospitals',
     intro:
-      'Major hospital campuses serve northwest Las Vegas; urgent care and medical offices are throughout the 215/US-95 corridor.',
+      'Hospital campuses serve northwest Las Vegas along the Durango and Tenaya corridors; urgent care offices are throughout the area.',
     places: [
       {
         name: 'Centennial Hills Hospital Medical Center',
         address: '6900 N Durango Dr, Las Vegas, NV 89149',
+        sourceUrl: 'https://www.centennialhillshospital.com/',
         schemaType: 'Hospital',
       },
       {
         name: 'MountainView Hospital',
         address: '3100 N Tenaya Way, Las Vegas, NV 89128',
+        sourceUrl: 'https://mountainview-hospital.com/',
         schemaType: 'Hospital',
       },
     ],
@@ -148,11 +155,13 @@ export const AMENITY_CONTENT_SECTIONS: AmenityContentSection[] = [
   {
     id: 'pharmacies',
     heading: 'Pharmacies',
-    intro: 'Retail pharmacies are available at Skye Canyon Marketplace and along Durango and Centennial corridors.',
+    intro: 'Retail pharmacies are available at Skye Canyon Marketplace and along northwest valley retail corridors.',
     places: [
       {
         name: "Smith's Food and Drug pharmacy",
-        address: 'Skye Canyon Marketplace, Las Vegas, NV 89166',
+        address: '9710 W Skye Canyon Park Dr, Las Vegas, NV 89166',
+        sourceUrl:
+          'https://www.smithsfoodanddrug.com/stores/grocery/nv/las-vegas/skye-canyon-marketplace/702/00141',
         schemaType: 'Pharmacy',
       },
     ],
@@ -164,14 +173,9 @@ export const AMENITY_CONTENT_SECTIONS: AmenityContentSection[] = [
       'Beyond the marketplace, Durango Square and Downtown Summerlin expand dining and retail within roughly 10–20 minutes.',
     places: [
       {
-        name: 'Durango Square',
-        address: 'Northwest Las Vegas, NV',
-        schemaType: 'ShoppingCenter',
-        note: 'Approximately 10 minutes south of Skye Canyon (approximate drive time).',
-      },
-      {
         name: 'Downtown Summerlin',
-        address: 'Summerlin, Las Vegas, NV',
+        address: '1980 Festival Plaza Dr, Las Vegas, NV 89135',
+        sourceUrl: 'https://www.downtownsummerlin.com/',
         schemaType: 'ShoppingCenter',
         note: 'Approximately 15–20 minutes southeast (approximate drive time).',
       },
@@ -181,21 +185,24 @@ export const AMENITY_CONTENT_SECTIONS: AmenityContentSection[] = [
     id: 'schools',
     heading: 'Schools serving zip 89166',
     intro:
-      'Clark County School District schools for Skye Canyon include Roger Bryan Elementary on campus and feeder middle and high schools in northwest Las Vegas.',
+      'Clark County School District schools associated with northwest Las Vegas include Roger Bryan Elementary, Sig Rogich Middle School, and Shadow Ridge High School. A new Skye Canyon Elementary campus is under construction for a future opening.',
     places: [
       {
-        name: 'Roger Bryan Elementary School',
-        address: 'Skye Canyon, Las Vegas, NV 89166',
+        name: 'Roger M. Bryan Elementary School',
+        address: '8255 W Katie Ave, Las Vegas, NV 89147',
+        sourceUrl: 'https://www.rogerbryanes.com/',
         schemaType: 'School',
       },
       {
         name: 'Sig Rogich Middle School',
-        address: 'Skye Canyon, Las Vegas, NV 89166',
+        address: '235 N Pavilion Center Dr, Las Vegas, NV 89144',
+        sourceUrl: 'https://www.rogichms.info/contact',
         schemaType: 'School',
       },
       {
         name: 'Shadow Ridge High School',
-        address: 'Northwest Las Vegas, NV 89166',
+        address: '5050 Brent Ln, Las Vegas, NV 89131',
+        sourceUrl: 'https://www.srhsmustangs.com/apps/contact/',
         schemaType: 'School',
       },
     ],
@@ -208,27 +215,23 @@ export const AMENITY_CONTENT_SECTIONS: AmenityContentSection[] = [
     places: [
       {
         name: 'Las Vegas Strip',
-        address: 'Las Vegas, NV',
+        sourceUrl: 'https://www.lvcva.com/',
         schemaType: 'Place',
         note: 'Approximately 20–25 minutes via US-95 (approximate).',
       },
       {
         name: 'Harry Reid International Airport',
         address: '5757 Wayne Newton Blvd, Las Vegas, NV 89119',
+        sourceUrl: 'https://www.harryreidairport.com/',
         schemaType: 'Place',
         note: 'Approximately 25–35 minutes via I-215 and I-15 (approximate).',
       },
       {
         name: 'Red Rock Canyon National Conservation Area',
-        address: 'Las Vegas, NV',
+        address: '3205 State Route 159, Blue Diamond, NV 89005',
+        sourceUrl: 'https://www.nps.gov/redr/planyourvisit/basicinfo.htm',
         schemaType: 'Park',
-        note: 'Approximately 15 minutes west via US-95 (approximate).',
-      },
-      {
-        name: 'Downtown Summerlin',
-        address: 'Summerlin, Las Vegas, NV',
-        schemaType: 'ShoppingCenter',
-        note: 'Approximately 15–20 minutes southeast (approximate).',
+        note: 'Visitor center area; approximately 15 minutes west via US-95 (approximate).',
       },
     ],
   },
@@ -238,7 +241,7 @@ export const NEARBY_AMENITIES_FAQ = [
   {
     question: 'What grocery stores are near Arroyo at Skyeview?',
     answer:
-      "Smith's Food and Drug anchors Skye Canyon Marketplace inside the 89166 master plan, minutes from Arroyo at Skyeview townhomes.",
+      "Smith's Food and Drug at Skye Canyon Marketplace (9710 W Skye Canyon Park Dr) serves the 89166 master plan, minutes from Arroyo at Skyeview townhomes.",
   },
   {
     question: 'How far is Arroyo at Skyeview from the Las Vegas Strip?',
@@ -248,22 +251,22 @@ export const NEARBY_AMENITIES_FAQ = [
   {
     question: 'Are there hospitals near Arroyo at Skyeview in Skye Canyon?',
     answer:
-      'Centennial Hills Hospital Medical Center on N Durango Dr and MountainView Hospital in northwest Las Vegas serve the Skye Canyon area, typically within a 15–25 minute drive.',
+      'Centennial Hills Hospital Medical Center on N Durango Dr and MountainView Hospital on N Tenaya Way serve northwest Las Vegas, typically within a 15–25 minute drive from Skye Canyon.',
   },
   {
     question: 'What parks and trails are near Arroyo at Skyeview?',
     answer:
-      'Skye Canyon Park, community trails, sports courts, and the Skye Fitness recreation hub are inside Skye Canyon; Red Rock Canyon is about 15 minutes west.',
+      'Skye Canyon Park and the Skye Fitness hub are inside Skye Canyon; Red Rock Canyon National Conservation Area is about 15 minutes west.',
   },
   {
     question: 'What schools serve Arroyo at Skyeview in zip code 89166?',
     answer:
-      'Roger Bryan Elementary, Sig Rogich Middle School, and Shadow Ridge High School are the Clark County schools associated with Skye Canyon and zip 89166.',
+      'Roger M. Bryan Elementary, Sig Rogich Middle School, and Shadow Ridge High School are Clark County schools commonly associated with northwest Las Vegas and Skye Canyon buyers; confirm assignments with CCSD for your address.',
   },
   {
     question: 'Where do residents shop and dine besides the marketplace?',
     answer:
-      'Durango Square is roughly 10 minutes south, and Downtown Summerlin offers additional dining and retail about 15–20 minutes southeast.',
+      'Downtown Summerlin offers additional dining and retail about 15–20 minutes southeast; Durango Drive retail corridors are also within a short drive.',
   },
   {
     question: 'How far is Harry Reid International Airport from Skye Canyon?',
@@ -277,7 +280,6 @@ export const NEARBY_AMENITIES_FAQ = [
   },
 ] as const
 
-/** Flat list for map fallback markers grouped by category */
 export function getCuratedPlacesForCategory(
   categoryId: AmenityCategoryId,
 ): CuratedPlace[] {
@@ -290,7 +292,7 @@ export function getAllCuratedPlacesForSchema(): CuratedPlace[] {
   const out: CuratedPlace[] = []
   for (const section of AMENITY_CONTENT_SECTIONS) {
     for (const place of section.places) {
-      const key = `${place.name}|${place.address}`
+      const key = `${place.name}|${place.address ?? ''}`
       if (seen.has(key)) continue
       seen.add(key)
       out.push(place)
