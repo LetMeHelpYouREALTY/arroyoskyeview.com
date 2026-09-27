@@ -26,8 +26,9 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'Arroyo at Skyeview Homes | New Construction Townhomes in Skye Canyon, Northwest Las Vegas, NV (Zip Code 89166)',
-  description: 'Arroyo at Skyeview Homes offers new construction townhomes in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). 2-4 bedrooms, 2.5 baths, starting from $392,640. Dr. Jan Duffy is your buyer\'s agent—she represents HOME BUYERS, not the builder. Expert buyer representation at no extra cost. Call (702) 903-4687.',
+  title: 'Arroyo at Skyeview | Skye Canyon Townhomes, NV',
+  description:
+    'New townhomes at Arroyo at Skyeview in Skye Canyon, northwest Las Vegas (89166). Buyer agent Dr. Jan Duffy represents you—not the builder. (702) 903-4687.',
   authors: [{ name: 'Dr. Jan Duffy' }],
   creator: 'Dr. Jan Duffy',
   publisher: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
@@ -46,8 +47,9 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: SITE_URL,
-    title: 'Arroyo at Skyeview Homes | New Construction Townhomes in Skye Canyon, Northwest Las Vegas, NV',
-    description: 'Arroyo at Skyeview Homes: New construction townhomes in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). 2-4 bedrooms, premium finishes, starting from $392,640. Dr. Jan Duffy is your buyer\'s agent—she represents HOME BUYERS, not the builder. Expert buyer representation at no extra cost. Call (702) 903-4687.',
+    title: 'Arroyo at Skyeview | Skye Canyon Townhomes, NV',
+    description:
+      'New townhomes at Arroyo at Skyeview in Skye Canyon, northwest Las Vegas (89166). Buyer agent Dr. Jan Duffy represents you—not the builder. (702) 903-4687.',
     siteName: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
     images: [
       {
@@ -60,8 +62,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Arroyo at Skyeview Homes | New Construction Townhomes in Skye Canyon, Northwest Las Vegas, NV',
-    description: 'Arroyo at Skyeview Homes: New construction townhomes in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). 2-4 bedrooms, premium finishes, starting from $392,640. Dr. Jan Duffy is your buyer\'s agent—she represents HOME BUYERS, not the builder. Expert buyer representation at no extra cost. Call (702) 903-4687.',
+    title: 'Arroyo at Skyeview | Skye Canyon Townhomes, NV',
+    description:
+      'New townhomes at Arroyo at Skyeview in Skye Canyon, northwest Las Vegas (89166). Buyer agent Dr. Jan Duffy represents you—not the builder. (702) 903-4687.',
     images: ['/og-image.png'],
   },
   alternates: {
