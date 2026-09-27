@@ -76,6 +76,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
     { name: 'Financing FAQ', href: '/buyers/financing-new-construction', title: 'New Construction Home Financing FAQ Las Vegas' },
     { name: 'Inspections FAQ', href: '/services/building-standards-inspection', title: 'New Construction Home Inspections FAQ Las Vegas' },
     { name: 'Las Vegas Neighborhood Q&A', href: '/faq/las-vegas-hyperlocal', title: 'Las Vegas Real Estate Questions Answers' },
+    { name: 'Nearby Amenities Map', href: '/amenities', title: 'Nearby Amenities Arroyo at Skyeview Skye Canyon Map' },
   ]
 
   const blogPosts = [

@@ -135,6 +135,11 @@ export const ARROYO_HUB_LINKS = [
     description: 'Skye Canyon amenities, zip 89166 schools, shopping, and outdoor recreation.',
   },
   {
+    href: '/amenities',
+    title: 'Nearby Amenities',
+    description: 'Interactive map and guide to dining, groceries, parks, and healthcare near Arroyo.',
+  },
+  {
     href: '/resources',
     title: 'Homebuyer Resources',
     description: 'Financing guides, inspections, and the step-by-step new construction process.',
