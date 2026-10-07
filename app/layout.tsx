@@ -96,6 +96,46 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Blocks the Vercel Toolbar comment card ("Tag @v0…") on the public site. */}
+        <Script id="disable-vercel-toolbar" strategy="beforeInteractive">
+          {`
+            (function () {
+              try {
+                sessionStorage.setItem('vercel-live-feedback-optout', '1')
+                document.cookie = '__vercel_toolbar=; Max-Age=0; path=/; SameSite=Lax'
+                document.cookie = '__vercel_toolbar=; Max-Age=0; path=/; Secure; SameSite=Lax'
+              } catch (e) {}
+
+              function isToolbarNode(node) {
+                if (!node || node.nodeType !== 1) return false
+                var tag = node.tagName
+                if (tag === 'VERCEL-LIVE-FEEDBACK') return true
+                if (tag !== 'SCRIPT' && tag !== 'IFRAME') return false
+                var src = node.getAttribute('src') || ''
+                return src.indexOf('vercel.live') !== -1
+              }
+
+              function sweep() {
+                var list = document.querySelectorAll(
+                  "vercel-live-feedback, script[src*='vercel.live'], iframe[src*='vercel.live']"
+                )
+                for (var i = 0; i < list.length; i++) list[i].remove()
+              }
+
+              sweep()
+              var root = document.documentElement
+              if (!root || typeof MutationObserver === 'undefined') return
+              new MutationObserver(function (mutations) {
+                for (var i = 0; i < mutations.length; i++) {
+                  var nodes = mutations[i].addedNodes
+                  for (var j = 0; j < nodes.length; j++) {
+                    if (isToolbarNode(nodes[j])) nodes[j].remove()
+                  }
+                }
+              }).observe(root, { childList: true, subtree: true })
+            })()
+          `}
+        </Script>
         <link
           href="https://assets.calendly.com/assets/external/widget.css"
           rel="stylesheet"
