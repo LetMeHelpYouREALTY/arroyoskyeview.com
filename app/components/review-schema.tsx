@@ -4,13 +4,6 @@ export default function ReviewSchema() {
   const baseUrl = 'https://www.arroyoskyeview.com'
   const businessId = `${baseUrl}#reviews`
 
-  const itemReviewed = {
-    '@type': 'RealEstateAgent',
-    '@id': businessId,
-    name: 'Dr. Jan Duffy - Buyer\'s Agent for Arroyo at Skyeview Homes',
-    url: baseUrl,
-  }
-
   const reviewSchema = {
     '@context': 'https://schema.org',
     '@type': 'RealEstateAgent',
@@ -71,7 +64,6 @@ export default function ReviewSchema() {
     review: [
       {
         '@type': 'Review',
-        itemReviewed,
         author: {
           '@type': 'Person',
           name: 'Recent Buyer',
@@ -87,7 +79,6 @@ export default function ReviewSchema() {
       },
       {
         '@type': 'Review',
-        itemReviewed,
         author: {
           '@type': 'Person',
           name: 'Satisfied Buyer',
@@ -103,7 +94,6 @@ export default function ReviewSchema() {
       },
       {
         '@type': 'Review',
-        itemReviewed,
         author: {
           '@type': 'Person',
           name: 'Happy Home Buyer',
@@ -119,7 +109,6 @@ export default function ReviewSchema() {
       },
       {
         '@type': 'Review',
-        itemReviewed,
         author: {
           '@type': 'Person',
           name: 'First-Time Homebuyer',
@@ -135,7 +124,6 @@ export default function ReviewSchema() {
       },
       {
         '@type': 'Review',
-        itemReviewed,
         author: {
           '@type': 'Person',
           name: 'Skye Canyon Homeowner',
