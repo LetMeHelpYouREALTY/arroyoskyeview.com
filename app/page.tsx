@@ -52,7 +52,6 @@ export default function HomePage() {
           },
         ]}
         priceRange={ARROYO_PRICE_RANGE}
-        rating={{ value: '4.5', count: '8866' }}
       />
       <PurpleSaleBanner />
       <UrgencyBanner />

@@ -29,7 +29,7 @@ export default function StandardPageHero({
           {title}
         </h1>
         {subtitle ? (
-          <p className="mt-4 max-w-3xl text-lg text-pretty text-luxury-sand md:text-xl">{subtitle}</p>
+          <p data-answer="lead" className="mt-4 max-w-3xl text-lg text-pretty text-luxury-sand md:text-xl">{subtitle}</p>
         ) : null}
         {children}
       </PageSection>

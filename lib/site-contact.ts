@@ -15,4 +15,6 @@ export const SITE_CONTACT = {
   /** Skye Canyon / Arroyo community area */
   communityPostalCode: '89166',
   formattedAddress: '8912 Vanhoy Crk St, Las Vegas, NV 89161',
+  /** Matches openingHoursSpecification in JSON-LD. */
+  hoursDisplay: 'Monday–Sunday, 8:00 AM–8:00 PM',
 } as const

@@ -109,7 +109,7 @@ export default function LuxuryHero() {
           </div>
 
           {/* Body copy */}
-          <p className="max-w-2xl font-sans text-sm leading-relaxed text-[#F7F3ED]/75 text-pretty sm:text-base">
+          <p data-answer="lead" className="max-w-2xl font-sans text-sm leading-relaxed text-[#F7F3ED]/75 text-pretty sm:text-base">
             Discover resort-inspired living where the Mojave desert meets modern luxury.
             Arroyo at Skyeview offers thoughtfully designed townhomes within a{' '}
             <strong className="font-semibold text-[#F7F3ED]/90">1,700-acre master-planned community</strong>{' '}

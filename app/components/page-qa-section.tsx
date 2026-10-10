@@ -1,9 +1,5 @@
-'use client'
-
-import { useState } from 'react'
 import Script from 'next/script'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 
 interface QAItem {
   question: string
@@ -21,8 +17,6 @@ export default function PageQASection({
   title = 'Frequently Asked Questions',
   showContact = true,
 }: PageQASectionProps) {
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
-
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -49,43 +43,23 @@ export default function PageQASection({
           <h2 className="mb-8 text-3xl font-bold tracking-tight text-foreground">{title}</h2>
 
           <div className="space-y-4">
-            {questions.map((qa, index) => (
-              <div key={index} className="surface-elevated overflow-hidden shadow-sm">
-                <button
-                  type="button"
-                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                  className="flex w-full items-center justify-between px-6 py-4 text-left transition hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
-                  aria-expanded={openIndex === index}
-                >
-                  <h3 className="pr-4 text-lg font-semibold text-foreground">{qa.question}</h3>
-                  <svg
-                    className={cn(
-                      'h-5 w-5 shrink-0 text-primary transition-transform',
-                      openIndex === index && 'rotate-180',
-                    )}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-
-                {openIndex === index && (
-                  <div className="px-6 pb-4">
-                    <p className="leading-relaxed text-muted-foreground">{qa.answer}</p>
-                  </div>
-                )}
-              </div>
+            {questions.map((qa) => (
+              <details key={qa.question} open className="surface-elevated overflow-hidden shadow-sm">
+                <summary className="cursor-pointer list-none px-6 py-4 text-lg font-semibold text-foreground">
+                  {qa.question}
+                </summary>
+                <div className="px-6 pb-4">
+                  <p data-answer="section" className="leading-relaxed text-muted-foreground">{qa.answer}</p>
+                </div>
+              </details>
             ))}
           </div>
 
           {showContact && (
             <div className="mt-8 rounded-xl border border-primary/20 bg-primary/5 p-6">
               <h3 className="mb-3 text-xl font-bold text-foreground">Still Have Questions?</h3>
-              <p className="mb-4 text-muted-foreground">
-                Dr. Jan Duffy is here to answer all your questions about buying new construction homes in Las Vegas. Get expert guidance tailored to your specific situation.
+              <p data-answer="section" className="mb-4 text-muted-foreground">
+                Call Dr. Jan Duffy at (702) 903-4687 for buyer representation on new construction in Skye Canyon, 89166, and Las Vegas. She represents buyers, not the builder.
               </p>
               <Button asChild className="min-h-11 font-semibold">
                 <a href="tel:7029034687">Call Dr. Jan: (702) 903-4687</a>

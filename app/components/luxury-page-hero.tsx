@@ -47,7 +47,7 @@ export default function LuxuryPageHero({
           {title}
         </h1>
         {subtitle ? (
-          <p className="mt-4 max-w-3xl font-sans text-lg text-luxury-sand text-pretty md:text-xl">
+          <p data-answer="lead" className="mt-4 max-w-3xl font-sans text-lg text-luxury-sand text-pretty md:text-xl">
             {subtitle}
           </p>
         ) : null}

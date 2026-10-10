@@ -106,8 +106,8 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
                 <p className="text-sm text-luxury-sand leading-relaxed">
                   <strong className="text-luxury-ivory">New Construction Home Expert</strong> serving Las Vegas, Nevada & Skye Canyon
                 </p>
-                <p className="text-sm text-luxury-sand leading-relaxed">
-                  Expert buyer representation on new construction homes in Las Vegas, Nevada. Dr. Jan Duffy represents YOU, not the builder. Construction monitoring, building standards inspection & insider knowledge of builder incentives and pricing.
+                <p data-answer="section" className="text-sm text-luxury-sand leading-relaxed">
+                  Dr. Jan Duffy represents home buyers, not the builder, for new construction in Skye Canyon (89166) and Las Vegas. Construction monitoring and a building standards inspection are included. Hours: {SITE_CONTACT.hoursDisplay}.
                 </p>
                 <p className="text-sm text-luxury-sand leading-relaxed">
                   <strong className="text-luxury-ivory">{SITE_CONTACT.licenseDisplay}</strong>

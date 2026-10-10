@@ -19,7 +19,7 @@ export default function HyperlocalHighlights() {
           <h2 id="hyperlocal-heading" className="mt-3 font-serif text-3xl font-light text-foreground md:text-4xl">
             Northwest Las Vegas, Elevated
           </h2>
-          <p className="mt-4 text-muted-foreground text-pretty">
+          <p data-answer="section" className="mt-4 text-muted-foreground text-pretty">
             A 1,700-acre master-planned community between Red Rock Canyon and Mount Charleston—where
             resort amenities meet desert luxury living.
           </p>

@@ -1,73 +1,42 @@
-'use client'
-
-import { useState } from 'react'
-import { trackFAQExpand } from './analytics-tracker'
-
 const faqs = [
   {
     question: 'Does it cost more to use a buyer\'s agent for Arroyo at Skyeview Homes?',
-    answer: 'No—builders pay for buyer representation on all new construction homes including Arroyo at Skyeview Homes. The commission is built into the home pricing whether you use an agent or not. You\'re already paying for representation, so choose someone who protects YOUR interests. Dr. Jan Duffy represents HOME BUYERS, not the builder. There\'s no extra cost to you.',
+    answer: 'No. Builders pay for buyer representation on new construction, including Arroyo at Skyeview. The commission is in the home price whether you bring an agent or not. Dr. Jan Duffy represents home buyers, not the builder. Call (702) 903-4687.',
   },
   {
-    question: 'What makes Dr. Jan Duffy different from going directly to the builder\'s agent for Arroyo at Skyeview Homes?',
-    answer: 'The builder\'s entire team—from model home agents to carpenters—works exclusively for the builder, not for you. Dr. Jan Duffy is a New Construction Home Expert and buyer\'s agent who monitors construction quality at Arroyo at Skyeview Homes every 7-10 days and advocates solely for YOUR interests as a home buyer. She represents HOME BUYERS, not the builder. This means you get construction monitoring, building standards inspection, and insider knowledge—all at no extra cost.',
+    question: 'What makes Dr. Jan Duffy different from the builder\'s agent at Arroyo at Skyeview?',
+    answer: 'The builder\'s sales team works for the builder. Dr. Jan Duffy monitors construction at Arroyo at Skyeview every 7–10 days and represents the buyer through a building standards inspection at closing in Skye Canyon, 89166.',
   },
   {
-    question: 'Why should I work with Dr. Jan Duffy when buying Arroyo at Skyeview Homes in Skye Canyon?',
-    answer: 'Dr. Jan Duffy is a New Construction Home Expert and buyer\'s agent who specializes in Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada. She represents HOME BUYERS, not the builder. She offers construction monitoring every 7-10 days, building standards inspection at closing, and insider knowledge of available inventory, pricing, and lot selection. Best of all, builders pay for buyer representation—so there\'s no extra cost to you. Call/text (702) 903-4687 to get started.',
+    question: 'Why work with Dr. Jan Duffy for Arroyo at Skyeview in Skye Canyon?',
+    answer: 'Dr. Jan Duffy is the buyer\'s agent for Arroyo at Skyeview in Skye Canyon, zip 89166, northwest Las Vegas. She covers construction monitoring, the closing inspection, and current inventory. Builders pay the commission. Call (702) 903-4687.',
   },
 ]
 
 export default function DrJanFAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
-
-  const toggleFAQ = (index: number) => {
-    const newIndex = openIndex === index ? null : index
-    setOpenIndex(newIndex)
-    if (newIndex !== null) {
-      trackFAQExpand(faqs[index].question)
-    }
-  }
-
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-center">
+    <section className="bg-white py-16" aria-labelledby="buyer-faq-heading">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <h2 id="buyer-faq-heading" className="mb-4 text-center text-3xl font-bold text-foreground md:text-4xl">
           Frequently Asked Questions About Buyer Representation
         </h2>
-        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          Get answers about working with Dr. Jan Duffy, your buyer's agent for Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada
+        <p data-answer="section" className="mx-auto mb-12 max-w-2xl text-center text-muted-foreground">
+          Dr. Jan Duffy represents buyers, not the builder, for Arroyo at Skyeview townhomes in Skye Canyon, zip 89166. Builder-paid commission. Call (702) 903-4687.
         </p>
-        
+
         <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <div key={index} className="border border-border rounded-lg overflow-hidden">
-              <button
-                onClick={() => toggleFAQ(index)}
-                className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-muted transition"
-              >
-                <span className="font-semibold text-foreground pr-4">{faq.question}</span>
-                <svg
-                  className={`w-5 h-5 text-muted-foreground flex-shrink-0 transition-transform ${
-                    openIndex === index ? 'transform rotate-180' : ''
-                  }`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {openIndex === index && (
-                <div className="px-6 py-4 bg-muted border-t border-border">
-                  <p className="text-muted-foreground">{faq.answer}</p>
-                </div>
-              )}
-            </div>
+          {faqs.map((faq) => (
+            <details key={faq.question} className="overflow-hidden rounded-lg border border-border" open>
+              <summary className="cursor-pointer list-none px-6 py-4 font-semibold text-foreground hover:bg-muted">
+                {faq.question}
+              </summary>
+              <div className="border-t border-border bg-muted px-6 py-4">
+                <p data-answer="section" className="text-muted-foreground">{faq.answer}</p>
+              </div>
+            </details>
           ))}
         </div>
       </div>
     </section>
   )
 }
-

@@ -45,7 +45,7 @@ export default function DrJanCTABanner({ context = '' }: DrJanCTABannerProps) {
               <h3 className="mb-2 font-serif text-balance text-xl font-light tracking-tight md:text-2xl">
                 Work with Dr. Jan Duffy — Your Skye Canyon Buyer&apos;s Agent
               </h3>
-              <p className="text-sm text-luxury-sand md:text-base">
+              <p data-answer="section" className="text-sm text-luxury-sand md:text-base">
                 <strong className="text-luxury-champagne">Dr. Jan Duffy represents HOME BUYERS, not the builder.</strong>{' '}
                 Expert representation for Arroyo at Skyeview in zip 89166—construction monitoring, building standards
                 inspection, and insider builder knowledge at no extra cost.

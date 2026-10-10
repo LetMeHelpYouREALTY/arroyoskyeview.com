@@ -60,8 +60,27 @@ export default function PageSchemas({
     },
     publisher: {
       '@type': 'Organization',
+      '@id': `${baseUrl}#organization`,
       name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
       url: baseUrl,
+    },
+    about: {
+      '@id': `${baseUrl}#organization`,
+    },
+    contentLocation: {
+      '@type': 'Place',
+      name: location || 'Skye Canyon',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Las Vegas',
+        addressRegion: 'NV',
+        postalCode: zipCode || '89166',
+        addressCountry: 'US',
+      },
+    },
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', 'h1 + p', 'h2 + p', '[data-answer]'],
     },
     ...(image && {
       image: {
