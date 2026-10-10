@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Geist, Playfair_Display } from 'next/font/google'
 import { SITE_URL } from '@/lib/site-url'
 import StructuredData from './components/structured-data'
@@ -136,6 +138,8 @@ export default function RootLayout({
         <SkipToMain />
         {children}
         <CalendlyBadgeWidget />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
