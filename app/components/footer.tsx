@@ -61,20 +61,20 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
     { name: 'Moving to Las Vegas', href: '/buyers/moving-to-las-vegas', title: 'Moving to Las Vegas Complete Guide 2025' },
     { name: 'Buyer Representation', href: '/services/buyer-representation', title: 'Buyer Representation vs Builders Agent Las Vegas' },
     { name: 'Financing New Construction', href: '/buyers/financing-new-construction', title: 'Financing New Construction Homes Las Vegas' },
-    { name: 'New Construction Inspections', href: '/services/construction-monitoring', title: 'New Construction Home Inspections Guide Las Vegas' },
-    { name: 'Closing Process Guide', href: '/homebuying-process', title: 'Closing Process Guide for New Construction Homes Las Vegas' },
+    { name: 'New Construction Inspections', href: '/buyers/inspections-new-construction', title: 'New Construction Home Inspections Guide Las Vegas' },
+    { name: 'Closing Process Guide', href: '/buyers/closing-process-guide', title: 'Closing Process Guide for New Construction Homes Las Vegas' },
     { name: 'New Construction vs Resale', href: '/buyers/new-construction-vs-resale', title: 'New Construction vs Resale Homes Comparison Las Vegas' },
     { name: 'Builder Incentives Guide', href: '/buyers/builder-incentives-guide', title: 'New Construction Builder Incentives Las Vegas' },
     { name: 'Homebuying Process', href: '/homebuying-process', title: 'New Home Buying Process Las Vegas' },
-    { name: 'Online Homebuying', href: '/homebuying-process', title: 'Buy New Home Online Las Vegas' },
+    { name: 'Online Homebuying', href: '/online-homebuying', title: 'Buy New Home Online Las Vegas' },
   ]
 
   const resources = [
     { name: 'Resources', href: '/resources', title: 'Free Resources for New Construction Homebuyers' },
     { name: 'Testimonials', href: '/testimonials', title: 'Client Testimonials and Reviews Dr. Jan Duffy' },
     { name: 'FAQ', href: '/faq', title: 'Frequently Asked Questions New Construction Homes Las Vegas' },
-    { name: 'Financing FAQ', href: '/buyers/financing-new-construction', title: 'New Construction Home Financing FAQ Las Vegas' },
-    { name: 'Inspections FAQ', href: '/services/building-standards-inspection', title: 'New Construction Home Inspections FAQ Las Vegas' },
+    { name: 'Financing FAQ', href: '/faq/financing', title: 'New Construction Home Financing FAQ Las Vegas' },
+    { name: 'Inspections FAQ', href: '/faq/inspections', title: 'New Construction Home Inspections FAQ Las Vegas' },
     { name: 'Las Vegas Neighborhood Q&A', href: '/faq/las-vegas-hyperlocal', title: 'Las Vegas Real Estate Questions Answers' },
   ]
 
