@@ -6,7 +6,7 @@ import DrJanPortrait from './dr-jan-portrait'
 export default function Logo() {
   return (
     <Link href="/" className="group flex items-center gap-3" aria-label="Arroyo at Skyeview, home">
-      <DrJanPortrait size={44} loading="eager" className="h-11 w-11" />
+      <DrJanPortrait size={44} loading="eager" fetchPriority="low" className="h-11 w-11" />
       <span className="flex flex-col leading-none">
         <span className="font-serif text-xl font-light tracking-wide text-luxury-ivory transition-colors group-hover:text-luxury-sand">
           Arroyo

@@ -28,30 +28,29 @@ export default function LuxuryHero() {
   return (
     <section
       aria-label="Arroyo at Skyeview luxury townhomes hero"
-      className="relative min-h-[92dvh] w-full overflow-hidden"
+      className="relative min-h-[92dvh] w-full overflow-hidden bg-[#1B2838]"
     >
-      {/* Static file, not /_next/image. The optimizer's 3840w src was the LCP candidate. */}
+      {/* Static file, not /_next/image. decoding=async so the navy frame can paint before the photo is decoded. */}
       <img
         src={HERO_MOBILE}
         srcSet={HERO_SRC_SET}
         sizes="100vw"
         alt="Arroyo at Skyeview townhomes with Red Rock Canyon in the background"
         fetchPriority="high"
-        decoding="sync"
+        decoding="async"
         width={1280}
         height={853}
         className="absolute inset-0 h-full w-full object-cover"
       />
 
       <div
-        className="absolute inset-0 bg-gradient-to-t from-[#1B2838]/95 via-[#1B2838]/60 to-[#1B2838]/20"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            'linear-gradient(to top, rgb(27 40 56 / 0.95), rgb(27 40 56 / 0.6) 45%, rgb(27 40 56 / 0.2)), radial-gradient(ellipse at center, transparent 40%, rgb(27 40 56 / 0.55) 100%), linear-gradient(to right, rgb(27 40 56 / 0.75), rgb(27 40 56 / 0.35), transparent)',
+        }}
         aria-hidden="true"
       />
-      <div
-        className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_40%,_rgba(27,40,56,0.55)_100%)]"
-        aria-hidden="true"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#1B2838]/75 via-[#1B2838]/35 to-transparent" aria-hidden="true" />
 
       <div className="relative flex min-h-[92dvh] flex-col items-center justify-center py-16">
         <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-8 px-6 text-center md:items-start md:px-10 md:text-left">
@@ -60,7 +59,12 @@ export default function LuxuryHero() {
           </p>
 
           <div className="flex flex-col items-center gap-6 md:flex-row md:items-center md:gap-10">
-            <DrJanPortrait size={176} loading="eager" className="h-36 w-36 shadow-2xl md:h-44 md:w-44" />
+            <DrJanPortrait
+              size={176}
+              loading="eager"
+              fetchPriority="low"
+              className="h-36 w-36 shadow-2xl md:h-44 md:w-44"
+            />
             <div className="flex flex-col gap-4">
               <h1 className="font-serif text-5xl font-light leading-[0.95] tracking-tight text-[#F7F3ED] text-balance sm:text-6xl lg:text-7xl">
                 Arroyo at{' '}
