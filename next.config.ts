@@ -55,6 +55,19 @@ const nextConfig: NextConfig = {
   },
   // Optimize production builds - disable source maps for smaller bundles
   productionBrowserSourceMaps: false,
+  async headers() {
+    const noindex = [{ key: 'X-Robots-Tag', value: 'noindex' }]
+    const noindexFollowBlocked = [
+      { key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive, nosnippet' },
+    ]
+    return [
+      { source: '/_next/static/:path*', headers: noindex },
+      { source: '/favicon.ico', headers: noindex },
+      { source: '/sitemap.xml', headers: noindex },
+      { source: '/llms.txt', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+      { source: '/manifest.webmanifest', headers: noindexFollowBlocked },
+    ]
+  },
   // Host canonicalization (HTTP→HTTPS, apex→www) stays in middleware.ts.
   // Sitemap URLs must return 200. A 301/308 makes Google report
   // "Page with redirect" and skip indexing that URL.

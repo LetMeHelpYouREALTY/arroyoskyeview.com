@@ -36,15 +36,18 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 301)
   }
   
-  // Block manifest.webmanifest from being indexed
-  if (url.pathname === '/manifest.webmanifest') {
-    const response = NextResponse.next()
-    response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet')
-    return response
-  }
-  
   // Add security headers to all responses
   const response = NextResponse.next()
+
+  // Non-HTML resources Google crawls from links. noindex keeps them out of
+  // "Crawled - currently not indexed" without blocking rendering (do not Disallow).
+  if (url.pathname === '/sitemap.xml') {
+    response.headers.set('X-Robots-Tag', 'noindex')
+  } else if (url.pathname === '/llms.txt') {
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow')
+  } else if (url.pathname === '/manifest.webmanifest') {
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet')
+  }
   
   // Security headers for improved security and SEO
   // HSTS (HTTP Strict Transport Security) - Forces HTTPS for 1 year
