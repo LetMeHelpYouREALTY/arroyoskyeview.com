@@ -1,6 +1,7 @@
 'use client'
 
 import { CALENDLY_URL } from '@/lib/calendly'
+import { loadCalendly } from '@/lib/load-calendly'
 
 type CalendlyLinkWidgetProps = {
   text?: string
@@ -15,11 +16,17 @@ export default function CalendlyLinkWidget({
 }: CalendlyLinkWidgetProps) {
   const openPopup = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault()
-    if (typeof window !== 'undefined' && window.Calendly?.initPopupWidget) {
-      window.Calendly.initPopupWidget({ url })
-    } else if (typeof window !== 'undefined') {
-      window.open(url, '_blank', 'noopener,noreferrer')
-    }
+    void loadCalendly()
+      .then(() => {
+        if (window.Calendly?.initPopupWidget) {
+          window.Calendly.initPopupWidget({ url })
+          return
+        }
+        window.open(url, '_blank', 'noopener,noreferrer')
+      })
+      .catch(() => {
+        window.open(url, '_blank', 'noopener,noreferrer')
+      })
   }
 
   return (

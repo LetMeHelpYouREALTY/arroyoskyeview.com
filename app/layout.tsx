@@ -6,9 +6,7 @@ import { Geist, Playfair_Display } from 'next/font/google'
 import { SITE_URL } from '@/lib/site-url'
 import StructuredData from './components/structured-data'
 import PreconnectLinks from './components/preconnect-links'
-import CalendlyBadgeWidget from './components/calendly-badge-widget'
 import SkipToMain from './components/skip-to-main'
-import CalendlyStyles from './components/calendly-styles'
 import './globals.css'
 
 const geistSans = Geist({
@@ -93,9 +91,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <CalendlyStyles />
-      </head>
       <body
         className={`${geistSans.variable} ${playfair.variable} antialiased`}
       >
@@ -128,16 +123,10 @@ export default function RootLayout({
           id="realscout-web-components"
           src="https://em.realscout.com/widgets/realscout-web-components.umd.js"
           type="module"
-          strategy="afterInteractive"
-        />
-        <Script
-          id="calendly-widget-js"
-          src="https://assets.calendly.com/assets/external/widget.js"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
         <SkipToMain />
         {children}
-        <CalendlyBadgeWidget />
         <Analytics />
         <SpeedInsights />
       </body>

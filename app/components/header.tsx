@@ -70,20 +70,19 @@ export default function Header() {
             </Link>
           </div>
 
-          <div className="hidden items-center gap-2 lg:flex">
-            <CalendlyScheduleButton
-              text="Schedule"
-              variant="champagne"
-              className="px-4 py-2.5 text-sm"
-            />
+          <div className="hidden items-center gap-5 lg:flex">
             <a
               href="tel:7029034687"
               onClick={() => trackPhoneClick('702-903-4687', 'header_desktop')}
-              className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-luxury-champagne px-4 py-2.5 text-sm font-semibold text-luxury-navy shadow-md transition hover:bg-luxury-champagne/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              className="text-sm tracking-wide text-luxury-sand transition-colors hover:text-luxury-ivory"
             >
-              <span className="hidden xl:inline">Call</span>
-              <span>(702) 903-4687</span>
+              (702) 903-4687
             </a>
+            <CalendlyScheduleButton
+              text="Schedule"
+              variant="champagne"
+              className="px-5 py-2.5 text-xs uppercase tracking-[0.16em]"
+            />
           </div>
 
           {/* Mobile actions */}

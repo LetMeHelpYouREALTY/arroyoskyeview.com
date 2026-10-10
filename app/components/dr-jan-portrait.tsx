@@ -20,7 +20,7 @@ export default function DrJanPortrait({
       width={size}
       height={size}
       priority={priority}
-      className={cn('rounded-full object-cover', className)}
+      className={cn(className, 'rounded-full object-cover ring-1 ring-[#c5a880]')}
     />
   )
 }

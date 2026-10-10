@@ -19,13 +19,9 @@ import HomepageFAQPreview from './components/homepage-faq-preview'
 import PageSchemas from './components/page-schemas'
 import Footer from './components/footer'
 import StickyPhoneCTA from './components/sticky-phone-cta'
-import TrustBadges from './components/trust-badges'
-import SocialProofBanner from './components/social-proof-banner'
 import AnalyticsTracker from './components/analytics-tracker'
 import ReviewSchema from './components/review-schema'
-import UrgencyBanner from './components/urgency-banner'
 import ConversionFunnel from './components/conversion-funnel'
-import ExitIntentPopup from './components/exit-intent-popup'
 import { ARROYO_PRICE_RANGE } from '@/lib/arroyo-inventory'
 
 export default function HomePage() {
@@ -54,10 +50,7 @@ export default function HomePage() {
         priceRange={ARROYO_PRICE_RANGE}
       />
       <PurpleSaleBanner />
-      <UrgencyBanner />
       <Header />
-      <TrustBadges />
-      <SocialProofBanner />
       <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         <LuxuryHero />
         <HyperlocalHighlights />
@@ -101,7 +94,6 @@ export default function HomePage() {
       <StickyPhoneCTA />
       <AnalyticsTracker />
       <ReviewSchema />
-      <ExitIntentPopup />
     </div>
   )
 }
