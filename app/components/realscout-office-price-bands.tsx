@@ -1,8 +1,9 @@
 'use client'
 
-import { useId } from 'react'
+import { useId, useRef } from 'react'
 import { REALSCOUT_OFFICE_PRICE_BANDS } from '@/lib/realscout-config'
 import { buildRealScoutOfficeListingsMarkup } from '@/lib/realscout-markup'
+import { useRealScoutWhenVisible } from './realscout-loader'
 
 type RealScoutOfficePriceBandsProps = {
   /** Optional intro line under the main heading */
@@ -18,9 +19,12 @@ export default function RealScoutOfficePriceBands({
   className = '',
 }: RealScoutOfficePriceBandsProps) {
   const sectionHeadingId = useId().replace(/:/g, '')
+  const sectionRef = useRef<HTMLElement>(null)
+  useRealScoutWhenVisible(sectionRef)
 
   return (
     <section
+      ref={sectionRef}
       className={`bg-muted py-10 sm:py-14 ${className}`.trim()}
       aria-labelledby={sectionHeadingId}
       data-realscout-office-price-bands

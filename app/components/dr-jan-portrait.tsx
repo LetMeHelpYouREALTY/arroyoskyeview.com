@@ -5,6 +5,7 @@ type DrJanPortraitProps = {
   size?: number
   className?: string
   priority?: boolean
+  loading?: 'eager' | 'lazy'
 }
 
 /** Circular brand portrait of Dr. Jan Duffy. */
@@ -12,6 +13,7 @@ export default function DrJanPortrait({
   size = 48,
   className,
   priority = false,
+  loading,
 }: DrJanPortraitProps) {
   return (
     <Image
@@ -20,6 +22,7 @@ export default function DrJanPortrait({
       width={size}
       height={size}
       priority={priority}
+      {...(!priority && loading ? { loading } : {})}
       className={cn(className, 'rounded-full object-cover ring-1 ring-[#c5a880]')}
     />
   )

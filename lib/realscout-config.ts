@@ -1,6 +1,6 @@
 /**
  * RealScout embed: office listings widget (realscout-office-listings).
- * Uses realscout-web-components.umd.js in root layout (not dl.js).
+ * The widget script loads when a listings block nears the viewport (not on first paint).
  */
 export const REALSCOUT_AGENT_ENCODED_ID =
   process.env.NEXT_PUBLIC_REALSCOUT_AGENT_ENCODED_ID ?? 'QWdlbnQtMjI1MDUw'

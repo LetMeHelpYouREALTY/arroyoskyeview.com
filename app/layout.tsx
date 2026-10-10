@@ -1,23 +1,25 @@
 import type { Metadata, Viewport } from 'next'
-import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Geist, Playfair_Display } from 'next/font/google'
 import { SITE_URL } from '@/lib/site-url'
 import StructuredData from './components/structured-data'
-import PreconnectLinks from './components/preconnect-links'
+import DeferredGoogleTag from './components/deferred-google-tag'
 import SkipToMain from './components/skip-to-main'
 import './globals.css'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
+  display: 'swap',
+  preload: false,
 })
 
 const playfair = Playfair_Display({
   variable: '--font-playfair',
   subsets: ['latin'],
   display: 'swap',
+  preload: false,
 })
 
 export const metadata: Metadata = {
@@ -94,37 +96,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${playfair.variable} antialiased`}
       >
-        {/* Preconnect links for faster resource loading */}
-        <PreconnectLinks />
-        
-        {/* Structured Data for SEO */}
         <StructuredData />
-        
-        {/* Google tag (gtag.js) - Deferred to improve initial page load */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-6HBW87EGMR"
-          strategy="lazyOnload"
-        />
-        <Script id="google-analytics" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-6HBW87EGMR', {
-              page_path: window.location.pathname,
-              send_page_view: true,
-              anonymize_ip: true,
-              cookie_flags: 'SameSite=None;Secure',
-            });
-          `}
-        </Script>
-        {/* RealScout web components — one script for all widgets (office listings, etc.) */}
-        <Script
-          id="realscout-web-components"
-          src="https://em.realscout.com/widgets/realscout-web-components.umd.js"
-          type="module"
-          strategy="lazyOnload"
-        />
+        <DeferredGoogleTag />
         <SkipToMain />
         {children}
         <Analytics />
