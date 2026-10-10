@@ -1,5 +1,6 @@
 import PageQASection from './page-qa-section'
 import Link from 'next/link'
+import DrJanPortrait from './dr-jan-portrait'
 import { trackPhoneClick, trackCTAClick } from './analytics-tracker'
 
 export default function HomepageContentSection() {
@@ -48,10 +49,12 @@ export default function HomepageContentSection() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* H1 - Main Title */}
-        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-8 text-center">
-        Arroyo at Skyeview Homes: New Construction Townhomes in Skye Canyon, Northwest Las Vegas, Nevada (Zip Code 89166)
-      </h1>
+      <div className="mb-8 flex flex-col items-center gap-4 text-center">
+        <DrJanPortrait size={88} className="h-[5.5rem] w-[5.5rem] ring-2 ring-luxury-champagne/60" />
+        <h1 className="text-4xl font-bold text-foreground md:text-5xl">
+          Arroyo at Skyeview Homes: New Construction Townhomes in Skye Canyon, Northwest Las Vegas, Nevada (Zip Code 89166)
+        </h1>
+      </div>
 
       {/* Section 1: Community Overview */}
       <section className="mb-12">

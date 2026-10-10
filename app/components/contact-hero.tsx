@@ -1,6 +1,7 @@
 'use client'
 
 import { SITE_CONTACT } from '@/lib/site-contact'
+import DrJanPortrait from './dr-jan-portrait'
 import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
 import CalendlyScheduleButton from './calendly-schedule-button'
 
@@ -14,6 +15,9 @@ export default function ContactHero() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-12">
+          <div className="mb-6 flex justify-center">
+            <DrJanPortrait size={96} className="h-24 w-24 shadow-lg ring-2 ring-white/70" />
+          </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Contact Buyer&apos;s Agent: Skye Canyon, Northwest Las Vegas | Dr. Jan Duffy
           </h1>

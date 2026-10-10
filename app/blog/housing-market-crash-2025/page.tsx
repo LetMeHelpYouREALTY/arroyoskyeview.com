@@ -4,6 +4,7 @@ import Image from 'next/image'
 import PageSchemas from '../../components/page-schemas'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
+import DrJanPortrait from '../../components/dr-jan-portrait'
 export const metadata: Metadata = {
   title: 'Housing Market Crash 2025? Expert Forecasts',
   description: 'Expert forecasts show home prices expected to rise nationally, not fall, over the next 5 years. Learn what the data says about the housing market outlook.',
@@ -70,6 +71,9 @@ export default function HousingMarketCrashPage() {
       <DrJanCTABanner />
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <header className="mb-12">
+            <div className="mb-5">
+              <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] ring-2 ring-luxury-champagne/70" />
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               Is the Housing Market Going To Crash? Here's What Experts Say
             </h1>
@@ -102,21 +106,22 @@ export default function HousingMarketCrashPage() {
 
             <div className="bg-muted rounded-lg p-8 mb-8">
               <div className="text-center mb-4">
-                <h3 className="text-xl font-bold text-foreground mb-2">Home Price Forecast Chart</h3>
-                <p className="text-muted-foreground text-sm">Each bar shows projected price increases year-over-year</p>
+                <h3 className="text-xl font-bold text-foreground mb-2">Steady Home Values, Not a Crash</h3>
+                <p className="text-muted-foreground text-sm">Northwest Las Vegas neighborhood while national forecasts still point to gains</p>
               </div>
-              <div className="h-64 bg-gray-200 rounded-lg flex items-center justify-center">
-                <div className="text-center text-muted-foreground">
-                  <svg className="w-16 h-16 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
-                  </svg>
-                  <p className="text-sm">Chart: Projected 2-3.5% annual price increases through 2029</p>
-                </div>
+              <div className="relative h-64 overflow-hidden rounded-lg">
+                <Image
+                  src="/images/blog/steady-home-values.jpg"
+                  alt="Settled northwest Las Vegas street of desert homes, illustrating a market of steady values rather than a crash"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 720px"
+                />
               </div>
             </div>
 
             <p className="text-lg text-muted-foreground mb-6">
-              Here's how to read this visual. Each bar in that graph shows an <strong>increase, not a loss</strong>. It's just that the anticipated pace of that appreciation varies year-to-year.
+              The survey's story is an <strong>increase, not a loss</strong>. The anticipated pace of that appreciation varies year to year.
             </p>
 
             <p className="text-lg text-muted-foreground mb-8">

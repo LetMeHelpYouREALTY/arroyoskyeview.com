@@ -123,7 +123,7 @@ export default function PageSchemas({
     email: 'info@arroyoskyeview.com',
     logo: {
       '@type': 'ImageObject',
-      url: `${baseUrl}/og-image.png`,
+      url: `${baseUrl}/images/dr-jan-duffy.png`,
     },
     image: `${baseUrl}/og-image.png`,
     address: {
@@ -215,6 +215,7 @@ export default function PageSchemas({
     name: 'Dr. Jan Duffy',
     alternateName: 'Dr. Jan Duffy Real Estate',
     description: 'New Construction Home Preferred Buyer\'s Agent specializing in new construction homes in Las Vegas, Nevada. Expert in construction monitoring, building standards inspection, and buyer representation.',
+    image: `${baseUrl}/images/dr-jan-duffy.png`,
     url: `${baseUrl}/work-with-dr-jan`,
     telephone: '+1-702-903-4687',
     email: 'info@arroyoskyeview.com',
@@ -292,10 +293,10 @@ export default function PageSchemas({
       },
     ],
     priceRange: 'No Cost to Buyer',
-    image: `${baseUrl}/og-image.png`,
+    image: `${baseUrl}/images/dr-jan-duffy.png`,
     logo: {
       '@type': 'ImageObject',
-      url: `${baseUrl}/og-image.png`,
+      url: `${baseUrl}/images/dr-jan-duffy.png`,
     },
     areaServed: [
       {
@@ -427,6 +428,7 @@ export default function PageSchemas({
       'Construction Monitoring',
       'Building Standards Inspection',
     ],
+    image: `${baseUrl}/images/dr-jan-duffy.png`,
     url: `${baseUrl}/work-with-dr-jan`,
     contactPoint: [
       {
@@ -613,7 +615,7 @@ export default function PageSchemas({
         name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
         logo: {
           '@type': 'ImageObject',
-          url: `${baseUrl}/og-image.png`,
+          url: `${baseUrl}/images/dr-jan-duffy.png`,
         },
       },
       datePublished: datePublished || new Date().toISOString().split('T')[0],

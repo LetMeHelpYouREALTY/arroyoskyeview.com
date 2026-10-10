@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export default function WhereWeBuild() {
   return (
     <section className="py-16 bg-white">
@@ -36,17 +38,14 @@ export default function WhereWeBuild() {
             </div>
           </div>
           
-          {/* Map placeholder */}
-          <div className="h-96 bg-gray-200 rounded-lg relative overflow-hidden">
-            <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-              <div className="text-center">
-                <svg className="w-24 h-24 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                </svg>
-                <p className="text-lg font-medium">Las Vegas Metro Area</p>
-                <p className="text-sm text-muted-foreground mt-2">Skye Canyon • Summerlin • Northwest Las Vegas</p>
-              </div>
-            </div>
+          <div className="relative h-96 overflow-hidden rounded-lg">
+            <Image
+              src="/images/las-vegas-metro.jpg"
+              alt="Aerial of northwest Las Vegas desert neighborhoods served by buyer representation, including the Skye Canyon area"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
           </div>
         </div>
       </div>

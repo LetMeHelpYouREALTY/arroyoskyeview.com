@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 
 const Li = ({ children }: { children: ReactNode }) => (
@@ -21,26 +22,18 @@ export default function HomesiteMap() {
       <p className="mb-6 text-muted-foreground">Get a feel for the neighborhood and find the right homesite for you</p>
 
       <div className="mb-6 rounded-xl bg-muted/60 p-8">
-        <div className="flex aspect-video items-center justify-center rounded-lg bg-muted">
-          <div className="text-center">
-            <svg
-              className="mx-auto mb-4 h-24 w-24 text-muted-foreground"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
-              />
-            </svg>
-            <p className="font-medium text-foreground">Interactive Homesite Map</p>
-            <p className="mt-2 text-sm text-muted-foreground">Click and drag to explore the community layout</p>
-          </div>
+        <div className="relative aspect-video overflow-hidden rounded-lg">
+          <Image
+            src="/images/homesite-aerial.jpg"
+            alt="Illustration of desert townhome homesites with streets and courtyards. Not an official builder plat map."
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 80vw"
+          />
         </div>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Aerial illustration of a desert townhome layout. Ask Dr. Jan for the current homesite map before you choose a lot.
+        </p>
       </div>
 
       <div className="flex flex-col gap-4 sm:flex-row">

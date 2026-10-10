@@ -1,8 +1,13 @@
+import DrJanPortrait from './dr-jan-portrait'
+
 export default function LasVegasMetroHero() {
   return (
     <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
+          <div className="mb-6 flex justify-center">
+            <DrJanPortrait size={88} className="h-[5.5rem] w-[5.5rem] ring-2 ring-white/70" />
+          </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Find Your New Home in Las Vegas Metro
           </h1>

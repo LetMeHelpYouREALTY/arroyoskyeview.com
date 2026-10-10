@@ -5,6 +5,7 @@ import { Phone, MessageSquare, MapPin, Dumbbell, Mountain, Map } from 'lucide-re
 import { Button } from '@/components/ui/button'
 import CalendlyScheduleButton from './calendly-schedule-button'
 import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
+import DrJanPortrait from './dr-jan-portrait'
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
@@ -93,6 +94,11 @@ export default function LuxuryHero() {
               Skye Canyon · Northwest Las Vegas · 89166
             </span>
           </div>
+
+          <DrJanPortrait
+            size={88}
+            className="h-[5.5rem] w-[5.5rem] shadow-lg ring-2 ring-[#C5A880]/80"
+          />
 
           {/* Headline */}
           <div className="flex flex-col gap-3">

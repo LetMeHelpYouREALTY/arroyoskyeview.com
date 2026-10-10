@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import CalendlyScheduleButton from './calendly-schedule-button'
 import { cn } from '@/lib/utils'
 import RealScoutOfficeWidget from './realscout-office-widget'
+import DrJanPortrait from './dr-jan-portrait'
 import { REALSCOUT_PRICE_BANDS_ROUTE_PATHS } from '@/lib/realscout-config'
 
 interface DrJanCTABannerProps {
@@ -41,7 +42,9 @@ export default function DrJanCTABanner({ context = '' }: DrJanCTABannerProps) {
       <section className="bg-luxury-navy py-8 text-luxury-ivory md:py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between gap-6 md:flex-row md:gap-4">
-            <div className="text-center md:text-left">
+            <div className="flex flex-col items-center gap-4 text-center md:flex-row md:text-left">
+              <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] shrink-0" />
+              <div>
               <h3 className="mb-2 font-serif text-balance text-xl font-light tracking-tight md:text-2xl">
                 Work with Dr. Jan Duffy — Your Skye Canyon Buyer&apos;s Agent
               </h3>
@@ -50,6 +53,7 @@ export default function DrJanCTABanner({ context = '' }: DrJanCTABannerProps) {
                 Expert representation for Arroyo at Skyeview in zip 89166—construction monitoring, building standards
                 inspection, and insider builder knowledge at no extra cost.
               </p>
+              </div>
             </div>
             <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:justify-end">
               <CalendlyScheduleButton

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import PageSchemas from '../../components/page-schemas'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
+import DrJanPortrait from '../../components/dr-jan-portrait'
 export const metadata: Metadata = {
   title: 'Luxury Homes $500K+ Las Vegas | Premium New Construction',
   description: 'Find luxury new construction homes $500K+ in Las Vegas, Nevada. Premium new construction homes with luxury features in master-planned communities. Expert buyer\'s agent guidance. Call (702) 903-4687.',
@@ -49,6 +50,9 @@ export default function Homes500kPlusPage() {
         
         <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-5">
+              <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] ring-2 ring-luxury-champagne/70" />
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Luxury New Construction Homes $500K+ in Las Vegas | Buyer's Agent
             </h1>

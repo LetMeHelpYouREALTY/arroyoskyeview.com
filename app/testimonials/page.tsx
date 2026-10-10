@@ -6,6 +6,7 @@ import DrJanCTABanner from '../components/dr-jan-cta-banner'
 import ReviewSchema from '../components/review-schema'
 
 import MarketingPageShell from '../components/marketing-page-shell'
+import DrJanPortrait from '../components/dr-jan-portrait'
 export const metadata: Metadata = {
   title: 'Client Testimonials & Reviews | Dr. Jan Duffy - Buyer\'s Agent for Arroyo at Skyeview Homes',
   description: 'Read real testimonials from homebuyers who worked with Dr. Jan Duffy for new construction homes in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). See why buyers trust Dr. Jan Duffy for expert buyer representation, construction monitoring, and building standards inspection.',
@@ -74,6 +75,9 @@ export default function TestimonialsPage() {
     >
       <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="mb-5">
+              <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] ring-2 ring-luxury-champagne/70" />
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Client Testimonials & Reviews: Skye Canyon, Northwest Las Vegas | Buyer's Agent
             </h1>

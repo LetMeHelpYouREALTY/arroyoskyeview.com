@@ -5,6 +5,7 @@ import Script from 'next/script'
 import PageSchemas from '../../components/page-schemas'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
+import DrJanPortrait from '../../components/dr-jan-portrait'
 export const metadata: Metadata = {
   title: 'Las Vegas Neighborhood Q&A | Arroyo at Skyeview & Northwest Las Vegas FAQ',
   description: 'Comprehensive questions and answers about buying new construction homes in Las Vegas, Nevada, especially Arroyo at Skyeview in Skye Canyon, zip code 89166, northwest Las Vegas. Expert answers about neighborhoods, schools, and new construction homes.',
@@ -192,6 +193,9 @@ export default function LasVegasHyperlocalFAQPage() {
         
         <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-5">
+              <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] ring-2 ring-luxury-champagne/70" />
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Las Vegas New Homes FAQ: Skye Canyon, Northwest Las Vegas | Buyer's Agent
             </h1>

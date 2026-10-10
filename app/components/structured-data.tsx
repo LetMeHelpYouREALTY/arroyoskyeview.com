@@ -256,7 +256,7 @@ export default function StructuredData() {
       name: 'Arroyo at Skyeview Homes',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://www.arroyoskyeview.com/og-image.png',
+        url: 'https://www.arroyoskyeview.com/images/dr-jan-duffy.png',
       },
     },
     datePublished: '2024-01-01',
@@ -279,9 +279,9 @@ export default function StructuredData() {
     email: 'info@arroyoskyeview.com',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://www.arroyoskyeview.com/og-image.png',
+      url: 'https://www.arroyoskyeview.com/images/dr-jan-duffy.png',
     },
-    image: 'https://www.arroyoskyeview.com/og-image.png',
+    image: 'https://www.arroyoskyeview.com/images/dr-jan-duffy.png',
     address: {
       '@type': 'PostalAddress',
       streetAddress: '8912 Vanhoy Crk St',

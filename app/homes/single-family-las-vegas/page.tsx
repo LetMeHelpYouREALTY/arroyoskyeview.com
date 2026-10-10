@@ -5,6 +5,7 @@ import DrJanContactCard from '../../components/dr-jan-contact-card'
 import Link from 'next/link'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
+import DrJanPortrait from '../../components/dr-jan-portrait'
 export const metadata: Metadata = {
   title: 'Single Family Homes Las Vegas | New Construction',
   description: 'Find new construction single-family homes in Las Vegas. Spacious homes with modern designs and premium finishes. Expert buyer representation. Call (702) 903-4687.',
@@ -69,6 +70,9 @@ export default function SingleFamilyHomesPage() {
         
         <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-5">
+              <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] ring-2 ring-luxury-champagne/70" />
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               New Construction Single-Family Homes in Las Vegas: Skye Canyon | Buyer's Agent
             </h1>

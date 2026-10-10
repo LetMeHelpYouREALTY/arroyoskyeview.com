@@ -17,7 +17,7 @@ export default function ReviewSchema() {
     '@id': businessId,
     name: 'Dr. Jan Duffy - Buyer\'s Agent for Arroyo at Skyeview Homes',
     alternateName: ['Dr. Jan Duffy Real Estate', 'Arroyo at Skyeview Homes'],
-    image: `${baseUrl}/og-image.png`,
+    image: `${baseUrl}/images/dr-jan-duffy.png`,
     url: baseUrl,
     description: 'Expert buyer representation for new construction homes in Skye Canyon (zip code 89166) and northwest Las Vegas, Nevada. Dr. Jan Duffy provides construction monitoring, building standards inspection, and insider knowledge of new construction homes. Represents HOME BUYERS, not the builder.',
     address: {

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import PageSchemas from '../../components/page-schemas'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
+import DrJanPortrait from '../../components/dr-jan-portrait'
 export const metadata: Metadata = {
   title: 'Homes Under $400k Las Vegas | Affordable New Construction',
   description: 'Find new construction homes under $400k in Las Vegas, Nevada. Affordable new construction homes perfect for first-time buyers. Expert buyer\'s agent guidance. Call (702) 903-4687.',
@@ -45,6 +46,9 @@ export default function Under400kPage() {
         
         <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-5">
+              <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] ring-2 ring-luxury-champagne/70" />
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               New Construction Homes Under $400k in Las Vegas | Buyer's Agent
             </h1>

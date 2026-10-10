@@ -4,6 +4,7 @@ import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import Link from 'next/link'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
+import DrJanPortrait from '../../components/dr-jan-portrait'
 export const metadata: Metadata = {
   title: 'Buyer Representation vs Builder\'s Agent: The Difference | Skye Canyon, Northwest Las Vegas',
   description: 'Learn why you need a buyer\'s agent for new construction homes in Skye Canyon (zip code 89166) and northwest Las Vegas, Nevada. Dr. Jan Duffy represents HOME BUYERS, not the builder. Construction monitoring and building standards inspection included. Call (702) 903-4687.',
@@ -70,6 +71,9 @@ export default function BuyerRepresentationPage() {
     >
       <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-5">
+              <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] ring-2 ring-luxury-champagne/70" />
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Buyer Representation vs Builder's Agent: Skye Canyon, Northwest Las Vegas
             </h1>

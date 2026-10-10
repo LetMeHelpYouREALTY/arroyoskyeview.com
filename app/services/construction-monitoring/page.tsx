@@ -4,6 +4,7 @@ import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import Link from 'next/link'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
+import DrJanPortrait from '../../components/dr-jan-portrait'
 export const metadata: Metadata = {
   title: 'Construction Monitoring Service | Protect Your New Construction Home Investment',
   description: 'Construction monitoring service for new construction homes in Las Vegas, Nevada. Dr. Jan Duffy monitors your home\'s construction every 7-10 days, catching issues before they become costly problems. Expert buyer representation included. Call (702) 903-4687.',
@@ -70,6 +71,9 @@ export default function ConstructionMonitoringPage() {
     >
       <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-5">
+              <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] ring-2 ring-luxury-champagne/70" />
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Construction Monitoring Service: Skye Canyon, Northwest Las Vegas
             </h1>

@@ -1,19 +1,24 @@
+import Image from 'next/image'
+
 export default function MoreWaysToStreamline() {
   const affiliates = [
     {
       name: 'Inspire Homeloans',
       description: 'In-house mortgage financing',
-      logo: '/images/affiliates/inspire.svg',
+      image: '/images/affiliates/financing.jpg',
+      imageAlt: 'House key and calculator for in-house mortgage financing',
     },
     {
       name: 'Parkway Title',
       description: 'Title services',
-      logo: '/images/affiliates/parkway.svg',
+      image: '/images/affiliates/title.jpg',
+      imageAlt: 'Folder representing title services for a home purchase',
     },
     {
       name: 'IHL Home Insurance',
       description: 'Insurance services',
-      logo: '/images/affiliates/ihl.svg',
+      image: '/images/affiliates/insurance.jpg',
+      imageAlt: 'Model home and umbrella representing home insurance',
     },
   ]
 
@@ -31,10 +36,14 @@ export default function MoreWaysToStreamline() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {affiliates.map((affiliate, index) => (
             <div key={index} className="bg-muted rounded-lg p-8 text-center hover:shadow-md transition">
-              <div className="h-24 bg-gray-200 rounded-lg mb-4 flex items-center justify-center">
-                <div className="text-gray-400 text-sm font-medium">
-                  {affiliate.name}
-                </div>
+              <div className="relative mb-4 h-40 overflow-hidden rounded-lg">
+                <Image
+                  src={affiliate.image}
+                  alt={affiliate.imageAlt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
               </div>
               <h3 className="text-xl font-bold text-foreground mb-2">
                 {affiliate.name}

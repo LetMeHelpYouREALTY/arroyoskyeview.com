@@ -5,6 +5,7 @@ import PageSchemas from '../../components/page-schemas'
 import Image from 'next/image'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
+import DrJanPortrait from '../../components/dr-jan-portrait'
 export const metadata: Metadata = {
   title: 'New Home Inventory 2x Normal | Why Buy Now',
   description: 'With 2x the normal new home inventory, builders are buying down mortgage rates and offering incentives. Expert guidance from Dr. Jan Duffy. Call (702) 903-4687.',
@@ -52,6 +53,9 @@ export default function NewHomeInventoryPage() {
       <DrJanCTABanner context="inventory incentives builder" />
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <header className="mb-12">
+            <div className="mb-5">
+              <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] ring-2 ring-luxury-champagne/70" />
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               New Home Inventory is 2x the Normal: Why It's Time to Buy New
             </h1>

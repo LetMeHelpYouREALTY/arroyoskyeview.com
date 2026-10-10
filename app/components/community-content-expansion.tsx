@@ -1,5 +1,6 @@
 import PageQASection from './page-qa-section'
 import Link from 'next/link'
+import DrJanPortrait from './dr-jan-portrait'
 
 interface CommunityContentExpansionProps {
   communityName: string
@@ -20,10 +21,12 @@ export default function CommunityContentExpansion({
 }: CommunityContentExpansionProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* H1 - Main Title */}
-      <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-8">
-        {communityName}: New {homeType} in {location}, Las Vegas | Buyer's Agent
-      </h1>
+      <div className="mb-8 flex items-center gap-4">
+        <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] shrink-0 ring-2 ring-luxury-champagne/60" />
+        <h1 className="text-4xl font-bold text-foreground md:text-5xl">
+          {communityName}: New {homeType} in {location}, Las Vegas | Buyer&apos;s Agent
+        </h1>
+      </div>
 
       {/* Section 1: Community Overview */}
       <section className="mb-12">

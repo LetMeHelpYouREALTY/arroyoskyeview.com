@@ -52,7 +52,7 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Arroyo at Skyeview at Skye Canyon',
+        alt: 'Dr. Jan Duffy with Arroyo at Skyeview townhomes in Skye Canyon',
       },
     ],
   },

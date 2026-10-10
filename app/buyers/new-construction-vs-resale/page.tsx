@@ -4,6 +4,7 @@ import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import Link from 'next/link'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
+import DrJanPortrait from '../../components/dr-jan-portrait'
 export const metadata: Metadata = {
   title: 'New Construction vs Resale Homes | Which is Right for You?',
   description: 'Compare new construction homes vs resale homes in Las Vegas, Nevada. Learn about the pros and cons of each, costs, timeline, and which option is best for you. Expert guidance from Dr. Jan Duffy, your buyer\'s agent. Call (702) 903-4687.',
@@ -70,6 +71,9 @@ export default function NewConstructionVsResalePage() {
     >
       <section className="bg-gradient-to-b from-luxury-navy to-luxury-navy text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-5">
+              <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] ring-2 ring-luxury-champagne/70" />
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               New Construction vs Resale: Skye Canyon, Northwest Las Vegas | Buyer's Agent Guide
             </h1>

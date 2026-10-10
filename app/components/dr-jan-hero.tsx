@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import CalendlyScheduleButton from './calendly-schedule-button'
 import { cn } from '@/lib/utils'
 import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
+import DrJanPortrait from './dr-jan-portrait'
 
 export default function DrJanHero() {
   const handleCallClick = () => {
@@ -22,6 +23,9 @@ export default function DrJanHero() {
       />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center lg:max-w-5xl">
+          <div className="mb-6 flex justify-center">
+            <DrJanPortrait size={96} className="h-24 w-24 shadow-lg ring-2 ring-luxury-champagne/70" />
+          </div>
           <h2 className="text-balance text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
             Buying Arroyo at Skyeview Homes? Get Expert Buyer Representation in Skye Canyon, Northwest Las Vegas
           </h2>

@@ -1,7 +1,12 @@
+import DrJanPortrait from './dr-jan-portrait'
+
 export default function AboutUsHero() {
   return (
     <section className="bg-linear-to-b from-muted/80 to-background py-16">
       <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+        <div className="mb-6 flex justify-center">
+          <DrJanPortrait size={88} className="h-[5.5rem] w-[5.5rem] ring-2 ring-primary/30" />
+        </div>
         <h1 className="mb-6 text-balance text-4xl font-bold tracking-tight text-foreground md:text-5xl">
           About Arroyo at Skyeview Homes
         </h1>

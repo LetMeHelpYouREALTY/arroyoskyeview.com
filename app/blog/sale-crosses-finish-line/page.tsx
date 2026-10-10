@@ -3,6 +3,7 @@ import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import PageSchemas from '../../components/page-schemas'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
+import DrJanPortrait from '../../components/dr-jan-portrait'
 export const metadata: Metadata = {
   title: 'How To Make Sure Your Sale Crosses Finish Line',
   description: 'Learn how pre-listing inspections can help prevent buyers from backing out. Get expert advice on avoiding common deal breakers and ensuring a smooth home sale.',
@@ -69,6 +70,9 @@ export default function SaleCrossesFinishLinePage() {
       <DrJanCTABanner />
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <header className="mb-12">
+            <div className="mb-5">
+              <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] ring-2 ring-luxury-champagne/70" />
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               How To Make Sure Your Sale Crosses the Finish Line
             </h1>

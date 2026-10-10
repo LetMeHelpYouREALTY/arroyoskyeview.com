@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { LUXURY_HERO_FALLBACK } from '@/lib/luxury-theme'
+import DrJanPortrait from './dr-jan-portrait'
 
 type LuxuryPageHeroProps = {
   eyebrow?: string
@@ -43,6 +44,9 @@ export default function LuxuryPageHero({
             {eyebrow}
           </p>
         ) : null}
+        <div className="mb-4">
+          <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] ring-2 ring-luxury-champagne/60" />
+        </div>
         <h1 className="font-serif text-4xl font-light tracking-tight text-balance md:text-5xl lg:text-6xl">
           {title}
         </h1>

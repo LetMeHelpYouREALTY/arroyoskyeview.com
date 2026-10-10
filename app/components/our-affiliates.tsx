@@ -1,23 +1,27 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 const affiliates = [
   {
     name: 'Inspire Home Loans',
     tagline: 'best-in-class homebuying services',
     description: 'Offering a wide range of financing options, Inspire Home Loans® will help you secure the best mortgage for your new construction home at Arroyo at Skyeview Homes or other Skye Canyon communities.',
-    logo: '/images/affiliates/inspire.svg',
+    image: '/images/affiliates/financing.jpg',
+    imageAlt: 'House key and calculator for new-construction financing',
   },
   {
     name: 'Parkway Title',
     tagline: 'best-in-class homebuying services',
     description: 'A full-service agency, Parkway Title delivers cost-effective and streamlined title insurance and settlement service solutions.',
-    logo: '/images/affiliates/parkway.svg',
+    image: '/images/affiliates/title.jpg',
+    imageAlt: 'Leather folder representing title and settlement services',
   },
   {
     name: 'IHL',
     tagline: 'best-in-class homebuying services',
     description: 'Quick, precise and easy to work with, the full-service team at IHL Home Insurance® will find the best coverage to protect your new construction home in Las Vegas, at the best price.',
-    logo: '/images/affiliates/ihl.svg',
+    image: '/images/affiliates/insurance.jpg',
+    imageAlt: 'Model home and umbrella representing homeowners insurance',
   },
 ]
 
@@ -35,10 +39,14 @@ export default function OurAffiliates() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {affiliates.map((affiliate, index) => (
             <div key={index} className="bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition">
-              <div className="h-24 bg-gray-200 rounded-lg mb-6 flex items-center justify-center">
-                <div className="text-muted-foreground font-semibold text-lg">
-                  {affiliate.name}
-                </div>
+              <div className="relative mb-6 h-40 overflow-hidden rounded-lg">
+                <Image
+                  src={affiliate.image}
+                  alt={affiliate.imageAlt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
               </div>
               <h3 className="text-xl font-bold text-foreground mb-4">
                 {affiliate.name}

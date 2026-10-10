@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import PageSchemas from '../../components/page-schemas'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
+import DrJanPortrait from '../../components/dr-jan-portrait'
 export const metadata: Metadata = {
   title: 'Market Passed You By? Think Again | 2025 Update',
   description: 'With more homes to choose from, prices leveling off, and mortgage rates easing, today\'s market is offering something you haven\'t had in a while: options.',
@@ -44,6 +46,9 @@ export default function MarketPassedYouByPage() {
       <DrJanCTABanner />
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <header className="mb-12">
+            <div className="mb-5">
+              <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] ring-2 ring-luxury-champagne/70" />
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               Thought the Market Passed You By? Think Again.
             </h1>
@@ -101,13 +106,14 @@ export default function MarketPassedYouByPage() {
 
             <div className="bg-muted rounded-lg p-8 mb-8">
               <h3 className="text-xl font-bold text-foreground mb-4 text-center">Inventory Growth by Region</h3>
-              <div className="h-64 bg-gray-200 rounded-lg flex items-center justify-center">
-                <div className="text-center text-muted-foreground">
-                  <svg className="w-16 h-16 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
-                  </svg>
-                  <p className="text-sm">Inventory is up in every region compared to last year</p>
-                </div>
+              <div className="relative h-64 overflow-hidden rounded-lg">
+                <Image
+                  src="/images/blog/more-homes-inventory.jpg"
+                  alt="Las Vegas neighborhood street with several homes, illustrating more homes to choose from"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 720px"
+                />
               </div>
             </div>
 

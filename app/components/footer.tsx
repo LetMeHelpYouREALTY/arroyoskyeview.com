@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { SITE_CONTACT } from '@/lib/site-contact'
+import DrJanPortrait from './dr-jan-portrait'
 import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
 import RealScoutOfficeWidget from './realscout-office-widget'
 
@@ -99,9 +100,12 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
           {/* Work with Dr. Jan - Enhanced SEO Section */}
           <div className="col-span-1 md:col-span-2 lg:col-span-2">
             <section aria-labelledby="dr-jan-heading">
-              <h2 id="dr-jan-heading" className="text-xl font-bold mb-4 text-luxury-ivory">
-                Work with Dr. Jan Duffy
-              </h2>
+              <div className="mb-4 flex items-center gap-3">
+                <DrJanPortrait size={56} className="h-14 w-14" />
+                <h2 id="dr-jan-heading" className="text-xl font-bold text-luxury-ivory">
+                  Work with Dr. Jan Duffy
+                </h2>
+              </div>
               <div className="mb-6 space-y-3">
                 <p className="text-sm text-luxury-sand leading-relaxed">
                   <strong className="text-luxury-ivory">New Construction Home Expert</strong> serving Las Vegas, Nevada & Skye Canyon

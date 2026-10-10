@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import PageQASection from './page-qa-section'
+import DrJanPortrait from './dr-jan-portrait'
 
 interface InformationalPageContentProps {
   title: string
@@ -20,7 +21,10 @@ export default function InformationalPageContent({
 }: InformationalPageContentProps) {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <h1 className="font-serif text-4xl font-light tracking-tight text-foreground md:text-5xl">{h1}</h1>
+      <div className="mb-5 flex items-center gap-4">
+        <DrJanPortrait size={72} className="h-[4.5rem] w-[4.5rem] shrink-0 ring-2 ring-luxury-champagne/60" />
+        <h1 className="font-serif text-4xl font-light tracking-tight text-foreground md:text-5xl">{h1}</h1>
+      </div>
       <div className="luxury-gold-divider mt-6 mb-10" aria-hidden />
 
       {sections.map((section, index) => (
