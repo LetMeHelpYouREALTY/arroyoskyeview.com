@@ -18,11 +18,10 @@ function GoldDivider() {
 }
 
 export default function LuxuryHero() {
+  // href only. A srcset preload omits href, and that link is what the lab kept unresolved until first paint.
   preload(HERO_MOBILE, {
     as: 'image',
     fetchPriority: 'high',
-    imageSrcSet: HERO_SRC_SET,
-    imageSizes: '100vw',
   })
 
   return (
@@ -30,18 +29,20 @@ export default function LuxuryHero() {
       aria-label="Arroyo at Skyeview luxury townhomes hero"
       className="relative min-h-[92dvh] w-full overflow-hidden bg-[#1B2838]"
     >
-      {/* Static file, not /_next/image. decoding=async so the navy frame can paint before the photo is decoded. */}
-      <img
-        src={HERO_MOBILE}
-        srcSet={HERO_SRC_SET}
-        sizes="100vw"
-        alt="Arroyo at Skyeview townhomes with Red Rock Canyon in the background"
-        fetchPriority="high"
-        decoding="async"
-        width={1280}
-        height={853}
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      {/* picture skips React's automatic srcset preload, which is emitted without an href. */}
+      <picture className="pointer-events-none absolute inset-0">
+        <img
+          src={HERO_MOBILE}
+          srcSet={HERO_SRC_SET}
+          sizes="100vw"
+          alt="Arroyo at Skyeview townhomes with Red Rock Canyon in the background"
+          fetchPriority="high"
+          decoding="async"
+          width={1280}
+          height={853}
+          className="h-full w-full object-cover"
+        />
+      </picture>
 
       <div
         className="pointer-events-none absolute inset-0"

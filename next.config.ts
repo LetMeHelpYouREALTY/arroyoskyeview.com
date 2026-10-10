@@ -51,6 +51,8 @@ const nextConfig: NextConfig = {
   },
   // Enable experimental features for better performance
   experimental: {
+    // Inline route CSS into the document so the homepage is not blocked on two stylesheet round trips.
+    inlineCss: true,
     optimizePackageImports: ['lucide-react', '@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-popover', '@radix-ui/react-alert-dialog'],
   },
   // Optimize production builds - disable source maps for smaller bundles
