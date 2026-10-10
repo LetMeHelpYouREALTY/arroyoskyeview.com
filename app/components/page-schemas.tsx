@@ -1,4 +1,30 @@
 import Script from 'next/script'
+import { ARROYO_PRICE_LOW } from '@/lib/arroyo-inventory'
+
+const COMMUNITY_PRODUCT_IMAGE = '/images/hero/luxury-hero-skye-canyon.webp'
+
+/**
+ * Offer.price must be a number greater than zero.
+ * A display range such as "$392,640 - $424,590" is not a price.
+ * Returns the low end of "low - high", or a single amount. Returns null for
+ * ceilings ("Under $300,000") and open ends ("$500,000+").
+ */
+function startingOfferPrice(value: string): number | null {
+  const normalized = value.replace(/,/g, '').trim()
+  const range = normalized.match(/^\$?(\d+(?:\.\d+)?)\s*-\s*\$?(\d+(?:\.\d+)?)$/)
+  if (range) {
+    const low = Number(range[1])
+    const high = Number(range[2])
+    if (Number.isFinite(low) && low > 0 && Number.isFinite(high) && high >= low) {
+      return low
+    }
+    return null
+  }
+  const single = normalized.match(/^\$?(\d+(?:\.\d+)?)$/)
+  if (!single) return null
+  const amount = Number(single[1])
+  return Number.isFinite(amount) && amount > 0 ? amount : null
+}
 
 interface PageSchemasProps {
   pageType: 'homepage' | 'community' | 'blog' | 'about' | 'contact' | 'process' | 'neighborhood' | 'zip' | 'faq' | 'buyer-guide' | 'property-type'
@@ -394,7 +420,7 @@ export default function PageSchemas({
     description: 'Expert buyer representation for Arroyo at Skyeview Homes and new construction homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada. Dr. Jan Duffy represents HOME BUYERS, not the builder. Services include construction monitoring, building standards inspection, and insider knowledge of available inventory and pricing.',
     offers: {
       '@type': 'Offer',
-      price: '0',
+      price: 0,
       priceCurrency: 'USD',
       description: 'No cost to buyer - Builders pay for buyer representation. Dr. Jan Duffy represents HOME BUYERS, not the builder.',
     },
@@ -495,7 +521,7 @@ export default function PageSchemas({
     '@type': 'Offer',
     name: 'Buyer Representation Services',
     description: 'Expert buyer representation for Arroyo at Skyeview Homes and new construction homes in Las Vegas, Nevada. No cost to buyer - builders pay for buyer representation.',
-    price: '0',
+    price: 0,
     priceCurrency: 'USD',
     availability: 'https://schema.org/InStock',
     url: `${baseUrl}/work-with-dr-jan`,
@@ -511,13 +537,6 @@ export default function PageSchemas({
         addressRegion: 'NV',
       },
     ],
-    ...(priceRange && {
-      priceSpecification: {
-        '@type': 'PriceSpecification',
-        price: priceRange,
-        priceCurrency: 'USD',
-      },
-    }),
   }
 
   // Community-specific schemas
@@ -725,12 +744,18 @@ export default function PageSchemas({
             '@type': 'Product',
             name: 'Arroyo at Skyeview Homes',
             description: 'New construction townhomes in Skye Canyon, northwest Las Vegas, Nevada',
+            image: `${baseUrl}${COMMUNITY_PRODUCT_IMAGE}`,
             url: baseUrl,
+            brand: {
+              '@type': 'Brand',
+              name: 'Arroyo at Skyeview Homes',
+            },
             offers: {
               '@type': 'Offer',
-              price: '392640',
+              price: ARROYO_PRICE_LOW,
               priceCurrency: 'USD',
               availability: 'https://schema.org/InStock',
+              url: baseUrl,
             },
           },
         },
@@ -739,13 +764,17 @@ export default function PageSchemas({
   }
 
   // Product Schema (for homes/floor plans on relevant pages)
+  // Merchant listings require Offer.price as a number and a product image.
+  // A formatted range is invalid. Use the low end, which matches "from $392,640" on the page.
   let productSchema: any = null
-  if (pageType === 'community' && communityName && priceRange) {
+  const offerPrice = priceRange ? startingOfferPrice(priceRange) : null
+  if (pageType === 'community' && communityName && offerPrice) {
     productSchema = {
       '@context': 'https://schema.org',
       '@type': 'Product',
       name: communityName,
       description: `${communityName} - ${description}`,
+      image: `${baseUrl}${COMMUNITY_PRODUCT_IMAGE}`,
       url: fullUrl,
       brand: {
         '@type': 'Brand',
@@ -754,7 +783,7 @@ export default function PageSchemas({
       category: 'Real Estate',
       offers: {
         '@type': 'Offer',
-        price: priceRange,
+        price: offerPrice,
         priceCurrency: 'USD',
         availability: 'https://schema.org/InStock',
         url: fullUrl,

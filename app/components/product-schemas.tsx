@@ -30,6 +30,13 @@ interface ProductSchemasProps {
   homes?: Home[]
 }
 
+const PRODUCT_IMAGE_FALLBACK = '/images/hero/luxury-hero-skye-canyon.webp'
+
+function productImage(baseUrl: string, image?: string): string {
+  if (!image) return `${baseUrl}${PRODUCT_IMAGE_FALLBACK}`
+  return image.startsWith('http') ? image : `${baseUrl}${image}`
+}
+
 export default function ProductSchemas({ floorPlans = [], homes = [] }: ProductSchemasProps) {
   const baseUrl = 'https://www.arroyoskyeview.com'
 
@@ -43,16 +50,16 @@ export default function ProductSchemas({ floorPlans = [], homes = [] }: ProductS
       '@type': 'Brand',
       name: 'Arroyo at Skyeview Homes',
     },
+    image: productImage(baseUrl, plan.image),
     category: 'Real Estate',
     productID: `floor-plan-${plan.name.toLowerCase()}`,
     sku: `FP-${plan.name.toUpperCase()}`,
     offers: {
       '@type': 'Offer',
-      price: plan.price.toString(),
+      price: plan.price,
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: baseUrl,
-      priceValidUntil: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0],
       seller: {
         '@type': 'RealEstateAgent',
         name: 'Dr. Jan Duffy',
@@ -64,7 +71,7 @@ export default function ProductSchemas({ floorPlans = [], homes = [] }: ProductS
         '@type': 'PropertyValue',
         name: 'Square Feet',
         value: plan.sqft.toString(),
-        unitCode: 'SQM',
+        unitCode: 'FTK',
       },
       {
         '@type': 'PropertyValue',
@@ -87,9 +94,6 @@ export default function ProductSchemas({ floorPlans = [], homes = [] }: ProductS
         value: 'Skye Canyon, Las Vegas, NV 89166',
       },
     ],
-    ...(plan.image && {
-      image: plan.image.startsWith('http') ? plan.image : `${baseUrl}${plan.image}`,
-    }),
   }))
 
   // Generate Product schemas for available homes
@@ -102,16 +106,16 @@ export default function ProductSchemas({ floorPlans = [], homes = [] }: ProductS
       '@type': 'Brand',
       name: 'Arroyo at Skyeview Homes',
     },
+    image: productImage(baseUrl, home.image),
     category: 'Real Estate',
     productID: `home-${home.lot.toLowerCase()}`,
     sku: home.lot,
     offers: {
       '@type': 'Offer',
-      price: home.price.toString(),
+      price: home.price,
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: baseUrl,
-      priceValidUntil: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0],
       seller: {
         '@type': 'RealEstateAgent',
         name: 'Dr. Jan Duffy',
@@ -138,7 +142,7 @@ export default function ProductSchemas({ floorPlans = [], homes = [] }: ProductS
         '@type': 'PropertyValue',
         name: 'Square Feet',
         value: home.sqft.toString(),
-        unitCode: 'SQM',
+        unitCode: 'FTK',
       },
       {
         '@type': 'PropertyValue',
@@ -171,9 +175,6 @@ export default function ProductSchemas({ floorPlans = [], homes = [] }: ProductS
         value: 'Skye Canyon, Las Vegas, NV 89166',
       },
     ],
-    ...(home.image && {
-      image: home.image.startsWith('http') ? home.image : `${baseUrl}${home.image}`,
-    }),
   }))
 
   const allSchemas = [...floorPlanSchemas, ...homeSchemas]

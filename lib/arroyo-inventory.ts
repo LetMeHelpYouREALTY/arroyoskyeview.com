@@ -101,7 +101,10 @@ export const ARROYO_AVAILABLE_HOMES = [
   },
 ]
 
-export const ARROYO_PRICE_RANGE = '$392,640 - $424,590'
+/** Published available-home bounds. Offer.price must use these numbers, never the display string. */
+export const ARROYO_PRICE_LOW = 392640
+export const ARROYO_PRICE_HIGH = 424590
+export const ARROYO_PRICE_RANGE = `$${ARROYO_PRICE_LOW.toLocaleString('en-US')} - $${ARROYO_PRICE_HIGH.toLocaleString('en-US')}`
 
 export const ARROYO_BASE_BREADCRUMB = {
   name: 'Arroyo at Skyeview',
