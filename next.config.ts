@@ -55,36 +55,9 @@ const nextConfig: NextConfig = {
   },
   // Optimize production builds - disable source maps for smaller bundles
   productionBrowserSourceMaps: false,
-  async redirects() {
-    return [
-      {
-        source: '/faq/financing',
-        destination: '/buyers/financing-new-construction',
-        permanent: true,
-      },
-      {
-        source: '/faq/inspections',
-        destination: '/services/building-standards-inspection',
-        permanent: true,
-      },
-      {
-        source: '/buyers/inspections-new-construction',
-        destination: '/services/construction-monitoring',
-        permanent: true,
-      },
-      {
-        source: '/buyers/closing-process-guide',
-        destination: '/homebuying-process',
-        permanent: true,
-      },
-      {
-        source: '/online-homebuying',
-        destination: '/homebuying-process',
-        permanent: true,
-      },
-    ]
-  },
-  // Note: Redirects (HTTP→HTTPS, non-www→www) are handled by middleware.ts
+  // Host canonicalization (HTTP→HTTPS, apex→www) stays in middleware.ts.
+  // Sitemap URLs must return 200. A 301/308 makes Google report
+  // "Page with redirect" and skip indexing that URL.
 }
 
 export default withWorkflow(nextConfig)

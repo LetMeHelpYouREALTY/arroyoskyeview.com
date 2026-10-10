@@ -93,6 +93,8 @@ export const BUYERS_NAV: NavDropdown = {
     { name: 'First-time homebuyer', href: '/buyers/first-time-homebuyer' },
     { name: 'Builder incentives', href: '/buyers/builder-incentives-guide' },
     { name: 'Homebuying process', href: '/homebuying-process' },
+    { name: 'Closing process', href: '/buyers/closing-process-guide' },
+    { name: 'Inspections FAQ', href: '/faq/inspections' },
     { name: 'Moving to Las Vegas', href: '/buyers/moving-to-las-vegas' },
     { name: 'FAQ', href: '/faq' },
     { name: 'Resources library', href: '/resources' },

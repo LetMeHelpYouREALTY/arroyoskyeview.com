@@ -8,6 +8,7 @@ import { join, relative } from 'node:path'
 const ROOT = new URL('..', import.meta.url).pathname
 const APP_DIR = join(ROOT, 'app')
 const ROUTES_FILE = join(ROOT, 'lib', 'sitemap-routes.ts')
+const NEXT_CONFIG_FILE = join(ROOT, 'next.config.ts')
 
 const EXCLUDED_PREFIXES = ['/api/', '/projects/']
 const EXCLUDED_EXACT = new Set(['/manifest.webmanifest'])
@@ -46,8 +47,16 @@ function parseSitemapPaths(source) {
   return matches.map((match) => match[1])
 }
 
+function parseRedirectSources(source) {
+  const matches = [...source.matchAll(/source:\s*'([^']+)'/g)]
+  return matches.map((match) => match[1])
+}
+
 const routeSource = readFileSync(ROUTES_FILE, 'utf8')
+const nextConfigSource = readFileSync(NEXT_CONFIG_FILE, 'utf8')
 const sitemapPaths = new Set(parseSitemapPaths(routeSource))
+const redirectSources = parseRedirectSources(nextConfigSource)
+const redirectedSitemapPaths = redirectSources.filter((path) => sitemapPaths.has(path))
 const appPaths = collectPagePaths(APP_DIR)
   .filter((path) => !EXCLUDED_EXACT.has(path))
   .filter((path) => !EXCLUDED_PREFIXES.some((prefix) => path.startsWith(prefix)))
@@ -55,7 +64,7 @@ const appPaths = collectPagePaths(APP_DIR)
 const missingFromSitemap = appPaths.filter((path) => !sitemapPaths.has(path))
 const extraInSitemap = [...sitemapPaths].filter((path) => !appPaths.includes(path))
 
-if (missingFromSitemap.length > 0 || extraInSitemap.length > 0) {
+if (missingFromSitemap.length > 0 || extraInSitemap.length > 0 || redirectedSitemapPaths.length > 0) {
   console.error('Sitemap route registry is out of sync with app pages.\n')
 
   if (missingFromSitemap.length > 0) {
@@ -69,6 +78,14 @@ if (missingFromSitemap.length > 0 || extraInSitemap.length > 0) {
   if (extraInSitemap.length > 0) {
     console.error('In sitemap but no matching page.tsx:')
     for (const path of extraInSitemap.sort()) {
+      console.error(`  - ${path}`)
+    }
+    console.error('')
+  }
+
+  if (redirectedSitemapPaths.length > 0) {
+    console.error('In sitemap but permanently redirected in next.config.ts (Google will not index these):')
+    for (const path of redirectedSitemapPaths.sort()) {
       console.error(`  - ${path}`)
     }
     console.error('')
