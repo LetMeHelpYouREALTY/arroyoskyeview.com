@@ -4,9 +4,19 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Geist, Playfair_Display } from 'next/font/google'
 import { SITE_URL } from '@/lib/site-url'
 import StructuredData from './components/structured-data'
-import DeferredGoogleTag from './components/deferred-google-tag'
 import SkipToMain from './components/skip-to-main'
 import './globals.css'
+
+const GA_MEASUREMENT_ID = 'G-6HBW87EGMR'
+
+/** Search Console HTML-tag token. Not the Analytics measurement ID. */
+function googleSiteVerification(): string | undefined {
+  const token =
+    process.env.GOOGLE_SITE_VERIFICATION ||
+    process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+  if (!token || token === 'your_google_search_console_token') return undefined
+  return token
+}
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -69,7 +79,7 @@ export const metadata: Metadata = {
     canonical: SITE_URL,
   },
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    google: googleSiteVerification(),
     other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
       ? {
           'msvalidate.01': process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION,
@@ -93,11 +103,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Search Console Analytics verification reads this from the homepage source, in head. */}
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_MEASUREMENT_ID}',{anonymize_ip:true,cookie_flags:'SameSite=None;Secure'});`,
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${playfair.variable} antialiased`}
       >
         <StructuredData />
-        <DeferredGoogleTag />
         <SkipToMain />
         {children}
         <Analytics />

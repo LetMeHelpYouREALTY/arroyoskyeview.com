@@ -121,16 +121,15 @@ const PUBLIC_ROUTES: SitemapRouteDef[] = [
   { path: '/accessibility', tier: 'legal' },
 ]
 
-export function buildSitemapEntries(
-  generatedAt: Date = new Date(),
-): MetadataRoute.Sitemap {
+export function buildSitemapEntries(): MetadataRoute.Sitemap {
   return PUBLIC_ROUTES.map((route) => {
     const defaults = TIER_DEFAULTS[route.tier]
-    const lastModified = route.tier === 'legal' ? LEGAL_LAST_MODIFIED : generatedAt
 
     return {
       url: route.path === '/' ? SITE_URL : `${SITE_URL}${route.path}`,
-      lastModified,
+      // Google ignores lastmod when every URL is stamped with the sitemap
+      // generation time. Only legal pages have a known content date.
+      ...(route.tier === 'legal' ? { lastModified: LEGAL_LAST_MODIFIED } : {}),
       changeFrequency: route.changeFrequency ?? defaults.changeFrequency,
       priority: route.priority ?? defaults.priority,
     }

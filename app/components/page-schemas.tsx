@@ -711,14 +711,6 @@ export default function PageSchemas({
       name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
       alternateName: ['Arroyo at Skyeview', 'Dr. Jan Duffy Real Estate', 'arroyoskyeview.com'],
       url: baseUrl,
-      potentialAction: {
-        '@type': 'SearchAction',
-        target: {
-          '@type': 'EntryPoint',
-          urlTemplate: `${baseUrl}/search?q={search_term_string}`,
-        },
-        'query-input': 'required name=search_term_string',
-      },
       publisher: {
         '@type': 'Organization',
         name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
