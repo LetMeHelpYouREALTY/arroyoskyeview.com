@@ -90,6 +90,11 @@ export const BUYERS_NAV: NavDropdown = {
   id: 'buyers',
   label: "Buyer's guide",
   links: [
+    {
+      name: 'Sell to buy at Arroyo',
+      href: '/sellers/sell-to-buy-at-arroyo-skyeview',
+      description: 'List your current home and buy a Skye Canyon townhome with Dr. Jan Duffy',
+    },
     { name: 'First-time homebuyer', href: '/buyers/first-time-homebuyer' },
     { name: 'Builder incentives', href: '/buyers/builder-incentives-guide' },
     { name: 'Homebuying process', href: '/homebuying-process' },

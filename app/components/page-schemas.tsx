@@ -1,5 +1,6 @@
 import Script from 'next/script'
 import { ARROYO_PRICE_LOW } from '@/lib/arroyo-inventory'
+import { ARROYO_JSON_LD_AREA_SERVED } from '@/lib/json-ld-area-served'
 
 const COMMUNITY_PRODUCT_IMAGE = '/images/hero/luxury-hero-skye-canyon.webp'
 
@@ -165,23 +166,7 @@ export default function PageSchemas({
       latitude: '36.2765',
       longitude: '-115.2832',
     },
-    areaServed: [
-      {
-        '@type': 'City',
-        name: 'Las Vegas',
-        addressRegion: 'NV',
-      },
-      {
-        '@type': 'City',
-        name: 'Henderson',
-        addressRegion: 'NV',
-      },
-      {
-        '@type': 'City',
-        name: 'Summerlin',
-        addressRegion: 'NV',
-      },
-    ],
+    areaServed: [...ARROYO_JSON_LD_AREA_SERVED],
     knowsAbout: [
       'Arroyo at Skyeview Homes',
       'New Construction Homes',
@@ -253,13 +238,7 @@ export default function PageSchemas({
       postalCode: '89161',
       addressCountry: 'US',
     },
-    areaServed: [
-      {
-        '@type': 'City',
-        name: 'Las Vegas',
-        addressRegion: 'NV',
-      },
-    ],
+    areaServed: [...ARROYO_JSON_LD_AREA_SERVED],
     serviceType: [
       'Buyer Representation',
       'Construction Monitoring',
@@ -269,13 +248,6 @@ export default function PageSchemas({
       'Skye Canyon Real Estate',
     ],
     priceRange: 'No Cost to Buyer',
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: 5,
-      reviewCount: 50,
-      bestRating: 5,
-      worstRating: 1,
-    },
   }
 
   // LocalBusiness Schema (Enhanced for Google My Business)
@@ -324,23 +296,7 @@ export default function PageSchemas({
       '@type': 'ImageObject',
       url: `${baseUrl}/images/dr-jan-duffy.png`,
     },
-    areaServed: [
-      {
-        '@type': 'City',
-        name: 'Las Vegas',
-        addressRegion: 'NV',
-      },
-      {
-        '@type': 'City',
-        name: 'Henderson',
-        addressRegion: 'NV',
-      },
-      {
-        '@type': 'City',
-        name: 'Summerlin',
-        addressRegion: 'NV',
-      },
-    ],
+    areaServed: [...ARROYO_JSON_LD_AREA_SERVED],
     serviceType: [
       'Buyer Representation',
       'Construction Monitoring',
@@ -349,13 +305,6 @@ export default function PageSchemas({
       'Arroyo at Skyeview Homes Expert',
       'Skye Canyon Real Estate',
     ],
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: 5,
-      reviewCount: 50,
-      bestRating: 5,
-      worstRating: 1,
-    },
     contactPoint: [
       {
         '@type': 'ContactPoint',

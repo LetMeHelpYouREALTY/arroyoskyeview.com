@@ -1,3 +1,5 @@
+import { ARROYO_JSON_LD_AREA_SERVED } from '@/lib/json-ld-area-served'
+
 export default function StructuredData() {
   // Residential Complex Schema (Wikipedia/Knowledge Base friendly)
   const residentialComplex = {
@@ -295,30 +297,12 @@ export default function StructuredData() {
       latitude: '36.2765',
       longitude: '-115.2832',
     },
-    areaServed: [
-      {
-        '@type': 'City',
-        name: 'Las Vegas',
-        addressRegion: 'NV',
-      },
-      {
-        '@type': 'City',
-        name: 'Henderson',
-        addressRegion: 'NV',
-      },
-      {
-        '@type': 'City',
-        name: 'Summerlin',
-        addressRegion: 'NV',
-      },
-    ],
+    areaServed: [...ARROYO_JSON_LD_AREA_SERVED],
     knowsAbout: [
       'New Construction Homes',
       'Arroyo at Skyeview Homes',
       'Las Vegas Real Estate',
       'Skye Canyon',
-      'Summerlin',
-      'Henderson',
       'First-Time Homebuyers',
       'Builder Incentives',
       'Construction Monitoring',

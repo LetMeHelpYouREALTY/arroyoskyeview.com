@@ -47,6 +47,7 @@ const PUBLIC_ROUTES: SitemapRouteDef[] = [
   { path: '/about-us', tier: 'core' },
   { path: '/contact-us', tier: 'core' },
   { path: '/work-with-dr-jan', tier: 'core', priority: 0.95 },
+  { path: '/sellers/sell-to-buy-at-arroyo-skyeview', tier: 'conversion', priority: 0.88 },
   { path: '/testimonials', tier: 'conversion' },
 
   // Geo — communities & Skye Canyon inventory

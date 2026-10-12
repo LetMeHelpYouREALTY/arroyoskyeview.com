@@ -58,6 +58,11 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
   ]
 
   const buyerResources = [
+    {
+      name: 'Sell to Buy at Arroyo',
+      href: '/sellers/sell-to-buy-at-arroyo-skyeview',
+      title: 'Sell Your Home to Buy at Arroyo at Skyeview Las Vegas',
+    },
     { name: 'First-Time Homebuyer Guide', href: '/buyers/first-time-homebuyer', title: 'First Time Homebuyer Guide Las Vegas' },
     { name: 'Moving to Las Vegas', href: '/buyers/moving-to-las-vegas', title: 'Moving to Las Vegas Complete Guide 2025' },
     { name: 'Buyer Representation', href: '/services/buyer-representation', title: 'Buyer Representation vs Builders Agent Las Vegas' },
