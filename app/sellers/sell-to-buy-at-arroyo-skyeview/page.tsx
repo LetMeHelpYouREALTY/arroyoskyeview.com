@@ -26,7 +26,7 @@ const priceFormatted = `$${ARROYO_PRICE_LOW.toLocaleString('en-US')}`
 export const metadata: Metadata = {
   title: 'Sell Your Home to Buy at Arroyo at Skyeview | Dr. Jan Duffy',
   description:
-    'Plan a move-up sale and a new townhome at Arroyo at Skyeview in Skye Canyon (89166), northwest Las Vegas. Dr. Jan Duffy coordinates listing strategy and buyer representation. Call (702) 903-4687.',
+    'Sell your Las Vegas home and buy at Arroyo at Skyeview in Skye Canyon (89166). Dr. Jan Duffy coordinates listing and buyer representation. (702) 903-4687.',
   alternates: {
     canonical: `https://www.arroyoskyeview.com${PAGE_PATH}`,
   },
