@@ -109,7 +109,7 @@ export default function RootLayout({
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} />
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_MEASUREMENT_ID}',{anonymize_ip:true,cookie_flags:'SameSite=None;Secure'});`,
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_MEASUREMENT_ID}',{anonymize_ip:true,cookie_flags:'SameSite=None;Secure'});${process.env.NEXT_PUBLIC_GOOGLE_TAG_ID ? `gtag('config','${process.env.NEXT_PUBLIC_GOOGLE_TAG_ID}');` : ''}`,
           }}
         />
         {/* Facebook Pixel */}
