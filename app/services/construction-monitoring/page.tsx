@@ -5,9 +5,14 @@ import Link from 'next/link'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { SERVICES_SEO } from '@/lib/geo-page-seo'
+
+const PATH = '/services/construction-monitoring'
+const SEO = SERVICES_SEO[PATH]
+
 export const metadata: Metadata = {
-  title: 'Construction Monitoring Service | Protect Your New Construction Home Investment',
-  description: 'Construction monitoring service for new construction homes in Las Vegas, Nevada. Dr. Jan Duffy monitors your home\'s construction every 7-10 days, catching issues before they become costly problems. Expert buyer representation included. Call (702) 903-4687.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/services/construction-monitoring',
   },
@@ -44,9 +49,9 @@ export default function ConstructionMonitoringPage() {
       schema={
         <PageSchemas
         pageType="buyer-guide"
-        url="/services/construction-monitoring"
-        title="Construction Monitoring Service | Protect Your New Construction Home Investment"
-        description="Construction monitoring service for new construction homes in Las Vegas, Nevada. Dr. Jan Duffy monitors your home's construction every 7-10 days, catching issues before they become costly problems. Expert buyer representation included. Call (702) 903-4687."
+        url={PATH}
+        title={SEO.title}
+        description={SEO.description}
         breadcrumbs={[
           { name: 'Services', url: '/work-with-dr-jan' },
           { name: 'Construction Monitoring', url: '/services/construction-monitoring' },

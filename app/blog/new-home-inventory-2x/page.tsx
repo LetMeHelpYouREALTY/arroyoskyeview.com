@@ -6,6 +6,11 @@ import Image from 'next/image'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { getBlogPostMeta } from '@/lib/blog-posts'
+
+const BLOG_PATH = '/blog/new-home-inventory-2x'
+const BLOG_META = getBlogPostMeta(BLOG_PATH)!
+
 export const metadata: Metadata = {
   title: 'New Home Inventory 2x Normal | Why Buy Now',
   description: 'With 2x the normal new home inventory, builders are buying down mortgage rates and offering incentives. Expert guidance from Dr. Jan Duffy. Call (702) 903-4687.',
@@ -43,8 +48,8 @@ export default function NewHomeInventoryPage() {
           { name: 'New Home Inventory', url: '/blog/new-home-inventory-2x' },
         ]}
         author="Dr. Jan Duffy"
-        datePublished="2024-01-15"
-        dateModified={new Date().toISOString().split('T')[0]}
+        datePublished={BLOG_META.datePublished}
+        dateModified={BLOG_META.dateModified}
         questions={questions}
       />
       }

@@ -4,6 +4,10 @@ import Image from 'next/image'
 import PageSchemas from '../../components/page-schemas'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
+import { getBlogPostMeta } from '@/lib/blog-posts'
+
+const BLOG_PATH = '/blog/housing-market-crash-2025'
+const BLOG_META = getBlogPostMeta(BLOG_PATH)!
 import DrJanPortrait from '../../components/dr-jan-portrait'
 export const metadata: Metadata = {
   title: 'Housing Market Crash 2025? Expert Forecasts',
@@ -52,8 +56,8 @@ export default function HousingMarketCrashPage() {
           { name: 'Housing Market Crash', url: '/blog/housing-market-crash-2025' },
         ]}
         author="Dr. Jan Duffy"
-        datePublished="2024-01-10"
-        dateModified={new Date().toISOString().split('T')[0]}
+        datePublished={BLOG_META.datePublished}
+        dateModified={BLOG_META.dateModified}
         questions={[
           {
             question: 'Is the housing market going to crash in 2025?',

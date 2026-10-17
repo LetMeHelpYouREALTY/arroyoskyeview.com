@@ -5,9 +5,14 @@ import Link from 'next/link'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { SERVICES_SEO } from '@/lib/geo-page-seo'
+
+const PATH = '/services/building-standards-inspection'
+const SEO = SERVICES_SEO[PATH]
+
 export const metadata: Metadata = {
-  title: 'Building Standards Inspection Service | Protect Your New Construction Home',
-  description: 'Building standards inspection service for new construction homes in Las Vegas, Nevada. Dr. Jan Duffy provides complimentary building standards inspection at closing to ensure everything is built to code. Expert buyer representation included. Call (702) 903-4687.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/services/building-standards-inspection',
   },
@@ -44,9 +49,9 @@ export default function BuildingStandardsInspectionPage() {
       schema={
         <PageSchemas
         pageType="buyer-guide"
-        url="/services/building-standards-inspection"
-        title="Building Standards Inspection Service | Protect Your New Construction Home"
-        description="Building standards inspection service for new construction homes in Las Vegas, Nevada. Dr. Jan Duffy provides complimentary building standards inspection at closing to ensure everything is built to code. Expert buyer representation included. Call (702) 903-4687."
+        url={PATH}
+        title={SEO.title}
+        description={SEO.description}
         breadcrumbs={[
           { name: 'Services', url: '/work-with-dr-jan' },
           { name: 'Building Standards Inspection', url: '/services/building-standards-inspection' },

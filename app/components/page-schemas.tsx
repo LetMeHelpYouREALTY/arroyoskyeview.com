@@ -138,87 +138,6 @@ export default function PageSchemas({
     ],
   }
 
-  // Organization Schema (Dr. Jan Duffy)
-  const organizationSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    '@id': JSON_LD_ORGANIZATION_ID,
-    name: 'Arroyo at Skyeview Homes | Homes by Dr. Jan Duffy',
-    alternateName: ['Dr. Jan Duffy Real Estate', 'Dr. Jan Duffy', 'Arroyo at Skyeview Homes'],
-    description: 'Expert buyer representation for Arroyo at Skyeview Homes and new construction homes in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). Dr. Jan Duffy represents HOME BUYERS, not the builder. Specializing in construction monitoring, building standards inspection, and insider knowledge of northwest Las Vegas communities.',
-    url: baseUrl,
-    telephone: '+1-702-903-4687',
-    email: 'info@arroyoskyeview.com',
-    logo: {
-      '@type': 'ImageObject',
-      url: `${baseUrl}/images/dr-jan-duffy.png`,
-    },
-    image: `${baseUrl}/og-image.png`,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '8912 Vanhoy Crk St',
-      addressLocality: 'Las Vegas',
-      addressRegion: 'NV',
-      postalCode: '89161',
-      addressCountry: 'US',
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: '36.2765',
-      longitude: '-115.2832',
-    },
-    areaServed: [...ARROYO_JSON_LD_AREA_SERVED],
-    knowsAbout: [
-      'Arroyo at Skyeview Homes',
-      'New Construction Homes',
-      'Buyer Representation',
-      'Las Vegas Real Estate',
-      'Skye Canyon',
-      'Northwest Las Vegas',
-      'Zip Code 89166',
-      'First-Time Homebuyers',
-      'Builder Incentives',
-      'Construction Monitoring',
-      'Building Standards Inspection',
-    ],
-    founder: {
-      '@type': 'Person',
-      name: 'Dr. Jan Duffy',
-      jobTitle: 'Real Estate Agent',
-      telephone: '+1-702-903-4687',
-    },
-    contactPoint: [
-      {
-        '@type': 'ContactPoint',
-        telephone: '+1-702-903-4687',
-        contactType: 'Customer Service',
-        areaServed: 'US',
-        availableLanguage: 'English',
-        hoursAvailable: {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: [
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-            'Sunday',
-          ],
-          opens: '08:00',
-          closes: '20:00',
-        },
-      },
-      {
-        '@type': 'ContactPoint',
-        email: 'info@arroyoskyeview.com',
-        contactType: 'Customer Service',
-        areaServed: 'US',
-        availableLanguage: 'English',
-      },
-    ],
-  }
-
   // RealEstateAgent Schema (Dr. Jan Duffy)
   const realEstateAgentSchema = {
     '@context': 'https://schema.org',
@@ -739,8 +658,7 @@ export default function PageSchemas({
   const allSchemas = [
     webPageSchema,
     breadcrumbSchema,
-    // Always include Organization schema (needed for publisher info)
-    organizationSchema,
+    // Organization + agent are in SitewideStructuredData (layout); WebPage references #organization.
     // Only include business-specific schemas for non-informational pages
     ...(isInformationalPage ? [] : [
       realEstateAgentSchema,

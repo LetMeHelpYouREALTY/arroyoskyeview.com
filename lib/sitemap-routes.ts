@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { getBlogPostMeta } from './blog-posts'
 import { SITE_URL } from './site-url'
 
 /**
@@ -126,11 +127,14 @@ export function buildSitemapEntries(): MetadataRoute.Sitemap {
   return PUBLIC_ROUTES.map((route) => {
     const defaults = TIER_DEFAULTS[route.tier]
 
+    const blogMeta = getBlogPostMeta(route.path)
+
     return {
       url: route.path === '/' ? SITE_URL : `${SITE_URL}${route.path}`,
       // Google ignores lastmod when every URL is stamped with the sitemap
-      // generation time. Only legal pages have a known content date.
+      // generation time. Use known dates for legal and blog posts only.
       ...(route.tier === 'legal' ? { lastModified: LEGAL_LAST_MODIFIED } : {}),
+      ...(blogMeta ? { lastModified: new Date(blogMeta.dateModified) } : {}),
       changeFrequency: route.changeFrequency ?? defaults.changeFrequency,
       priority: route.priority ?? defaults.priority,
     }

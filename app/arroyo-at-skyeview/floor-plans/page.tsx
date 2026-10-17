@@ -7,14 +7,15 @@ import PageSchemas from '../../components/page-schemas'
 import ProductSchemas from '../../components/product-schemas'
 import { PageContent } from '../../components/page-section'
 import { ARROYO_BASE_BREADCRUMB, ARROYO_FLOOR_PLANS } from '@/lib/arroyo-inventory'
+import { arroyoHubSeo } from '@/lib/arroyo-hub-seo'
 import { absoluteUrl } from '@/lib/site-url'
 
 const PATH = '/arroyo-at-skyeview/floor-plans'
+const SEO = arroyoHubSeo(PATH)
 
 export const metadata: Metadata = {
-  title: 'Floor Plans at Arroyo at Skyeview | Beverly, Captiva & Delray Townhomes',
-  description:
-    'Compare Beverly, Captiva, and Delray floor plans at Arroyo at Skyeview in Skye Canyon, Las Vegas 89166. 1,531–1,729 sq ft townhomes with 2.5 baths. Dr. Jan Duffy, buyer\'s agent—(702) 903-4687.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: { canonical: absoluteUrl(PATH) },
   openGraph: {
     title: 'Floor Plans at Arroyo at Skyeview | Skye Canyon Las Vegas',
@@ -35,8 +36,8 @@ export default function ArroyoFloorPlansPage() {
           <PageSchemas
             pageType="community"
             url={PATH}
-            title="Floor Plans at Arroyo at Skyeview | Beverly, Captiva & Delray Townhomes in Skye Canyon, Las Vegas NV"
-            description="Explore Beverly, Captiva, and Delray floor plans at Arroyo at Skyeview in Skye Canyon, northwest Las Vegas (zip 89166). Townhomes from 1,531 to 1,729 square feet with 2.5 baths and 2-bay garages."
+            title={SEO.title}
+            description={SEO.description}
             breadcrumbs={[
               ARROYO_BASE_BREADCRUMB,
               { name: 'Floor Plans', url: PATH },

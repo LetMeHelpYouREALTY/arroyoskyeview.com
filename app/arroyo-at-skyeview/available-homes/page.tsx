@@ -12,14 +12,15 @@ import {
   ARROYO_BASE_BREADCRUMB,
   ARROYO_PRICE_RANGE,
 } from '@/lib/arroyo-inventory'
+import { arroyoHubSeo } from '@/lib/arroyo-hub-seo'
 import { absoluteUrl } from '@/lib/site-url'
 
 const PATH = '/arroyo-at-skyeview/available-homes'
+const SEO = arroyoHubSeo(PATH)
 
 export const metadata: Metadata = {
-  title: 'Available Homes at Arroyo at Skyeview | Move-In Ready Townhomes, Skye Canyon 89166',
-  description:
-    'Browse move-in ready townhomes at Arroyo at Skyeview on Grabill Spruce St, Skye Canyon, northwest Las Vegas (zip 89166). Prices from $392,640. Dr. Jan Duffy represents buyers—call (702) 903-4687.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: { canonical: absoluteUrl(PATH) },
   openGraph: {
     title: 'Available Homes at Arroyo at Skyeview | Skye Canyon Las Vegas',
@@ -40,8 +41,8 @@ export default function ArroyoAvailableHomesPage() {
           <PageSchemas
             pageType="community"
             url={PATH}
-            title="Available Homes at Arroyo at Skyeview | New Construction Townhomes in Skye Canyon, Las Vegas NV 89166"
-            description="Browse available move-in ready townhomes at Arroyo at Skyeview in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). Prices from $392,640 with expert buyer representation from Dr. Jan Duffy."
+            title={SEO.title}
+            description={SEO.description}
             breadcrumbs={[
               ARROYO_BASE_BREADCRUMB,
               { name: 'Available Homes', url: PATH },

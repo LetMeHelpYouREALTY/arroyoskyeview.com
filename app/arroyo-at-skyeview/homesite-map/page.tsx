@@ -6,14 +6,15 @@ import MarketingPageShell from '../../components/marketing-page-shell'
 import PageSchemas from '../../components/page-schemas'
 import { PageContent } from '../../components/page-section'
 import { ARROYO_BASE_BREADCRUMB } from '@/lib/arroyo-inventory'
+import { arroyoHubSeo } from '@/lib/arroyo-hub-seo'
 import { absoluteUrl } from '@/lib/site-url'
 
 const PATH = '/arroyo-at-skyeview/homesite-map'
+const SEO = arroyoHubSeo(PATH)
 
 export const metadata: Metadata = {
-  title: 'Homesite Map | Arroyo at Skyeview Lot Locations, Skye Canyon 89166',
-  description:
-    'Interactive homesite map for Arroyo at Skyeview on Grabill Spruce St, Skye Canyon, Las Vegas 89166. Explore end units, courtyard entries, and lot availability with Dr. Jan Duffy—(702) 903-4687.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: { canonical: absoluteUrl(PATH) },
   openGraph: {
     title: 'Homesite Map | Arroyo at Skyeview Skye Canyon',
@@ -33,8 +34,8 @@ export default function ArroyoHomesiteMapPage() {
         <PageSchemas
           pageType="community"
           url={PATH}
-          title="Homesite Map | Arroyo at Skyeview Lot Locations in Skye Canyon, Las Vegas NV 89166"
-          description="View the homesite map for Arroyo at Skyeview in Skye Canyon, northwest Las Vegas (zip 89166). Explore lot locations, end units, and courtyard entries on Grabill Spruce Street."
+          title={SEO.title}
+          description={SEO.description}
           breadcrumbs={[
             ARROYO_BASE_BREADCRUMB,
             { name: 'Homesite Map', url: PATH },

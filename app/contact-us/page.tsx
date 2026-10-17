@@ -9,9 +9,11 @@ import ContactMethods from '../components/contact-methods'
 import PageSchemas from '../components/page-schemas'
 
 import MarketingPageShell from '../components/marketing-page-shell'
+import { CONTACT_SEO } from '@/lib/geo-page-seo'
+
 export const metadata: Metadata = {
-  title: 'Contact Dr. Jan Duffy | Buyer\'s Agent for Arroyo at Skyeview Homes | Skye Canyon, Northwest Las Vegas',
-  description: 'Contact Dr. Jan Duffy, your buyer\'s agent for Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada. She represents HOME BUYERS, not the builder. Call (702) 903-4687 or email info@arroyoskyeview.com. Located at 8912 Vanhoy Crk St, Las Vegas, NV 89166.',
+  title: CONTACT_SEO.title,
+  description: CONTACT_SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/contact-us',
   },
@@ -49,8 +51,8 @@ export default function ContactUsPage() {
         <PageSchemas
         pageType="contact"
         url="/contact-us"
-        title="Contact Dr. Jan Duffy | Buyer's Agent for Arroyo at Skyeview Homes"
-        description="Contact Dr. Jan Duffy, your buyer's agent for Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada. She represents HOME BUYERS, not the builder. Call (702) 903-4687 for expert buyer representation."
+        title={CONTACT_SEO.title}
+        description={CONTACT_SEO.description}
         breadcrumbs={[
           { name: 'Contact Us', url: '/contact-us' },
         ]}

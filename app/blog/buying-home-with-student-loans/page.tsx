@@ -5,9 +5,15 @@ import PageSchemas from '../../components/page-schemas'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { getBlogPostMeta } from '@/lib/blog-posts'
+
+const BLOG_PATH = '/blog/buying-home-with-student-loans'
+const BLOG_META = getBlogPostMeta(BLOG_PATH)!
+
 export const metadata: Metadata = {
   title: 'Buying Home with Student Loans | Expert Guide',
-  description: 'Learn how student loans don\'t have to prevent you from buying your dream home. Get expert advice on managing student debt while purchasing a home.',
+  description:
+    'Student loans and a new home in Las Vegas can work together. Dr. Jan Duffy explains debt ratios and builder options. Call (702) 903-4687.',
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/blog/buying-home-with-student-loans',
   },
@@ -52,8 +58,8 @@ export default function BuyingHomeWithStudentLoansPage() {
           { name: 'Buying Home with Student Loans', url: '/blog/buying-home-with-student-loans' },
         ]}
         author="Dr. Jan Duffy"
-        datePublished="2024-01-14"
-        dateModified={new Date().toISOString().split('T')[0]}
+        datePublished={BLOG_META.datePublished}
+        dateModified={BLOG_META.dateModified}
         questions={[
           {
             question: 'Can I buy a home if I have student loans?',

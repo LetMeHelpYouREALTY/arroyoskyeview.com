@@ -3,6 +3,10 @@ import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import PageSchemas from '../../components/page-schemas'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
+import { getBlogPostMeta } from '@/lib/blog-posts'
+
+const BLOG_PATH = '/blog/sale-crosses-finish-line'
+const BLOG_META = getBlogPostMeta(BLOG_PATH)!
 import DrJanPortrait from '../../components/dr-jan-portrait'
 export const metadata: Metadata = {
   title: 'How To Make Sure Your Sale Crosses Finish Line',
@@ -51,8 +55,8 @@ export default function SaleCrossesFinishLinePage() {
           { name: 'Sale Crosses Finish Line', url: '/blog/sale-crosses-finish-line' },
         ]}
         author="Dr. Jan Duffy"
-        datePublished="2024-01-13"
-        dateModified={new Date().toISOString().split('T')[0]}
+        datePublished={BLOG_META.datePublished}
+        dateModified={BLOG_META.dateModified}
         questions={[
           {
             question: 'How can I prevent buyers from backing out of a sale?',

@@ -9,14 +9,15 @@ import MarketingPageShell from '../../components/marketing-page-shell'
 import PageSchemas from '../../components/page-schemas'
 import { PageContent } from '../../components/page-section'
 import { ARROYO_BASE_BREADCRUMB, ARROYO_PRICE_RANGE } from '@/lib/arroyo-inventory'
+import { arroyoHubSeo } from '@/lib/arroyo-hub-seo'
 import { absoluteUrl } from '@/lib/site-url'
 
 const PATH = '/arroyo-at-skyeview/overview'
+const SEO = arroyoHubSeo(PATH)
 
 export const metadata: Metadata = {
-  title: 'Arroyo at Skyeview Overview | New Townhomes in Skye Canyon, Las Vegas 89166',
-  description:
-    'Community overview for Arroyo at Skyeview—Century Communities townhomes in Skye Canyon, northwest Las Vegas (zip 89166). Starting from $392,640. Buyer\'s agent Dr. Jan Duffy—(702) 903-4687.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: { canonical: absoluteUrl(PATH) },
   openGraph: {
     title: 'Arroyo at Skyeview Overview | Skye Canyon Las Vegas',
@@ -36,8 +37,8 @@ export default function ArroyoOverviewPage() {
         <PageSchemas
           pageType="community"
           url={PATH}
-          title="Arroyo at Skyeview Overview | New Construction Townhomes in Skye Canyon, Northwest Las Vegas NV 89166"
-          description="Arroyo at Skyeview is a Century Communities townhome development in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). Modern 2–4 bedroom townhomes with premium finishes starting from $392,640."
+          title={SEO.title}
+          description={SEO.description}
           breadcrumbs={[
             ARROYO_BASE_BREADCRUMB,
             { name: 'Overview', url: PATH },

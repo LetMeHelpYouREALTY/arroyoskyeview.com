@@ -8,14 +8,15 @@ import MarketingPageShell from '../../components/marketing-page-shell'
 import PageSchemas from '../../components/page-schemas'
 import { PageContent } from '../../components/page-section'
 import { ARROYO_BASE_BREADCRUMB } from '@/lib/arroyo-inventory'
+import { arroyoHubSeo } from '@/lib/arroyo-hub-seo'
 import { absoluteUrl } from '@/lib/site-url'
 
 const PATH = '/arroyo-at-skyeview/area'
+const SEO = arroyoHubSeo(PATH)
 
 export const metadata: Metadata = {
-  title: 'Skye Canyon Area Guide | Schools, Amenities & Life Near Arroyo at Skyeview 89166',
-  description:
-    'Area information for Arroyo at Skyeview in Skye Canyon, zip 89166—schools, parks, shopping, Red Rock Canyon access, and northwest Las Vegas lifestyle. Dr. Jan Duffy—(702) 903-4687.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: { canonical: absoluteUrl(PATH) },
   openGraph: {
     title: 'Skye Canyon Area Guide | Arroyo at Skyeview Las Vegas',
@@ -35,8 +36,8 @@ export default function ArroyoAreaPage() {
         <PageSchemas
           pageType="neighborhood"
           url={PATH}
-          title="Skye Canyon Area Guide | Schools, Amenities & Recreation Near Arroyo at Skyeview, Las Vegas NV 89166"
-          description="Explore schools, shopping, parks, and outdoor recreation near Arroyo at Skyeview in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166)."
+          title={SEO.title}
+          description={SEO.description}
           breadcrumbs={[
             ARROYO_BASE_BREADCRUMB,
             { name: 'Area Information', url: PATH },

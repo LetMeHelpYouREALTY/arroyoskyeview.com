@@ -4,6 +4,10 @@ import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import PageSchemas from '../../components/page-schemas'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
+import { getBlogPostMeta } from '@/lib/blog-posts'
+
+const BLOG_PATH = '/blog/market-passed-you-by'
+const BLOG_META = getBlogPostMeta(BLOG_PATH)!
 import DrJanPortrait from '../../components/dr-jan-portrait'
 export const metadata: Metadata = {
   title: 'Market Passed You By? Think Again | 2025 Update',
@@ -27,8 +31,8 @@ export default function MarketPassedYouByPage() {
           { name: 'Market Passed You By', url: '/blog/market-passed-you-by' },
         ]}
         author="Dr. Jan Duffy"
-        datePublished="2024-01-12"
-        dateModified={new Date().toISOString().split('T')[0]}
+        datePublished={BLOG_META.datePublished}
+        dateModified={BLOG_META.dateModified}
         questions={[
           {
             question: 'Is now a good time to buy a home?',

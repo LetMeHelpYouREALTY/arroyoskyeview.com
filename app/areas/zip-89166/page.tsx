@@ -7,9 +7,11 @@ import Link from 'next/link'
 import PageSchemas from '../../components/page-schemas'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
+import { ZIP_89166_SEO } from '@/lib/geo-page-seo'
+
 export const metadata: Metadata = {
-  title: 'New Homes in Zip Code 89166 | Skye Canyon Las Vegas',
-  description: 'Discover new construction homes in zip code 89166, Skye Canyon, northwest Las Vegas, Nevada. Explore new construction developments including Arroyo at Skyeview, Sierra at Skyeview, and Terra at Skyeview with expert buyer\'s agent representation.',
+  title: ZIP_89166_SEO.title,
+  description: ZIP_89166_SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/areas/zip-89166',
   },
@@ -22,8 +24,8 @@ export default function Zip89166Page() {
         <PageSchemas
         pageType="zip"
         url="/areas/zip-89166"
-        title="New Homes in Zip Code 89166 | Skye Canyon, Las Vegas, Nevada | Buyer's Agent"
-        description="Discover new construction homes in zip code 89166, Skye Canyon, northwest Las Vegas, Nevada. Explore new construction developments including Arroyo at Skyeview, Sierra at Skyeview, and Terra at Skyeview with expert buyer's agent representation."
+        title={ZIP_89166_SEO.title}
+        description={ZIP_89166_SEO.description}
         breadcrumbs={[
           { name: 'Find Your Home', url: '/find-your-new-home/nevada/las-vegas-metro' },
           { name: 'Zip Code 89166', url: '/areas/zip-89166' },

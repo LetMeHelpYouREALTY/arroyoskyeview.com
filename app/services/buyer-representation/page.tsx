@@ -5,9 +5,14 @@ import Link from 'next/link'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { SERVICES_SEO } from '@/lib/geo-page-seo'
+
+const PATH = '/services/buyer-representation'
+const SEO = SERVICES_SEO[PATH]
+
 export const metadata: Metadata = {
-  title: 'Buyer Representation vs Builder\'s Agent: The Difference | Skye Canyon, Northwest Las Vegas',
-  description: 'Learn why you need a buyer\'s agent for new construction homes in Skye Canyon (zip code 89166) and northwest Las Vegas, Nevada. Dr. Jan Duffy represents HOME BUYERS, not the builder. Construction monitoring and building standards inspection included. Call (702) 903-4687.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/services/buyer-representation',
   },
@@ -44,9 +49,9 @@ export default function BuyerRepresentationPage() {
       schema={
         <PageSchemas
         pageType="buyer-guide"
-        url="/services/buyer-representation"
-        title="Buyer Representation vs Builder's Agent: The Difference | Skye Canyon, Northwest Las Vegas"
-        description="Learn why you need a buyer's agent for new construction homes in Skye Canyon (zip code 89166) and northwest Las Vegas, Nevada. Dr. Jan Duffy represents HOME BUYERS, not the builder. Construction monitoring and building standards inspection included. Call (702) 903-4687."
+        url={PATH}
+        title={SEO.title}
+        description={SEO.description}
         breadcrumbs={[
           { name: 'Services', url: '/work-with-dr-jan' },
           { name: 'Buyer Representation', url: '/services/buyer-representation' },
