@@ -7,15 +7,20 @@ import ReviewSchema from '../components/review-schema'
 
 import MarketingPageShell from '../components/marketing-page-shell'
 import DrJanPortrait from '../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/testimonials'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'Client Testimonials & Reviews | Dr. Jan Duffy - Buyer\'s Agent for Arroyo at Skyeview Homes',
-  description: 'Read real testimonials from homebuyers who worked with Dr. Jan Duffy for new construction homes in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). See why buyers trust Dr. Jan Duffy for expert buyer representation, construction monitoring, and building standards inspection.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/testimonials',
   },
   openGraph: {
-    title: 'Client Testimonials & Reviews | Dr. Jan Duffy - Buyer\'s Agent',
-    description: 'Read real testimonials from homebuyers who worked with Dr. Jan Duffy for new construction homes in Skye Canyon, northwest Las Vegas, Nevada. Expert buyer representation at no extra cost.',
+    title: SEO.title,
+    description: SEO.description,
     url: 'https://www.arroyoskyeview.com/testimonials',
     type: 'website',
     images: [

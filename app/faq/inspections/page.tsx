@@ -6,9 +6,14 @@ import Link from 'next/link'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/faq/inspections'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'New Construction Home Inspections FAQ | Skye Canyon, Northwest Las Vegas',
-  description: 'Get answers to inspection questions for new construction homes in Skye Canyon (zip code 89166) and northwest Las Vegas, Nevada. Learn about construction monitoring, building standards inspection, and what to look for. Expert guidance from Dr. Jan Duffy.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/faq/inspections',
   },

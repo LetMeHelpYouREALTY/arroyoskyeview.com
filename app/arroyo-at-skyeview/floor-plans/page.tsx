@@ -18,9 +18,8 @@ export const metadata: Metadata = {
   description: SEO.description,
   alternates: { canonical: absoluteUrl(PATH) },
   openGraph: {
-    title: 'Floor Plans at Arroyo at Skyeview | Skye Canyon Las Vegas',
-    description:
-      'Three townhome floor plans at Arroyo at Skyeview: Beverly, Captiva, and Delray. Expert new construction buyer representation.',
+    title: SEO.title,
+    description: SEO.description,
     url: absoluteUrl(PATH),
     type: 'website',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Arroyo at Skyeview floor plans' }],

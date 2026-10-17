@@ -5,9 +5,14 @@ import PageSchemas from '../../components/page-schemas'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/faq/las-vegas-hyperlocal'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'Las Vegas Neighborhood Q&A | Arroyo at Skyeview & Northwest Las Vegas FAQ',
-  description: 'Comprehensive questions and answers about buying new construction homes in Las Vegas, Nevada, especially Arroyo at Skyeview in Skye Canyon, zip code 89166, northwest Las Vegas. Expert answers about neighborhoods, schools, and new construction homes.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/faq/las-vegas-hyperlocal',
   },

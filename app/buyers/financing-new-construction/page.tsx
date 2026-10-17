@@ -5,9 +5,14 @@ import Link from 'next/link'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/buyers/financing-new-construction'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'Financing New Construction Homes in Las Vegas | Buyer\'s Guide',
-  description: 'Complete guide to financing new construction homes in Las Vegas, Nevada. Learn about loan types, down payment assistance, builder incentives, and financing options. Expert guidance from Dr. Jan Duffy, your buyer\'s agent.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/buyers/financing-new-construction',
   },

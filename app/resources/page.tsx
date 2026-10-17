@@ -5,15 +5,20 @@ import DrJanCTABanner from '../components/dr-jan-cta-banner'
 
 import MarketingPageShell from '../components/marketing-page-shell'
 import DrJanPortrait from '../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/resources'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'Free Resources for New Construction Homebuyers | Dr. Jan Duffy',
-  description: 'Free resources and guides for new construction homebuyers in Las Vegas, Nevada. Download buyer\'s guides, checklists, and expert tips from Dr. Jan Duffy, your buyer\'s agent for Arroyo at Skyeview Homes and Skye Canyon communities.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/resources',
   },
   openGraph: {
-    title: 'Free Resources for New Construction Homebuyers | Dr. Jan Duffy',
-    description: 'Free resources and guides for new construction homebuyers in Las Vegas, Nevada. Download buyer\'s guides, checklists, and expert tips.',
+    title: SEO.title,
+    description: SEO.description,
     url: 'https://www.arroyoskyeview.com/resources',
     type: 'website',
     images: [

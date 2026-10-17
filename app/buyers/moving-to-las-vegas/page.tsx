@@ -6,9 +6,14 @@ import PageSchemas from '../../components/page-schemas'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/buyers/moving-to-las-vegas'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'Moving to Las Vegas: Complete Guide for New Homebuyers 2025 | Skye Canyon',
-  description: 'Complete guide for moving to Las Vegas, Nevada. Learn about cost of living, neighborhoods, schools, job market, and new construction communities in Skye Canyon and northwest Las Vegas. Expert guidance from Dr. Jan Duffy.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/buyers/moving-to-las-vegas',
   },

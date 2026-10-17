@@ -6,9 +6,14 @@ import DrJanContactCard from '../../components/dr-jan-contact-card'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/buyers/first-time-homebuyer'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'First-Time Homebuyer Guide Las Vegas | Arroyo at Skyeview Homes',
-  description: 'Complete guide for first-time homebuyers in Las Vegas. Learn about down payment assistance, financing, and the homebuying process. Expert guidance from Dr. Jan Duffy.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/buyers/first-time-homebuyer',
   },

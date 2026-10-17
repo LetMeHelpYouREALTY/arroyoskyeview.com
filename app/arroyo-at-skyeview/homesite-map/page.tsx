@@ -17,9 +17,8 @@ export const metadata: Metadata = {
   description: SEO.description,
   alternates: { canonical: absoluteUrl(PATH) },
   openGraph: {
-    title: 'Homesite Map | Arroyo at Skyeview Skye Canyon',
-    description:
-      'Explore lot locations and homesite options at Arroyo at Skyeview in Skye Canyon, northwest Las Vegas.',
+    title: SEO.title,
+    description: SEO.description,
     url: absoluteUrl(PATH),
     type: 'website',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Arroyo at Skyeview homesite map' }],

@@ -9,15 +9,20 @@ import Link from 'next/link'
 import PageSchemas from '../components/page-schemas'
 
 import MarketingPageShell from '../components/marketing-page-shell'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/work-with-dr-jan'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'Work with Dr. Jan Duffy | New Construction Home Expert | Las Vegas, Nevada',
-  description: 'Expert buyer representation for new construction homes in Las Vegas, Nevada. Dr. Jan Duffy represents YOU, not the builder. Construction monitoring, building standards inspection, insider knowledge. No extra cost. Call (702) 903-4687.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/work-with-dr-jan',
   },
   openGraph: {
-    title: 'Work with Dr. Jan Duffy | New Construction Home Expert | Las Vegas, Nevada',
-    description: 'Expert buyer representation for new construction homes in Las Vegas, Nevada. Dr. Jan Duffy represents YOU, not the builder. Construction monitoring, building standards inspection, insider knowledge. No extra cost. Call (702) 903-4687.',
+    title: SEO.title,
+    description: SEO.description,
     url: 'https://www.arroyoskyeview.com/work-with-dr-jan',
     type: 'website',
     images: [

@@ -20,9 +20,8 @@ export const metadata: Metadata = {
   description: SEO.description,
   alternates: { canonical: absoluteUrl(PATH) },
   openGraph: {
-    title: 'Arroyo at Skyeview Overview | Skye Canyon Las Vegas',
-    description:
-      'Learn about Arroyo at Skyeview new construction townhomes in Skye Canyon, zip 89166, with expert buyer representation.',
+    title: SEO.title,
+    description: SEO.description,
     url: absoluteUrl(PATH),
     type: 'website',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Arroyo at Skyeview community overview' }],

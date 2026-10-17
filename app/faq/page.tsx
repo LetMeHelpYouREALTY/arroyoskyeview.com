@@ -6,9 +6,14 @@ import PageSchemas from '../components/page-schemas'
 
 import MarketingPageShell from '../components/marketing-page-shell'
 import DrJanPortrait from '../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/faq'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'FAQ | New Construction Homes Las Vegas | Buyer\'s Agent FAQ',
-  description: 'Get answers to common questions about buying new construction homes in Las Vegas, Nevada. Learn about the homebuying process, builder incentives, and warranties from your buyer\'s agent.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/faq',
   },

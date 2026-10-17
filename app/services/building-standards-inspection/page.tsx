@@ -17,8 +17,8 @@ export const metadata: Metadata = {
     canonical: 'https://www.arroyoskyeview.com/services/building-standards-inspection',
   },
   openGraph: {
-    title: 'Building Standards Inspection Service | Protect Your New Construction Home',
-    description: 'Building standards inspection service for new construction homes in Las Vegas, Nevada. Dr. Jan Duffy provides complimentary building standards inspection at closing.',
+    title: SEO.title,
+    description: SEO.description,
     url: 'https://www.arroyoskyeview.com/services/building-standards-inspection',
     type: 'website',
     images: [

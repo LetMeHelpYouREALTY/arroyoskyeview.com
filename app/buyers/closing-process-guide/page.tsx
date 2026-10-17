@@ -5,9 +5,14 @@ import Link from 'next/link'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/buyers/closing-process-guide'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'Closing Process Guide for New Construction Homes | Las Vegas Buyer\'s Guide',
-  description: 'Complete guide to closing on your new construction home in Las Vegas, Nevada. Learn about the closing process, what to expect, documents needed, and how Dr. Jan Duffy\'s building standards inspection protects you. Call (702) 903-4687.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/buyers/closing-process-guide',
   },

@@ -6,15 +6,20 @@ import Link from 'next/link'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/homes/single-family-las-vegas'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'Single Family Homes Las Vegas | New Construction',
-  description: 'Find new construction single-family homes in Las Vegas. Spacious homes with modern designs and premium finishes. Expert buyer representation. Call (702) 903-4687.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/homes/single-family-las-vegas',
   },
   openGraph: {
-    title: 'Single Family Homes Las Vegas | New Construction',
-    description: 'Find new construction single-family homes in Las Vegas. Spacious homes with modern designs and premium finishes. Expert buyer representation. Call (702) 903-4687.',
+    title: SEO.title,
+    description: SEO.description,
     url: 'https://www.arroyoskyeview.com/homes/single-family-las-vegas',
     type: 'website',
     images: [

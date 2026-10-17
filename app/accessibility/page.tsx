@@ -3,9 +3,14 @@ import PageSchemas from '../components/page-schemas'
 
 import MarketingPageShell from '../components/marketing-page-shell'
 import DrJanPortrait from '../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/accessibility'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'Accessibility Statement | Arroyo at Skyeview | Homes by Dr. Jan Duffy',
-  description: 'Accessibility Statement for Arroyo at Skyeview | Homes by Dr. Jan Duffy. Our commitment to making our website accessible to all users in compliance with WCAG 2.1 Level AA standards.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/accessibility',
   },
@@ -18,8 +23,8 @@ export default function AccessibilityPage() {
         <PageSchemas
         pageType="about"
         url="/accessibility"
-        title="Accessibility Statement | Arroyo at Skyeview | Homes by Dr. Jan Duffy"
-        description="Accessibility Statement for Arroyo at Skyeview | Homes by Dr. Jan Duffy. Our commitment to making our website accessible to all users in compliance with WCAG 2.1 Level AA standards."
+        title={SEO.title}
+        description={SEO.description}
         breadcrumbs={[
           { name: 'Legal', url: '/legal' },
           { name: 'Accessibility Statement', url: '/accessibility' },

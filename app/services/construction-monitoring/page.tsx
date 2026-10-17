@@ -17,8 +17,8 @@ export const metadata: Metadata = {
     canonical: 'https://www.arroyoskyeview.com/services/construction-monitoring',
   },
   openGraph: {
-    title: 'Construction Monitoring Service | Protect Your New Construction Home Investment',
-    description: 'Construction monitoring service for new construction homes in Las Vegas, Nevada. Dr. Jan Duffy monitors your home\'s construction every 7-10 days.',
+    title: SEO.title,
+    description: SEO.description,
     url: 'https://www.arroyoskyeview.com/services/construction-monitoring',
     type: 'website',
     images: [

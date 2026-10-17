@@ -3,9 +3,14 @@ import PageSchemas from '../components/page-schemas'
 
 import MarketingPageShell from '../components/marketing-page-shell'
 import DrJanPortrait from '../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/privacy-policy'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Arroyo at Skyeview | Homes by Dr. Jan Duffy',
-  description: 'Privacy Policy for Arroyo at Skyeview | Homes by Dr. Jan Duffy. Learn how we collect, use, and protect your personal information in compliance with CCPA and GDPR.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/privacy-policy',
   },
@@ -18,8 +23,8 @@ export default function PrivacyPolicyPage() {
         <PageSchemas
         pageType="about"
         url="/privacy-policy"
-        title="Privacy Policy | Arroyo at Skyeview | Homes by Dr. Jan Duffy"
-        description="Privacy Policy for Arroyo at Skyeview | Homes by Dr. Jan Duffy. Learn how we collect, use, and protect your personal information in compliance with CCPA and GDPR."
+        title={SEO.title}
+        description={SEO.description}
         breadcrumbs={[
           { name: 'Legal', url: '/legal' },
           { name: 'Privacy Policy', url: '/privacy-policy' },

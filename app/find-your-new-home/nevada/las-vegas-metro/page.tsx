@@ -8,15 +8,20 @@ import ZipCodeMap from '../../../components/zipcode-map'
 import PageSchemas from '../../../components/page-schemas'
 
 import MarketingPageShell from '../../../components/marketing-page-shell'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/find-your-new-home/nevada/las-vegas-metro'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'Find Your New Home in Las Vegas Metro, Nevada | New Construction Homes',
-  description: 'Discover new construction homes and communities throughout Las Vegas Metro, Nevada. Browse available homes, floor plans, and communities in Las Vegas, Henderson, Summerlin, Skye Canyon, and surrounding areas with expert buyer\'s agent representation.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/find-your-new-home/nevada/las-vegas-metro',
   },
   openGraph: {
-    title: 'Find Your New Home in Las Vegas Metro, Nevada | New Construction Homes',
-    description: 'Discover new construction homes and communities throughout Las Vegas Metro, Nevada. Browse available homes, floor plans, and communities in Las Vegas, Henderson, Summerlin, Skye Canyon, and surrounding areas with expert buyer\'s agent representation.',
+    title: SEO.title,
+    description: SEO.description,
     url: 'https://www.arroyoskyeview.com/find-your-new-home/nevada/las-vegas-metro',
     type: 'website',
     images: [

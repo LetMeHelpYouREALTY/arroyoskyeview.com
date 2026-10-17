@@ -7,15 +7,20 @@ import CrossCommunityLinks from '../../components/cross-community-links'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/neighborhoods/centennial-hills'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'New Construction Homes in Centennial Hills, Las Vegas | Buyer\'s Agent',
-  description: 'Discover new construction homes in Centennial Hills, Las Vegas, Nevada. Expert buyer\'s agent representation with Dr. Jan Duffy for new construction homes. Construction monitoring and building standards inspection included. Call (702) 903-4687.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/neighborhoods/centennial-hills',
   },
   openGraph: {
-    title: 'New Construction Homes in Centennial Hills, Las Vegas | Buyer\'s Agent',
-    description: 'Discover new construction homes in Centennial Hills, Las Vegas, Nevada. Expert buyer\'s agent representation with Dr. Jan Duffy. Construction monitoring and building standards inspection included.',
+    title: SEO.title,
+    description: SEO.description,
     url: 'https://www.arroyoskyeview.com/neighborhoods/centennial-hills',
     type: 'website',
     images: [

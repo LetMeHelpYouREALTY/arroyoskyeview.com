@@ -5,9 +5,14 @@ import Link from 'next/link'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/buyers/inspections-new-construction'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'New Construction Home Inspections Guide | Las Vegas Buyer\'s Guide',
-  description: 'Complete guide to new construction home inspections in Las Vegas, Nevada. Learn about construction monitoring, building standards inspection, pre-drywall inspection, and final walkthrough. Expert guidance from Dr. Jan Duffy, your buyer\'s agent.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/buyers/inspections-new-construction',
   },

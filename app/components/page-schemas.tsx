@@ -408,15 +408,18 @@ export default function PageSchemas({
     ],
   }
 
+  const isArroyoCommunityPage =
+    fullUrl.includes('/arroyo-at-skyeview/') ||
+    communityName?.toLowerCase().includes('arroyo') === true
+
   // Community-specific schemas
   let communitySchemas: any[] = []
   if (pageType === 'community' && communityName && location) {
-    // ResidentialComplex Schema
-    const residentialComplexSchema = {
+    const communityPlaceSchema = {
       '@context': 'https://schema.org',
-      '@type': 'ResidentialComplex',
+      '@type': 'Place',
       name: communityName,
-      description: `${communityName} is a residential community in ${location}, Las Vegas, Nevada, part of Arroyo at Skyeview Homes.`,
+      description: `${communityName} is a residential community in ${location}, Las Vegas, Nevada (zip ${zipCode || '89166'}).`,
       url: fullUrl,
       address: {
         '@type': 'PostalAddress',
@@ -424,11 +427,6 @@ export default function PageSchemas({
         addressRegion: 'NV',
         postalCode: zipCode || '89166',
         addressCountry: 'US',
-      },
-      geo: {
-        '@type': 'GeoCoordinates',
-        latitude: '36.2765',
-        longitude: '-115.2832',
       },
       containedInPlace: {
         '@type': 'Place',
@@ -438,42 +436,56 @@ export default function PageSchemas({
           addressLocality: 'Las Vegas',
           addressRegion: 'NV',
           postalCode: zipCode || '89166',
+          addressCountry: 'US',
         },
       },
-      ...(priceRange && { priceRange }),
-      developer: {
-        '@type': 'Organization',
-        name: 'Arroyo at Skyeview Homes',
-        url: baseUrl,
-      },
     }
-    communitySchemas.push(residentialComplexSchema)
 
-    // Place Schema
-    const placeSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'Place',
-      name: location,
-      description: `${location} is a master-planned community in Las Vegas, Nevada.`,
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'Las Vegas',
-        addressRegion: 'NV',
-        postalCode: zipCode || '89166',
-        addressCountry: 'US',
-      },
-      geo: {
-        '@type': 'GeoCoordinates',
-        latitude: '36.2765',
-        longitude: '-115.2832',
-      },
-      containedIn: {
-        '@type': 'City',
-        name: 'Las Vegas',
-        addressRegion: 'NV',
-      },
+    if (isArroyoCommunityPage) {
+      const residentialComplexSchema = {
+        ...communityPlaceSchema,
+        '@type': 'ResidentialComplex',
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: '36.2765',
+          longitude: '-115.2832',
+        },
+        ...(priceRange && { priceRange }),
+        developer: {
+          '@type': 'Organization',
+          name: 'Arroyo at Skyeview Homes',
+          url: baseUrl,
+        },
+      }
+      communitySchemas.push(residentialComplexSchema)
+
+      const skyeCanyonPlaceSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'Place',
+        name: location,
+        description: `${location} is a master-planned community in northwest Las Vegas, Nevada.`,
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Las Vegas',
+          addressRegion: 'NV',
+          postalCode: zipCode || '89166',
+          addressCountry: 'US',
+        },
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: '36.2765',
+          longitude: '-115.2832',
+        },
+        containedIn: {
+          '@type': 'City',
+          name: 'Las Vegas',
+          addressRegion: 'NV',
+        },
+      }
+      communitySchemas.push(skyeCanyonPlaceSchema)
+    } else {
+      communitySchemas.push(communityPlaceSchema)
     }
-    communitySchemas.push(placeSchema)
   }
 
   // Blog Article Schema
@@ -621,7 +633,7 @@ export default function PageSchemas({
   // A formatted range is invalid. Use the low end, which matches "from $392,640" on the page.
   let productSchema: any = null
   const offerPrice = priceRange ? startingOfferPrice(priceRange) : null
-  if (pageType === 'community' && communityName && offerPrice) {
+  if (pageType === 'community' && communityName && offerPrice && isArroyoCommunityPage) {
     productSchema = {
       '@context': 'https://schema.org',
       '@type': 'Product',

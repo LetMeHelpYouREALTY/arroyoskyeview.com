@@ -4,10 +4,14 @@ import MarketingPageShell from '../components/marketing-page-shell'
 import StandardPageHero from '../components/standard-page-hero'
 import PageSchemas from '../components/page-schemas'
 import { PageSection } from '../components/page-section'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/legal'
+const SEO = sitePageSeo(PATH)
 
 export const metadata: Metadata = {
-  title: 'Legal Information | Arroyo at Skyeview | Homes by Dr. Jan Duffy',
-  description: 'Legal information and policies for Arroyo at Skyeview | Homes by Dr. Jan Duffy. Access our Privacy Policy, Terms of Use, and Accessibility Statement.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/legal',
   },
@@ -21,8 +25,8 @@ export default function LegalPage() {
         <PageSchemas
           pageType="about"
           url="/legal"
-          title="Legal Information | Arroyo at Skyeview | Homes by Dr. Jan Duffy"
-          description="Legal information and policies for Arroyo at Skyeview | Homes by Dr. Jan Duffy. Access our Privacy Policy, Terms of Use, and Accessibility Statement."
+          title={SEO.title}
+          description={SEO.description}
           breadcrumbs={[{ name: 'Legal', url: '/legal' }]}
         />
       }

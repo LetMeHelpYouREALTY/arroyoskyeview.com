@@ -6,9 +6,14 @@ import DrJanContactCard from '../../components/dr-jan-contact-card'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/buyers/builder-incentives-guide'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'Builder Incentives Guide | Arroyo at Skyeview Homes Las Vegas',
-  description: 'Learn about current builder incentives for Arroyo at Skyeview Homes in Las Vegas. Rate buy-downs, closing cost assistance, and promotions. Expert guidance from Dr. Jan Duffy.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/buyers/builder-incentives-guide',
   },

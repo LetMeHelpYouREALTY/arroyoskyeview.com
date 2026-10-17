@@ -19,9 +19,8 @@ export const metadata: Metadata = {
   description: SEO.description,
   alternates: { canonical: absoluteUrl(PATH) },
   openGraph: {
-    title: 'Skye Canyon Area Guide | Arroyo at Skyeview Las Vegas',
-    description:
-      'Schools, amenities, and outdoor recreation near Arroyo at Skyeview in Skye Canyon, northwest Las Vegas zip 89166.',
+    title: SEO.title,
+    description: SEO.description,
     url: absoluteUrl(PATH),
     type: 'website',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Skye Canyon area near Arroyo at Skyeview' }],

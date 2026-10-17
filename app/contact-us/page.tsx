@@ -18,8 +18,8 @@ export const metadata: Metadata = {
     canonical: 'https://www.arroyoskyeview.com/contact-us',
   },
   openGraph: {
-    title: 'Contact Dr. Jan Duffy | Buyer\'s Agent for Arroyo at Skyeview Homes',
-    description: 'Contact Dr. Jan Duffy, your buyer\'s agent for Arroyo at Skyeview Homes in Skye Canyon, zip code 89166, northwest Las Vegas, Nevada. She represents HOME BUYERS, not the builder. Call (702) 903-4687.',
+    title: CONTACT_SEO.title,
+    description: CONTACT_SEO.description,
     url: 'https://www.arroyoskyeview.com/contact-us',
     type: 'website',
     images: [

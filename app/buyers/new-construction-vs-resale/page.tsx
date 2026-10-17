@@ -5,9 +5,14 @@ import Link from 'next/link'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/buyers/new-construction-vs-resale'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'New Construction vs Resale Homes | Which is Right for You?',
-  description: 'Compare new construction homes vs resale homes in Las Vegas, Nevada. Learn about the pros and cons of each, costs, timeline, and which option is best for you. Expert guidance from Dr. Jan Duffy, your buyer\'s agent. Call (702) 903-4687.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/buyers/new-construction-vs-resale',
   },

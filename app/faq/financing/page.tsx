@@ -6,9 +6,14 @@ import Link from 'next/link'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/faq/financing'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'New Construction Home Financing FAQ | Skye Canyon, Northwest Las Vegas',
-  description: 'Get answers to financing questions for new construction homes in Skye Canyon (zip code 89166) and northwest Las Vegas, Nevada. Learn about loan types, down payments, builder incentives, and financing options. Expert guidance from Dr. Jan Duffy.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/faq/financing',
   },

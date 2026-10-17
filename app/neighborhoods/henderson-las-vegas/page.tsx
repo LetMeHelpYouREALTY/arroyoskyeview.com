@@ -6,9 +6,14 @@ import DrJanContactCard from '../../components/dr-jan-contact-card'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
 import DrJanPortrait from '../../components/dr-jan-portrait'
+import { sitePageSeo } from '@/lib/site-page-seo'
+
+const PATH = '/neighborhoods/henderson-las-vegas'
+const SEO = sitePageSeo(PATH)
+
 export const metadata: Metadata = {
-  title: 'New Homes in Henderson Las Vegas | New Construction Homes',
-  description: 'Discover new construction homes in Henderson, Nevada. Expert buyer\'s agent representation with Dr. Jan Duffy. Construction monitoring included. Call (702) 903-4687.',
+  title: SEO.title,
+  description: SEO.description,
   alternates: {
     canonical: 'https://www.arroyoskyeview.com/neighborhoods/henderson-las-vegas',
   },

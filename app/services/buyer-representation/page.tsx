@@ -17,8 +17,8 @@ export const metadata: Metadata = {
     canonical: 'https://www.arroyoskyeview.com/services/buyer-representation',
   },
   openGraph: {
-    title: 'Buyer Representation vs Builder\'s Agent: The Difference | Skye Canyon, Northwest Las Vegas',
-    description: 'Learn why you need a buyer\'s agent for new construction homes in Skye Canyon and northwest Las Vegas. Dr. Jan Duffy represents HOME BUYERS, not the builder.',
+    title: SEO.title,
+    description: SEO.description,
     url: 'https://www.arroyoskyeview.com/services/buyer-representation',
     type: 'website',
     images: [
