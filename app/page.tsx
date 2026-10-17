@@ -21,6 +21,7 @@ import Footer from './components/footer'
 import StickyPhoneCTA from './components/sticky-phone-cta'
 import AnalyticsTracker from './components/analytics-tracker'
 import ReviewSchema from './components/review-schema'
+import HomepageStructuredData from './components/homepage-structured-data'
 import ConversionFunnel from './components/conversion-funnel'
 import { ARROYO_PRICE_RANGE } from '@/lib/arroyo-inventory'
 
@@ -35,20 +36,9 @@ export default function HomePage() {
         breadcrumbs={[]}
         location="Skye Canyon"
         zipCode="89166"
-        questions={[
-          {
-            question: 'What is Arroyo at Skyeview Homes and where is it located?',
-            answer:
-              'Arroyo at Skyeview Homes is a community of new construction townhomes in Skye Canyon, northwest Las Vegas, Nevada (zip 89166), near US-95 and the 215 Beltway. Dr. Jan Duffy represents home buyers—not the builder.',
-          },
-          {
-            question: 'Where can I see available homes and floor plans?',
-            answer:
-              'Browse dedicated pages for available homes, floor plans, homesite map, community overview, and area schools at arroyoskyeview.com/arroyo-at-skyeview/.',
-          },
-        ]}
         priceRange={ARROYO_PRICE_RANGE}
       />
+      <HomepageStructuredData />
       <PurpleSaleBanner />
       <Header />
       <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">

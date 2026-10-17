@@ -107,6 +107,18 @@ export default function CentennialHillsPage() {
                   <li>New construction developments with modern homes</li>
                 </ul>
                 <p className="text-lg text-muted-foreground mb-4">
+                  Skye Canyon (zip code 89166) borders Centennial Hills. For Arroyo at Skyeview townhomes and
+                  Skye Canyon schools, see the{' '}
+                  <Link href="/areas/zip-89166" className="text-primary underline">
+                    zip 89166 market page
+                  </Link>{' '}
+                  and the{' '}
+                  <Link href="/arroyo-at-skyeview/area" className="text-primary underline">
+                    Arroyo area guide
+                  </Link>
+                  .
+                </p>
+                <p className="text-lg text-muted-foreground mb-4">
                   Centennial Hills is experiencing growth with new construction communities offering modern homes at competitive prices. When buying new construction in Centennial Hills, work with Dr. Jan Duffy—your buyer's agent who represents HOME BUYERS, not the builder.
                 </p>
               </section>

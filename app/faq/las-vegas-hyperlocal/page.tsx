@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import DrJanCTABanner from '../../components/dr-jan-cta-banner'
 import DrJanContactCard from '../../components/dr-jan-contact-card'
-import Script from 'next/script'
 import PageSchemas from '../../components/page-schemas'
 
 import MarketingPageShell from '../../components/marketing-page-shell'
@@ -150,19 +149,6 @@ const neighborhoodQuestions = [
 ]
 
 export default function LasVegasHyperlocalFAQPage() {
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: neighborhoodQuestions.map((item) => ({
-      '@type': 'Question',
-      name: item.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.answer,
-      },
-    })),
-  }
-
   return (
     <MarketingPageShell
       schema={
@@ -175,22 +161,12 @@ export default function LasVegasHyperlocalFAQPage() {
           { name: 'FAQ', url: '/faq' },
           { name: 'Las Vegas Neighborhood Q&A', url: '/faq/las-vegas-hyperlocal' },
         ]}
-        questions={neighborhoodQuestions.slice(0, 10).map(q => ({
-          question: q.question,
-          answer: q.answer.substring(0, 200) + (q.answer.length > 200 ? '...' : ''),
-        }))}
+        questions={neighborhoodQuestions}
       />
       }
       showContactCta={false}
     >
       <DrJanCTABanner />
-        
-        <Script
-          id="faq-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-        />
-        
         <section className="luxury-page-hero">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-5">
@@ -219,7 +195,7 @@ export default function LasVegasHyperlocalFAQPage() {
                       <h2 className="text-xl font-bold text-foreground mb-3">
                         {faq.question}
                       </h2>
-                      <p className="text-muted-foreground leading-relaxed">
+                      <p className="text-muted-foreground leading-relaxed" data-answer="section">
                         {faq.answer}
                       </p>
                     </div>

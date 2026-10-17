@@ -273,6 +273,32 @@ export default function Zip89166Page() {
             </div>
           </div>
         </section>
+        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+          <h2 className="text-2xl font-bold text-foreground mb-4">
+            Skye Canyon guides and nearby northwest Las Vegas pages
+          </h2>
+          <p className="text-muted-foreground mb-4">
+            Drill into Arroyo at Skyeview community detail, compare Centennial Hills to zip 89166, or read
+            long-form Las Vegas new-construction answers from Dr. Jan Duffy.
+          </p>
+          <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
+            <li>
+              <Link href="/arroyo-at-skyeview/area" className="text-primary underline">
+                Arroyo at Skyeview area and schools guide
+              </Link>
+            </li>
+            <li>
+              <Link href="/neighborhoods/centennial-hills" className="text-primary underline">
+                New construction in Centennial Hills (near Skye Canyon)
+              </Link>
+            </li>
+            <li>
+              <Link href="/faq/las-vegas-hyperlocal" className="text-primary underline">
+                Las Vegas neighborhood Q&amp;A for buyers
+              </Link>
+            </li>
+          </ul>
+        </section>
         <ZipCodeMap highlightZipCode="89166" />
         <PeopleAlsoSearch />
     </MarketingPageShell>

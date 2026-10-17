@@ -1,6 +1,7 @@
-import Script from 'next/script'
+import JsonLdScript from './json-ld-script'
 import { ARROYO_PRICE_LOW } from '@/lib/arroyo-inventory'
 import { ARROYO_JSON_LD_AREA_SERVED } from '@/lib/json-ld-area-served'
+import { JSON_LD_ORGANIZATION_ID, JSON_LD_WEBSITE_ID } from '@/lib/json-ld-entities'
 
 const COMMUNITY_PRODUCT_IMAGE = '/images/hero/luxury-hero-skye-canyon.webp'
 
@@ -42,7 +43,6 @@ interface PageSchemasProps {
   image?: string
   questions?: Array<{ question: string; answer: string }>
   priceRange?: string
-  rating?: { value: string; count: string }
 }
 
 export default function PageSchemas({
@@ -60,14 +60,14 @@ export default function PageSchemas({
   image,
   questions = [],
   priceRange,
-  rating,
 }: PageSchemasProps) {
   const baseUrl = 'https://www.arroyoskyeview.com'
   const fullUrl = url.startsWith('http') ? url : `${baseUrl}${url}`
 
-  // Auto-set dateModified if not provided (signals freshness to Google)
-  const currentDateModified = dateModified || new Date().toISOString().split('T')[0]
-  const currentDatePublished = datePublished || currentDateModified
+  const speakablePageTypes = new Set(['homepage', 'faq', 'buyer-guide', 'zip'])
+  const includeSpeakable =
+    speakablePageTypes.has(pageType) &&
+    (pageType === 'homepage' || questions.length > 0)
 
   // WebPage Schema (for all pages)
   const webPageSchema = {
@@ -78,21 +78,18 @@ export default function PageSchemas({
     name: title,
     description: description,
     inLanguage: 'en-US',
-    datePublished: currentDatePublished,
-    dateModified: currentDateModified,
+    ...(datePublished ? { datePublished } : {}),
+    ...(dateModified ? { dateModified } : {}),
     isPartOf: {
       '@type': 'WebSite',
       name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
       url: baseUrl,
     },
     publisher: {
-      '@type': 'Organization',
-      '@id': `${baseUrl}#organization`,
-      name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
-      url: baseUrl,
+      '@id': JSON_LD_ORGANIZATION_ID,
     },
     about: {
-      '@id': `${baseUrl}#organization`,
+      '@id': JSON_LD_ORGANIZATION_ID,
     },
     contentLocation: {
       '@type': 'Place',
@@ -105,10 +102,14 @@ export default function PageSchemas({
         addressCountry: 'US',
       },
     },
-    speakable: {
-      '@type': 'SpeakableSpecification',
-      cssSelector: ['h1', 'h1 + p', 'h2 + p', '[data-answer]'],
-    },
+    ...(includeSpeakable
+      ? {
+          speakable: {
+            '@type': 'SpeakableSpecification',
+            cssSelector: ['h1', '[data-answer]'],
+          },
+        }
+      : {}),
     ...(image && {
       image: {
         '@type': 'ImageObject',
@@ -141,7 +142,7 @@ export default function PageSchemas({
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    '@id': `${baseUrl}#organization`,
+    '@id': JSON_LD_ORGANIZATION_ID,
     name: 'Arroyo at Skyeview Homes | Homes by Dr. Jan Duffy',
     alternateName: ['Dr. Jan Duffy Real Estate', 'Dr. Jan Duffy', 'Arroyo at Skyeview Homes'],
     description: 'Expert buyer representation for Arroyo at Skyeview Homes and new construction homes in Skye Canyon, northwest Las Vegas, Nevada (zip code 89166). Dr. Jan Duffy represents HOME BUYERS, not the builder. Specializing in construction monitoring, building standards inspection, and insider knowledge of northwest Las Vegas communities.',
@@ -521,15 +522,6 @@ export default function PageSchemas({
         },
       },
       ...(priceRange && { priceRange }),
-      ...(rating && {
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: Number(rating.value),
-          reviewCount: Number(rating.count),
-          bestRating: 5,
-          worstRating: 1,
-        },
-      }),
       developer: {
         '@type': 'Organization',
         name: 'Arroyo at Skyeview Homes',
@@ -586,8 +578,8 @@ export default function PageSchemas({
           url: `${baseUrl}/images/dr-jan-duffy.png`,
         },
       },
-      datePublished: datePublished || new Date().toISOString().split('T')[0],
-      dateModified: dateModified || new Date().toISOString().split('T')[0],
+      ...(datePublished ? { datePublished } : {}),
+      ...(dateModified ? { dateModified } : {}),
       mainEntityOfPage: {
         '@type': 'WebPage',
         '@id': fullUrl,
@@ -657,6 +649,7 @@ export default function PageSchemas({
     websiteSchema = {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
+      '@id': JSON_LD_WEBSITE_ID,
       name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
       alternateName: ['Arroyo at Skyeview', 'Dr. Jan Duffy Real Estate', 'arroyoskyeview.com'],
       url: baseUrl,
@@ -734,15 +727,6 @@ export default function PageSchemas({
           telephone: '+1-702-903-4687',
         },
       },
-      ...(rating && {
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: Number(rating.value),
-          reviewCount: Number(rating.count),
-          bestRating: 5,
-          worstRating: 1,
-        },
-      }),
     }
   }
 
@@ -779,11 +763,10 @@ export default function PageSchemas({
   return (
     <>
       {allSchemas.map((schema, index) => (
-        <Script
+        <JsonLdScript
           key={`schema-${pageType}-${index}`}
           id={`schema-${pageType}-${index}`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          data={schema}
         />
       ))}
     </>

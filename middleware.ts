@@ -44,7 +44,7 @@ export function middleware(request: NextRequest) {
   if (url.pathname === '/sitemap.xml') {
     response.headers.set('X-Robots-Tag', 'noindex')
   } else if (url.pathname === '/llms.txt') {
-    response.headers.set('X-Robots-Tag', 'noindex, nofollow')
+    response.headers.set('X-Robots-Tag', 'noindex')
   } else if (url.pathname === '/manifest.webmanifest') {
     response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet')
   }

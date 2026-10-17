@@ -3,7 +3,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Geist, Playfair_Display } from 'next/font/google'
 import { SITE_URL } from '@/lib/site-url'
-import StructuredData from './components/structured-data'
+import SitewideStructuredData from './components/sitewide-structured-data'
 import SkipToMain from './components/skip-to-main'
 import './globals.css'
 import Script from 'next/script';
@@ -133,7 +133,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${playfair.variable} antialiased`}
       >
-        <StructuredData />
+        <SitewideStructuredData />
         <SkipToMain />
         {children}
         <Analytics />

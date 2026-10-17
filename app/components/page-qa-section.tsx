@@ -1,4 +1,3 @@
-import Script from 'next/script'
 import { Button } from '@/components/ui/button'
 
 interface QAItem {
@@ -17,27 +16,8 @@ export default function PageQASection({
   title = 'Frequently Asked Questions',
   showContact = true,
 }: PageQASectionProps) {
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: questions.map((item) => ({
-      '@type': 'Question',
-      name: item.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.answer,
-      },
-    })),
-  }
-
   return (
     <>
-      <Script
-        id={`faq-schema-${title.replace(/\s+/g, '-').toLowerCase()}`}
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-
       <section className="bg-muted/40 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="mb-8 text-3xl font-bold tracking-tight text-foreground">{title}</h2>

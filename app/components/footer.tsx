@@ -26,7 +26,11 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
     pathname != null &&
     FOOTER_REALSCOUT_FALLBACK_PATHS.has(pathname)
   const communities = [
-    { name: 'Arroyo at Skyeview', href: '/', title: 'Arroyo at Skyeview New Construction Townhomes Las Vegas' },
+    {
+      name: 'Arroyo at Skyeview',
+      href: '/arroyo-at-skyeview/overview',
+      title: 'Arroyo at Skyeview New Construction Townhomes Las Vegas',
+    },
     { name: 'Sierra at Skyeview', href: '/sierra-at-skyeview', title: 'Sierra at Skyeview Las Vegas New Homes' },
     { name: 'Terra at Skyeview', href: '/terra-at-skyeview', title: 'Terra at Skyeview Las Vegas New Construction' },
     { name: 'Ironwood', href: '/ironwood', title: 'Ironwood Las Vegas New Homes' },

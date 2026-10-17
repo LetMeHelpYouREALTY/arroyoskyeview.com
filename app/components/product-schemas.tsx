@@ -1,4 +1,4 @@
-import Script from 'next/script'
+import JsonLdScript from './json-ld-script'
 
 interface FloorPlan {
   name: string
@@ -186,11 +186,10 @@ export default function ProductSchemas({ floorPlans = [], homes = [] }: ProductS
   return (
     <>
       {allSchemas.map((schema, index) => (
-        <Script
+        <JsonLdScript
           key={`product-schema-${index}`}
           id={`product-schema-${index}`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          data={schema}
         />
       ))}
     </>
