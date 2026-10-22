@@ -4,6 +4,7 @@ import Header from './components/header'
 import DrJanHero from './components/dr-jan-hero'
 import LuxuryHero from './components/luxury-hero'
 import HyperlocalHighlights from './components/hyperlocal-highlights'
+import NearbyAmenitiesSection from './components/nearby-amenities-section'
 import ArroyoHubLinks from './components/arroyo-hub-links'
 import WhyChooseDrJan from './components/why-choose-dr-jan'
 import BuyerJourney from './components/buyer-journey'
@@ -44,6 +45,7 @@ export default function HomePage() {
       <main id="main-content" tabIndex={-1} className="outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         <LuxuryHero />
         <HyperlocalHighlights />
+        <NearbyAmenitiesSection />
         <DrJanHero />
         <RealScoutOfficePriceBands intro="See live MLS listings below the hero to compare options quickly with Dr. Jan Duffy." />
         <ConversionFunnel />

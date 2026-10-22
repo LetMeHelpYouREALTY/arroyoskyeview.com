@@ -4,6 +4,7 @@ import LuxuryPageHero from '../../components/luxury-page-hero'
 import ArroyoHubNav from '../../components/arroyo-hub-nav'
 import AreaInformation from '../../components/area-information'
 import NeighborhoodLinksSection from '../../components/neighborhood-links-section'
+import NearbyAmenitiesSection from '../../components/nearby-amenities-section'
 import MarketingPageShell from '../../components/marketing-page-shell'
 import PageSchemas from '../../components/page-schemas'
 import { PageContent } from '../../components/page-section'
@@ -75,6 +76,10 @@ export default function ArroyoAreaPage() {
       <PageContent>
         <AreaInformation />
       </PageContent>
+      <NearbyAmenitiesSection
+        title="Map: Life Near Arroyo at Skyeview"
+        subtitle="Filter restaurants, groceries, parks, schools, and healthcare around zip 89166—same map as our full amenities guide."
+      />
       <NeighborhoodLinksSection location="Skye Canyon" zipCode="89166" />
     </MarketingPageShell>
   )
