@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import DrJanCTABanner from '../components/dr-jan-cta-banner'
 import DrJanContactCard from '../components/dr-jan-contact-card'
 import RealScoutOfficePriceBands from '../components/realscout-office-price-bands'
+import CalendlyAfterListings from '../components/calendly-after-listings'
 import AvailableHomes from '../components/available-homes'
 import FloorPlans from '../components/floor-plans'
 import Overview from '../components/overview'
@@ -69,6 +70,7 @@ export default function HomesteadWestPage() {
     >
       <DrJanCTABanner context="pre-construction pricing" />
         <RealScoutOfficePriceBands />
+        <CalendlyAfterListings />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <AvailableHomes />
           <div className="mt-12">
