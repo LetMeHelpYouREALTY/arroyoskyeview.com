@@ -123,9 +123,6 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
                   Dr. Jan Duffy represents home buyers, not the builder, for new construction in Skye Canyon (89166) and Las Vegas. Construction monitoring and a building standards inspection are included. Hours: {SITE_CONTACT.hoursDisplay}.
                 </p>
                 <p className="text-sm text-luxury-sand leading-relaxed">
-                  <strong className="text-luxury-ivory">{SITE_CONTACT.licenseDisplay}</strong>
-                </p>
-                <p className="text-sm text-luxury-sand leading-relaxed">
                   <a
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(SITE_CONTACT.formattedAddress)}`}
                     className="hover:text-luxury-champagne transition-colors"
@@ -348,7 +345,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
                 © 2025 Arroyo at Skyeview | Homes by Dr. Jan Duffy
               </p>
               <p className="text-xs text-luxury-ivory0">
-                Dr. Jan Duffy, Nevada Real Estate License #S.0197614
+                Berkshire Hathaway HomeServices Nevada Properties since September 2008 · License S.0197614.LLC
               </p>
               <p className="text-xs text-luxury-ivory0">
                 All Rights Reserved. Equal Housing Opportunity Provider.
@@ -387,7 +384,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
           </div>
           <div className="mt-6 pt-6 border-t border-luxury-champagne/20">
             <p className="text-xs text-luxury-ivory0 text-center leading-relaxed">
-              Equal Housing Opportunity | Arroyo at Skyview | Homes by Dr. Duffy. Licensed agent (License #S.0197614.LLC), Berkshire Hathaway HomeServices Nevada. Subject to change. (702) 903-4687
+              Equal Housing Opportunity | Arroyo at Skyview | Homes by Dr. Duffy. Subject to change. (702) 903-4687
             </p>
           </div>
         </div>

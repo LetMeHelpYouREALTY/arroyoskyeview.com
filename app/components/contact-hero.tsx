@@ -86,7 +86,6 @@ export default function ContactHero() {
 
         <address className="bg-white/10 backdrop-blur-md rounded-2xl p-8 max-w-2xl mx-auto border border-white/20 not-italic text-center">
           <h2 className="text-2xl font-bold mb-2">{SITE_CONTACT.agentName}</h2>
-          <p className="text-blue-100 mb-2">{SITE_CONTACT.licenseDisplay}</p>
           <p className="text-blue-100 mb-4">New Construction Home Preferred Buyer&apos;s Agent</p>
           <p className="text-white font-medium mb-4">{SITE_CONTACT.formattedAddress}</p>
           <div className="pt-4 border-t border-white/20">
