@@ -6,6 +6,7 @@ import { SITE_CONTACT } from '@/lib/site-contact'
 import DrJanPortrait from './dr-jan-portrait'
 import { trackPhoneClick, trackSmsClick } from './analytics-tracker'
 import RealScoutOfficeWidget from './realscout-office-widget'
+import CalendlyAfterListings from './calendly-after-listings'
 
 type FooterProps = {
   /** Reserved for backwards compatibility. */
@@ -98,7 +99,12 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
 
   return (
     <>
-      {showFooterRealScout && <RealScoutOfficeWidget className="py-10" />}
+      {showFooterRealScout && (
+        <>
+          <RealScoutOfficeWidget className="py-10" />
+          <CalendlyAfterListings />
+        </>
+      )}
       <footer
         className="border-t border-luxury-champagne/20 bg-linear-to-b from-zinc-950 via-zinc-900 to-zinc-950 text-zinc-100"
         role="contentinfo"

@@ -6,6 +6,7 @@ import ProcessSteps from '../components/process-steps'
 import HowWeMakeItEasy from '../components/how-we-make-it-easy'
 import MoreWaysToStreamline from '../components/more-ways-to-streamline'
 import RealScoutOfficePriceBands from '../components/realscout-office-price-bands'
+import CalendlyAfterListings from '../components/calendly-after-listings'
 import GetInTouch from '../components/get-in-touch'
 import PageSchemas from '../components/page-schemas'
 
@@ -51,6 +52,7 @@ export default function HomebuyingProcessPage() {
         <HowWeMakeItEasy />
         <MoreWaysToStreamline />
         <RealScoutOfficePriceBands intro="Explore real inventory while you learn the homebuying process — Dr. Jan Duffy represents buyers, not the builder." />
+        <CalendlyAfterListings />
         <GetInTouch />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="max-w-2xl mx-auto">

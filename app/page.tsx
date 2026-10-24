@@ -11,6 +11,7 @@ import DrJanTestimonials from './components/dr-jan-testimonials'
 import BestOpportunities from './components/best-opportunities'
 import DrJanFAQ from './components/dr-jan-faq'
 import RealScoutOfficePriceBands from './components/realscout-office-price-bands'
+import CalendlyAfterListings from './components/calendly-after-listings'
 import SimilarCommunities from './components/similar-communities'
 import HomeownerReviews from './components/homeowner-reviews'
 import RequestInfo from './components/request-info'
@@ -46,6 +47,7 @@ export default function HomePage() {
         <HyperlocalHighlights />
         <DrJanHero />
         <RealScoutOfficePriceBands intro="See live MLS listings below the hero to compare options quickly with Dr. Jan Duffy." />
+        <CalendlyAfterListings />
         <ConversionFunnel />
         <ArroyoHubLinks />
         <section className="border-y border-border bg-card/40 py-10">

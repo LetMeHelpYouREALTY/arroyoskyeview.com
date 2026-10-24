@@ -1,7 +1,6 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { CALENDLY_URL } from '@/lib/calendly'
 import CalendlyLinkWidget from './calendly-link-widget'
 
 type CalendlyScheduleButtonProps = {
@@ -22,7 +21,7 @@ const variantClasses: Record<NonNullable<CalendlyScheduleButtonProps['variant']>
 
 export default function CalendlyScheduleButton({
   text = 'Schedule time with me',
-  url = CALENDLY_URL,
+  url,
   className = '',
   variant = 'primary',
 }: CalendlyScheduleButtonProps) {
@@ -30,6 +29,7 @@ export default function CalendlyScheduleButton({
     <CalendlyLinkWidget
       text={text}
       url={url}
+      medium="button"
       className={cn(variantClasses[variant], className)}
     />
   )

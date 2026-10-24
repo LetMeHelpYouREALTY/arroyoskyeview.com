@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import CalendlyScheduleButton from './calendly-schedule-button'
 import { cn } from '@/lib/utils'
 import RealScoutOfficeWidget from './realscout-office-widget'
+import CalendlyAfterListings from './calendly-after-listings'
 import DrJanPortrait from './dr-jan-portrait'
 import { REALSCOUT_PRICE_BANDS_ROUTE_PATHS } from '@/lib/realscout-config'
 
@@ -95,11 +96,14 @@ export default function DrJanCTABanner({ context = '' }: DrJanCTABannerProps) {
       </section>
 
       {showInlineListings && (
+        <>
         <RealScoutOfficeWidget
           heading="Live Listings Below the Hero"
           description="Browse live MLS inventory without leaving the page. Dr. Jan Duffy represents buyers, not the builder."
           className="py-10"
         />
+        <CalendlyAfterListings />
+        </>
       )}
     </>
   )

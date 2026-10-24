@@ -10,8 +10,6 @@ export default function ContactForm() {
     <section className="bg-gradient-to-b from-gray-50 to-white py-16">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="rounded-2xl bg-white p-8 shadow-xl md:p-12">
-          <LeadInquiryForm formName="Contact Us" />
-
           <div className="mb-8 text-center">
             <h2 className="mb-3 text-3xl font-bold text-foreground md:text-4xl">
               Schedule Your Buyer Consultation
@@ -62,6 +60,11 @@ export default function ContactForm() {
                 </a>
               </Button>
             </div>
+          </div>
+
+          {/* Calendly comes first; the message form stays for visitors who would rather write. It posts to FUB via /api/contact. */}
+          <div className="mt-12 border-t border-gray-200 pt-10">
+            <LeadInquiryForm formName="Contact Us" heading="Rather send a message?" />
           </div>
         </div>
       </div>
