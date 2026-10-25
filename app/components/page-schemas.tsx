@@ -152,10 +152,10 @@ export default function PageSchemas({
     email: 'info@arroyoskyeview.com',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '8912 Vanhoy Crk St',
+      streetAddress: '8912 Vanhoy Creek St',
       addressLocality: 'Las Vegas',
       addressRegion: 'NV',
-      postalCode: '89161',
+      postalCode: '89166',
       addressCountry: 'US',
     },
     areaServed: [...ARROYO_JSON_LD_AREA_SERVED],
@@ -183,10 +183,10 @@ export default function PageSchemas({
     email: 'info@arroyoskyeview.com',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '8912 Vanhoy Crk St',
+      streetAddress: '8912 Vanhoy Creek St',
       addressLocality: 'Las Vegas',
       addressRegion: 'NV',
-      postalCode: '89161',
+      postalCode: '89166',
       addressCountry: 'US',
     },
     geo: {
@@ -310,10 +310,10 @@ export default function PageSchemas({
     email: 'info@arroyoskyeview.com',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '8912 Vanhoy Crk St',
+      streetAddress: '8912 Vanhoy Creek St',
       addressLocality: 'Las Vegas',
       addressRegion: 'NV',
-      postalCode: '89161',
+      postalCode: '89166',
       addressCountry: 'US',
     },
     knowsAbout: [

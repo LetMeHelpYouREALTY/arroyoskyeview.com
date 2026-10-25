@@ -15,7 +15,7 @@ export default function HomepageStructuredData() {
     url: baseUrl,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '8912 Vanhoy Crk St',
+      streetAddress: '8912 Vanhoy Creek St',
       addressLocality: 'Las Vegas',
       addressRegion: 'NV',
       postalCode: '89166',

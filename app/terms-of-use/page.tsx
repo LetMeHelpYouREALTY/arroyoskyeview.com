@@ -263,7 +263,7 @@ export default function TermsOfUsePage() {
                 <p className="text-lg text-foreground font-semibold mb-2">Dr. Jan Duffy</p>
                 <p className="text-lg text-muted-foreground mb-2">Nevada Real Estate License #S.0197614</p>
                 <p className="text-lg text-muted-foreground mb-2">
-                  8912 Vanhoy Crk St<br />
+                  8912 Vanhoy Creek St<br />
                   Las Vegas, NV 89166
                 </p>
                 <p className="text-lg text-muted-foreground mb-2">
