@@ -4,7 +4,7 @@ export const SKYE_CANYON = {
   zip: '89166',
   acres: '1,700',
   region: 'Northwest Las Vegas',
-  address: '8912 Vanhoy Creek St., Las Vegas, NV 89166',
+  address: '8912 Vanhoy Creek St, Las Vegas, NV 89166',
   proximity: {
     redRock: '15 minutes to Red Rock Canyon National Conservation Area',
     mountCharleston: '30 minutes to Mount Charleston',
