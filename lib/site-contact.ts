@@ -10,7 +10,7 @@ export const SITE_CONTACT = {
   streetAddress: '8912 Vanhoy Creek St',
   addressLocality: 'Las Vegas',
   addressRegion: 'NV',
-  /** Business postal code per GBP (8912 Vanhoy Creek St, 89166) */
+  /** Business postal code per GBP (verified via GBP API 2026-10-24) */
   postalCode: '89166',
   /** Skye Canyon / Arroyo community area */
   communityPostalCode: '89166',
