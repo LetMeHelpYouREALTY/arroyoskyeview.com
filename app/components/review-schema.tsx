@@ -16,10 +16,10 @@ export default function ReviewSchema() {
       'Expert buyer representation for new construction homes in Skye Canyon (zip code 89166) and northwest Las Vegas, Nevada. Dr. Jan Duffy provides construction monitoring, building standards inspection, and insider knowledge of new construction homes. Represents HOME BUYERS, not the builder.',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '8912 Vanhoy Crk St',
+      streetAddress: '8912 Vanhoy Creek St',
       addressLocality: 'Las Vegas',
       addressRegion: 'NV',
-      postalCode: '89161',
+      postalCode: '89166',
       addressCountry: 'US',
     },
     geo: {
