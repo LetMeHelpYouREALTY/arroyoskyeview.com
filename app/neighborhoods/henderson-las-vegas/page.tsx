@@ -41,7 +41,7 @@ export default function HendersonPage() {
           },
           {
             question: 'What are the benefits of living in Henderson?',
-            answer: 'Henderson offers family-friendly neighborhoods, excellent schools, lower crime rates, and proximity to Lake Las Vegas and outdoor recreation. It\'s one of Nevada\'s safest cities.',
+            answer: 'Henderson offers master-planned neighborhoods, nearby public schools, and proximity to Lake Las Vegas and outdoor recreation. Henderson Police publish crime data online.',
           },
         ]}
       />
@@ -71,7 +71,7 @@ export default function HendersonPage() {
               <section className="mb-12">
                 <h2 className="text-3xl font-bold text-foreground mb-6">About Henderson, Nevada</h2>
                 <p className="text-lg text-muted-foreground mb-4">
-                  Henderson is Nevada's second-largest city and consistently ranked as one of the safest cities in America. Located just southeast of Las Vegas, Henderson offers a family-friendly atmosphere with excellent schools, beautiful parks, and a strong sense of community.
+                  Henderson is Nevada's second-largest city, located just southeast of Las Vegas. Henderson offers master-planned neighborhoods, nearby public schools, beautiful parks, and a strong sense of community. Henderson Police publish crime data online.
                 </p>
                 <p className="text-lg text-muted-foreground mb-4">
                   Henderson features several master-planned communities and offers residents:
@@ -82,7 +82,7 @@ export default function HendersonPage() {
                   <li>Premium shopping and dining options</li>
                   <li>Proximity to Lake Las Vegas and Lake Mead</li>
                   <li>Lower property taxes than many areas</li>
-                  <li>Safe neighborhoods with active community involvement</li>
+                  <li>Neighborhoods with active community involvement</li>
                 </ul>
               </section>
 
@@ -102,7 +102,7 @@ export default function HendersonPage() {
                   <div className="bg-muted p-6 rounded-lg">
                     <h3 className="text-xl font-bold text-foreground mb-3">Safety & Security</h3>
                     <p className="text-muted-foreground">
-                      Henderson consistently ranks among the safest cities in America, providing peace of mind for families.
+                      Henderson Police publish a 90-day crime map online.
                     </p>
                   </div>
                   <div className="bg-muted p-6 rounded-lg">
@@ -112,9 +112,9 @@ export default function HendersonPage() {
                     </p>
                   </div>
                   <div className="bg-muted p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-foreground mb-3">Excellent Schools</h3>
+                    <h3 className="text-xl font-bold text-foreground mb-3">Nearby Public Schools</h3>
                     <p className="text-muted-foreground">
-                      Henderson is home to some of the highest-rated schools in Nevada, making it ideal for families with children.
+                      Henderson is served by Clark County School District schools; check CCSD and state data for current school ratings.
                     </p>
                   </div>
                   <div className="bg-muted p-6 rounded-lg">

@@ -64,7 +64,7 @@ export default function SingleFamilyHomesPage() {
           },
           {
             question: 'What are the benefits of buying a single-family home?',
-            answer: 'Single-family homes offer more privacy, space, and the ability to customize your property. They\'re ideal for families and those who want their own yard and no shared walls.',
+            answer: 'Single-family homes offer more privacy, space, and the ability to customize your property. They\'re a fit for buyers who want their own yard and no shared walls.',
           },
         ]}
       />
@@ -82,7 +82,7 @@ export default function SingleFamilyHomesPage() {
               New Construction Single-Family Homes in Las Vegas: Skye Canyon | Buyer's Agent
             </h1>
             <p className="text-xl text-blue-100 max-w-3xl">
-              Discover spacious new construction single-family homes in Las Vegas, Nevada. Perfect for growing families seeking privacy, space, and modern living with expert buyer's agent representation.
+              Discover spacious new construction single-family homes in Las Vegas, Nevada. Built for buyers seeking privacy, space, and modern living with expert buyer's agent representation.
             </p>
           </div>
         </section>

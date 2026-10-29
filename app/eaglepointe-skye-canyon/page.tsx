@@ -107,7 +107,7 @@ export default function EaglepointeSkyeCanyonPage() {
             },
             {
               question: 'What schools serve Eaglepointe at Skye Canyon?',
-              answer: 'Eaglepointe at Skye Canyon is served by excellent schools in the Clark County School District, including Roger Bryan Elementary School (rated 9/10), Sig Rogich Middle School, and Shadow Ridge High School. The area is known for quality education, making it ideal for families.',
+              answer: 'Eaglepointe at Skye Canyon is served by Clark County School District schools, including Roger Bryan Elementary School, Sig Rogich Middle School, and Shadow Ridge High School. Check CCSD and state school data for current ratings.',
             },
             {
               question: 'Why should I work with Dr. Jan Duffy when buying at Eaglepointe at Skye Canyon?',
