@@ -12,7 +12,7 @@ export default function ContactLocations() {
             </h3>
             <div className="mb-4">
               <GoogleMapEmbed 
-                mapUrl="https://maps.app.goo.gl/E4ySRChkkQjnYjeN7"
+                mapUrl={SITE_CONTACT.gbpMapEmbedUrl}
                 address={SITE_CONTACT.formattedAddress}
                 height="200px"
                 className="rounded-lg overflow-hidden"
@@ -27,6 +27,16 @@ export default function ContactLocations() {
               </p>
               <p className="text-sm text-muted-foreground mt-2">
                 Mon-Sun: 8:00 AM - 8:00 PM
+              </p>
+              <p className="text-sm mt-2">
+                <a
+                  href={SITE_CONTACT.gbpMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-primary hover:text-primary/90"
+                >
+                  View on Google Maps &amp; leave a review →
+                </a>
               </p>
             </div>
           </div>

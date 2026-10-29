@@ -17,4 +17,10 @@ export const SITE_CONTACT = {
   formattedAddress: '8912 Vanhoy Creek St, Las Vegas, NV 89166',
   /** Matches openingHoursSpecification in JSON-LD. */
   hoursDisplay: 'Monday–Sunday, 8:00 AM–8:00 PM',
+  /** GBP CID for Arroyo at Skyeview | Homes by Dr. Jan Duffy (from the GBP's Maps permalink). */
+  gbpCid: '15638781988167291631',
+  /** Canonical Maps listing URL (CID form) for JSON-LD hasMap/sameAs and review CTAs. */
+  gbpMapsUrl: 'https://maps.google.com/?cid=15638781988167291631',
+  /** Embed (no API key) pinned on the GBP listing itself. */
+  gbpMapEmbedUrl: 'https://maps.google.com/maps?cid=15638781988167291631&output=embed',
 } as const
