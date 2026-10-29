@@ -12,7 +12,7 @@ const opportunities = [
     location: 'Skye Canyon',
     price: 392640,
     incentives: '$5,000 toward closing costs',
-    features: ['Top-rated schools', 'Red Rock hiking access', 'Resort-style amenities'],
+    features: ['Nearby public schools', 'Red Rock hiking access', 'Resort-style amenities'],
     image: '/images/hero/hero-5.jpg',
     phone: '(702) 903-4687',
     href: '/',

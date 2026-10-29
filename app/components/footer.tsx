@@ -390,7 +390,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
           </div>
           <div className="mt-6 pt-6 border-t border-luxury-champagne/20">
             <p className="text-xs text-luxury-ivory0 text-center leading-relaxed">
-              Equal Housing Opportunity | Arroyo at Skyview | Homes by Dr. Duffy. Subject to change. (702) 903-4687
+              Equal Housing Opportunity | Arroyo at Skyeview | Homes by Dr. Jan Duffy. Subject to change. (702) 903-4687
             </p>
           </div>
         </div>

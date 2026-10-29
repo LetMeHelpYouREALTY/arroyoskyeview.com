@@ -61,7 +61,7 @@ export default function ArroyoAreaPage() {
       <LuxuryPageHero
         eyebrow="Skye Canyon · Zip 89166"
         title="Area & Schools"
-        subtitle="Northwest Las Vegas living with top schools, Skye Canyon amenities, and Red Rock Canyon in your backyard."
+        subtitle="Northwest Las Vegas living with nearby public schools, Skye Canyon amenities, and Red Rock Canyon in your backyard."
       >
         <p className="mt-6 max-w-2xl text-sm text-luxury-sand">
           For a deeper zip-level market profile, see our{' '}

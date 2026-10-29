@@ -59,11 +59,11 @@ export default function NewConstructionVsResalePage() {
         questions={[
           {
             question: 'What are the differences between new construction and resale homes?',
-            answer: 'New construction homes are brand new, built to modern standards, and come with builder warranties. Resale homes are previously owned, may need updates, and typically have established neighborhoods. New construction offers customization options and modern features, while resale homes offer immediate move-in and established landscaping.',
+            answer: 'New construction homes are brand new, built to modern standards, and come with builder warranties. Resale homes are previously owned, may need updates, and typically have older neighborhoods. New construction offers customization options and modern features, while resale homes offer immediate move-in and established landscaping.',
           },
           {
             question: 'Which is better: new construction or resale?',
-            answer: 'The best choice depends on your priorities. New construction offers modern features, customization, and warranties but may have longer timelines. Resale homes offer immediate move-in and established neighborhoods but may need updates. Dr. Jan Duffy helps you determine which option is best for your situation.',
+            answer: 'The best choice depends on your priorities. New construction offers modern features, customization, and warranties but may have longer timelines. Resale homes offer immediate move-in and older neighborhoods but may need updates. Dr. Jan Duffy helps you determine which option is best for your situation.',
           },
           {
             question: 'Do new construction homes cost more than resale homes?',
@@ -140,7 +140,7 @@ export default function NewConstructionVsResalePage() {
                   <tr className="bg-muted">
                     <td className="border border-border px-6 py-4 font-semibold text-foreground">Neighborhood</td>
                     <td className="border border-border px-6 py-4 text-muted-foreground">New - Growing community</td>
-                    <td className="border border-border px-6 py-4 text-muted-foreground">Established - Mature neighborhood</td>
+                    <td className="border border-border px-6 py-4 text-muted-foreground">Established - Older neighborhood</td>
                   </tr>
                   <tr>
                     <td className="border border-border px-6 py-4 font-semibold text-foreground">Landscaping</td>
@@ -200,9 +200,9 @@ export default function NewConstructionVsResalePage() {
                 </p>
               </div>
               <div className="bg-muted rounded-lg p-6">
-                <h3 className="text-xl font-bold text-foreground mb-3">Established Neighborhoods</h3>
+                <h3 className="text-xl font-bold text-foreground mb-3">Older Neighborhoods</h3>
                 <p className="text-muted-foreground">
-                  Resale homes are often in mature neighborhoods with established schools, amenities, and community character.
+                  Resale homes are often in older neighborhoods with established schools, amenities, and community character.
                 </p>
               </div>
               <div className="bg-muted rounded-lg p-6">
@@ -248,7 +248,7 @@ export default function NewConstructionVsResalePage() {
               </p>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
                 <li>You need to move in quickly</li>
-                <li>You prefer established neighborhoods</li>
+                <li>You prefer older neighborhoods</li>
                 <li>You want more price negotiation flexibility</li>
                 <li>You value mature landscaping and character</li>
                 <li>You want to see the neighborhood before buying</li>
