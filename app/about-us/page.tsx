@@ -107,7 +107,7 @@ export default function AboutUsPage() {
             },
             {
               h2: 'Working with Dr. Jan Duffy: Expert Buyer Representation for New Construction Homes',
-              content: 'When purchasing a new construction home in Las Vegas, working with Dr. Jan Duffy ensures you have expert representation throughout the entire process. Dr. Jan is a Top 1% Las Vegas REALTOR® and New Construction Home Preferred Buyer\'s Agent specializing in new construction homes throughout Las Vegas, including all new construction developments.',
+              content: 'When purchasing a new construction home in Las Vegas, working with Dr. Jan Duffy ensures you have expert representation throughout the entire process. Dr. Jan is a Las Vegas REALTOR® and New Construction Home Preferred Buyer\'s Agent specializing in new construction homes throughout Las Vegas, including all new construction developments.',
               h3s: [
                 {
                   h3: 'Construction Monitoring Every 7-10 Days',
