@@ -113,14 +113,14 @@ export default function CommunityContentExpansion({
           {location} Neighborhood Information
         </h3>
         <p className="text-lg text-muted-foreground mb-4">
-          {location} is one of Las Vegas's most desirable areas, offering residents a perfect blend of suburban living and urban convenience. The neighborhood features excellent schools, convenient shopping and dining, and easy access to major employment centers throughout the Las Vegas valley.
+          {location} is one of Las Vegas's most desirable areas, offering residents a perfect blend of suburban living and urban convenience. The neighborhood features nearby public schools, convenient shopping and dining, and easy access to major employment centers throughout the Las Vegas valley.
         </p>
 
         <h3 className="text-2xl font-bold text-foreground mt-6 mb-4">
           Schools in Zip Code {zipCode}
         </h3>
         <p className="text-lg text-muted-foreground mb-4">
-          {location} is served by excellent schools in the Clark County School District. The area is known for quality education, with many families choosing {location} specifically for the school quality and proximity to educational facilities. Contact Dr. Jan Duffy for detailed information about specific schools serving {communityName}.
+          {location} is served by public schools in the Clark County School District. The area is known for quality education, with many families choosing {location} specifically for the school quality and proximity to educational facilities. Contact Dr. Jan Duffy for detailed information about specific schools serving {communityName}.
         </p>
 
         <h3 className="text-2xl font-bold text-foreground mt-6 mb-4">

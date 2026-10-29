@@ -36,7 +36,7 @@ export default function SummerlinPage() {
           },
           {
             question: 'What are the benefits of living in Summerlin?',
-            answer: 'Summerlin offers luxury living, golf courses, excellent schools, shopping, dining, and recreational amenities. It\'s one of Las Vegas\'s most desirable master-planned communities.',
+            answer: 'Summerlin offers luxury living, golf courses, nearby public schools, shopping, dining, and recreational amenities. It\'s one of Las Vegas\'s most desirable master-planned communities.',
           },
         ]}
       />
@@ -66,7 +66,7 @@ export default function SummerlinPage() {
               <section className="mb-12">
                 <h2 className="text-3xl font-bold text-foreground mb-6">About Summerlin, Las Vegas</h2>
                 <p className="text-lg text-muted-foreground mb-4">
-                  Summerlin is one of the most prestigious master-planned communities in Las Vegas, offering residents a premium lifestyle with world-class amenities, top-rated schools, and beautiful natural surroundings.
+                  Summerlin is one of the most prestigious master-planned communities in Las Vegas, offering residents a premium lifestyle with world-class amenities, nearby public schools, and beautiful natural surroundings.
                 </p>
                 <p className="text-lg text-muted-foreground mb-4">
                   Located on the western edge of Las Vegas, Summerlin spans over 22,500 acres and features multiple villages, each with its own unique character and amenities. The community is known for its:
@@ -107,9 +107,9 @@ export default function SummerlinPage() {
                     </p>
                   </div>
                   <div className="bg-muted p-6 rounded-lg">
-                    <h3 className="text-xl font-bold text-foreground mb-3">Family-Friendly</h3>
+                    <h3 className="text-xl font-bold text-foreground mb-3">Parks & Recreation</h3>
                     <p className="text-muted-foreground">
-                      With award-winning schools, safe neighborhoods, and abundant recreational facilities, Summerlin is ideal for families.
+                      With nearby public and private schools, a trail system, and abundant recreational facilities, Summerlin offers plenty of amenities.
                     </p>
                   </div>
                   <div className="bg-muted p-6 rounded-lg">
@@ -190,7 +190,7 @@ export default function SummerlinPage() {
                 className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border hover:border-blue-300 group"
               >
                 <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                  Henderson: Family-friendly neighborhoods with excellent schools
+                  Henderson: Master-planned neighborhoods with nearby schools
                 </h3>
                 <p className="text-muted-foreground text-sm">
                   Explore new construction homes in Henderson, Nevada with your buyer's agent.
