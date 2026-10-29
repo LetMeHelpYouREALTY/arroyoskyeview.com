@@ -39,6 +39,7 @@ export default function SitewideStructuredData() {
       longitude: '-115.2832',
     },
     areaServed: [...ARROYO_JSON_LD_AREA_SERVED],
+    sameAs: [SITE_CONTACT.gbpMapsUrl],
     knowsAbout: [
       'Arroyo at Skyeview Homes',
       'New Construction Homes',
@@ -86,6 +87,8 @@ export default function SitewideStructuredData() {
       addressCountry: 'US',
     },
     areaServed: [...ARROYO_JSON_LD_AREA_SERVED],
+    hasMap: SITE_CONTACT.gbpMapsUrl,
+    sameAs: [SITE_CONTACT.gbpMapsUrl],
     worksFor: { '@id': JSON_LD_ORGANIZATION_ID },
     openingHoursSpecification: [
       {
