@@ -70,6 +70,15 @@ const nextConfig: NextConfig = {
       { source: '/manifest.webmanifest', headers: noindexFollowBlocked },
     ]
   },
+  // Breadcrumb trails used to link these non-page prefixes (404 in Search Console).
+  // Send them to the real hub page they stand for.
+  async redirects() {
+    return [
+      { source: '/sellers', destination: '/sellers/sell-to-buy-at-arroyo-skyeview', permanent: true },
+      { source: '/find-your-new-home', destination: '/find-your-new-home/nevada/las-vegas-metro', permanent: true },
+      { source: '/find-your-new-home/nevada', destination: '/find-your-new-home/nevada/las-vegas-metro', permanent: true },
+    ]
+  },
   // Host canonicalization (HTTP→HTTPS, apex→www) stays in middleware.ts.
   // Sitemap URLs must return 200. A 301/308 makes Google report
   // "Page with redirect" and skip indexing that URL.

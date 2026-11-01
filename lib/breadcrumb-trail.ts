@@ -83,6 +83,12 @@ const GROUP_HUBS: Record<string, BreadcrumbItem> = {
   'find-your-new-home': { name: 'Find Your Home', href: '/find-your-new-home/nevada/las-vegas-metro' },
 }
 
+/**
+ * Path prefixes that are not pages themselves (no page.tsx). They are skipped in
+ * the trail so the breadcrumb never links to a 404.
+ */
+const NON_PAGE_PATHS = new Set<string>(['/sellers', '/find-your-new-home/nevada'])
+
 function labelForSegment(segment: string): string {
   return (
     SEGMENT_LABELS[segment] ??
@@ -124,6 +130,7 @@ export function getBreadcrumbsForPath(pathname: string | null): BreadcrumbItem[]
     const segment = segments[i]
     path += `/${segment}`
     if (hub && i === 0) continue
+    if (i < segments.length - 1 && NON_PAGE_PATHS.has(path)) continue
     crumbs.push({ name: labelForSegment(segment), href: path })
   }
 
