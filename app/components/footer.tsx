@@ -348,7 +348,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-sm text-luxury-sand space-y-2">
               <p className="font-semibold text-luxury-ivory">
-                © 2025 Arroyo at Skyeview | Homes by Dr. Jan Duffy
+                © 2025 Arroyo at Skyeview
               </p>
               <p className="text-xs text-luxury-ivory0">
                 Berkshire Hathaway HomeServices Nevada Properties since September 2008 · License S.0197614.LLC
@@ -390,7 +390,7 @@ export default function Footer({ suppressRealScout = false }: FooterProps) {
           </div>
           <div className="mt-6 pt-6 border-t border-luxury-champagne/20">
             <p className="text-xs text-luxury-ivory0 text-center leading-relaxed">
-              Equal Housing Opportunity | Arroyo at Skyeview | Homes by Dr. Jan Duffy. Subject to change. (702) 903-4687
+              Equal Housing Opportunity | Arroyo at Skyeview. Subject to change. (702) 903-4687
             </p>
           </div>
         </div>

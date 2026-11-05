@@ -33,7 +33,7 @@ export default function LegalPage() {
     >
       <StandardPageHero
         title="Legal Information"
-        subtitle="Important legal information and policies for Arroyo at Skyeview | Homes by Dr. Jan Duffy."
+        subtitle="Important legal information and policies for Arroyo at Skyeview."
       />
       <PageSection variant="narrow" className="py-8 md:py-12">
         <div className="space-y-8">

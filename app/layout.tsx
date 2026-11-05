@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     'New townhomes at Arroyo at Skyeview in Skye Canyon, northwest Las Vegas (89166). Buyer agent Dr. Jan Duffy represents you—not the builder. (702) 903-4687.',
   authors: [{ name: 'Dr. Jan Duffy' }],
   creator: 'Dr. Jan Duffy',
-  publisher: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
+  publisher: 'Arroyo at Skyeview',
   robots: {
     index: true,
     follow: true,
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     title: 'Arroyo at Skyeview | Skye Canyon Townhomes, NV',
     description:
       'New townhomes at Arroyo at Skyeview in Skye Canyon, northwest Las Vegas (89166). Buyer agent Dr. Jan Duffy represents you—not the builder. (702) 903-4687.',
-    siteName: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
+    siteName: 'Arroyo at Skyeview',
     images: [
       {
         url: '/og-image.png',

@@ -82,7 +82,7 @@ export default function PageSchemas({
     ...(dateModified ? { dateModified } : {}),
     isPartOf: {
       '@type': 'WebSite',
-      name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
+      name: 'Arroyo at Skyeview',
       url: baseUrl,
     },
     publisher: {
@@ -175,7 +175,7 @@ export default function PageSchemas({
     '@context': 'https://schema.org',
     '@type': 'RealEstateAgent',
     '@id': `${baseUrl}#localbusiness`,
-    name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
+    name: 'Arroyo at Skyeview',
     alternateName: 'Dr. Jan Duffy Real Estate',
     description: 'Expert buyer representation for Arroyo at Skyeview Homes and new construction homes in Las Vegas, Nevada. Specializing in construction monitoring, building standards inspection, and insider knowledge of Las Vegas communities.',
     url: baseUrl,
@@ -304,7 +304,7 @@ export default function PageSchemas({
     jobTitle: 'Real Estate Agent',
     worksFor: {
       '@type': 'Organization',
-      name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
+      name: 'Arroyo at Skyeview',
     },
     telephone: '+1-702-903-4687',
     email: 'info@arroyoskyeview.com',
@@ -503,7 +503,7 @@ export default function PageSchemas({
       },
       publisher: {
         '@type': 'Organization',
-        name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
+        name: 'Arroyo at Skyeview',
         logo: {
           '@type': 'ImageObject',
           url: `${baseUrl}/images/dr-jan-duffy.png`,
@@ -581,12 +581,12 @@ export default function PageSchemas({
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       '@id': JSON_LD_WEBSITE_ID,
-      name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
+      name: 'Arroyo at Skyeview',
       alternateName: ['Arroyo at Skyeview', 'Dr. Jan Duffy Real Estate', 'arroyoskyeview.com'],
       url: baseUrl,
       publisher: {
         '@type': 'Organization',
-        name: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
+        name: 'Arroyo at Skyeview',
         url: baseUrl,
       },
     }
