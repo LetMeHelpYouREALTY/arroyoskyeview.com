@@ -1,7 +1,7 @@
 /** Canonical NAP — must match Google Business Profile (Dr. Jan Duffy). */
 export const SITE_CONTACT = {
   agentName: 'Dr. Jan Duffy',
-  businessName: 'Arroyo at Skyeview | Homes by Dr. Jan Duffy',
+  businessName: 'Arroyo at Skyeview',
   phoneDisplay: '(702) 903-4687',
   phoneTel: '7029034687',
   phoneAnalytics: '702-903-4687',

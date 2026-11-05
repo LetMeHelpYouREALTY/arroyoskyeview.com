@@ -53,7 +53,7 @@ export default function AccessibilityPage() {
             <section className="mb-12">
               <h2 className="text-3xl font-bold text-foreground mb-6">Our Commitment to Accessibility</h2>
               <p className="text-lg text-muted-foreground mb-4">
-                Arroyo at Skyeview | Homes by Dr. Jan Duffy is committed to ensuring digital accessibility 
+                Arroyo at Skyeview is committed to ensuring digital accessibility 
                 for people with disabilities. We are continually improving the user experience for 
                 everyone and applying the relevant accessibility standards to achieve these goals.
               </p>

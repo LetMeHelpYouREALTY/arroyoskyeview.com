@@ -4,7 +4,7 @@ import Footer from './components/footer'
 import Header from './components/header'
 
 export const metadata: Metadata = {
-  title: 'Page Not Found | Arroyo at Skyeview | Homes by Dr. Jan Duffy',
+  title: 'Page Not Found | Arroyo at Skyeview',
   description:
     'The page you requested could not be found. Return to Arroyo at Skyeview new construction townhomes in Skye Canyon, Las Vegas, NV.',
   robots: { index: false, follow: true },

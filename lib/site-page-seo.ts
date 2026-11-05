@@ -14,7 +14,7 @@ export const SITE_PAGE_SEO: Record<string, SitePageSeo> = {
   '/legal': {
     title: 'Legal Information | Arroyo Skyeview',
     description:
-      'Terms, privacy, and legal notices for Arroyo at Skyeview | Homes by Dr. Jan Duffy. Nevada real estate buyer representation in Skye Canyon.',
+      'Terms, privacy, and legal notices for Arroyo at Skyeview. Nevada real estate buyer representation in Skye Canyon.',
   },
   '/privacy-policy': {
     title: 'Privacy Policy | Arroyo Skyeview',

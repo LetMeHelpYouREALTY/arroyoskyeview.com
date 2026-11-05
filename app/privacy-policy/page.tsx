@@ -53,7 +53,7 @@ export default function PrivacyPolicyPage() {
             <section className="mb-12">
               <h2 className="text-3xl font-bold text-foreground mb-6">Introduction</h2>
               <p className="text-lg text-muted-foreground mb-4">
-                Arroyo at Skyeview | Homes by Dr. Jan Duffy ("we," "our," or "us") is committed to protecting your privacy. 
+                Arroyo at Skyeview ("we," "our," or "us") is committed to protecting your privacy. 
                 This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you 
                 visit our website arroyoskyeview.com or use our real estate services.
               </p>
