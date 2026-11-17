@@ -5,6 +5,7 @@ import ArroyoHubNav from '../../components/arroyo-hub-nav'
 import Overview from '../../components/overview'
 import CommunityContentExpansion from '../../components/community-content-expansion'
 import CrossCommunityLinks from '../../components/cross-community-links'
+import NearbyAmenitiesSection from '../../components/nearby-amenities-section'
 import MarketingPageShell from '../../components/marketing-page-shell'
 import PageSchemas from '../../components/page-schemas'
 import { PageContent } from '../../components/page-section'
@@ -111,6 +112,10 @@ export default function ArroyoOverviewPage() {
               'Dr. Jan Duffy is a buyer\'s agent who represents you—not the builder. She offers construction monitoring, a complimentary building standards inspection at closing, and insider knowledge of inventory. Builder-paid representation means no extra cost to you.',
           },
         ]}
+      />
+      <NearbyAmenitiesSection
+        title="What's Nearby Arroyo at Skyeview"
+        subtitle="See groceries, dining, trails, and schools on the map—then open the full amenities guide for commute notes and FAQs."
       />
       <CrossCommunityLinks currentCommunity="Arroyo at Skyeview" location="Skye Canyon" />
     </MarketingPageShell>

@@ -16,8 +16,12 @@ export function middleware(request: NextRequest) {
   const canonicalDomain = 'www.arroyoskyeview.com'
   const canonicalProtocol = 'https:'
   
-  // Skip redirects for localhost (development)
-  if (hostname.includes('localhost') || hostname.includes('127.0.0.1')) {
+  // Skip redirects for localhost (development) and Vercel preview hosts
+  if (
+    hostname.includes('localhost') ||
+    hostname.includes('127.0.0.1') ||
+    hostname.endsWith('.vercel.app')
+  ) {
     return NextResponse.next()
   }
   

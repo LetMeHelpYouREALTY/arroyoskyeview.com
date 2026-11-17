@@ -46,6 +46,7 @@ export const ARROYO_NAV: NavMegaMenu = {
       links: [
         { name: 'Community overview', href: '/arroyo-at-skyeview/overview', description: 'Builder, finishes & lifestyle' },
         { name: 'Area & schools', href: '/arroyo-at-skyeview/area', description: 'Skye Canyon amenities & 89166' },
+        { name: 'Nearby amenities map', href: '/amenities', description: 'Interactive map & local guide' },
         { name: 'Skye Canyon zip 89166', href: '/areas/zip-89166', description: 'Hyperlocal market profile' },
       ],
     },

@@ -3,6 +3,7 @@ import LuxuryPageHero from '../../components/luxury-page-hero'
 import ArroyoHubNav from '../../components/arroyo-hub-nav'
 import AvailableHomes from '../../components/available-homes'
 import AlreadyTaken from '../../components/already-taken'
+import NearbyAmenitiesSection from '../../components/nearby-amenities-section'
 import MarketingPageShell from '../../components/marketing-page-shell'
 import PageSchemas from '../../components/page-schemas'
 import ProductSchemas from '../../components/product-schemas'
@@ -78,6 +79,10 @@ export default function ArroyoAvailableHomesPage() {
           <AlreadyTaken />
         </div>
       </PageContent>
+      <NearbyAmenitiesSection
+        title="Explore the neighborhood before you buy"
+        subtitle="Filter nearby restaurants, groceries, parks, and schools from Grabill Spruce St and Skye Canyon Marketplace."
+      />
     </MarketingPageShell>
   )
 }
